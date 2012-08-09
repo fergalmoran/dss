@@ -1,0 +1,41 @@
+<a href="https://twitter.com/DeepSouthSounds" class="twitter-follow-button" data-show-count="false" data-size="large">Follow
+    @DeepSouthSounds</a>
+<script>!function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (!d.getElementById(id)) {
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }
+}(document, "script", "twitter-wjs");</script>
+
+<script>
+    new TWTR.Widget({
+        version:2,
+        type:'list',
+        rpp:30,
+        interval:30000,
+        title:'What\'s happening',
+        subject:'',
+        width:'auto',
+        height:500,
+        theme:{
+            shell:{
+                background:'#33332d',
+                color:'#ffffff'
+            },
+            tweets:{
+                background:'#ffffff',
+                color:'#444444',
+                links:'#33332d'
+            }
+        },
+        features:{
+            scrollbar:true,
+            loop:false,
+            live:true,
+            behavior:'all'
+        }
+    }).render().setList('DeepSouthSounds', 'sitefeed').start();
+</script>

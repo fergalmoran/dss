@@ -1,0 +1,46 @@
+
+
+{% load socialaccount_tags %}
+
+<div class="well">
+    <h2>Login to Deep South Sounds</h2>
+    <div>
+        <ul class="social_login_providers">
+            <li>
+                <a class='signin_button' href='{% provider_login_url "twitter" %}' id='twitter_button'>
+                </a>
+            </li>
+            <li>
+                <a class='signin_button' id='facebook_button' href="{% provider_login_url "facebook" method="oauth2" %}">
+                </a>
+            </li>
+        </ul>
+    </div>
+    <br/>
+    <div class="login-or">or</div>
+    {% include "socialaccount/snippets/login_extra.html" %}
+    <form method="post" action="{% url account_login %}" class="uniForm">
+        {% csrf_token %}
+        {% if form.errors %}
+        <div id="errorMsg"><h3>Warning!</h3>
+            Unknown username or password.
+        </div>
+        {% endif %}
+        <fieldset>
+            <div class="ctrlHolder">
+                <label for="id_username">Username</label>
+                <input type="text" id="id_username" name="username" autocomplete="on" class="textInput">
+            </div>
+
+            <div class="ctrlHolder">
+                <label for="id_password">Password</label>
+                <input type="password" name="password" id="id_password" class="textInput">
+            </div>
+
+            <div class="buttonHolder">
+                <button type="submit" class="primaryAction">Submit</button>
+            </div>
+        </fieldset>
+    </form>
+    <a href="{{ signup_url }}">Sign up</a>
+</div>

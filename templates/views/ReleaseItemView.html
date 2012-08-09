@@ -1,0 +1,19 @@
+<div class="hero-unit">
+    <div class="row">
+        <div id="release-header">
+            <h3><i class="icon-time"></i>
+                <%= item.release_date %>
+                &nbsp;-&nbsp;
+                <%= item.release_artist %></h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3">
+            <img class="release-image" src="<%= item.release_image %>"/>
+        </div>
+        <div class="span7">
+            <%= item.release_description %>
+        </div>
+    </div>
+</div>
+<div id="player-insert"></div>

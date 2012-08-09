@@ -1,0 +1,155 @@
+body {
+    /*	background: url(../images/pattern1.jpg) repeat #ffffff;*/
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.5em;
+    padding-top: 45px;
+    padding-bottom: 40px;
+    padding-right: 32px;
+}
+
+#header {
+    margin-top: 20px;
+}
+
+.nav-tabs {
+    margin-top: 10px;
+}
+
+.bordered {
+    border-bottom: 3px solid #CEC3B3;
+}
+
+#mix-comments-list ul {
+    list-style-type: none;
+}
+
+ul.comment-listing .comment-entry {
+    border-bottom: 1px solid #D2D9E7;
+}
+
+.comment-entry {
+    padding-top: 5px;
+}
+
+.comment-details {
+    padding-top: 1px;
+    padding-left: 5px;
+    display: table-cell;
+    vertical-align: top;
+    width: 10000px;
+}
+
+.image-avatar-small {
+    float: left;
+}
+
+.image-avatar-small {
+    width: 32px;
+    height: 32px;
+}
+
+.socialaccount_provider {
+    display: block;
+    height: 116px;
+    width: 250px;
+}
+
+.signin_button {
+    display: block;
+    height: 22px;
+    width: 150px;
+    font-size: .1em;
+}
+
+.social_login_providers {
+    display: inline;
+    list-style-type: none;
+}
+
+.social_login_providers li {
+    padding: 7px;
+    float: left;
+}
+
+#twitter_button {
+    background: transparent url(../img/signin_twitter.png) top left no-repeat;
+}
+
+#facebook_button {
+    background: transparent url(../img/signin_facebook.png) top left no-repeat;
+}
+
+#twitter_button:hover, #facebook_button:hover {
+    background-position: 0px -24px;
+}
+
+#twitter_button:active, #facebook_button:active {
+    background-position: 0px -48px;
+}
+
+.release-image {
+    max-width: 100%;
+    height: 200px;
+    width: 200px; /* ie8 */
+}
+
+#release-audio-slide-nav li {
+    display: inline;
+    list-style-type: none;
+    padding-right: 20px;
+}
+
+.selector-button a.on {
+    background-position: 0 -24px;
+}
+
+.selector-button a {
+    background-image: url(../img/slide-nav.png);
+
+    float: left;
+    width: 24px;
+    height: 24px;
+    display: inline;
+    font-size: 11px;
+    margin: 0 5px 0 0;
+    line-height: 24px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+
+.selector-button a:link, .selector-button a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+.list-nostyle {
+    list-style: none outside none;
+    margin: 0;
+}
+
+.list-horiz li {
+    float: left;
+    position: relative;
+}
+
+.bordered-right {
+    border-right: 1px solid #F2F2F2;
+}
+
+.stats-item {
+    border-right-color: #E5E5E5;
+    margin-right: 7px;
+    padding-right: 7px;
+}
+.stats{
+    border: 0;
+    font: 0/0 a;
+    text-shadow: none;
+    color: transparent;
+    background-color: transparent;
+}

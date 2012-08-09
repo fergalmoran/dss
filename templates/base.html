@@ -1,0 +1,87 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Deep South Sounds</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/sup.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/colorbox.css">
+    <script src="{{ STATIC_URL }}js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/jquery-ui-1.8.18.custom.min.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/bootstrap/transition.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/bootstrap/collapse.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/bootstrap/modal.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/bootstrap/dropdown.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2.js"></script>
+    <script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
+</head>
+<body>
+{% include 'inc/ancient_browser.html' %}
+<div class="row status-bar">
+    <div class="span12">
+        <div class="alert alert-success" style="display: none">
+            <b>Success!</b> Wine saved successfully
+        </div>
+    </div>
+</div>
+<div id="header"></div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span8" id="content">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+        <div class="span3" style="float: right" id="side-content">
+            {% block sidecontent %}
+
+            {% endblock %}
+            <div id="sidebar"></div>
+            <div id="site-content-fill"></div>
+        </div>
+
+    </div>
+</div>
+<script src="{{ STATIC_URL }}js/dss_sound_handler.js"></script>
+
+<script src="{{ STATIC_URL }}js/libs/backbone/underscore.js"></script>
+<script src="{{ STATIC_URL }}js/libs/ICanHaz.js"></script>
+<script src="{{ STATIC_URL }}js/libs/backbone/backbone.js"></script>
+<script src="{{ STATIC_URL }}js/libs/jquery.colorbox.js"></script>
+
+<!-- backbone application -->
+<script src="{{ STATIC_URL }}js/backbone-tastypie.js"></script>
+<script src="{{ STATIC_URL }}js/app/site.js"></script>
+<script src="{{ STATIC_URL }}js/app/utils.js"></script>
+<script src="{{ STATIC_URL }}js/app/settings.js"></script>
+<script src="{{ STATIC_URL }}js/app/models/mix.js"></script>
+<script src="{{ STATIC_URL }}js/app/models/comment.js"></script>
+<script src="{{ STATIC_URL }}js/app/models/release.js"></script>
+<script src="{{ STATIC_URL }}js/app/models/release_audio.js"></script>
+<script src="{{ STATIC_URL }}js/app/views/header.js"></script>
+<script src="{{ STATIC_URL }}js/app/views/sidebar.js"></script>
+<script src="{{ STATIC_URL }}js/app/views/mix.js"></script>
+<script src="{{ STATIC_URL }}js/app/views/comment.js"></script>
+<script src="{{ STATIC_URL }}js/app/views/release.js"></script>
+<script src="{{ STATIC_URL }}js/app/views/release_audio.js"></script>
+<script src="{{ STATIC_URL }}js/app/app.js"></script>
+
+{% block footerscripts %}
+{% endblock %}
+
+</body>
+</html>

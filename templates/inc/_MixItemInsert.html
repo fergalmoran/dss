@@ -1,0 +1,69 @@
+<div class="row-fluid well">
+    {% if model.has_image %}
+    <div class="span2" id="image-span">
+        <div id="image">
+            <img alt="mix-logo" class="mix-image-image" src="<%= item.mix_image %>"/>
+        </div>
+    </div>
+    {% endif %}
+    <div class="span10">
+        <div class="title-bar">
+            <h4><a href="#/<%= item.item_url %>"><%= item.title %></a></h4>
+        </div>
+        <div class="player-progress">
+
+            <div class="waveform" id="waveform-<%= item.id %>">
+                <img id="waveform-image-<%= item.id %>" class="waveform_image"
+                     alt="Waveform generating... Stall the balls and check back later."
+                     src="<%= item.waveform_url %>">
+
+                <div class="download-progress-overlay" id="progress-player-<%= item.id %>"></div>
+                <div class="playhead" id="playhead-player-<%= item.id %>" style="width: 0px"></div>
+            </div>
+        </div>
+        <div class="player-footer">
+            <div class="play-button footer-button">
+                <button class="play-button-small play-button-small-playing" data-mode="play" id="play-pause-button-small-<%= item.id %>">
+                </button>
+            </div>
+            {% if user.is_authenticated %}
+            <div class="like-button footer-button">
+                <a class="btn" data-mode="<%= item.mode %>" data-id="<%= item.id %>"><i class="icon-heart"></i> Like</a>
+            </div>
+            <div class="favourite-button footer-button">
+                <a class="btn" data-mode="<%= item.mode %>" data-id="<%= item.id %>" href="#"><i
+                        class="icon-star-empty"></i> Favourite</a>
+            </div>
+            {% endif %}
+            <div class="share-button footer-button">
+                <div class="btn-group" id="share-dropdown">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#share-dropdown"><i class="icon-share"/>
+                        Share
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a data-mode="<%= item.mode %>" data-id="<%= item.id %>" class="share-button-facebook"> Facebook</a></li>
+                        <li><a data-mode="<%= item.mode %>" data-id="<%= item.id %>" class="share-button-twitter"> Twitter</a></li>
+                        <li><a data-mode="<%= item.mode %>" data-id="<%= item.id %>" class="share-button-clusterfuck"> Clusterfuck</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-button">
+                <ul class="list-nostyle list-horiz">
+                    <li title="<%= item.play_count %> Plays" class="stats-item bordered-right">
+                        <span class="icon-play stats">Plays:</span> <%= item.play_count %>
+                    </li>
+                    <li title="<%= item.comment_count %> Comments" class="stats-item bordered-right">
+                        <span class="icon-pencil stats">Comments:</span> <%= item.comment_count %>
+                    </li>
+                    <li title="<%= item.like_count %> Likes" class="stats-item bordered-right">
+                        <span class="icon-heart stats">Likes:</span> <%= item.like_count %>
+                    </li>
+                </ul>
+            </div>
+            <div class="edit-button footer-button-right">
+                <a class="btn" data-mode="<%= item.mode %>" data-id="<%= item.id %>" href="#"><i class="icon-edit"></i>Edit</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+{%extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block scripts %}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#id_avatar_image').hide();
+        $('input:radio[name=avatar_image_select]').bind('click', function (data) {
+            var selected = $('input:radio[name=avatar_image_select]:checked').val();
+            if (selected === 'custom'){
+                $('#id_avatar_image').show();
+            }else{
+                $('#id_avatar_image').hide();
+            }
+        });
+    });
+</script>
+
+{% endblock %}
+{% block content %}
+{% crispy form form.helper %}
+{% endblock %}
