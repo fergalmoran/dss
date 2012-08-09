@@ -39,7 +39,7 @@ SITE_ROOT = here('')
 MEDIA_ROOT = here('media')
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = ''
+STATIC_ROOT = localsettings.STATIC_ROOT or ''
 STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 
