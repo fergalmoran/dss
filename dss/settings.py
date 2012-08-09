@@ -3,14 +3,15 @@ from datetime import timedelta
 from django.core.urlresolvers import reverse_lazy
 import djcelery
 import os
+from dss import localsettings
 from utils import here
 from django.conf import global_settings
 
-DEBUG = True
+DEBUG = localsettings.DEBUG
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-# ('Your Name', 'your_email@example.com'),
+    ('Fergal Moran', 'fergal.moran@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -27,8 +28,8 @@ DATABASES = {
         }
 }
 ROOT_URLCONF = 'dss.urls'
-TIME_ZONE = 'America/Chicago'
-LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'Europe/Dublin'
+LANGUAGE_CODE = 'en-ie'
 SITE_ID = 1
 USE_I18N = False
 USE_L10N = True
@@ -44,6 +45,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     here('static'),
     )
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -75,7 +77,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    )
+    'django.middleware.gzip.GZipMiddleware',
+    'pipeline.middleware.MinifyHTMLMiddleware'
+)
 
 WSGI_APPLICATION = 'dss.wsgi.application'
 TEMPLATE_DIRS = (here('templates'),)
@@ -91,6 +95,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'djcelery',
+    'pipeline',
     'avatar',
     'notification',
     'spa',
@@ -151,11 +156,19 @@ djcelery.setup_loader()
 SOCIALACCOUNT_AVATAR_SUPPORT  = True
 AVATAR_STORAGE_DIR = MEDIA_ROOT + 'avatars/'
 
-if os.name == 'posix':
-    DSS_TEMP_PATH = "/tmp/"
-    DSS_LAME_PATH = "/usr/bin/lame"
-    DSS_WAVE_PATH = "/usr/local/bin/waveformgen"
-else:
-    DSS_TEMP_PATH = "d:\\temp\\"
-    DSS_LAME_PATH = "D:\\Apps\\lame\\lame.exe"
-    DSS_WAVE_PATH = "d:\\Apps\\waveformgen.exe"
+DSS_TEMP_PATH = localsettings.DSS_TEMP_PATH
+DSS_LAME_PATH = localsettings.DSS_LAME_PATH
+DSS_WAVE_PATH = localsettings.DSS_WAVE_PATH
+PIPELINE_YUI_BINARY = localsettings.PIPELINE_YUI_BINARY
+PIPELINE = True
+PIPELINE_CSS = {
+    'defaults': {
+        'source_filenames': (
+            'static/css/*.css',
+            ),
+        'output_filename': 'css/dss.css',
+        'extra_context': {
+            'media': 'screen,projection',
+            },
+        },
+    }
