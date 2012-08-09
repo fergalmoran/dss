@@ -11,5 +11,6 @@ django-avatar>=1.0.5
 django-notification>=0.2
 django-socialauth>=0.1.2c
 django-tastypie>=0.9.11
+git+git://github.com/PaulUithol/backbone-tastypie.git#egg=backbone-tastypie
 django-grappelli
 humanize

@@ -12,8 +12,6 @@ var AppRouter = Backbone.Router.extend({
     initialize:function () {
         this.headerView = new HeaderView();
         $('#header').html(this.headerView.el);
-        this.sidebarView = new SidebarView();
-        //$('#sidebar').html(this.sidebarView.el);
         $('#site-content-fill').html('');
     },
     defaultRoute:function (path) {
@@ -24,6 +22,8 @@ var AppRouter = Backbone.Router.extend({
         var mixList = new MixCollection();
         mixList.type = type || 'latest';
         $('#site-content-fill').html('');
+        //this.sidebarView = new SidebarView();
+        //$('#sidebar').html(this.sidebarView.el);
         var data = type != undefined ? $.param({sort: type}) : null;
         mixList.fetch({
             data: data,
