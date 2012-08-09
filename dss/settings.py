@@ -46,7 +46,6 @@ ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 STATICFILES_DIRS = (
     here('static'),
     )
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
