@@ -3,11 +3,14 @@
         <div id="release-header">
             <h3><i class="icon-time"></i>
                 <%= item.release_date %>
+                &nbsp;::&nbsp;
+                <%= item.release_artist %>
                 &nbsp;-&nbsp;
-                <%= item.release_artist %></h3>
+                <%= item.release_title %>
+            </h3>
         </div>
     </div>
-    <div class="row">
+    <div class="row bordered">
         <div class="span3">
             <img class="release-image" src="<%= item.release_image %>"/>
         </div>
@@ -15,7 +18,10 @@
             <%= item.release_description %>
         </div>
     </div>
+    <div class="row bordered">
+        <div id="embed-insert"><%= item.embed_code %></div>
+    </div>
+    <div class="row">
+        <div id="player-insert"></div>
+    </div>
 </div>
-<div id="embed-insert"><%= item.embed_code %></div>
-<div id="player-insert"></div>
-
