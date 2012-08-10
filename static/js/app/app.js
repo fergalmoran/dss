@@ -1,6 +1,6 @@
 var AppRouter = Backbone.Router.extend({
     routes:{
-        "application/":"defaultRoute",
+        "":"defaultRoute",
         "/mixes":"mixList",
         "/mixes/:type":"mixList",
         "/mix/:id":"mixDetails",
@@ -15,8 +15,10 @@ var AppRouter = Backbone.Router.extend({
         $('#site-content-fill').html('');
     },
     defaultRoute:function (path) {
-        if (path == "" || path == "/")
-            this.mixList(0);
+        if (!path)
+            this.mixList('latest');
+        else if (path == "" || path == "/")
+            this.mixList('latest');
     },
     mixList:function (type) {
         var mixList = new MixCollection();
