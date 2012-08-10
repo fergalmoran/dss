@@ -153,3 +153,82 @@ ul.comment-listing .comment-entry {
     color: transparent;
     background-color: transparent;
 }
+
+table.tablesorter {
+    font-size: 12px;
+    background-color: #4D4D4D;
+    width: 1024px;
+    border: 1px solid #000;
+}
+table.tablesorter th {
+    text-align: left;
+    padding: 5px;
+    background-color: #6E6E6E;
+}
+table.tablesorter td {
+    color: #FFF;
+    padding: 5px;
+}
+table.tablesorter .even {
+    background-color: #3D3D3D;
+}
+table.tablesorter .odd {
+    background-color: #6E6E6E;
+}
+table.tablesorter .header {
+    background-image: url(../img/bg.png);
+    background-repeat: no-repeat;
+    border-left: 1px solid #FFF;
+    border-right: 1px solid #000;
+    border-top: 1px solid #FFF;
+    padding-left: 30px;
+    padding-top: 8px;
+    height: auto;
+}
+table.tablesorter .headerSortUp {
+    background-image: url(../img/asc.png);
+    background-repeat: no-repeat;
+}
+table.tablesorter .headerSortDown {
+    background-image: url(../img/desc.png);
+    background-repeat: no-repeat;
+}
+
+table .header {
+    cursor: pointer;
+}
+table .header:after {
+    content: "";
+    float: right;
+    margin-top: 7px;
+    border-width: 0 4px 4px;
+    border-style: solid;
+    border-color: #000000 transparent;
+    visibility: hidden;
+}
+table .headerSortUp, table .headerSortDown {
+    background-color: #f7f7f9;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+}
+table .header:hover:after {
+    visibility: visible;
+}
+table .headerSortDown:after, table .headerSortDown:hover:after {
+    visibility: visible;
+    filter: alpha(opacity=60);
+    -moz-opacity: 0.6;
+    opacity: 0.6;
+}
+table .headerSortUp:after {
+    border-bottom: none;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #000000;
+    visibility: visible;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    filter: alpha(opacity=60);
+    -moz-opacity: 0.6;
+    opacity: 0.6;
+}

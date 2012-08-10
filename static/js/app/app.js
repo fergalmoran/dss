@@ -24,9 +24,9 @@ var AppRouter = Backbone.Router.extend({
         $('#site-content-fill').html('');
         //this.sidebarView = new SidebarView();
         //$('#sidebar').html(this.sidebarView.el);
-        var data = type != undefined ? $.param({sort: type}) : null;
+        var data = type != undefined ? $.param({sort:type}) : null;
         mixList.fetch({
-            data: data,
+            data:data,
             success:function () {
                 var content = new MixListView({collection:mixList}).el;
                 $('#content').html(content);
@@ -50,7 +50,13 @@ var AppRouter = Backbone.Router.extend({
         }});
     },
     releaseList:function (page) {
-
+        var releaseList = new ReleaseCollection();
+        releaseList.fetch({
+            success:function () {
+                var content = new ReleaseListView({collection:releaseList}).el;
+                $('#content').html(content);
+            }
+        });
     },
     releaseDetails:function (id) {
         var release = new Release({id:id});
@@ -85,7 +91,7 @@ utils.loadTemplate([
     'HeaderView', 'SidebarView',
     'MixListView', 'MixItemView', 'MixView',
     'CommentListView', 'CommentItemView',
-    'ReleaseListView', 'ReleaseItemView', 'ReleaseView', 'ReleaseAudioListView', 'ReleaseAudioItemView'], function () {
+    'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseAudioListView', 'ReleaseAudioItemView'], function () {
     window.app = new AppRouter();
     Backbone.history.start();
 });
