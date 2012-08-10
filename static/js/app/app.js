@@ -6,6 +6,8 @@ var AppRouter = Backbone.Router.extend({
         "/mix/:id":"mixDetails",
         "/releases":"releaseList",
         "/release/:id":"releaseDetails",
+        "/events":"eventList",
+        "/event/:id":"eventDetails",
         "/accounts/login/":"login",
         "/accounts/logout/":"logout"
     },
@@ -76,6 +78,23 @@ var AppRouter = Backbone.Router.extend({
             }});
         }});
     },
+    eventList:function (page) {
+        var eventList = new EventCollection();
+        eventList.fetch({
+            success:function () {
+                var content = new EventListView({collection:eventList}).el;
+                $('#content').html(content);
+            }
+        });
+    },
+    eventDetails:function (id) {
+        var event = new Event({id:id});
+        $('#site-content-fill').html('');
+        event.fetch({success:function () {
+            var content = new EventView({model:event}).el;
+            $('#content').html(content);
+        }});
+    },
     login:function () {
         $.colorbox({
             href:"/tpl/LoginView/",
@@ -90,11 +109,14 @@ var AppRouter = Backbone.Router.extend({
 });
 
 utils.loadTemplate([
-    'HeaderView', 'SidebarView',
-    'MixListView', 'MixItemView', 'MixView',
-    'CommentListView', 'CommentItemView',
-    'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseAudioListView', 'ReleaseAudioItemView'], function () {
-    window.app = new AppRouter();
-    Backbone.history.start();
-});
+        'HeaderView', 'SidebarView',
+        'MixListView', 'MixListItemView', 'MixView',
+        'CommentListView', 'CommentListItemView',
+        'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseAudioListView', 'ReleaseAudioItemView',
+        'EventListView', 'EventListItemView', 'EventView', 'EventItemView'
+    ], function () {
+        window.app = new AppRouter();
+        Backbone.history.start();
+    }
+);
 var _eventAggregator = _.extend({}, Backbone.Events);

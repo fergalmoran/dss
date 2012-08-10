@@ -1,4 +1,4 @@
-window.CommentItemView = Backbone.View.extend({
+window.CommentListItemView = Backbone.View.extend({
     tagName:"li",
     initialize:function () {
         $(this.el).data("id", this.model.get("id"));
@@ -39,7 +39,7 @@ window.CommentListView = Backbone.View.extend({
     render:function () {
         $(this.el).html(this.template()).append('<ul class="comment-listing list-nostyle"></ul>');
         this.collection.each(function (item) {
-            $('.comment-listing', this.el).append(new CommentItemView({model:item}).render().el);
+            $('.comment-listing', this.el).append(new CommentListItemView({model:item}).render().el);
         }, this);
         return this;
     }

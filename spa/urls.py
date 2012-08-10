@@ -3,6 +3,7 @@ import django.conf.urls
 from tastypie.api import Api
 from spa.ajax import AjaxHandler
 from spa.api.v1.CommentResource import CommentResource
+from spa.api.v1.EventResource import EventResource
 from spa.api.v1.MixResource import MixResource
 from spa.api.v1.ReleaseAudioResource import ReleaseAudioResource
 from spa.api.v1.ReleaseResource import ReleaseResource
@@ -13,7 +14,7 @@ v1_api.register(MixResource())
 v1_api.register(CommentResource())
 v1_api.register(ReleaseResource())
 v1_api.register(ReleaseAudioResource())
-
+v1_api.register(EventResource())
 ajax = AjaxHandler()
 
 urlpatterns = django.conf.urls.patterns(

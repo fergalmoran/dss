@@ -5,5 +5,5 @@ __author__ = 'fergalm'
 
 def get_template(request, template_name):
     return render_to_response(
-        'views/%s.html' % (template_name),
+        'views/%s.html' % template_name,
         context_instance=RequestContext(request))

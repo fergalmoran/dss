@@ -1,4 +1,4 @@
-var ReleaseListItemView = Backbone.View.extend({
+var EventListItemView = Backbone.View.extend({
     tagName:"tr",
     initialize:function () {
         $(this.el).addClass("rowlink");
@@ -10,7 +10,7 @@ var ReleaseListItemView = Backbone.View.extend({
         return this;
     }
 });
-var ReleaseListView = Backbone.View.extend({
+var EventListView = Backbone.View.extend({
     events: {
         "click tr" : "showDetails"
     },
@@ -21,9 +21,9 @@ var ReleaseListView = Backbone.View.extend({
         $(this.el).html(this.template());
         var el = this.el;
         this.collection.each(function (item) {
-            $('#release-list-container', el).append(new ReleaseListItemView({model:item}).render().el);
+            $('#event-list-container', el).append(new EventListItemView({model:item}).render().el);
         });
-        $("#release-table", this.el).tablesorter({
+        $("#event-table", this.el).tablesorter({
             sortList: [[0,0],[1,0]]
         });
         $('tr.rowlink', this.el).rowlink();
@@ -31,10 +31,10 @@ var ReleaseListView = Backbone.View.extend({
         return this;
     },
     showDetails: function(row){
-        window.app.navigate('#/release/' + $(row.currentTarget).data("id"), true);
+        window.app.navigate('#/event/' + $(row.currentTarget).data("id"), true);
     }
 });
-var ReleaseItemView = Backbone.View.extend({
+var EventItemView = Backbone.View.extend({
     tagName:"li",
     initialize:function () {
         this.render();
@@ -44,15 +44,15 @@ var ReleaseItemView = Backbone.View.extend({
         return this;
     }
 });
-var ReleaseView = Backbone.View.extend({
+var EventView = Backbone.View.extend({
     initialize:function () {
         this.render();
     },
     render:function () {
         $(this.el).html(this.template());
-        var item = new ReleaseItemView({model:this.model}).render();
-        $('.release-listing', this.el).append(item.el);
-        $('#release-description', this.el).html(this.model.get("description"));
+        var item = new EventItemView({model:this.model}).render();
+        $('.event-listing', this.el).append(item.el);
+        $('#event-description', this.el).html(this.model.get("description"));
         return this;
     }
 });

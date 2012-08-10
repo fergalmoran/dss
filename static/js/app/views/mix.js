@@ -1,4 +1,4 @@
-window.MixItemView = Backbone.View.extend({
+window.MixListItemView = Backbone.View.extend({
     tagName:"li",
     events:{
         "click .play-button-small":"playMix",
@@ -69,7 +69,7 @@ window.MixListView = Backbone.View.extend({
         var el = this.el;
         $(this.el).html(this.template()).append('<ul class="mix-listing audio-listing"></ul>');
         this.collection.each(function (item) {
-            $('.mix-listing', el).append(new MixItemView({model:item}).render().el);
+            $('.mix-listing', el).append(new MixListItemView({model:item}).render().el);
         });
         var type = this.collection.type;
         $('#' + type, this.el).parent().addClass('active');
@@ -83,7 +83,7 @@ window.MixView = Backbone.View.extend({
     },
     render:function () {
         $(this.el).html(this.template());
-        var item = new MixItemView({model:this.model}).render();
+        var item = new MixListItemView({model:this.model}).render();
         $('.mix-listing', this.el).append(item.el);
         $('#mix-description', this.el).html(this.model.get("description"));
         return this;

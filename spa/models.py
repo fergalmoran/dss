@@ -12,6 +12,7 @@ import os
 from core.utils.file import generate_save_file_name
 from dss import settings
 from tasks.waveform import create_waveform_task
+from tinymce import models as tinymce_models
 
 def mix_file_name(instance, filename):
     return generate_save_file_name('mixes', filename)
@@ -261,3 +262,30 @@ class MixPlay(__Like):
     class Meta:
         db_table = 'www_play'
     mix = models.ForeignKey(Mix, related_name='plays')
+
+class Venue(models.Model):
+    user = models.ForeignKey(User)
+    venue_name = models.CharField(max_length=250)
+    venue_address = models.CharField(max_length=1024)
+    venue_image = models.ImageField(blank=True, upload_to=venue_image_name)
+
+    def __unicode__(self):
+        return self.venue_name
+
+class Event(models.Model):
+    event_venue = models.ForeignKey(Venue)
+
+    event_date = models.DateField(default=datetime.now())
+    event_time = models.TimeField(default=datetime.now())
+
+    date_created = models.DateField(default=datetime.now())
+    event_title = models.CharField(max_length=250)
+    event_description = tinymce_models.HTMLField()
+
+    attendees = models.ManyToManyField(User, related_name='event__attendees')
+
+    def get_absolute_url(self):
+        return '/events/%i' % self.id
+
+    def __unicode__(self):
+        return self.event_title
