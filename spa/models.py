@@ -215,6 +215,8 @@ class Release(BaseModel):
     release_label = models.ForeignKey(Label)
     release_date = models.DateField(default=datetime.now())
 
+    embed_code = models.TextField(blank=True)
+
     is_active = models.BooleanField(default=True)
     user = models.ForeignKey(UserProfile, editable=False)
 
