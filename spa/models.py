@@ -282,10 +282,10 @@ class Event(models.Model):
     event_title = models.CharField(max_length=250)
     event_description = tinymce_models.HTMLField()
 
-    attendees = models.ManyToManyField(User, related_name='event__attendees')
+    attendees = models.ManyToManyField(User, related_name='attendees')
 
     def get_absolute_url(self):
-        return '/events/%i' % self.id
+        return '/event/%i' % self.id
 
     def __unicode__(self):
         return self.event_title
