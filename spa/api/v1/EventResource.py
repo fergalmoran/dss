@@ -1,7 +1,7 @@
 import humanize
 from tastypie.authorization import Authorization
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
-from spa.models import  Event
+from spa.models.Event import  Event
 
 class EventResource(BackboneCompatibleResource):
     class Meta:

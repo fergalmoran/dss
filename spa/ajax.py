@@ -6,7 +6,10 @@ from django.shortcuts import render_to_response
 import json
 from django.utils import simplejson
 from core.utils import live
-from spa.models import Mix, Comment, MixLike
+from spa.models.Mix import Mix
+from spa.models.Comment import Comment
+from spa.models.MixLike import MixLike
+
 
 class AjaxHandler(object):
     import logging

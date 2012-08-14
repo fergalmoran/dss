@@ -3,7 +3,7 @@ from django import template
 from django.contrib.auth.models import User
 from django_gravatar.helpers import has_gravatar, get_gravatar_url
 from dss import settings
-from spa.models import UserProfile
+from spa.models.UserProfile import UserProfile
 
 register = template.Library()
 

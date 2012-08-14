@@ -4,7 +4,7 @@ from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
-from spa.models import Comment
+from spa.models.Comment import Comment
 
 class CommentResource(BackboneCompatibleResource):
     mix = fields.ToOneField('spa.api.v1.MixResource.MixResource', 'mix')

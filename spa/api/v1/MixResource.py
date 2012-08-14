@@ -4,7 +4,7 @@ from tastypie.authorization import Authorization
 from tastypie.constants import ALL_WITH_RELATIONS
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 
-from spa.models import Mix
+from spa.models.Mix import Mix
 
 class MixResource(BackboneCompatibleResource):
     comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', 'mix')

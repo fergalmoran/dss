@@ -35,13 +35,20 @@
     <script src="{{ STATIC_URL }}js/libs/jquery.tablesorter.js"></script>
     <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2.js"></script>
     <script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
+    <!-- horrible fix for horrible facebook -->
+    <!-- horrible horrible facebook -->
+    <script type="text/javascript">
+        if (window.location.hash == '#_=_') {
+            window.location.hash = '';
+        }
+    </script>
 </head>
 <body>
 {% include 'inc/ancient_browser.html' %}
 <div class="row status-bar">
     <div class="span12">
         <div class="alert alert-success" style="display: none">
-            <b>Success!</b> Wine saved successfully
+            <b>Success!</b>Something happened and it was good.
         </div>
     </div>
 </div>
