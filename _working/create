@@ -1,0 +1,8 @@
+mysql -u root deepsouthsounds < _working/mix.sql 
+mysql -u root deepsouthsounds < _working/label.sql 
+mysql -u root deepsouthsounds < _working/release.sql 
+mysql -u root deepsouthsounds < _working/social.sql 
+mysql -u root deepsouthsounds < _working/venue.sql 
+mysql -u root deepsouthsounds < _working/recurrence.sql 
+mysql -u root deepsouthsounds < _working/event.sql 
+
