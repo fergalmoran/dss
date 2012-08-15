@@ -1,6 +1,7 @@
 window.UserView = Backbone.View.extend({
     events:{
         "click #save-changes":"saveChanges",
+        "click input[type=radio]": "selectAvatar",
         "change input" :"changed",
         "change select" :"changed"
     },
@@ -31,5 +32,8 @@ window.UserView = Backbone.View.extend({
         var obj = "{\""+changed.id +"\":\""+value+"\"}";
         var objInst = JSON.parse(obj);
         this.model.set(objInst);
+    },
+    selectAvatar: function(evt){
+        this.model.set('avatar_type', $(evt.currentTarget).val());
     }
 });

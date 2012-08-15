@@ -1,4 +1,5 @@
 {% load account_tags %}
+{% load spa_extras %}
 <div class="navbar navbar-fixed-top" xmlns="http://www.w3.org/1999/html">
     <div class="navbar-inner">
         <div class="container">
@@ -41,7 +42,7 @@
                         </a>
                     <li>
                     <li>
-                    <a href="#/me">{% user_display user %}</a>
+                    <a href="#/me">{{ user|nice_name }}</a>
                     </li>
                 </ul>
             </div>

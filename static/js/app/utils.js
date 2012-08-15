@@ -67,17 +67,15 @@ window.utils = {
         if (fade) {
             $('.alert').fadeOut(5000, function () {
             });
-        }else{
-            $('.alert').click(function() {
-                $('.alert').fadeOut('slow', function() {
-                });
-            });
         }
+        $('.alert').click(function () {
+            $('.alert').fadeOut('slow', function () {
+            });
+        });
     },
     hideAlert:function () {
         $('.alert').hide();
     }
-
 };
 
 window.TastypieModel = Backbone.Model.extend({

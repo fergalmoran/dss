@@ -11,12 +11,16 @@ register = template.Library()
 @register.filter
 def nice_name(user):
     if user == "":
-        return "Unknown User"
+        return "Anonymous"
+    if user.is_authenticated():
+        profile = user.get_profile()
+        if profile is not None:
+            if profile.display_name <> "":
+                return profile.display_name
+    else:
+        return "Anonymous"
 
-    if type(user) is UserProfile:
-        return user.user.get_full_name() or user.user.username
-    elif type(user) is User:
-        return user.get_full_name() or user.username
+    return user.get_full_name() or user.username
 
 @register.filter
 def avatar_image(user, size=150):

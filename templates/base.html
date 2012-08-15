@@ -41,8 +41,12 @@
             window.location.hash = '';
         }
     </script>
+    {% block headerscripts %}
+
+    {% endblock %}
 </head>
 <body>
+{% include 'inc/facebook_init.html' %}
 {% include 'inc/ancient_browser.html' %}
 
 <div id="header"></div>

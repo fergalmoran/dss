@@ -24,9 +24,28 @@ window.MixListItemView = Backbone.View.extend({
             "/ajax/like/",
             { dataId:id, dataMode:mode },
             function (data) {
-                alert(data);
             }
         );
+        var slug = '12345';
+        var attachment = {
+            'name':'Deep South Sounds',
+            'description':'This is a test of the Deep South Sounds Broadcast System.  If this was real, you would be reading something useful.',
+            'media':[{
+                'type':'image',
+                'src':'http://deepsouthsounds.com/images/facebook_image.png',
+                'href':'http://www.deepsouthsounds.com/' + slug + '/'
+            }]
+        };
+        FB.login(function(response) {
+            /*FB.api('/me', function(response) {
+                alert('Your name is ' + response.name);
+            });*/
+            FB.ui({
+                method:'stream.publish',
+                message:'I liked a sound on deep south sounds!',
+                attachment:attachment
+            });
+        }, {scope: 'publish_stream'});
     },
     playMix:function () {
         var id = $(this.el).data("id");

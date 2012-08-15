@@ -14,5 +14,6 @@ django-tastypie>=0.9.11
 django-tinymce>=1.5.1b2
 git+git://github.com/PaulUithol/backbone-tastypie.git#egg=backbone-tastypie
 git+git://github.com/maraujop/django-crispy-forms.git#django-crispy-forms
+git+git://github.com/tschellenbach/Django-facebook.git#django-facebook
 django-grappelli
 humanize

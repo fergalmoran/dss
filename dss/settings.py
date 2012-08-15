@@ -91,6 +91,7 @@ TEMPLATE_LOADERS = (
     #'django.template.loaders.app_directories.load_template_source',
     )
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    'django_facebook.context_processors.facebook',
     'django.core.context_processors.request',
     'django.contrib.auth.context_processors.auth',
     "allauth.socialaccount.context_processors.socialaccount",
@@ -124,6 +125,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'django_facebook',
     'djcelery',
     'crispy_forms',
     'pipeline',
@@ -170,6 +172,8 @@ LOGGING = {
             },
         }
 }
+FACEBOOK_APP_ID = '154504534677009'
+FACEBOOK_APP_SECRET = localsettings.FACEBOOK_APP_SECRET
 
 BROKER_HOST = "127.0.0.1"
 BROKER_PORT = 5672
