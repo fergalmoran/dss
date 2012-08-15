@@ -26,26 +26,25 @@ window.MixListItemView = Backbone.View.extend({
             function (data) {
             }
         );
-        var slug = '12345';
-        var attachment = {
+        var data = {
             'name':'Deep South Sounds',
             'description':'This is a test of the Deep South Sounds Broadcast System.  If this was real, you would be reading something useful.',
-            'media':[{
-                'type':'image',
-                'src':'http://deepsouthsounds.com/images/facebook_image.png',
-                'href':'http://www.deepsouthsounds.com/' + slug + '/'
-            }]
+            'media':[
+                {
+                    'type':'image',
+                    'src':'http://deepsouthsounds.com/images/facebook_image.png',
+                    'href':'http://www.deepsouthsounds.com/#/mixes/1/'
+                }
+            ]
         };
-        FB.login(function(response) {
-            /*FB.api('/me', function(response) {
-                alert('Your name is ' + response.name);
-            });*/
-            FB.ui({
-                method:'stream.publish',
-                message:'I liked a sound on deep south sounds!',
-                attachment:attachment
-            });
-        }, {scope: 'publish_stream'});
+        var body = 'This is a test of the Deep South Sounds Broadcast System.  If this was real, you would be reading something useful';
+        FB.api('/me/deepsouthsounds:like', 'post', { mix: 'http://www.deepsouthsounds.com/#/mixes/1/' }, function (response) {
+            if (!response || response.error) {
+                alert('Error occured: ' + response.error.message);
+            } else {
+                window.utils.showAlert("You liked this", "Cheers feen", "alert-success", true);
+            }
+        });
     },
     playMix:function () {
         var id = $(this.el).data("id");
