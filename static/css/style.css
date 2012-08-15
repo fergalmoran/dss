@@ -8,6 +8,8 @@ body {
     padding-bottom: 40px;
     padding-right: 32px;
 }
+/* IE/Chrome image fix */
+img.event-content {width: auto; height: auto;}
 
 #header {
     margin-top: 20px;
@@ -19,6 +21,24 @@ body {
 
 .bordered {
     border-bottom: 3px solid #CEC3B3;
+}
+
+.page-header{
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: -moz-use-text-color -moz-use-text-color #E5E5E5;
+    border-style: none none solid;
+    border-width: 0 0 1px;
+    color: #333333;
+    display: block;
+    font-size: 19.5px;
+    line-height: 36px;
+    margin-bottom: 27px;
+    padding: 0;
+    width: 100%;
 }
 
 #mix-comments-list ul {

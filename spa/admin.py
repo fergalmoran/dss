@@ -1,4 +1,5 @@
 from django.contrib import admin
+from spa.models.Recurrence import Recurrence
 from spa.models.Release import Release
 from spa.models.Event import Event
 from spa.models.Label import Label
@@ -20,3 +21,4 @@ admin.site.register(Release, DefaultAdmin)
 admin.site.register(ReleaseAudio)
 admin.site.register(Venue)
 admin.site.register(Event)
+admin.site.register(Recurrence)

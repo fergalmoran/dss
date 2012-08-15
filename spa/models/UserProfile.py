@@ -6,17 +6,17 @@ from django.db import models
 from django.db.models.signals import post_save
 from django_gravatar.helpers import has_gravatar, get_gravatar_url
 from dss import settings
-from spa.models.__BaseModel import __BaseModel
+from spa.models._BaseModel import _BaseModel
 
-class UserProfile(__BaseModel):
+class UserProfile(_BaseModel):
     class Meta:
-        db_table = 'www_userprofile'
         app_label = 'spa'
 
     # This field is required.
     user = models.ForeignKey(User, unique=True)
     avatar_type = models.CharField(max_length=15)
     avatar_image = models.ImageField(blank=True, upload_to='/avatars/')
+    display_name = models.CharField(blank=True, max_length=35)
 
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
@@ -43,7 +43,7 @@ class UserProfile(__BaseModel):
         return reverse('user_details', kwargs={'user_name': self.user.username})
 
     def nice_name(self):
-        return self.first_name + ' ' + self.last_name
+        return self.display_name or self.first_name + ' ' + self.last_name
 
     def get_avatar_image(self, size=150):
         avatar_type = self.avatar_type
@@ -62,4 +62,4 @@ class UserProfile(__BaseModel):
         elif avatar_type == 'custom' or avatar_type:
             return self.avatar_image.url
 
-        return urlparse.urljoin(settings.STAT, "img/default-avatar-32.png")
+        return urlparse.urljoin(settings.STATIC_URL, "img/default-avatar-32.png")

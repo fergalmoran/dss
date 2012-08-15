@@ -9,7 +9,8 @@ var AppRouter = Backbone.Router.extend({
         "/events":"eventList",
         "/event/:id":"eventDetails",
         "/accounts/login/":"login",
-        "/accounts/logout/":"logout"
+        "/accounts/logout/":"logout",
+        "/me":"userDetails"
     },
     initialize:function () {
         this.headerView = new HeaderView();
@@ -105,11 +106,19 @@ var AppRouter = Backbone.Router.extend({
     },
     logout:function () {
         window.utils.showAlert("Success", "You are now logged out", "alert-success");
+    },
+    userDetails: function(){
+        var user = new User();
+        $('#site-content-fill').html('');
+        user.fetch({success:function () {
+            var content = new UserView({model:user}).el;
+            $('#content').html(content);
+        }});
     }
 });
 
 utils.loadTemplate([
-        'HeaderView', 'SidebarView',
+        'HeaderView', 'SidebarView', 'UserView',
         'MixListView', 'MixListItemView', 'MixView',
         'CommentListView', 'CommentListItemView',
         'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseAudioListView', 'ReleaseAudioItemView',

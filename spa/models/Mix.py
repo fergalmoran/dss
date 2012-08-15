@@ -5,7 +5,7 @@ import os
 from core.utils.file import generate_save_file_name
 from dss import settings
 from spa.models.UserProfile import UserProfile
-from spa.models.__BaseModel import __BaseModel
+from spa.models._BaseModel import _BaseModel
 from tasks.waveform import create_waveform_task
 from django.db import models
 
@@ -15,9 +15,8 @@ def mix_file_name(instance, filename):
 def mix_image_name(instance, filename):
     return generate_save_file_name('mix-images', filename)
 
-class Mix(__BaseModel):
+class Mix(_BaseModel):
     class Meta:
-        db_table = 'www_mix'
         app_label = 'spa'
 
     title = models.CharField(max_length=50)

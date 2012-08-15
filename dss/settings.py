@@ -15,7 +15,7 @@ ADMINS = (
     )
 
 MANAGERS = ADMINS
-AUTH_PROFILE_MODULE = 'spa.models.UserProfile'
+AUTH_PROFILE_MODULE = 'spa.UserProfile'
 
 DATABASES = {
     'default': {
@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'djcelery',
+    'crispy_forms',
     'pipeline',
     'avatar',
     'notification',

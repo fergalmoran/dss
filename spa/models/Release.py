@@ -4,7 +4,7 @@ from core.utils.file import generate_save_file_name
 from dss import settings
 from spa.models.Label import Label
 from spa.models.UserProfile import UserProfile
-from spa.models.__BaseModel import __BaseModel
+from spa.models._BaseModel import _BaseModel
 
 def release_image_name(instance, filename):
     return generate_save_file_name('release-images', filename)
@@ -12,9 +12,8 @@ def release_image_name(instance, filename):
 def release_file_name(instance, filename):
     return generate_save_file_name('release-audio', filename)
 
-class Release(__BaseModel):
+class Release(_BaseModel):
     class Meta:
-        db_table = 'www_release'
         app_label = 'spa'
 
     release_artist = models.CharField(max_length=100)
@@ -44,9 +43,8 @@ class Release(__BaseModel):
         return qs
 
 
-class ReleaseAudio(__BaseModel):
+class ReleaseAudio(_BaseModel):
     class Meta:
-        db_table = 'www_releaseaudio'
         app_label = 'spa'
 
     def __unicode__(self):

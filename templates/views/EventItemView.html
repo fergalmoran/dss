@@ -1,17 +1,28 @@
+<style type="text/css">
+    div.event-content img {
+        width: auto;
+        height: auto;
+        max-width: none;
+    }
+
+    div.event-content td {
+        padding: 12px;
+    }
+</style>
+
 <div class="hero-unit">
     <div class="row">
-        <div id="event-header">
+        <div id="event-header" class="bordered">
             <h3><i class="icon-time"></i>
                 <%= item.event_date %>
-                &nbsp;::&nbsp;
-                <%= item.event_title %>
                 &nbsp;-&nbsp;
                 <%= item.venue %>
-                &nbsp;-&nbsp;
+                &nbsp;::&nbsp;
+                <%= item.event_title %>
             </h3>
         </div>
     </div>
-    <div class="row">
+    <div class="row event-content">
         <%= item.event_description %>
     </div>
 </div>

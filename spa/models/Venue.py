@@ -7,7 +7,6 @@ def venue_image_name(instance, filename):
 
 class Venue(models.Model):
     class Meta:
-        db_table = 'www_venue'
         app_label = 'spa'
 
     user = models.ForeignKey(User)

@@ -1,9 +1,8 @@
 from django.db import models
-from spa.models.__BaseModel import __BaseModel
+from spa.models._BaseModel import _BaseModel
 
-class Label(__BaseModel):
+class Label(_BaseModel):
     class Meta:
-        db_table = 'www_label'
         app_label = 'spa'
 
     name = models.CharField(max_length=100)

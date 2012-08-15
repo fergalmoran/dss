@@ -1,0 +1,75 @@
+{% load account_tags %}
+{% block scripts %}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#avatar_image').hide();
+        $('input:radio[name=avatar_image_select]').bind('click', function (data) {
+            var selected = $('input:radio[name=avatar_image_select]:checked').val();
+            if (selected === 'custom') {
+                $('#avatar_image').show();
+            } else {
+                $('#avatar_image').hide();
+            }
+        });
+    });
+</script>
+
+{% endblock %}
+{% block content %}
+<form enctype="multipart/form-data" method="post" class="form-horizontal" id="id-new-user-form">
+    {% csrf_token %}
+    <fieldset>
+        <legend>User details</legend>
+        <div class="clearfix control-group" id="div_display_name">
+            <label class="control-label" for="display_name">Display name</label>
+            <div class="controls">
+                <input type="text" maxlength="75" name="email" class="textinput textInput" id="display_name" value="<%= item.display_name %>">
+            </div>
+        </div>
+        <div class="clearfix control-group" id="div_email">
+            <label class="control-label" for="email">E-mail address</label>
+            <div class="controls">
+                <input type="text" maxlength="75" name="email" class="textinput textInput" id="email" value="{{ user.email }}">
+            </div>
+        </div>
+        <div class="clearfix control-group" id="div_first_name">
+            <label class="control-label " for="first_name">First name</label>
+            <div class="controls">
+                <input type="text" maxlength="30" name="first_name" class="textinput textInput" id="first_name" value="{{ user.first_name }}">
+            </div>
+        </div>
+        <div class="clearfix control-group" id="div_last_name">
+            <label class="control-label " for="last_name">Last name</label>
+            <div class="controls">
+                <input type="text" maxlength="30" name="last_name" class="textinput textInput" id="last_name" value="{{ user.last_name }}">
+            </div>
+        </div>
+        <div class="clearfix control-group" id="div_avatar_image_select">
+            <label class="control-label requiredField" for="avatar_image_select_0">Avatar Image<span class="asteriskField">*</span></label>
+            <div class="controls">
+                <label class="radio">
+                    Use gravatar image.
+                    <input type="radio" value="gravatar" id="avatar_image_select_1" name="avatar_image_select">
+                </label>
+                <label class="radio">
+                    Use Twitter/Facebook image.
+                    <input type="radio" value="social" id="avatar_image_select_2" name="avatar_image_select">
+                </label>
+                <label class="radio">
+                    Use custom image (upload below).
+                    <input type="radio" value="custom" id="avatar_image_select_3" name="avatar_image_select">
+                </label>
+            </div>
+        </div>
+        <div class="clearfix control-group" id="div_avatar_image">
+            <div class="controls">
+                <input type="file" name="avatar_image" class="clearablefileinput" id="avatar_image" style="display: none;">
+            </div>
+        </div>
+    </fieldset>
+    <div class="form-actions">
+        <input type="submit" id="save-changes" class="btn btn-primary" value="Save changes" name="save_changes">&zwnj;
+    </div>
+</form>
+{% endblock %}

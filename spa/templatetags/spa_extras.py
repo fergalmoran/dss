@@ -1,3 +1,4 @@
+import urlparse
 from allauth.socialaccount.models import SocialAccount
 from django import template
 from django.contrib.auth.models import User
@@ -26,14 +27,14 @@ def avatar_image(user, size=150):
         gravatar_exists = has_gravatar(user.email)
         if gravatar_exists:
             return get_gravatar_url(user.email, size)
-    elif avatar_type == 'social':
+    elif avatar_type == 'social' or avatar_type == '':
         try:
             social_account = SocialAccount.objects.filter(user = user)[0]
             if social_account:
                 provider = social_account.get_provider_account()
                 return provider.get_avatar_url()
         except:
-            pass
+            return urlparse.urljoin(settings.STATIC_URL, "img/default-avatar-32.png")
     elif avatar_type == 'custom':
         return profile.avatar_image.url
 

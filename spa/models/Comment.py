@@ -1,11 +1,10 @@
 from django.contrib.auth.models import User
 from django.db import models
-from spa.models.__BaseModel import __BaseModel
+from spa.models._BaseModel import _BaseModel
 from spa.models.Mix import Mix
 
-class Comment(__BaseModel):
+class Comment(_BaseModel):
     class Meta:
-        db_table = 'www_comment'
         app_label = 'spa'
 
     user = models.ForeignKey(User, editable=False)
