@@ -59,13 +59,21 @@ window.utils = {
         $('.help-inline', controlGroup).html('');
     },
 
-    showAlert:function (title, text, klass) {
+    showAlert:function (title, text, klass, fade) {
         $('.alert').removeClass("alert-error alert-warning alert-success alert-info");
         $('.alert').addClass(klass);
         $('.alert').html('<strong>' + title + '</strong> ' + text);
         $('.alert').show();
+        if (fade) {
+            $('.alert').fadeOut(5000, function () {
+            });
+        }else{
+            $('.alert').click(function() {
+                $('.alert').fadeOut('slow', function() {
+                });
+            });
+        }
     },
-
     hideAlert:function () {
         $('.alert').hide();
     }
@@ -88,3 +96,10 @@ window.TastypieCollection = Backbone.Collection.extend({
         return response.objects || response;
     }
 });
+
+(function () {
+    var proxied = window.alert;
+    window.alert = function () {
+        return proxied.apply(this, arguments);
+    };
+})();

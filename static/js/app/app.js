@@ -1,6 +1,5 @@
 var AppRouter = Backbone.Router.extend({
     routes:{
-        "":"defaultRoute",
         "/mixes":"mixList",
         "/mixes/:type":"mixList",
         "/mix/:id":"mixDetails",
@@ -8,9 +7,11 @@ var AppRouter = Backbone.Router.extend({
         "/release/:id":"releaseDetails",
         "/events":"eventList",
         "/event/:id":"eventDetails",
+        "/accounts/social/connections/":"connectAccounts",
         "/accounts/login/":"login",
         "/accounts/logout/":"logout",
-        "/me":"userDetails"
+        "/me":"userDetails",
+        "*path":"defaultRoute"
     },
     initialize:function () {
         this.headerView = new HeaderView();
@@ -18,9 +19,7 @@ var AppRouter = Backbone.Router.extend({
         $('#site-content-fill').html('');
     },
     defaultRoute:function (path) {
-        if (!path)
-            this.mixList('latest');
-        else if (path == "" || path == "/")
+        if (path == undefined || path == "" || path == "/")
             this.mixList('latest');
     },
     mixList:function (type) {
@@ -107,7 +106,10 @@ var AppRouter = Backbone.Router.extend({
     logout:function () {
         window.utils.showAlert("Success", "You are now logged out", "alert-success");
     },
-    userDetails: function(){
+    connectAccounts:function () {
+        alert("sdfkjsdlfj");
+    },
+    userDetails:function () {
         var user = new User();
         $('#site-content-fill').html('');
         user.fetch({success:function () {
@@ -118,12 +120,12 @@ var AppRouter = Backbone.Router.extend({
 });
 
 utils.loadTemplate([
-        'HeaderView', 'SidebarView', 'UserView',
-        'MixListView', 'MixListItemView', 'MixView',
-        'CommentListView', 'CommentListItemView',
-        'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseAudioListView', 'ReleaseAudioItemView',
-        'EventListView', 'EventListItemView', 'EventView', 'EventItemView'
-    ], function () {
+    'HeaderView', 'SidebarView', 'UserView',
+    'MixListView', 'MixListItemView', 'MixView',
+    'CommentListView', 'CommentListItemView',
+    'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseAudioListView', 'ReleaseAudioItemView',
+    'EventListView', 'EventListItemView', 'EventView', 'EventItemView'
+], function () {
         window.app = new AppRouter();
         Backbone.history.start();
     }

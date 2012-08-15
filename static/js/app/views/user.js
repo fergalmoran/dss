@@ -12,7 +12,17 @@ window.UserView = Backbone.View.extend({
         return this;
     },
     saveChanges: function(){
-        this.model.save();
+        this.model.save(
+            null,{
+            success: function(){
+                window.utils.showAlert("Success", "Successfully updated yourself", "alert-info", true);
+                window.history.back();
+            },
+            error: function(){
+                window.utils.showAlert("Success", "Successfully updated yourself", "alert-info", false);
+                alert("Error");
+            }
+        });
         return false;
     },
     changed:function(evt) {

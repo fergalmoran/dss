@@ -44,15 +44,17 @@
 </head>
 <body>
 {% include 'inc/ancient_browser.html' %}
-<div class="row status-bar">
-    <div class="span12">
-        <div class="alert alert-success" style="display: none">
-            <b>Success!</b>Something happened and it was good.
+
+<div id="header"></div>
+
+<div class="container-fluid">
+    <div class="row status-bar">
+        <div class="span12">
+            <div class="alert alert-success" style="display: none">
+                <b>Success!</b>Something happened and it was good.
+            </div>
         </div>
     </div>
-</div>
-<div id="header"></div>
-<div class="container-fluid">
     <div class="row-fluid">
         <div class="span8" id="content">
             {% block content %}

@@ -64,6 +64,7 @@ def get_mix_stream_url(request, mix_id):
         data = {
             'stream_url': mix.get_stream_path(),
             'description': mix.description,
+            'item_url': mix.get_absolute_url(),
             'title': mix.title
         }
         return HttpResponse(json.dumps(data), mimetype="application/json")

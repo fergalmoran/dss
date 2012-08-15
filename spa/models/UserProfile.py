@@ -63,3 +63,6 @@ class UserProfile(_BaseModel):
             return self.avatar_image.url
 
         return urlparse.urljoin(settings.STATIC_URL, "img/default-avatar-32.png")
+
+    def save(self, force_insert=False, force_update=False, using=None):
+        return super(UserProfile, self).save(force_insert, force_update, using)

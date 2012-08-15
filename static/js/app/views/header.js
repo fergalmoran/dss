@@ -14,6 +14,7 @@ window.HeaderView = Backbone.View.extend({
     },
     trackChanged:function (data) {
         $(this.el).find('#track-description').text(data.title);
+        $(this.el).find('#track-description').attr("href", "#" + data.item_url);
     },
     trackPlaying:function (data) {
         $(this.el).find('#header-play-button-icon').removeClass('icon-play');
