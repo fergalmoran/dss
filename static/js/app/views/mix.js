@@ -38,7 +38,7 @@ window.MixListItemView = Backbone.View.extend({
             ]
         };
         var body = 'This is a test of the Deep South Sounds Broadcast System.  If this was real, you would be reading something useful';
-        FB.api('/me/deepsouthsounds:like', 'post', { mix: 'http://www-test.deepsouthsounds.com:8000/static/html/fb_mix.html' }, function (response) {
+        FB.api('/me/deepsouthsounds:like', 'post', { mix: 'http://www.deepsouthsounds.com/static/html/fb_mix.html' }, function (response) {
             if (!response || response.error) {
                 alert('Error occured: ' + response.error.message);
             } else {
