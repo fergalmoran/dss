@@ -39,18 +39,19 @@ var AppRouter = Backbone.Router.extend({
     },
     mixDetails:function (id) {
         var mix = new Mix({id:id});
-        mix.fetch({success:function () {
-            var html = new MixView({model:mix});
-            $('#content').html(html.el);
-            $('#site-content-fill').html('');
-            var comments = new CommentCollection();
-            comments.url = window.appSettings.urlRoot + mix.attributes.item_url + "/comments/";
-            comments.mix_id = id;
-            comments.mix = mix.get("resource_uri");
-            comments.fetch({success:function (data) {
-                var content = new CommentListView({collection:comments}).render();
-                $('#site-content-fill').html(content.el);
-            }});
+        mix.fetch({
+            success:function () {
+                var html = new MixView({model:mix});
+                $('#content').html(html.el);
+                $('#site-content-fill').html('');
+                var comments = new CommentCollection();
+                comments.url = window.appSettings.urlRoot + mix.attributes.item_url + "/comments/";
+                comments.mix_id = id;
+                comments.mix = mix.get("resource_uri");
+                comments.fetch({success:function (data) {
+                    var content = new CommentListView({collection:comments}).render();
+                    $('#site-content-fill').html(content.el);
+                }});
         }});
     },
     releaseList:function (page) {

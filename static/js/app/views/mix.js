@@ -26,19 +26,8 @@ window.MixListItemView = Backbone.View.extend({
             function (data) {
             }
         );
-        var data = {
-            'name':'Deep South Sounds',
-            'description':'This is a test of the Deep South Sounds Broadcast System.  If this was real, you would be reading something useful.',
-            'media':[
-                {
-                    'type':'image',
-                    'src':'http://deepsouthsounds.com/images/facebook_image.png',
-                    'href':'http://www.deepsouthsounds.com/#/mixes/1/'
-                }
-            ]
-        };
         var body = 'This is a test of the Deep South Sounds Broadcast System.  If this was real, you would be reading something useful';
-        FB.api('/me/deepsouthsounds:like', 'post', { mix: 'http://www.deepsouthsounds.com/static/html/fb_mix.html' }, function (response) {
+        FB.api('/me/deepsouthsounds:like', 'post', { mix: 'http://' + window.location.host + '/social/redirect/mix/' + id}, function (response) {
             if (!response || response.error) {
                 alert('Error occured: ' + response.error.message);
             } else {
@@ -104,6 +93,9 @@ window.MixView = Backbone.View.extend({
         var item = new MixListItemView({model:this.model}).render();
         $('.mix-listing', this.el).append(item.el);
         $('#mix-description', this.el).html(this.model.get("description"));
+
+        //set meta tags for facebook
+        //setOrCreateMetaTag('property', 'fb:app_id', '154504534677009');
         return this;
     }
 });

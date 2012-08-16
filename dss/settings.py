@@ -109,7 +109,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.gzip.GZipMiddleware',
-    'pipeline.middleware.MinifyHTMLMiddleware'
+    #'pipeline.middleware.MinifyHTMLMiddleware'
     )
 
 WSGI_APPLICATION = 'dss.wsgi.application'
@@ -128,7 +128,7 @@ INSTALLED_APPS = (
     'django_facebook',
     'djcelery',
     'crispy_forms',
-    'pipeline',
+    #'pipeline',
     'avatar',
     'notification',
     'spa',
@@ -195,7 +195,7 @@ DSS_TEMP_PATH = localsettings.DSS_TEMP_PATH
 DSS_LAME_PATH = localsettings.DSS_LAME_PATH
 DSS_WAVE_PATH = localsettings.DSS_WAVE_PATH
 PIPELINE_YUI_BINARY = localsettings.PIPELINE_YUI_BINARY
-PIPELINE = True
+PIPELINE = False
 PIPELINE_CSS = {
     'defaults': {
         'source_filenames': (

@@ -77,6 +77,9 @@ window.utils = {
         $('.alert').hide();
     }
 };
+setHashbangHeader = function (xhr) {
+    xhr.setRequestHeader('X-FB-Nonsense', 'Argle-Bargle');
+}
 
 window.TastypieModel = Backbone.Model.extend({
     base_url:function () {
@@ -85,7 +88,13 @@ window.TastypieModel = Backbone.Model.extend({
     },
     url:function () {
         return this.base_url();
-    }
+    }/*,
+    fetch:function(){
+        return Backbone.Model.prototype.fetch.call(
+            this,
+            {beforeSync: setHashbangHeader}
+        );
+    }*/
 });
 
 window.TastypieCollection = Backbone.Collection.extend({
@@ -101,3 +110,13 @@ window.TastypieCollection = Backbone.Collection.extend({
         return proxied.apply(this, arguments);
     };
 })();
+
+function setOrCreateMetaTag(metaName, name, value) {
+    var t = 'meta['+metaName+'='+name+']';
+    var mt = $(t);
+    if (mt.length === 0) {
+        t = '<meta '+metaName+'="'+name+'" />';
+        mt = $(t).appendTo('head');
+    }
+    mt.attr('content', value);
+}
