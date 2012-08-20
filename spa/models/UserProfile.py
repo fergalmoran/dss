@@ -25,7 +25,7 @@ class UserProfile(_BaseModel):
 
     # This field is required.
     user = models.ForeignKey(User, unique=True)
-    avatar_type = models.CharField(max_length=15)
+    avatar_type = models.CharField(max_length=15, default='social')
     avatar_image = models.ImageField(blank=True, upload_to=avatar_name)
     display_name = models.CharField(blank=True, max_length=35)
     activity_sharing = models.IntegerField(default=0)
