@@ -5,18 +5,46 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django_gravatar.helpers import has_gravatar, get_gravatar_url
+import os
+from core.utils.file import generate_save_file_name
 from dss import settings
 from spa.models._BaseModel import _BaseModel
+def avatar_name(instance, filename):
+    return generate_save_file_name('avatars', filename)
 
 class UserProfile(_BaseModel):
     class Meta:
         app_label = 'spa'
 
+    ACTIVITY_SHARE_LIKES = 1
+    ACTIVITY_SHARE_FAVOURITES = 2
+    ACTIVITY_SHARE_COMMENTS = 4
+
+    ACTIVITY_SHARE_NETWORK_FACEBOOK = 1
+    ACTIVITY_SHARE_NETWORK_TWITTER = 2
+
     # This field is required.
     user = models.ForeignKey(User, unique=True)
     avatar_type = models.CharField(max_length=15)
-    avatar_image = models.ImageField(blank=True, upload_to='/avatars/')
+    avatar_image = models.ImageField(blank=True, upload_to=avatar_name)
     display_name = models.CharField(blank=True, max_length=35)
+    activity_sharing = models.IntegerField(default=0)
+    activity_sharing_networks = models.IntegerField(default=0)
+    def save(self, size=(260, 180)):
+        """
+        Save Photo after ensuring it is not blank.  Resize as needed.
+        """
+        from PIL import Image
+        if not self.id and not self.source:
+            return
+
+        super(UserProfile, self).save()
+
+        filename = self.get_source_filename()
+        image = Image.open(filename)
+
+        image.thumbnail(size, Image.ANTIALIAS)
+        image.save(filename)
 
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
@@ -66,3 +94,4 @@ class UserProfile(_BaseModel):
 
     def save(self, force_insert=False, force_update=False, using=None):
         return super(UserProfile, self).save(force_insert, force_update, using)
+

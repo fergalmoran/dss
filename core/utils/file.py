@@ -1,5 +1,7 @@
 import uuid
+import os
 
-__author__ = 'fergalm'
 def generate_save_file_name(prefix, filename):
-    return '/'.join([prefix, str(uuid.uuid1()), filename])
+    filename, extension = os.path.splitext(filename)
+    ret = "%s%s" % ('/'.join([prefix, str(uuid.uuid1())]), extension)
+    return ret

@@ -22,18 +22,9 @@ window.MixListItemView = Backbone.View.extend({
         var mode = $(e.currentTarget).data("mode");
         $.post(
             "/ajax/like/",
-            { dataId:id, dataMode:mode },
-            function (data) {
-            }
+            { dataId:id, dataMode:mode }
         );
-        var body = 'This is a test of the Deep South Sounds Broadcast System.  If this was real, you would be reading something useful';
-        FB.api('/me/deepsouthsounds:like', 'post', { mix: 'http://' + window.location.host + '/social/redirect/mix/' + id}, function (response) {
-            if (!response || response.error) {
-                alert('Error occured: ' + response.error.message);
-            } else {
-                window.utils.showAlert("You liked this", "Cheers feen", "alert-success", true);
-            }
-        });
+        postFacebookLike(id);
     },
     playMix:function () {
         var id = $(this.el).data("id");

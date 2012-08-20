@@ -8,8 +8,12 @@ body {
     padding-bottom: 40px;
     padding-right: 32px;
 }
+
 /* IE/Chrome image fix */
-img.event-content {width: auto; height: auto;}
+img.event-content {
+    width: auto;
+    height: auto;
+}
 
 #header {
     margin-top: 20px;
@@ -23,7 +27,7 @@ img.event-content {width: auto; height: auto;}
     border-bottom: 3px solid #CEC3B3;
 }
 
-.page-header{
+.page-header {
     -moz-border-bottom-colors: none;
     -moz-border-image: none;
     -moz-border-left-colors: none;
@@ -154,7 +158,9 @@ ul.comment-listing .comment-entry {
 
 .list-horiz li {
     float: left;
+    list-style-type: none;
     position: relative;
+    padding-right: 20px;
 }
 
 .bordered-right {
@@ -166,7 +172,8 @@ ul.comment-listing .comment-entry {
     margin-right: 7px;
     padding-right: 7px;
 }
-.stats{
+
+.stats {
     border: 0;
     font: 0/0 a;
     text-shadow: none;
@@ -180,21 +187,26 @@ table.tablesorter {
     width: 1024px;
     border: 1px solid #000;
 }
+
 table.tablesorter th {
     text-align: left;
     padding: 5px;
     background-color: #6E6E6E;
 }
+
 table.tablesorter td {
     color: #FFF;
     padding: 5px;
 }
+
 table.tablesorter .even {
     background-color: #3D3D3D;
 }
+
 table.tablesorter .odd {
     background-color: #6E6E6E;
 }
+
 table.tablesorter .header {
     background-image: url(../img/bg.png);
     background-repeat: no-repeat;
@@ -205,10 +217,12 @@ table.tablesorter .header {
     padding-top: 8px;
     height: auto;
 }
+
 table.tablesorter .headerSortUp {
     background-image: url(../img/asc.png);
     background-repeat: no-repeat;
 }
+
 table.tablesorter .headerSortDown {
     background-image: url(../img/desc.png);
     background-repeat: no-repeat;
@@ -217,6 +231,7 @@ table.tablesorter .headerSortDown {
 table .header {
     cursor: pointer;
 }
+
 table .header:after {
     content: "";
     float: right;
@@ -226,19 +241,23 @@ table .header:after {
     border-color: #000000 transparent;
     visibility: hidden;
 }
+
 table .headerSortUp, table .headerSortDown {
     background-color: #f7f7f9;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
 }
+
 table .header:hover:after {
     visibility: visible;
 }
+
 table .headerSortDown:after, table .headerSortDown:hover:after {
     visibility: visible;
-    filter: alpha(opacity=60);
+    filter: alpha(opacity = 60);
     -moz-opacity: 0.6;
     opacity: 0.6;
 }
+
 table .headerSortUp:after {
     border-bottom: none;
     border-left: 4px solid transparent;
@@ -248,7 +267,200 @@ table .headerSortUp:after {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-    filter: alpha(opacity=60);
+    filter: alpha(opacity = 60);
     -moz-opacity: 0.6;
     opacity: 0.6;
+}
+
+input[type="checkbox"] {
+    visibility: hidden;
+}
+
+.slideThree {
+    width: 80px;
+    height: 26px;
+    background: #333;
+    margin: 20px auto;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    position: relative;
+    -webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+    -moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+
+.slideThree {
+    width: 80px;
+    height: 26px;
+    background: #333;
+    margin: 20px auto;
+
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    position: relative;
+
+    -webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+    -moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+
+.slideThree:after {
+    content: 'OFF';
+    font: 12px/26px Arial, sans-serif;
+    color: #000;
+    position: absolute;
+    right: 10px;
+    z-index: 0;
+    font-weight: bold;
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, .15);
+}
+
+.slideThree:before {
+    content: 'ON';
+    font: 12px/26px Arial, sans-serif;
+    color: #00bf00;
+    position: absolute;
+    left: 10px;
+    z-index: 0;
+    font-weight: bold;
+}
+
+.slideThree label {
+    display: block;
+    width: 34px;
+    height: 20px;
+
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+
+    -webkit-transition: all .4s ease;
+    -moz-transition: all .4s ease;
+    -o-transition: all .4s ease;
+    -ms-transition: all .4s ease;
+    transition: all .4s ease;
+    cursor: pointer;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    z-index: 1;
+
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+    background: #fcfff4;
+
+    background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fcfff4', endColorstr = '#b3bead', GradientType = 0);
+}
+
+.slideThree input[type=checkbox]:checked + label {
+    left: 43px;
+}
+
+.droparea {
+    position: relative;
+    text-align: center;
+}
+
+.multiple {
+    position: relative;
+    height: 20px;
+}
+
+.droparea div, .droparea input, .multiple div, .multiple input {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.droparea input, .multiple input {
+    cursor: pointer;
+    opacity: 0;
+}
+
+.droparea .instructions, .multiple .instructions {
+    border: 2px dashed #ddd;
+    opacity: .8;
+}
+
+.droparea .instructions.over, .multiple .instructions.over {
+    border: 2px dashed #000;
+    background: #ffa;
+}
+
+.droparea .progress, .multiple .progress {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+    color: #fff;
+    background: #6b0;
+}
+
+.multiple .progress {
+    width: 0;
+    height: 100%;
+}
+
+#areas {
+    float: left;
+    width: 480px;
+}
+
+div.spot {
+    float: left;
+    margin: 0 20px 0 0;
+    width: 120px;
+    height: 120px;
+}
+
+.thumb {
+    float: left;
+    margin: 0 20px 20px 0;
+    width: 140px;
+    min-height: 105px;
+}
+
+.desc {
+    float: right;
+    width: 460px;
+}
+
+.signature a {
+    color: #555;
+    text-decoration: none;
+}
+
+.signature img {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+input[type=text], textarea {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 288px;
+    height: 18px;
+    border: 1px solid #bbb;
+}
+
+textarea {
+    height: 58px;
+}
+
+input[type=submit] {
+    float: right;
+    margin-right: 20px;
+    padding: 5px 25px;
+    color: #111;
+    border: 1px solid #666;
+    background: #888;
 }

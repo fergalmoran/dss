@@ -1,11 +1,9 @@
 <div class="row-fluid well">
-    {% if model.has_image %}
     <div class="span2" id="image-span">
         <div id="image">
             <img alt="mix-logo" class="mix-image-image" src="<%= item.mix_image %>"/>
         </div>
     </div>
-    {% endif %}
     <div class="span10">
         <div class="title-bar">
             <h4><a href="#/<%= item.item_url %>"><%= item.title %></a></h4>

@@ -22,10 +22,13 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/jasny/jasny-bootstrap-responsive.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/colorbox.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/uploadifive.css">
 
     <script src="{{ STATIC_URL }}js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="{{ STATIC_URL }}js/libs/jquery-ui-1.8.18.custom.min.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/uploadify/jquery.uploadifive.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/jquery.iphone-switch.js"></script>
     <script src="{{ STATIC_URL }}js/libs/bootstrap/transition.js"></script>
     <script src="{{ STATIC_URL }}js/libs/bootstrap/collapse.js"></script>
     <script src="{{ STATIC_URL }}js/libs/bootstrap/modal.js"></script>
@@ -49,7 +52,6 @@
 <body>
 {% include 'inc/facebook_init.html' %}
 {% include 'inc/ancient_browser.html' %}
-
 <div id="header"></div>
 
 <div class="container-fluid">
@@ -87,6 +89,7 @@
 <script src="{{ STATIC_URL }}js/libs/backbone-forms.min.js"></script>
 <script src="{{ STATIC_URL }}js/libs/backbone-tastypie.js"></script>
 <script src="{{ STATIC_URL }}js/app/site.js"></script>
+<script src="{{ STATIC_URL }}js/app/social.js"></script>
 <script src="{{ STATIC_URL }}js/app/utils.js"></script>
 <script src="{{ STATIC_URL }}js/app/settings.js"></script>
 <script src="{{ STATIC_URL }}js/app/models/mix.js"></script>
@@ -104,6 +107,7 @@
 <script src="{{ STATIC_URL }}js/app/views/release_audio.js"></script>
 <script src="{{ STATIC_URL }}js/app/views/event.js"></script>
 <script src="{{ STATIC_URL }}js/app/app.js"></script>
+<script src="{{ STATIC_URL }}js/app/social.js"></script>
 
 {% block footerscripts %}
 {% endblock %}

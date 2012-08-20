@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'django_facebook',
     'djcelery',
     'crispy_forms',
+    'sorl.thumbnail',
     #'pipeline',
     'avatar',
     'notification',
