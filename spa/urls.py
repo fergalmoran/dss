@@ -24,6 +24,7 @@ urlpatterns = django.conf.urls.patterns(
     '',
     url(r'^$', 'spa.views.app', name='home'),
     url(r'^tpl/(?P<template_name>\w+)/$', 'spa.templates.get_template'),
+    url(r'^js/(?P<template_name>\w+)/$', 'spa.templates.get_javascript'),
     url(r'^tplex/(?P<template_name>\w+)/$', 'spa.templates.get_template_ex'),
     (r'^social/', include(social.urls)),
     (r'^ajax/', include(ajax.urls)),

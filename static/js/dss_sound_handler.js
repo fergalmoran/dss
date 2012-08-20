@@ -1,8 +1,9 @@
 $(document).ready(function () {
     soundManager.url = '/static/bin/sm/';
-    soundManager.flashVersion = 10;
-    soundManager.debugMode = false;
-    soundManager.useHTML5Audio = true;
+    soundManager.flashVersion = 9;
+    soundManager.debugMode = true;
+    soundManager.useHTML5Audio = false;
+    soundManager.preferFlash = false;
 });
 
 function DssSoundHandler() {
@@ -93,9 +94,10 @@ function DssSoundHandler() {
         this.stop_sound();
         _currentSound = soundManager.createSound({
             id:'current_sound',
-            url:'http://streams.deepsouthsounds.com:8000/live',
+            url:window.appSettings.liveStreamRoot,
             volume:50,
-            type:'audio/mp3'
+            stream:true,
+            useMovieStar:true
         });
         _currentSound.play();
     };

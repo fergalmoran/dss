@@ -9,7 +9,10 @@ from Label import Label
 from Mix import Mix
 from MixLike import MixLike
 from MixPlay import MixPlay
+from Tracklist import Tracklist
+from PurchaseLink import PurchaseLink
 from Release import Release
+from UserFavourite import UserFavourite
 
 from django.db.models import signals
 from django.contrib.auth.management import create_superuser

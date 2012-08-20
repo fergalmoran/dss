@@ -8,6 +8,7 @@ from django.utils import simplejson
 from django.views.decorators.csrf import csrf_exempt
 import os
 from core.utils import live
+from dss import localsettings
 from spa.models import UserProfile
 from spa.models.Mix import Mix
 from spa.models.Comment import Comment
@@ -83,7 +84,10 @@ def live_now_playing(request):
         json.dumps({
             'stream_url': "radio.deepsouthsounds.com",
             'description': 'Description',
-            'title': live.get_now_playing("radio.deepsouthsounds.com", "8000", "live")
+            'title': live.get_now_playing(
+                localsettings.JS_SETTINGS['LIVE_STREAM_URL'],
+                localsettings.JS_SETTINGS['LIVE_STREAM_PORT'],
+                localsettings.JS_SETTINGS['LIVE_STREAM_MOUNT'])
         }), mimetype="application/json")
 
 

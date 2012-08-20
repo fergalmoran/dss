@@ -191,6 +191,8 @@ djcelery.setup_loader()
 
 SOCIALACCOUNT_AVATAR_SUPPORT = True
 AVATAR_STORAGE_DIR = MEDIA_ROOT + '/avatars/'
+EMAIL_CONFIRMATION_DAYS = 7
+
 
 DSS_TEMP_PATH = localsettings.DSS_TEMP_PATH
 DSS_LAME_PATH = localsettings.DSS_LAME_PATH

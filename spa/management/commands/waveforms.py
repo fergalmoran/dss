@@ -6,9 +6,7 @@ from spa.models.Release import ReleaseAudio
 from django.core.management.base import NoArgsCommand
 
 class Command(NoArgsCommand):
-
     help = "Generate all outstanding waveforms"
-
     def _check_file(self, local_file, output_file):
         if os.path.isfile(os.path.join(settings.MEDIA_ROOT, local_file)):
             file = os.path.join(settings.MEDIA_ROOT, output_file)
