@@ -26,10 +26,11 @@
             </div>
             {% if user.is_authenticated %}
             <div class="like-button footer-button">
-                <a class="btn" data-mode="<%= item.mode %>" data-id="<%= item.id %>"><i class="icon-heart"></i> Like</a>
+                <a class="btn" id="like-<%= item.id %>" data-mode="<%= item.mode %>" data-id="<%= item.id %>">
+                    <i class="icon-heart"></i> Like</a>
             </div>
             <div class="favourite-button footer-button">
-                <a class="btn" data-mode="<%= item.mode %>" data-id="<%= item.id %>" href="#"><i
+                <a class="btn" id="favourite-<%= item.id %>" data-mode="<%= item.mode %>" data-id="<%= item.id %>"><i
                         class="icon-star-empty"></i> Favourite</a>
             </div>
             {% endif %}

@@ -4,10 +4,11 @@ from django.db.models import Count
 import os
 from core.utils.file import generate_save_file_name
 from dss import settings
+from spa.models.MixLike import MixLike
+from spa.models.MixPlay import MixPlay
 from spa.models.UserProfile import UserProfile
 from spa.models._BaseModel import _BaseModel
 from tasks.waveform import create_waveform_task
-from django.db import models
 
 def mix_file_name(instance, filename):
     return generate_save_file_name('mixes', filename)
@@ -101,3 +102,19 @@ class Mix(_BaseModel):
             self.plays.add(MixPlay(user = user if user.is_authenticated() else None))
         except Exception, e:
             self.logger.exception("Error getting mix stream url")
+
+    def is_liked(self, user):
+        if user is None:
+            return False
+        if user.is_authenticated():
+            return self.likes.filter(user=user).count() <> 0
+
+        return False
+
+    def is_favourited(self, user):
+        if user is None:
+            return False
+        if user.is_authenticated():
+            return self.favourites.filter(user=user).count() <> 0
+        else:
+            return False

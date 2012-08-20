@@ -3,6 +3,7 @@ window.MixListItemView = Backbone.View.extend({
     events:{
         "click .play-button-small":"playMix",
         "click .like-button a":"likeMix",
+        "click .favourite-button a":"favouriteMix",
         "click .share-button a":"shareLink"
     },
     initialize:function () {
@@ -12,7 +13,21 @@ window.MixListItemView = Backbone.View.extend({
     },
     render:function () {
         $(this.el).html(this.template({"item":this.model.toJSON()}));
+        this.setLikeButton(this.model.get("id"), this.model.get('liked'));
+        this.setFavouriteButton(this.model.get("id"), this.model.get('favourited'));
         return this;
+    },
+    setLikeButton:function (id, liked) {
+        if (liked) {
+            $('#like-' + id, this.el).html('<i class="icon-heart"></i> Unlike');
+        } else
+            $('#like-' + id, this.el).html('<i class="icon-heart"></i> Like');
+    },
+    setFavouriteButton:function (id, liked) {
+        if (liked) {
+            $('#favourite-' + id, this.el).html('<i class="icon-star-empty"></i> Unfavourite');
+        } else
+            $('#favourite-' + id, this.el).html('<i class="icon-star"></i> Favourite');
     },
     shareLink:function (e) {
         alert("Sharing");
@@ -20,11 +35,32 @@ window.MixListItemView = Backbone.View.extend({
     likeMix:function (e) {
         var id = $(e.currentTarget).data("id");
         var mode = $(e.currentTarget).data("mode");
+        var self = this;
         $.post(
             "/ajax/like/",
-            { dataId:id, dataMode:mode }
+            { dataId:id, dataMode:mode },
+            function (data) {
+                var result = $.parseJSON(data);
+                self.setLikeButton(id, result.value == 'Liked');
+                if (result.value == 'Liked')
+                    postFacebookLike(this.id);
+            }
         );
-        postFacebookLike(id);
+    },
+    favouriteMix:function (e) {
+        var id = $(e.currentTarget).data("id");
+        var mode = $(e.currentTarget).data("mode");
+        var self = this;
+        $.post(
+            "/ajax/favourite/",
+            { dataId:id, dataMode:mode },
+            function (data) {
+                var result = $.parseJSON(data);
+                self.setFavouriteButton(id, result.value == 'Favourited');
+                if (result.value == 'Favourited')
+                    postFacebookFavourite(this.id);
+            }
+        );
     },
     playMix:function () {
         var id = $(this.el).data("id");

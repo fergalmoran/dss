@@ -1,7 +1,7 @@
 $(document).ready(function () {
     soundManager.url = '/static/bin/sm/';
     soundManager.flashVersion = 9;
-    soundManager.debugMode = true;
+    soundManager.debugMode = false;
     soundManager.useHTML5Audio = false;
     soundManager.preferFlash = false;
 });

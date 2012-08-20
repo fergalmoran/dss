@@ -12,7 +12,7 @@ from MixPlay import MixPlay
 from Tracklist import Tracklist
 from PurchaseLink import PurchaseLink
 from Release import Release
-from UserFavourite import UserFavourite
+from MixFavourite import MixFavourite
 
 from django.db.models import signals
 from django.contrib.auth.management import create_superuser
