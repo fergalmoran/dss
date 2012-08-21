@@ -17,6 +17,13 @@ var AppRouter = Backbone.Router.extend({
         this.headerView = new HeaderView();
         $('#header').html(this.headerView.el);
         $('#site-content-fill').html('');
+        this.bind('all', this.trackPageView);
+
+    },
+    trackPageView: function() {
+        var url;
+        url = Backbone.history.getFragment();
+        return _gaq.push(['_trackPageview', "/" + url]);
     },
     defaultRoute:function (path) {
         if (path == undefined || path == "" || path == "/")
