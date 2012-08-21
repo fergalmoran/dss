@@ -109,6 +109,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.gzip.GZipMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     #'pipeline.middleware.MinifyHTMLMiddleware'
     )
 
@@ -127,6 +128,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django_facebook',
     'djcelery',
+    'debug_toolbar',
     'crispy_forms',
     'sorl.thumbnail',
     #'pipeline',

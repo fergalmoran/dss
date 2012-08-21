@@ -22,7 +22,7 @@ class MixResource(BackboneCompatibleResource):
         if 'sort' in request.GET and request.GET['sort']:
             sort = request.GET['sort']
 
-        return Mix.get_listing(sort)
+        return Mix.get_listing(sort, request.user)
 
     def dehydrate_mix_image(self, bundle):
         return bundle.obj.get_image()

@@ -61,7 +61,7 @@ class Mix(_BaseModel):
         return settings.MEDIA_URL + self.local_file.name
 
     @classmethod
-    def get_listing(cls, listing_type):
+    def get_listing(cls, listing_type, user=None):
         queryset = None
         if listing_type == 'latest':
             queryset = Mix.objects.all().order_by( 'id')
@@ -79,7 +79,9 @@ class Mix(_BaseModel):
                 .order_by('-karma')
         elif listing_type == 'recommended':
             queryset = Mix.objects.all().order_by( '-id')
-
+        elif listing_type == 'favourites':
+            queryset = Mix.objects.filter(favourites__user=user).order_by('favourites__date')
+            debug = queryset.query
         return queryset
 
     @classmethod
