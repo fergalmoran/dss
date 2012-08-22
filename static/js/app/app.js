@@ -2,6 +2,7 @@ var AppRouter = Backbone.Router.extend({
     routes:{
         "/mixes":"mixList",
         "/mixes/:type":"mixList",
+        "/mix/upload":"mixUpload",
         "/mix/:id":"mixDetails",
         "/releases":"releaseList",
         "/release/:id":"releaseDetails",
@@ -60,6 +61,11 @@ var AppRouter = Backbone.Router.extend({
                     $('#site-content-fill').html(content.el);
                 }});
         }});
+    },
+    mixUpload: function(id){
+        var html = new MixCreateView({model: new Mix()});
+        $('#content').html(html.el);
+        $('#site-content-fill').html('');
     },
     releaseList:function (page) {
         var releaseList = new ReleaseCollection();
@@ -129,7 +135,7 @@ var AppRouter = Backbone.Router.extend({
 
 utils.loadTemplate([
     'HeaderView', 'SidebarView', 'UserView',
-    'MixListView', 'MixListItemView', 'MixView',
+    'MixListView', 'MixListItemView', 'MixView', 'MixCreateView',
     'CommentListView', 'CommentListItemView',
     'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseAudioListView', 'ReleaseAudioItemView',
     'EventListView', 'EventListItemView', 'EventView', 'EventItemView'

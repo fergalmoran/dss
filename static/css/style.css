@@ -1,6 +1,8 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
 body {
-    /*	background: url(../images/pattern1.jpg) repeat #ffffff;*/
-    font-family: 'Lato', sans-serif;
     font-size: 14px;
     font-weight: 300;
     line-height: 1.5em;

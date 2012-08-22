@@ -19,7 +19,7 @@ class CommentResource(BackboneCompatibleResource):
         authentication = Authentication()
         always_return_data = True
 
-    def obj_create(self, bundle, request, **kwargs):
+    def obj_create(self, bundle, request=None, **kwargs):
         bundle.data['user'] = {'pk': request.user.pk}
         return super(CommentResource, self).obj_create(bundle, request, user=request.user)
 

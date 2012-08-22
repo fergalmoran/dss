@@ -14,23 +14,23 @@
                     <li><a href="#/releases">Releases</a></li>
                     <li><a href="#/events">Events</a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url account_logout %}" id="logout">Logout&nbsp;<i class="icon-eject icon-white"></i></a>
+                    <li><a href="{% url account_logout %}" id="logout">Logout&nbsp;<i class="icon-eject icon-black"></i></a>
                     </li>
                     {% else %}
                     <li><a href="#{% url account_login %}" id="login">Login/Signup&nbsp;<i
-                            class="icon-music icon-white"></i></a></li>
+                            class="icon-music icon-black"></i></a></li>
                     {% endif %}
                 </ul>
                 <ul class="nav pull-right">
                     <li>
                         <a id="header-live-button">|Live|&nbsp;
-                            <i class="icon-headphones icon-white"></i>
+                            <i class="icon-headphones icon-black"></i>
                         </a>
                     </li>
                     <li>
                         <a class="play-button" id="header-play-pause-button" data-mode="play"
                            tabindex="1">
-                            <i id="header-play-button-icon" class="icon-play icon-white"></i>
+                            <i id="header-play-button-icon" class="icon-play icon-black"></i>
                         </a>
                     </li>
                     <li class="divider">
@@ -38,7 +38,7 @@
                     </li>
                     <li>
                         <a class="volume-button" data-mode="volume" id="header-volume-button">
-                            <i class="icon-volume-up icon-white" id="header-volume-icon"></i>
+                            <i class="icon-volume-up icon-black" id="header-volume-icon"></i>
                         </a>
                     <li>
                     <li>

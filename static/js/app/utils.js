@@ -88,13 +88,7 @@ window.TastypieModel = Backbone.Model.extend({
     },
     url:function () {
         return this.base_url();
-    }/*,
-    fetch:function(){
-        return Backbone.Model.prototype.fetch.call(
-            this,
-            {beforeSync: setHashbangHeader}
-        );
-    }*/
+    }
 });
 
 window.TastypieCollection = Backbone.Collection.extend({
@@ -111,12 +105,9 @@ window.TastypieCollection = Backbone.Collection.extend({
     };
 })();
 
-function setOrCreateMetaTag(metaName, name, value) {
-    var t = 'meta['+metaName+'='+name+']';
-    var mt = $(t);
-    if (mt.length === 0) {
-        t = '<meta '+metaName+'="'+name+'" />';
-        mt = $(t).appendTo('head');
-    }
-    mt.attr('content', value);
+function generateGuid(){
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+    });
 }

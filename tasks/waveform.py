@@ -7,7 +7,7 @@ from celery.task.base import task
 import spa
 
 @task(name='www.create_waveform_task')
-def create_waveform_task(id, in_file):
+def create_waveform_task(in_file, id=None):
     try:
         working_file = "/tmp/%s.wav" % (uuid.uuid1())
         out_file = os.path.join(settings.MEDIA_ROOT, 'waveforms/%i.png' % id)

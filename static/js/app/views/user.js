@@ -21,7 +21,12 @@ window.UserView = Backbone.View.extend({
                 },
                 function (obj) {
                 },
-                {speed:250, use_images:false, track_bg_color:'#333', sync_checkbox:true}
+                {
+                    speed:250,
+                    use_images:true,
+                    track_bg_color:'#333',
+                    sync_checkbox:true
+                }
             );
         });
         $("#div_avatar_image", this.el).hide();

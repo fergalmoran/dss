@@ -1,3 +1,4 @@
+import uuid
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -6,18 +7,19 @@ from django.shortcuts import render_to_response
 import json
 from django.utils import simplejson
 from django.views.decorators.csrf import csrf_exempt
+import os
 from core.utils import live
 from dss import localsettings
 from spa.models import UserProfile, MixFavourite
 from spa.models.Mix import Mix
 from spa.models.Comment import Comment
 from spa.models.MixLike import MixLike
+from tasks.waveform import create_waveform_task
 import logging
 
 logger = logging.getLogger(__name__)
 
 class AjaxHandler(object):
-
     # Get an instance of a logger
     logger = logging.getLogger(__name__)
 
@@ -36,8 +38,10 @@ class AjaxHandler(object):
             url(r'^live_now_playing/$', 'spa.ajax.live_now_playing'),
             url(r'^like/$', 'spa.ajax.like', name='ajax_mix_like'),
             url(r'^favourite/$', 'spa.ajax.favourite', name='ajax_mix_favourite'),
-            url(r'^facebook_post_likes_allowed/$', 'spa.ajax.facebook_post_likes_allowed', name='ajax_facebook_post_likes_allowed'),
+            url(r'^facebook_post_likes_allowed/$', 'spa.ajax.facebook_post_likes_allowed',
+                name='ajax_facebook_post_likes_allowed'),
             url(r'^upload_avatar_image/$', 'spa.ajax.upload_avatar_image', name='ajax_upload_avatar_image'),
+            url(r'^upload_mix_file_handler/$', 'spa.ajax.upload_mix_file_handler', name='ajax_upload_mix_file_handler'),
             ]
         return pattern_list
 
@@ -78,6 +82,7 @@ def get_mix_stream_url(request, mix_id):
     except Exception, e:
         self.logger.exception("Error getting mix stream url")
 
+
 def live_now_playing(request):
     return HttpResponse(
         json.dumps({
@@ -94,6 +99,7 @@ def live_now_playing(request):
 def release_player(request, release_id):
     return HttpResponse('Hello Sailor')
 
+
 def mix_add_comment(request):
     if request.POST:
         comment = Comment()
@@ -107,21 +113,23 @@ def mix_add_comment(request):
     else:
         return HttpResponse(_get_json('Error posting', 'description'))
 
+
 @render_to('inc/comment_list.html')
 def mix_comments(request, mix_id):
     return {
         "results": Comment.objects.filter(mix_id=mix_id),
         }
 
+
 @login_required()
 def like(request):
     if request.is_ajax():
         if request.method == 'POST':
             if request.POST['dataMode'] == 'mix':
-                mix = Mix.objects.get(pk = request.POST['dataId'])
+                mix = Mix.objects.get(pk=request.POST['dataId'])
                 if mix is not None:
                     if mix.likes.count() == 0:
-                        mix.likes.add(MixLike(mix = mix, user = request.user))
+                        mix.likes.add(MixLike(mix=mix, user=request.user))
                         response = _get_json('Liked')
                     else:
                         mix.likes.all().delete()
@@ -129,21 +137,23 @@ def like(request):
                     mix.save()
                     return HttpResponse(response)
 
+
 @login_required()
 def favourite(request):
     if request.is_ajax():
         if request.method == 'POST':
             if request.POST['dataMode'] == 'mix':
-                mix = Mix.objects.get(pk = request.POST['dataId'])
+                mix = Mix.objects.get(pk=request.POST['dataId'])
                 if mix is not None:
                     if mix.favourites.count() == 0:
-                        mix.favourites.add(MixFavourite(mix = mix, user = request.user))
+                        mix.favourites.add(MixFavourite(mix=mix, user=request.user))
                         response = _get_json('Favourited')
                     else:
                         mix.favourites.all().delete()
                         response = _get_json('Unfavourited')
                     mix.save()
                     return HttpResponse(response)
+
 
 @login_required()
 def facebook_post_likes_allowed(request):
@@ -155,6 +165,7 @@ def facebook_post_likes_allowed(request):
         return HttpResponse(_get_json(bool(likes_allowed & facebook_allowed)), mimetype="application/json")
 
     return HttpResponse(_get_json(False), mimetype="application/json")
+
 
 @csrf_exempt
 def upload_avatar_image(request):
@@ -168,3 +179,28 @@ def upload_avatar_image(request):
     except Exception, ex:
         logger.exception("Error uploading avatar")
     return HttpResponse(_get_json("Failed"))
+
+
+@csrf_exempt
+def upload_mix_file_handler(request):
+    try:
+        if 'Filedata' in request.FILES and 'upload-hash' in request.POST:
+            f = request.FILES['Filedata']
+            fileName, extension = os.path.splitext(f.name)
+            in_file = 'media/cache/%s' % (request.POST['upload-hash'])
+            with open(in_file, 'wb+') as destination:
+                for chunk in f.chunks():
+                    destination.write(chunk)
+
+            try:
+                create_waveform_task.delay(in_file=in_file)
+            except Exception, ex:
+                logger.exception("Error starting waveform generation task: %s" % ex.message)
+
+
+        return HttpResponse(_get_json("Success"))
+    except Exception, ex:
+        logger.exception("Error uploading mix")
+
+    return HttpResponse(_get_json("Failed"))
+

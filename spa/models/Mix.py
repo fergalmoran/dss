@@ -8,7 +8,6 @@ from spa.models.MixLike import MixLike
 from spa.models.MixPlay import MixPlay
 from spa.models.UserProfile import UserProfile
 from spa.models._BaseModel import _BaseModel
-from tasks.waveform import create_waveform_task
 
 def mix_file_name(instance, filename):
     return generate_save_file_name('mixes', filename)
@@ -24,19 +23,18 @@ class Mix(_BaseModel):
     description = models.TextField()
     upload_date = models.DateTimeField(default=datetime.now())
     mix_image = models.ImageField(blank=True, upload_to=mix_image_name)
-    local_file = models.FileField(upload_to=mix_file_name)
+    local_file = models.FileField(blank=True, upload_to=mix_file_name)
     download_url = models.CharField(max_length=255)
     stream_url = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     user = models.ForeignKey(UserProfile, editable=False)
+    waveform_generated = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.title
 
     def save(self, force_insert=False, force_update=False, using=None):
         super(Mix, self).save(force_insert, force_update, using)
-        if not os.path.exists(self.get_waveform_path()):
-            create_waveform_task.delay(id=self.id, in_file=self.local_file.file.name)
 
     def get_absolute_url(self):
         return '/mix/%i' % self.id
@@ -64,7 +62,7 @@ class Mix(_BaseModel):
     def get_listing(cls, listing_type, user=None):
         queryset = None
         if listing_type == 'latest':
-            queryset = Mix.objects.all().order_by( 'id')
+            queryset = Mix.objects.all().order_by( '-id')
         elif listing_type == 'toprated':
             queryset = Mix.objects.all()\
                 .annotate(karma=Count('likes'))\

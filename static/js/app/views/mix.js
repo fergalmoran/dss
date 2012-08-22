@@ -43,7 +43,7 @@ window.MixListItemView = Backbone.View.extend({
                 var result = $.parseJSON(data);
                 self.setLikeButton(id, result.value == 'Liked');
                 if (result.value == 'Liked')
-                    postFacebookLike(this.id);
+                    postFacebookLike(id);
             }
         );
     },
@@ -121,8 +121,55 @@ window.MixView = Backbone.View.extend({
         $('.mix-listing', this.el).append(item.el);
         $('#mix-description', this.el).html(this.model.get("description"));
 
-        //set meta tags for facebook
-        //setOrCreateMetaTag('property', 'fb:app_id', '154504534677009');
         return this;
+    }
+});
+
+window.MixCreateView = Backbone.View.extend({
+    events:{
+        "click #save-changes":"saveChanges",
+        "change input":"changed"
+    },
+    initialize:function () {
+        this.guid = generateGuid();
+        this.render();
+    },
+    render:function () {
+        $(this.el).html(this.template());
+        $('#mix-upload', this.el).uploadifive({
+            'uploadScript':'ajax/upload_mix_file_handler/',
+            'formData'        : {
+                'upload-hash' : this.guid
+            },
+            'onAddQueueItem':function (file) {
+                $('#mix-details', this.el).show();
+            },
+            'onProgress':function (file, e) {
+            }
+        });
+        //$('#mix-details', this.el).hide();
+        $('.upload-hash', this.el).val(this.guid);
+        return this;
+    },
+    saveChanges:function () {
+        this.model.set('upload-hash', this.guid);
+        this.model.save(
+            null, {
+                success:function () {
+                    window.utils.showAlert("Success", "Successfully updated yourself", "alert-info", true);
+                    window.history.back();
+                },
+                error:function () {
+                    window.utils.showAlert("Error", "Something went wrong", "alert-info", false);
+                }
+            });
+        return false;
+    },
+    changed:function (evt) {
+        var changed = evt.currentTarget;
+        var value = $("#" + changed.id).val();
+        var obj = "{\"" + changed.id + "\":\"" + value + "\"}";
+        var objInst = JSON.parse(obj);
+        this.model.set(objInst);
     }
 });
