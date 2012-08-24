@@ -40,6 +40,7 @@ class AjaxHandler(object):
             url(r'^favourite/$', 'spa.ajax.favourite', name='ajax_mix_favourite'),
             url(r'^facebook_post_likes_allowed/$', 'spa.ajax.facebook_post_likes_allowed',
                 name='ajax_facebook_post_likes_allowed'),
+            url(r'^upload_image/(?P<mix_id>\d+)/$', 'spa.ajax.upload_image', name='ajax_upload_image'),
             url(r'^upload_avatar_image/$', 'spa.ajax.upload_avatar_image', name='ajax_upload_avatar_image'),
             url(r'^upload_mix_file_handler/$', 'spa.ajax.upload_mix_file_handler', name='ajax_upload_mix_file_handler'),
             ]
@@ -166,6 +167,19 @@ def facebook_post_likes_allowed(request):
 
     return HttpResponse(_get_json(False), mimetype="application/json")
 
+
+@csrf_exempt
+def upload_image(request, mix_id):
+    try:
+        if 'mix_image' in request.FILES and mix_id is not None:
+            mix = Mix.objects.get(pk=mix_id)
+            if mix is not None:
+                mix.mix_image = request.FILES['mix_image']
+                mix.save()
+                return HttpResponse(_get_json("Success"))
+    except Exception, ex:
+        logger.exception("Error uploading avatar")
+    return HttpResponse(_get_json("Failed"))
 
 @csrf_exempt
 def upload_avatar_image(request):

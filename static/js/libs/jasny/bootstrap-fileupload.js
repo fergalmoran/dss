@@ -59,7 +59,6 @@
       var file = e.target.files !== undefined ? e.target.files[0] : { name: e.target.value.replace(/^.+\\/, '') }
       if (!file || invoked === 'clear') return
       
-      this.$hidden.val('')
       this.$hidden.attr('name', '')
       this.$input.attr('name', this.name)
 

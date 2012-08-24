@@ -1,4 +1,3 @@
-
 <div class="clearfix control-group" id="div-upload-mix">
     <div class="controls">
         <form action="/ajax/file-upload">
@@ -14,22 +13,50 @@
         <input type="hidden" class="upload-hash" id="upload-hash-details">
         <input type="hidden" id="upload-extension">
         <legend>Mix details</legend>
-        <div class="control-group">
-            <label class="control-label">Title</label>
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <label class="control-label">Title</label>
 
-            <div class="controls">
-                <input id="title" type="text" placeholder="Brief title for your mix…">
+                    <div class="controls">
+                        <input id="title" type="text" placeholder="Brief title for your mix…">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Description</label>
+
+                    <div class="controls">
+                        <textarea id="description" rows="10" placeholder="Tracklist would be nice…"/>
+                    </div>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="fileupload fileupload-new" data-provides="fileupload">
+                    <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image"/>
+                    </div>
+                    <div class="fileupload-preview fileupload-exists thumbnail"
+                         style="max-width: 200px; max-height: 150px; line-height: 20px;">
+                    </div>
+                    <div>
+                        <span class="btn btn-file">
+                            <span class="fileupload-new">
+                                Select image
+                            </span>
+                        <span class="fileupload-exists">
+                            Change
+                        </span>
+                            <input id="mix_image" type="file" size="45" name="mix_image" class="input">
+                        </span>
+                        <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="control-group">
-            <label class="control-label">Description</label>
-
-            <div class="controls">
-                <textarea id="description" rows="10" placeholder="Tracklist would be nice…"/>
+        <div class="row">
+            <div class="form-actions">
+                <button id="save-changes" class="btn">Submit</button>
             </div>
-        </div>
-        <div class="form-actions">
-            <button id="save-changes" class="btn">Submit</button>
         </div>
     </form>
 </div>

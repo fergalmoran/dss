@@ -75,4 +75,4 @@ window.UserView = Backbone.View.extend({
             });
         }
     }
-})
+});

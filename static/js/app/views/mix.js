@@ -130,22 +130,46 @@ window.MixCreateView = Backbone.View.extend({
         "click #save-changes":"saveChanges",
         "change input":"changed"
     },
+    checkRedirect: function(){
+        if (this.state == 2){
+            app.navigate('/#/mix/' + this.model.get('id'));
+        }
+    },
     initialize:function () {
         this.guid = generateGuid();
+        this.state = 0;
         this.render();
     },
     render:function () {
         $(this.el).html(this.template());
+        var parent = this;
         $('#mix-upload', this.el).uploadifive({
             'uploadScript':'ajax/upload_mix_file_handler/',
-            'formData'        : {
-                'upload-hash' : this.guid
+            'formData':{
+                'upload-hash':this.guid
             },
             'onAddQueueItem':function (file) {
                 $('#upload-extension', this.el).val(file.name.split('.').pop());
                 $('#mix-details', this.el).show();
             },
             'onProgress':function (file, e) {
+            },
+            'onUploadComplete' : function(file, data) {
+                parent.state++;
+                parent.checkRedirect();
+            }
+        });
+        $('.fileupload', this.el).fileupload({
+            'uploadtype':'image'
+        });
+        $('#image-form-proxy', this.el).ajaxForm({
+            beforeSubmit:function () {
+                $('#results').html('Submitting...');
+            },
+            success:function (data) {
+                var $out = $('#results');
+                $out.html('Your results:');
+                $out.append('<div><pre>' + data + '</pre></div>');
             }
         });
         $('#mix-details', this.el).hide();
@@ -153,13 +177,35 @@ window.MixCreateView = Backbone.View.extend({
         return this;
     },
     saveChanges:function () {
+        var model = this.model;
+        var el = this.el;
+        var parent = this;
         this.model.set('upload-hash', this.guid);
         this.model.set('upload-extension', $('#upload-extension', this.el).val());
         this.model.save(
             null, {
                 success:function () {
-                    window.utils.showAlert("Success", "Successfully updated yourself", "alert-info", true);
-                    window.history.back();
+                    $.ajaxFileUpload({
+                        url:'ajax/upload_image/' + model.get('id') + '/',
+                        secureuri:false,
+                        fileElementId:'mix_image',
+                        success:function (data, status) {
+                            if (typeof(data.error) != 'undefined') {
+                                if (data.error != '') {
+                                    alert(data.error);
+                                } else {
+                                    alert(data.msg);
+                                }
+                            }else{
+                                $('#mix-details', this.el).hide();
+                                parent.state++;
+                                parent.checkRedirect();
+                            }
+                        },
+                        error:function (data, status, e) {
+                            alert(e);
+                        }
+                    });
                 },
                 error:function () {
                     window.utils.showAlert("Error", "Something went wrong", "alert-info", false);
