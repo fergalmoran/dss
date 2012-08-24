@@ -1,10 +1,9 @@
 from django.conf.urls import url
 from django.contrib.sites.models import Site
-from django.core.serializers import json
-from django.http import HttpResponse, Http404
+from django.http import  Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from dss import localsettings, settings
+from dss import  settings
 from spa.models.Mix import Mix
 
 class SocialHandler(object):
