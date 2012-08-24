@@ -142,17 +142,19 @@ window.MixCreateView = Backbone.View.extend({
                 'upload-hash' : this.guid
             },
             'onAddQueueItem':function (file) {
+                $('#upload-extension', this.el).val(file.name.split('.').pop());
                 $('#mix-details', this.el).show();
             },
             'onProgress':function (file, e) {
             }
         });
-        //$('#mix-details', this.el).hide();
+        $('#mix-details', this.el).hide();
         $('.upload-hash', this.el).val(this.guid);
         return this;
     },
     saveChanges:function () {
         this.model.set('upload-hash', this.guid);
+        this.model.set('upload-extension', $('#upload-extension', this.el).val());
         this.model.save(
             null, {
                 success:function () {

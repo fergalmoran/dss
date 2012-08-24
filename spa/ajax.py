@@ -9,12 +9,12 @@ from django.utils import simplejson
 from django.views.decorators.csrf import csrf_exempt
 import os
 from core.utils import live
-from dss import localsettings
+from dss import localsettings, settings
 from spa.models import UserProfile, MixFavourite
 from spa.models.Mix import Mix
 from spa.models.Comment import Comment
 from spa.models.MixLike import MixLike
-from tasks.waveform import create_waveform_task
+from core.tasks import create_waveform_task
 import logging
 
 logger = logging.getLogger(__name__)
@@ -187,20 +187,18 @@ def upload_mix_file_handler(request):
         if 'Filedata' in request.FILES and 'upload-hash' in request.POST:
             f = request.FILES['Filedata']
             fileName, extension = os.path.splitext(f.name)
-            in_file = 'media/cache/%s' % (request.POST['upload-hash'])
+            uid = request.POST['upload-hash']
+            in_file = '%s/%s%s' % (settings.CACHE_ROOT, uid, extension)
             with open(in_file, 'wb+') as destination:
                 for chunk in f.chunks():
                     destination.write(chunk)
-
             try:
-                create_waveform_task.delay(in_file=in_file)
+                create_waveform_task.delay(in_file=in_file, uid=uid)
             except Exception, ex:
                 logger.exception("Error starting waveform generation task: %s" % ex.message)
-
 
         return HttpResponse(_get_json("Success"))
     except Exception, ex:
         logger.exception("Error uploading mix")
 
     return HttpResponse(_get_json("Failed"))
-

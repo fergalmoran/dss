@@ -29,6 +29,7 @@ class Mix(_BaseModel):
     is_active = models.BooleanField(default=True)
     user = models.ForeignKey(UserProfile, editable=False)
     waveform_generated = models.BooleanField(default=False)
+    uid = models.CharField(max_length=38, blank=True)
 
     def __unicode__(self):
         return self.title
@@ -40,10 +41,10 @@ class Mix(_BaseModel):
         return '/mix/%i' % self.id
 
     def get_waveform_path(self):
-        return os.path.join(settings.MEDIA_ROOT, "waveforms/mix/", "%d.%s" % (self.id, "png"))
+        return os.path.join(settings.MEDIA_ROOT, "waveforms/", "%s.%s" % (self.uid, "png"))
 
     def get_waveform_url(self):
-        return settings.MEDIA_URL + 'waveforms/mix/%d.%s' % (self.id, "png")
+        return settings.MEDIA_URL + 'waveforms/%s.%s' % (self.uid, "png")
 
     def get_image(self):
         try:

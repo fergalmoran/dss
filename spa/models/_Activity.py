@@ -4,4 +4,4 @@ from spa.models._BaseModel import _BaseModel
 
 class _Activity(_BaseModel):
     date = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, null=True    )
+    user = models.ForeignKey(User, null=True)

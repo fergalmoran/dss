@@ -4,8 +4,6 @@ import uuid
 import os
 from dss import settings
 
-__author__ = 'fergalm'
-
 def generate_waveform(input_file, output_file):
     print "Generating waveform"
     try:

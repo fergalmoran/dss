@@ -1,9 +1,8 @@
 import os
 from dss import settings
 from core.utils.waveform import generate_waveform
-from spa.models.Mix import Mix
-from spa.models.Release import ReleaseAudio
 from django.core.management.base import NoArgsCommand
+from spa.models.Mix import Mix
 
 class Command(NoArgsCommand):
     help = "Generate all outstanding waveforms"
@@ -14,15 +13,15 @@ class Command(NoArgsCommand):
                 print "Found missing waveform"
                 generate_waveform(local_file, file)
 
+    def handle(self, *args, **options):
+        for guid in args:
+            output_file = 'waveforms/%s.png' % guid
+            local_file =  '%s/%s' % (self.CACHE_ROOT, guid)
+            if os.path.isfile(local_file):
+                self._check_file(local_file, output_file)
+
     def handle_noargs(self, **options):
         print "Generating waveforms for mix"
-        objects = Mix.objects.all()
-        for object in objects:
-            output_file = 'waveforms/mix/%d.png' % object.pk
-            self._check_file(object.local_file.file.name, output_file)
-            
-        print "Generating waveforms for release"
-        objects = ReleaseAudio.objects.all()
-        for object in objects:
-            output_file = 'waveforms/release/%d.png' % object.pk
-            self._check_file(object.local_file.file.name, output_file)
+        unprocessed = Mix.objects.filter(waveform_generated=False)
+        for mix in unprocessed:
+            pass

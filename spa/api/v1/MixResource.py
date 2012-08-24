@@ -18,10 +18,11 @@ class MixResource(BackboneCompatibleResource):
         authorization = Authorization()
 
     def obj_create(self, bundle, request=None, **kwargs):
-        file_name = "media/mixes/%s" % bundle.data['upload-hash']
+        file_name = "mixes/%s.%s" % (bundle.data['upload-hash'], bundle.data['upload-extension'])
+        uid = bundle.data['upload-hash']
         bundle.data['user'] = request.user.get_profile()
         return super(MixResource, self).obj_create(bundle, request, user=request.user.get_profile(),
-            local_file=file_name)
+            local_file=file_name, uid=uid)
 
     def obj_get_list(self, request=None, **kwargs):
         sort = 'latest'

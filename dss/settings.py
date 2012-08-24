@@ -37,6 +37,7 @@ USE_TZ = False
 
 SITE_ROOT = here('')
 MEDIA_ROOT = here('media')
+CACHE_ROOT = here('media/cache')
 MEDIA_URL = '/media/'
 
 STATIC_ROOT = localsettings.STATIC_ROOT if hasattr(localsettings, 'STATIC_ROOT') else ''
@@ -135,6 +136,7 @@ INSTALLED_APPS = (
     'avatar',
     'notification',
     'spa',
+    'core',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
