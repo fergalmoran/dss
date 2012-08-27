@@ -112,9 +112,12 @@ jQuery.extend({
 });
 (function () {
     var proxied = window.alert;
+    /*
     window.alert = function () {
-        return proxied.apply(this, arguments);
+        $('#alert-proxy-message').text(arguments[0]);
+        $('#alert-proxy').modal();
     };
+    */
 })();
 
 function generateGuid() {
@@ -122,4 +125,14 @@ function generateGuid() {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
+}
+function pad2(number) {
+    return (number < 10 ? '0' : '') + number
+}
+function getDateAsToday(){
+    var currentTime = new Date();
+    var day = currentTime.getDate();
+    var month = currentTime.getMonth() + 1;
+    var year = currentTime.getFullYear();
+    return (pad2(day) + "/" + pad2(month) + "/" + year);
 }

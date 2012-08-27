@@ -1,5 +1,12 @@
 <div id="title-area">
-    <p class="page-header">Upcoming Releases</p>
+    <p class="page-header">
+        Upcoming Releases
+        {% if user.is_authenticated %}
+        <a class="btn pull-right" href="#/release/add">
+            Add release
+        </a>
+        {% endif %}
+    </p>
 </div>
 <div id="layout-area" class="hero-well">
     <table id="release-table" class="table table-bordered table-striped">
@@ -12,7 +19,6 @@
         </tr>
         </thead>
         <tbody id="release-list-container" data-provides="rowlink">
-
         </tbody>
     </table>
 </div>
