@@ -30,7 +30,7 @@ var ReleaseListView = Backbone.View.extend({
             ]
         });
         $('tr.rowlink', this.el).rowlink();
-
+        $('#tablesorter-fix', this.el).hide();
         return this;
     },
     showDetails:function (row) {
