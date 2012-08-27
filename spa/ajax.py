@@ -1,22 +1,22 @@
 import uuid
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.http import HttpResponse
 from annoying.decorators import render_to
 from django.shortcuts import render_to_response
-import json
 from django.utils import simplejson
 from django.views.decorators.csrf import csrf_exempt
 import os
 from core.utils import live
 from dss import localsettings, settings
-from spa.models import UserProfile, MixFavourite
+from spa.models import UserProfile, MixFavourite, Release, Label
 from spa.models.Mix import Mix
 from spa.models.Comment import Comment
 from spa.models.MixLike import MixLike
 from core.tasks import create_waveform_task
 import logging
-
+from core.serialisers.json import dumps
 logger = logging.getLogger(__name__)
 
 class AjaxHandler(object):
@@ -43,6 +43,7 @@ class AjaxHandler(object):
             url(r'^upload_image/(?P<mix_id>\d+)/$', 'spa.ajax.upload_image', name='ajax_upload_image'),
             url(r'^upload_avatar_image/$', 'spa.ajax.upload_avatar_image', name='ajax_upload_avatar_image'),
             url(r'^upload_mix_file_handler/$', 'spa.ajax.upload_mix_file_handler', name='ajax_upload_mix_file_handler'),
+            url(r'^lookup/$', 'spa.ajax.lookup', name='ajax_lookup'),
             ]
         return pattern_list
 
@@ -211,8 +212,17 @@ def upload_mix_file_handler(request):
             except Exception, ex:
                 logger.exception("Error starting waveform generation task: %s" % ex.message)
 
-        return HttpResponse(_get_json("Success"))
+        return HttpResponse(_get_json("Success"), mimetype='application/json')
     except Exception, ex:
         logger.exception("Error uploading mix")
 
-    return HttpResponse(_get_json("Failed"))
+    return HttpResponse(_get_json("Failed"), mimetype='application/json')
+
+@csrf_exempt
+def lookup(request):
+    if 'query' in request.GET:
+        release = Label.objects.all() #filter(name__startswith = request.GET['query'])
+        json = dumps(release)
+        return HttpResponse(json, mimetype='application/json')
+
+    return HttpResponse(_get_json("Key failure in lookup"), mimetype='application/json')

@@ -5,6 +5,7 @@ var AppRouter = Backbone.Router.extend({
         "/mix/upload":"mixUpload",
         "/mix/:id":"mixDetails",
         "/releases":"releaseList",
+        "/release/add":"releaseAdd",
         "/release/:id":"releaseDetails",
         "/events":"eventList",
         "/event/:id":"eventDetails",
@@ -92,6 +93,11 @@ var AppRouter = Backbone.Router.extend({
             }});
         }});
     },
+    releaseAdd: function(){
+        var html = new ReleaseCreateView({model: new Release({ release_date : getDateAsToday() })});
+        $('#content').html(html.el);
+        $('#site-content-fill').html('');
+    },
     eventList:function (page) {
         var eventList = new EventCollection();
         eventList.fetch({
@@ -137,7 +143,7 @@ utils.loadTemplate([
     'HeaderView', 'SidebarView', 'UserView',
     'MixListView', 'MixListItemView', 'MixView', 'MixCreateView',
     'CommentListView', 'CommentListItemView',
-    'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseAudioListView', 'ReleaseAudioItemView',
+    'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseCreateView', 'ReleaseAudioListView', 'ReleaseAudioItemView',
     'EventListView', 'EventListItemView', 'EventView', 'EventItemView'
 ], function () {
         window.app = new AppRouter();

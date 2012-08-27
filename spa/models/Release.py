@@ -54,5 +54,5 @@ class ReleaseAudio(_BaseModel):
         return settings.MEDIA_URL + 'waveforms/release/%d.%s' % (self.id, "png")
 
     local_file = models.FileField(upload_to=release_file_name)
-    release = models.ForeignKey(Release, related_name='release_audio')
+    release = models.ForeignKey(Release, related_name='release_audio', null=True, blank=True)
     description = models.TextField()

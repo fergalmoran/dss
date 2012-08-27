@@ -4,16 +4,34 @@ from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL_WITH_RELATIONS
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.models import Label
 from spa.models.Release import Release
-
+from django.core.exceptions import ObjectDoesNotExist
 class ReleaseResource(BackboneCompatibleResource):
-    release_audio = fields.ToManyField('spa.api.v1.ReleaseAudioResource.ReleaseAudioResource', 'release_audio', 'release')
+    release_audio = fields.ToManyField('spa.api.v1.ReleaseAudioResource.ReleaseAudioResource', 'release_audio', 'release', null=True, blank=True)
     class Meta:
         queryset = Release.objects.all()
         filtering = {
             'release_audio' : ALL_WITH_RELATIONS
         }
         authorization = Authorization()
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        bundle.data['user'] = {'pk': request.user.pk}
+        return super(ReleaseResource, self).obj_create(bundle, request, user=request.user.get_profile())
+
+    def hydrate(self, bundle):
+        if 'release_label' in bundle.data:
+            try:
+                label = Label.objects.get(name__exact=bundle.data['release_label'])
+                if label is not None:
+                    bundle.obj.release_label = label
+                else:
+                    bundle.obj.release_label = Label(name=bundle.data['release_label'])
+            except ObjectDoesNotExist:
+                bundle.obj.release_label = Label(name=bundle.data['release_label'])
+
+        return bundle
 
     def dehydrate(self, bundle):
         bundle.data['label'] = bundle.obj.release_label.name
