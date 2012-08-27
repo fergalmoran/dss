@@ -127,6 +127,7 @@ var ReleaseCreateView = Backbone.View.extend({
         var el = this.el;
         var parent = this;
         this.model.set('release_description', $('#release-description', this.el).html());
+        this.model.set('release_date', $('#release-date', this.el).val());
         this.model.save(
             null, {
                 success:function () {

@@ -24,13 +24,11 @@ class ReleaseResource(BackboneCompatibleResource):
         if 'release_label' in bundle.data:
             try:
                 label = Label.objects.get(name__exact=bundle.data['release_label'])
-                if label is not None:
-                    bundle.obj.release_label = label
-                else:
-                    bundle.obj.release_label = Label(name=bundle.data['release_label'])
             except ObjectDoesNotExist:
-                bundle.obj.release_label = Label(name=bundle.data['release_label'])
+                label = Label(name=bundle.data['release_label'])
+                label.save()
 
+            bundle.obj.release_label = label
         return bundle
 
     def dehydrate(self, bundle):
