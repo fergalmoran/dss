@@ -72,7 +72,6 @@ var ReleaseCreateView = Backbone.View.extend({
         $(this.el).html(this.template({"item":this.model.toJSON()}));
         var el = this.el;
         var model = this.model;
-        console.clear();
         var labels, mapped;
         $('.typeahead', this.el).typeahead({
             source:function (query, process) {
@@ -89,7 +88,7 @@ var ReleaseCreateView = Backbone.View.extend({
                         process(labels);
                     }, 'json');
             },
-            updater: function(item){
+            updater:function (item) {
                 $('#release_label_id', el).val(mapped[item].pk);
                 model.set('release_label_id', mapped[item].pk);
                 return item;
@@ -97,11 +96,11 @@ var ReleaseCreateView = Backbone.View.extend({
         });
         $('.datepicker', this.el).datepicker(
             {
-                'format' : 'dd/mm/yyyy'
+                'format':'dd/mm/yyyy'
             }
         );
         $('textarea.tinymce', this.el).tinymce({
-            script_url: "/static/js/libs/tiny_mce/tiny_mce.js",
+            script_url:"/static/js/libs/tiny_mce/tiny_mce.js",
             mode:"textareas",
             theme:"advanced",
             theme_advanced_toolbar_location:"top",
@@ -126,18 +125,47 @@ var ReleaseCreateView = Backbone.View.extend({
         var model = this.model;
         var el = this.el;
         var parent = this;
+
         this.model.set('release_description', $('#release-description', this.el).html());
-        this.model.set('release_date', $('#release-date', this.el).val());
-        this.model.save(
-            null, {
-                success:function () {
-                    window.utils.showAlert("Success", "Release succesfully added", "alert-info", true);
-                    app.navigate('#/release/' + model.get('id'));
-                },
-                error:function () {
-                    alert("Error saving release");
+        this.model.set('release_date', $('#release_date', this.el).val());
+        this.model.set('embed_code', $('#embed_code', this.el).val());
+        if (this.model.isValid() != "") {
+            if (this.model.errors){
+                for (var error in this.model.errors){
+                    $('#group-' + error, this.el).addClass('error');
+                    $('#error-' + error, this.el).text(this.model.errors[error]);
                 }
-            });
+            }
+        } else {
+            this.model.save(
+                null, {
+                    success:function () {
+                        $.ajaxFileUpload({
+                            url:'ajax/upload_release_image/' + model.get('id') + '/',
+                            secureuri:false,
+                            fileElementId:'release_image',
+                            success:function (data, status) {
+                                if (typeof(data.error) != 'undefined') {
+                                    if (data.error != '') {
+                                        alert(data.error);
+                                    } else {
+                                        alert(data.msg);
+                                    }
+                                } else {
+                                    window.utils.showAlert("Success", "Release successfully added", "alert-info", true);
+                                    app.navigate('#/release/' + model.get('id'));
+                                }
+                            },
+                            error:function (data, status, e) {
+                                alert(e);
+                            }
+                        });
+                    },
+                    error:function () {
+                        alert("Error saving release");
+                    }
+                });
+        }
         return false;
     },
     changed:function (evt) {

@@ -1,4 +1,4 @@
-window.Mix = TastypieModel.extend({
+window.Mix = DSSModel.extend({
     urlRoot:window.appSettings.urlRoot + "mix/",
     schema:{
         title:'Text',

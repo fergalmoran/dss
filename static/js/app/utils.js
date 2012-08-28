@@ -79,24 +79,9 @@ window.utils = {
 };
 setHashbangHeader = function (xhr) {
     xhr.setRequestHeader('X-FB-Nonsense', 'Argle-Bargle');
-}
+};
 
-window.TastypieModel = Backbone.Model.extend({
-    base_url:function () {
-        var temp_url = Backbone.Model.prototype.url.call(this);
-        return (temp_url.charAt(temp_url.length - 1) == '/' ? temp_url : temp_url + '/');
-    },
-    url:function () {
-        return this.base_url();
-    }
-});
 
-window.TastypieCollection = Backbone.Collection.extend({
-    parse:function (response) {
-        this.recent_meta = response.meta || {};
-        return response.objects || response;
-    }
-});
 jQuery.extend({
     handleError:function (s, xhr, status, e) {
         // If a local callback was specified, fire it
@@ -113,11 +98,11 @@ jQuery.extend({
 (function () {
     var proxied = window.alert;
     /*
-    window.alert = function () {
-        $('#alert-proxy-message').text(arguments[0]);
-        $('#alert-proxy').modal();
-    };
-    */
+     window.alert = function () {
+     $('#alert-proxy-message').text(arguments[0]);
+     $('#alert-proxy').modal();
+     };
+     */
 })();
 
 function generateGuid() {
@@ -129,10 +114,14 @@ function generateGuid() {
 function pad2(number) {
     return (number < 10 ? '0' : '') + number
 }
-function getDateAsToday(){
+function getDateAsToday() {
     var currentTime = new Date();
     var day = currentTime.getDate();
     var month = currentTime.getMonth() + 1;
     var year = currentTime.getFullYear();
     return (pad2(day) + "/" + pad2(month) + "/" + year);
+}
+
+function isEmpty(val){
+    return (val === undefined || val == null || val.length <= 0) ? true : false;
 }

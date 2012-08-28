@@ -3,36 +3,79 @@
         {% csrf_token %}
         <legend>Release details</legend>
         <div class="row">
-
-            <div class="control-group">
-                <label class="control-label">Label</label>
-                <div class="controls">
-                    <input id="release_label" class="typeahead" autocomplete="off" type="text" data-provide="typeahead">
-                    <input type="hidden" id="release_label_id">
+            <div class="span6">
+                <div class="control-group" id="group-release_label">
+                    <label class="control-label">Label</label>
+                    <div class="controls">
+                        <input id="release_label" class="typeahead" autocomplete="off" type="text"
+                               data-provide="typeahead">
+                        <span class="help-inline" id="error-release_label"></span>
+                        <input type="hidden" id="release_label_id">
+                    </div>
+                </div>
+                <div class="control-group" id="group-release_artist">
+                    <label class="control-label">Artist</label>
+                    <div class="controls">
+                        <input id="release_artist" type="text" placeholder="Who dunnit…">
+                        <span class="help-inline" id="error-release_artist"></span>
+                    </div>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label">Artist</label>
-                <div class="controls">
-                    <input id="release_artist" type="text" placeholder="Who dunnit…">
+            <div class="span6">
+                <div class="control-group" id="group-release_title">
+                    <label class="control-label">Title</label>
+                    <div class="controls">
+                        <input id="release_title" type="text" placeholder="What they dun…">
+                        <span class="help-inline" id="error-release_title"></span>
+                    </div>
+                </div>
+                <div class="control-group" id="group-release_date">
+                    <label class="control-label">Release date</label>
+                    <div class="controls">
+                        <input id="release_date" class="datepicker" type="text" value="<%= item.release_date %>">
+                        <span class="help-inline" id="error-release_date"></span>
+                    </div>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label">Title</label>
-                <div class="controls">
-                    <input id="release_title" type="text" placeholder="What they dun…">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Release date</label>
-                <div class="controls">
-                    <input id="release_date" class="datepicker" type="text" value="<%= item.release_date %>">
-                </div>
-            </div>
-            <div class="control-group">
+        </div>
+        <div class="row">
+            <div class="control-group" id="group-release_description">
                 <label class="control-label">Description</label>
                 <div class="controls">
                     <textarea style="width:100%" class="tinymce" id="release-description" rows="10"/>
+                    <span class="help-inline" id="error-release_description"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <label class="control-label">Embed Code</label>
+                    <div class="controls">
+                        <textarea style="width:100%" id="embed_code" rows="10"/>
+                    </div>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="fileupload fileupload-new" data-provides="fileupload">
+                    <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image"/>
+                    </div>
+                    <div class="fileupload-preview fileupload-exists thumbnail"
+                         style="max-width: 200px; max-height: 150px; line-height: 20px;">
+                    </div>
+                    <div>
+                        <span class="btn btn-file">
+                            <span class="fileupload-new">
+                                Select image
+                            </span>
+                        <span class="fileupload-exists">
+                            Change
+                        </span>
+                            <input id="release_image" type="file" size="45" name="release_image" class="input">
+                        </span>
+                        <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                    </div>
                 </div>
             </div>
         </div>

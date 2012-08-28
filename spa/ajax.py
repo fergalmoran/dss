@@ -41,6 +41,7 @@ class AjaxHandler(object):
             url(r'^facebook_post_likes_allowed/$', 'spa.ajax.facebook_post_likes_allowed',
                 name='ajax_facebook_post_likes_allowed'),
             url(r'^upload_image/(?P<mix_id>\d+)/$', 'spa.ajax.upload_image', name='ajax_upload_image'),
+            url(r'^upload_release_image/(?P<release_id>\d+)/$', 'spa.ajax.upload_release_image', name='ajax_upload_release_image'),
             url(r'^upload_avatar_image/$', 'spa.ajax.upload_avatar_image', name='ajax_upload_avatar_image'),
             url(r'^upload_mix_file_handler/$', 'spa.ajax.upload_mix_file_handler', name='ajax_upload_mix_file_handler'),
             url(r'^lookup/$', 'spa.ajax.lookup', name='ajax_lookup'),
@@ -168,6 +169,18 @@ def facebook_post_likes_allowed(request):
 
     return HttpResponse(_get_json(False), mimetype="application/json")
 
+@csrf_exempt
+def upload_release_image(request, release_id):
+    try:
+        if 'release_image' in request.FILES and release_id is not None:
+            release = Release.objects.get(pk=release_id)
+            if release is not None:
+                release.release_image = request.FILES['release_image']
+                release.save()
+                return HttpResponse(_get_json("Success"))
+    except Exception, ex:
+        logger.exception("Error uploading avatar")
+    return HttpResponse(_get_json("Failed"))
 
 @csrf_exempt
 def upload_image(request, mix_id):

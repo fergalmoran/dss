@@ -83,6 +83,7 @@ var AppRouter = Backbone.Router.extend({
         release.fetch({success:function () {
             var content = new ReleaseView({model:release}).el;
             $('#content').html(content);
+            /*
             var audio = new ReleaseAudioCollection();
             audio.url = window.appSettings.urlRoot + release.attributes.item_url + "/release_audio/";
             audio.audio_id = id;
@@ -91,6 +92,7 @@ var AppRouter = Backbone.Router.extend({
                 var content = new ReleaseAudioListView({collection:audio});
                 $('#release-description').html(content.el);
             }});
+            */
         }});
     },
     releaseAdd: function(){

@@ -1,4 +1,4 @@
-var ReleaseAudio = TastypieModel.extend({
+var ReleaseAudio = DSSModel.extend({
     urlRoot:window.appSettings.urlRoot + "release_audio/"
 });
 

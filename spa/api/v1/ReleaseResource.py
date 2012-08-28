@@ -32,7 +32,7 @@ class ReleaseResource(BackboneCompatibleResource):
         return bundle
 
     def dehydrate(self, bundle):
-        bundle.data['label'] = bundle.obj.release_label.name
+        bundle.data['release_label'] = bundle.obj.release_label.name
         bundle.data['item_url'] = 'release/%s' % bundle.obj.id
         bundle.data['mode'] = 'release'
         return bundle

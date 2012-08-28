@@ -1,4 +1,4 @@
-var Comment = TastypieModel.extend({
+var Comment = DSSModel.extend({
     urlRoot:window.appSettings.urlRoot + "comments/"
 });
 

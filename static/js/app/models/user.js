@@ -1,3 +1,3 @@
-var User = TastypieModel.extend({
+var User = DSSModel.extend({
     urlRoot:window.appSettings.urlRoot + "user/"
 });

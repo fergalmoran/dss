@@ -1,4 +1,4 @@
-var Event = TastypieModel.extend({
+var Event = DSSModel.extend({
     urlRoot:window.appSettings.urlRoot + "event/"
 });
 var EventCollection = TastypieCollection.extend({
