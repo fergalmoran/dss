@@ -27,6 +27,7 @@ var EventListView = Backbone.View.extend({
             sortList: [[0,0],[1,0]]
         });
         $('tr.rowlink', this.el).rowlink();
+        $('#tablesorter-fix', this.el).hide();
 
         return this;
     },
