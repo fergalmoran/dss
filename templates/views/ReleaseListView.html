@@ -1,7 +1,7 @@
 <div id="title-area">
     <p class="page-header">
         Upcoming Releases
-        {% if user.is_authenticated %}
+        {% if user.is_staff %}
         <a class="btn pull-right" href="#/release/add">
             Add release
         </a>

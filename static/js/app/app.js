@@ -8,6 +8,7 @@ var AppRouter = Backbone.Router.extend({
         "/release/add":"releaseAdd",
         "/release/:id":"releaseDetails",
         "/events":"eventList",
+        "/event/add":"eventAdd",
         "/event/:id":"eventDetails",
         "/accounts/social/connections/":"connectAccounts",
         "/accounts/login/":"login",
@@ -117,6 +118,11 @@ var AppRouter = Backbone.Router.extend({
             $('#content').html(content);
         }});
     },
+    eventAdd: function(){
+        var html = new EventCreateView({model: new Event({ event_date : getDateAsToday() })});
+        $('#content').html(html.el);
+        $('#site-content-fill').html('');
+    },
     login:function () {
         $.colorbox({
             href:"/tpl/LoginView/",
@@ -146,7 +152,7 @@ utils.loadTemplate([
     'MixListView', 'MixListItemView', 'MixView', 'MixCreateView',
     'CommentListView', 'CommentListItemView',
     'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseCreateView', 'ReleaseAudioListView', 'ReleaseAudioItemView',
-    'EventListView', 'EventListItemView', 'EventView', 'EventItemView'
+    'EventCreateView', 'EventListView', 'EventListItemView', 'EventView', 'EventItemView'
 ], function () {
         window.app = new AppRouter();
         Backbone.history.start();

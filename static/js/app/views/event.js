@@ -11,8 +11,8 @@ var EventListItemView = Backbone.View.extend({
     }
 });
 var EventListView = Backbone.View.extend({
-    events: {
-        "click tr" : "showDetails"
+    events:{
+        "click tr":"showDetails"
     },
     initialize:function () {
         this.render();
@@ -24,14 +24,17 @@ var EventListView = Backbone.View.extend({
             $('#event-list-container', el).append(new EventListItemView({model:item}).render().el);
         });
         $("#event-table", this.el).tablesorter({
-            sortList: [[0,0],[1,0]]
+            sortList:[
+                [0, 0],
+                [1, 0]
+            ]
         });
         $('tr.rowlink', this.el).rowlink();
         $('#tablesorter-fix', this.el).hide();
 
         return this;
     },
-    showDetails: function(row){
+    showDetails:function (row) {
         window.app.navigate('#/event/' + $(row.currentTarget).data("id"), true);
     }
 });
@@ -55,5 +58,21 @@ var EventView = Backbone.View.extend({
         $('.event-listing', this.el).append(item.el);
         $('#event-description', this.el).html(this.model.get("description"));
         return this;
+    }
+});
+var EventCreateView = DSSEditableView.extend({
+    events:{
+        "click #save-changes":"saveChanges"
+    },
+    initialize:function () {
+        this.render();
+        this._bakeForm(this.el, 'venue');
+    },
+    render:function () {
+        $(this.el).html(this.template({"item":this.model.toJSON()}));
+        return this;
+    },
+    saveChanges: function(){
+
     }
 });

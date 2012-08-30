@@ -1,22 +1,23 @@
-import uuid
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
+from django.db import connection
+from django.db.models import get_model
 from django.http import HttpResponse
 from annoying.decorators import render_to
 from django.shortcuts import render_to_response
 from django.utils import simplejson
 from django.views.decorators.csrf import csrf_exempt
 import os
+from core.serialisers.json import dumps
 from core.utils import live
 from dss import localsettings, settings
-from spa.models import UserProfile, MixFavourite, Release, Label
+from spa.models import UserProfile, MixFavourite, Release, Label, _BaseModel
 from spa.models.Mix import Mix
 from spa.models.Comment import Comment
 from spa.models.MixLike import MixLike
 from core.tasks import create_waveform_task
 import logging
-from core.serialisers.json import dumps
 logger = logging.getLogger(__name__)
 
 class AjaxHandler(object):
@@ -44,7 +45,7 @@ class AjaxHandler(object):
             url(r'^upload_release_image/(?P<release_id>\d+)/$', 'spa.ajax.upload_release_image', name='ajax_upload_release_image'),
             url(r'^upload_avatar_image/$', 'spa.ajax.upload_avatar_image', name='ajax_upload_avatar_image'),
             url(r'^upload_mix_file_handler/$', 'spa.ajax.upload_mix_file_handler', name='ajax_upload_mix_file_handler'),
-            url(r'^lookup/$', 'spa.ajax.lookup', name='ajax_lookup'),
+            url(r'^lookup/(?P<source>\w+)/$', 'spa.ajax.lookup', name='ajax_lookup'),
             ]
         return pattern_list
 
@@ -81,14 +82,14 @@ def get_mix_stream_url(request, mix_id):
             'item_url': mix.get_absolute_url(),
             'title': mix.title
         }
-        return HttpResponse(json.dumps(data), mimetype="application/json")
+        return HttpResponse(simplejson.dumps(data), mimetype="application/json")
     except Exception, e:
-        self.logger.exception("Error getting mix stream url")
+        logger.exception("Error getting mix stream url")
 
 
 def live_now_playing(request):
     return HttpResponse(
-        json.dumps({
+        simplejson.dumps({
             'stream_url': "radio.deepsouthsounds.com",
             'description': 'Description',
             'title': live.get_now_playing(
@@ -97,11 +98,9 @@ def live_now_playing(request):
                 localsettings.JS_SETTINGS['LIVE_STREAM_MOUNT'])
         }), mimetype="application/json")
 
-
 @render_to('inc/release_player.html')
 def release_player(request, release_id):
     return HttpResponse('Hello Sailor')
-
 
 def mix_add_comment(request):
     if request.POST:
@@ -116,13 +115,11 @@ def mix_add_comment(request):
     else:
         return HttpResponse(_get_json('Error posting', 'description'))
 
-
 @render_to('inc/comment_list.html')
 def mix_comments(request, mix_id):
     return {
         "results": Comment.objects.filter(mix_id=mix_id),
         }
-
 
 @login_required()
 def like(request):
@@ -140,7 +137,6 @@ def like(request):
                     mix.save()
                     return HttpResponse(response)
 
-
 @login_required()
 def favourite(request):
     if request.is_ajax():
@@ -156,7 +152,6 @@ def favourite(request):
                         response = _get_json('Unfavourited')
                     mix.save()
                     return HttpResponse(response)
-
 
 @login_required()
 def facebook_post_likes_allowed(request):
@@ -208,7 +203,6 @@ def upload_avatar_image(request):
         logger.exception("Error uploading avatar")
     return HttpResponse(_get_json("Failed"))
 
-
 @csrf_exempt
 def upload_mix_file_handler(request):
     try:
@@ -224,18 +218,24 @@ def upload_mix_file_handler(request):
                 create_waveform_task.delay(in_file=in_file, uid=uid)
             except Exception, ex:
                 logger.exception("Error starting waveform generation task: %s" % ex.message)
-
         return HttpResponse(_get_json("Success"), mimetype='application/json')
     except Exception, ex:
         logger.exception("Error uploading mix")
-
     return HttpResponse(_get_json("Failed"), mimetype='application/json')
 
 @csrf_exempt
-def lookup(request):
+def lookup(request, source):
     if 'query' in request.GET:
-        release = Label.objects.all() #filter(name__startswith = request.GET['query'])
-        json = dumps(release)
-        return HttpResponse(json, mimetype='application/json')
+        model = get_model('spa', source)
+        if model is not None:
+            filter_field = model.get_lookup_filter_field()
+            sql = "SELECT id, %s AS description FROM %s_%s WHERE %s LIKE('%s%s')" % \
+                  (filter_field, model._meta.app_label,  source, filter_field, request.GET['query'], "%%")
+            cursor = connection.cursor()
+            count = cursor.execute(sql)
+            if count <> 0:
+                results = cursor.fetchall()
+                json = simplejson.dumps(results)
+                return HttpResponse(json, mimetype='application/json')
 
     return HttpResponse(_get_json("Key failure in lookup"), mimetype='application/json')

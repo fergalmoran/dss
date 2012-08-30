@@ -1,4 +1,6 @@
 Django>=1.4
+PIL>=1.1.7
+south
 beautifulsoup4>=4.1.1
 decorator>=3.3.3
 django-allauth>=0.7.0
@@ -13,6 +15,7 @@ django-tinymce>=1.5.1b2
 git+git://github.com/PaulUithol/backbone-tastypie.git#egg=backbone-tastypie
 git+git://github.com/maraujop/django-crispy-forms.git#django-crispy-forms
 git+git://github.com/tschellenbach/Django-facebook.git#django-facebook
+git+git://github.com/hpoul/sct-communitytools.git#django-sct
 django-grappelli
 humanize
 django-debug-toolbar

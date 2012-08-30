@@ -1,11 +1,12 @@
 from django.contrib.auth.models import User
 from django.db import models
 from core.utils.file import generate_save_file_name
+from spa.models import _BaseModel
 
 def venue_image_name(instance, filename):
     return generate_save_file_name('venue-images', filename)
 
-class Venue(models.Model):
+class Venue(_BaseModel):
     class Meta:
         app_label = 'spa'
 
@@ -16,3 +17,7 @@ class Venue(models.Model):
 
     def __unicode__(self):
         return self.venue_name
+
+    @classmethod
+    def get_select_lookup(cls):
+        return {'name' :'venue_name'}

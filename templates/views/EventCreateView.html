@@ -1,0 +1,69 @@
+{% load spa_extras %}
+<div class="well" id="release-details">
+    <form class="form-horizontal">
+        {% csrf_token %}
+        <legend>Release details</legend>
+        <div class="row">
+            <div class="span6">
+                <div class="control-group" id="group-event_venue">
+                    <label class="control-label">Venue</label>
+
+                    <div class="controls">
+                        <input id="event_venue" class="typeahead" autocomplete="off" type="text"
+                               data-provide="typeahead" value="<%= item.event_venue %>" placeholder="Where's it on...">
+                        <span class="help-inline" id="error-event_venue"></span>
+                        <input type="hidden" id="event_venue_id">
+                    </div>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="control-group" id="group-event_date">
+                    <label class="control-label">Date</label>
+
+                    <div class="controls controls-row">
+                        <input id="event_date" class="span4 datepicker input-medium" type="text"
+                               value="<%= item.event_date %>">
+                        <input id="event_time" class="span3 timepicker input-small" type="text" placeholder="Time…">
+                        <span class="help-inline" id="error-event_date"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="control-group" id="group-event_title">
+                    <label class="control-label">Title</label>
+
+                    <div class="controls">
+                        <input id="event_title" class="input-xxlarge" type="text"
+                               placeholder="Brief description of event…">
+                        <span class="help-inline" id="error-event_title"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="control-group" id="group-event_recurrence">
+                    <label class="control-label">Recurrence</label>
+                    <div class="controls">
+                        {% bind_lookup Recurrence %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group" id="group-release_description">
+                <label class="control-label">Description</label>
+
+                <div class="controls">
+                    <textarea style="width:100%" class="tinymce" id="release-description" rows="10"/>
+                    <span class="help-inline" id="error-release_description"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-actions">
+                <button id="save-changes" class="btn">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>

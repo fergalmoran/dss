@@ -1,10 +1,10 @@
 import urlparse
 from allauth.socialaccount.models import SocialAccount
 from django import template
-from django.contrib.auth.models import User
+from django.db.models import get_model
 from django_gravatar.helpers import has_gravatar, get_gravatar_url
 from dss import settings
-from spa.models.UserProfile import UserProfile
+from spa.models import _BaseModel
 
 register = template.Library()
 
@@ -43,3 +43,28 @@ def avatar_image(user, size=150):
         return profile.avatar_image.url
 
     return settings.STATIC_URL + "/images/default-avatar-32.png"
+
+
+class LookupNode(template.Node):
+    def __init__(self, select_string):
+        self.select_string = select_string
+    def render(self, context):
+        return self.select_string
+
+@register.tag
+def bind_lookup(parser, token):
+    try:
+        tag_name, lookup = token.split_contents()
+        model = get_model('spa', lookup)
+        if model is not None:
+            results = model.get_lookup(lookup)
+            if results is not None:
+                select = "<select>\n"
+                for result in results:
+                    select += "\t<option>%s</option>\n" % result.description
+                select += "</select>\n"
+                return LookupNode(select)
+    except ValueError:
+        raise template.TemplateSyntaxError("%r tag requires a single argument" % token.contents.split()[0])
+
+    return ""

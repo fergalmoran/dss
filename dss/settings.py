@@ -96,7 +96,7 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
     'django.contrib.auth.context_processors.auth',
     "allauth.socialaccount.context_processors.socialaccount",
-    "allauth.account.context_processors.account"
+    "allauth.account.context_processors.account",
     )
 AUTHENTICATION_BACKENDS = global_settings.AUTHENTICATION_BACKENDS + (
     "allauth.account.auth_backends.AuthenticationBackend",
@@ -110,7 +110,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.gzip.GZipMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
     #'pipeline.middleware.MinifyHTMLMiddleware'
     )
 
@@ -129,10 +129,11 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django_facebook',
     'djcelery',
-    'debug_toolbar',
+    #'debug_toolbar',
     'crispy_forms',
     'sorl.thumbnail',
     #'pipeline',
+    'south', # the only requirement for SCT
     'avatar',
     'notification',
     'spa',
@@ -214,3 +215,4 @@ PIPELINE_CSS = {
             },
         },
     }
+INTERNAL_IPS = ('127.0.0.1',)

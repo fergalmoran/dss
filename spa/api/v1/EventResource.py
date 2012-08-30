@@ -10,7 +10,7 @@ class EventResource(BackboneCompatibleResource):
 
     def dehydrate(self, bundle):
         bundle.data['item_url'] = 'event/%s' % bundle.obj.id
-        bundle.data['venue'] = bundle.obj.event_venue.venue_name
+        bundle.data['event_venue'] = bundle.obj.event_venue.venue_name
         return bundle
 
     def dehydrate_event_date(self, bundle):

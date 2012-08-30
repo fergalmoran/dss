@@ -1,5 +1,11 @@
 <div id="title-area">
-    <p class="page-header">Upcoming Events</p>
+    <p class="page-header">Upcoming Events
+        {% if user.is_staff %}
+        <a class="btn pull-right" href="#/event/add">
+            Add event
+        </a>
+        {% endif %}
+    </p>
 </div>
 <div id="layout-area" class="hero-well">
     <table id="event-table" class="table table-bordered table-striped">
