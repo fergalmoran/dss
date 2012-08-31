@@ -72,7 +72,13 @@ var EventCreateView = DSSEditableView.extend({
         $(this.el).html(this.template({"item":this.model.toJSON()}));
         return this;
     },
-    saveChanges: function(){
-
+    saveChanges:function () {
+        this.model.set('release_description', $('#release-description', this.el).html());
+        this.model.set('release_date', $('#release_date', this.el).val());
+        this._saveChanges({
+            success:function () {
+                window.utils.showAlert("Success", "Release successfully added", "alert-info", true);
+            }
+        });
     }
 });

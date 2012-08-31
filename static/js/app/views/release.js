@@ -78,43 +78,31 @@ var ReleaseCreateView = DSSEditableView.extend({
         this.model.set('release_description', $('#release-description', this.el).html());
         this.model.set('release_date', $('#release_date', this.el).val());
         this.model.set('embed_code', $('#embed_code', this.el).val());
-        if (this.model.isValid() != "") {
-            if (this.model.errors){
-                for (var error in this.model.errors){
-                    $('#group-' + error, this.el).addClass('error');
-                    $('#error-' + error, this.el).text(this.model.errors[error]);
-                }
-            }
-        } else {
-            this.model.save(
-                null, {
-                    success:function () {
-                        $.ajaxFileUpload({
-                            url:'ajax/upload_release_image/' + model.get('id') + '/',
-                            secureuri:false,
-                            fileElementId:'release_image',
-                            success:function (data, status) {
-                                if (typeof(data.error) != 'undefined') {
-                                    if (data.error != '') {
-                                        alert(data.error);
-                                    } else {
-                                        alert(data.msg);
-                                    }
-                                } else {
-                                    window.utils.showAlert("Success", "Release successfully added", "alert-info", true);
-                                    app.navigate('#/release/' + model.get('id'));
-                                }
-                            },
-                            error:function (data, status, e) {
-                                alert(e);
+
+        this._saveChanges({
+            success:function () {
+                $.ajaxFileUpload({
+                    url:'ajax/upload_release_image/' + model.get('id') + '/',
+                    secureuri:false,
+                    fileElementId:'release_image',
+                    success:function (data, status) {
+                        if (typeof(data.error) != 'undefined') {
+                            if (data.error != '') {
+                                alert(data.error);
+                            } else {
+                                alert(data.msg);
                             }
-                        });
+                        } else {
+                            window.utils.showAlert("Success", "Release successfully added", "alert-info", true);
+                            app.navigate('#/release/' + model.get('id'));
+                        }
                     },
-                    error:function () {
-                        alert("Error saving release");
+                    error:function (data, status, e) {
+                        alert(e);
                     }
                 });
-        }
+            }
+        });
         return false;
     }
 });

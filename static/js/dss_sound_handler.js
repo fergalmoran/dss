@@ -72,6 +72,10 @@ function DssSoundHandler() {
             },
             whileplaying:function () {
                 /* Should move to an aggregator viewChanged callback */
+                if (_currentId == -1){
+                    _currentId = itemId;
+                    this._setupEvents(itemId, _currentSound);
+                }
                 waveformTop = $('#waveform-' + _currentId).position().top;
                 waveformWidth = $('#waveform-' + _currentId).width();
                 $('#playhead-player-' + _currentId).css('top', waveformTop);
