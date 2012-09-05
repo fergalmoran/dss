@@ -51,4 +51,3 @@ class MixResource(BackboneCompatibleResource):
         bundle.data['liked'] = bundle.obj.is_liked(bundle.request.user)
         bundle.data['favourited'] = bundle.obj.is_favourited(bundle.request.user)
         return bundle
-

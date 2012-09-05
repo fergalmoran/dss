@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.db import models
 from django.db.models import Count
+from django.forms import save_instance
 import os
 from core.utils.file import generate_save_file_name
 from dss import settings
@@ -35,6 +36,10 @@ class Mix(_BaseModel):
         return self.title
 
     def save(self, force_insert=False, force_update=False, using=None):
+        #turn away now - horrid hack to strip media root url
+        #from image - will sort when I've figured backbone out better
+        if self.mix_image.name.startswith(settings.MEDIA_URL):
+            self.mix_image.name = self.mix_image.name[len(settings.MEDIA_URL):len(self.mix_image.name)]
         super(Mix, self).save(force_insert, force_update, using)
 
     def get_absolute_url(self):

@@ -130,7 +130,8 @@ window.MixCreateView = Backbone.View.extend({
     events:{
         "click #save-changes":"saveChanges",
         "change input":"changed",
-        "change textarea":"changed"
+        "change textarea":"changed",
+        "change #mix_image":"imageChanged"
     },
     checkRedirect:function () {
         if (this.state == 2) {
@@ -143,6 +144,7 @@ window.MixCreateView = Backbone.View.extend({
         this.render();
     },
     render:function () {
+        this.sendImage = false;
         $(this.el).html(this.template({"item":this.model.toJSON()}));
         var parent = this;
         if (this.model.id == undefined) {
@@ -192,27 +194,32 @@ window.MixCreateView = Backbone.View.extend({
         this.model.save(
             null, {
                 success:function () {
-                    $.ajaxFileUpload({
-                        url:'ajax/upload_image/' + model.get('id') + '/',
-                        secureuri:false,
-                        fileElementId:'mix_image',
-                        success:function (data, status) {
-                            if (typeof(data.error) != 'undefined') {
-                                if (data.error != '') {
-                                    alert(data.error);
+                    if (parent.sendImage) {
+                        $.ajaxFileUpload({
+                            url:'ajax/upload_image/' + model.get('id') + '/',
+                            secureuri:false,
+                            fileElementId:'mix_image',
+                            success:function (data, status) {
+                                if (typeof(data.error) != 'undefined') {
+                                    if (data.error != '') {
+                                        alert(data.error);
+                                    } else {
+                                        alert(data.msg);
+                                    }
                                 } else {
-                                    alert(data.msg);
+                                    $('#mix-details', this.el).hide();
+                                    parent.state++;
+                                    parent.checkRedirect();
                                 }
-                            } else {
-                                $('#mix-details', this.el).hide();
-                                parent.state++;
-                                parent.checkRedirect();
+                            },
+                            error:function (data, status, e) {
+                                alert(e);
                             }
-                        },
-                        error:function (data, status, e) {
-                            alert(e);
-                        }
-                    });
+                        });
+                    }else{
+                        parent.state++;
+                        parent.checkRedirect();
+                    }
                 },
                 error:function () {
                     com.podnoms.utils.showAlert("Error", "Something went wrong", "alert-info", false);
@@ -226,5 +233,8 @@ window.MixCreateView = Backbone.View.extend({
         var obj = "{\"" + changed.id + "\":\"" + value + "\"}";
         var objInst = JSON.parse(obj);
         this.model.set(objInst);
+    },
+    imageChanged:function (evt) {
+        this.sendImage = true;
     }
 });
