@@ -38,11 +38,11 @@ window.UserView = Backbone.View.extend({
         this.model.save(
             null, {
                 success:function () {
-                    window.utils.showAlert("Success", "Successfully updated yourself", "alert-info", true);
+                    com.podnoms.utils.showAlert("Success", "Successfully updated yourself", "alert-info", true);
                     window.history.back();
                 },
                 error:function () {
-                    window.utils.showAlert("Success", "Successfully updated yourself", "alert-info", false);
+                    com.podnoms.utils.showAlert("Success", "Successfully updated yourself", "alert-info", false);
                     alert("Error");
                 }
             });

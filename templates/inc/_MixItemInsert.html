@@ -8,8 +8,10 @@
         <div class="title-bar">
             <h4><a href="#/<%= item.item_url %>"><%= item.title %></a></h4>
         </div>
+        <div class="player-seekhead" id="player-seekhead">
+            <span class="player-seekhead-time"></span>
+        </div>
         <div class="player-progress">
-
             <div class="waveform" id="waveform-<%= item.id %>">
                 <img id="waveform-image-<%= item.id %>" class="waveform_image"
                      alt="Waveform generating... Stall the balls and check back later."
@@ -21,7 +23,7 @@
         </div>
         <div class="player-footer">
             <div class="play-button footer-button">
-                <button class="play-button-small play-button-small-playing" data-mode="play" id="play-pause-button-small-<%= item.id %>">
+                <button class="play-button-small play-button-small-start" data-mode="play" id="play-pause-button-small-<%= item.id %>">
                 </button>
             </div>
             {% if user.is_authenticated %}

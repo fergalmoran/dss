@@ -26,7 +26,7 @@ var AppRouter = Backbone.Router.extend({
     trackPageView: function() {
         var url;
         url = Backbone.history.getFragment();
-        return _gaq.push(['_trackPageview', "/" + url]);
+        return com.podnoms.utils.trackPageView(url);
     },
     defaultRoute:function (path) {
         if (path == undefined || path == "" || path == "/")
@@ -55,7 +55,7 @@ var AppRouter = Backbone.Router.extend({
                 $('#content').html(html.el);
                 $('#site-content-fill').html('');
                 var comments = new CommentCollection();
-                comments.url = window.appSettings.urlRoot + mix.attributes.item_url + "/comments/";
+                comments.url = com.podnoms.settings.urlRoot + mix.attributes.item_url + "/comments/";
                 comments.mix_id = id;
                 comments.mix = mix.get("resource_uri");
                 comments.fetch({success:function (data) {
@@ -86,7 +86,7 @@ var AppRouter = Backbone.Router.extend({
             $('#content').html(content);
             /*
             var audio = new ReleaseAudioCollection();
-            audio.url = window.appSettings.urlRoot + release.attributes.item_url + "/release_audio/";
+            audio.url = com.podnoms.settings.urlRoot + release.attributes.item_url + "/release_audio/";
             audio.audio_id = id;
             audio.release = release.get("resource_uri");
             audio.fetch({success:function (data) {
@@ -97,7 +97,7 @@ var AppRouter = Backbone.Router.extend({
         }});
     },
     releaseAdd: function(){
-        var html = new ReleaseCreateView({model: new Release({ release_date : getDateAsToday() })});
+        var html = new ReleaseCreateView({model: new Release({ release_date : com.podnoms.utils.getDateAsToday() })});
         $('#content').html(html.el);
         $('#site-content-fill').html('');
     },
@@ -119,7 +119,7 @@ var AppRouter = Backbone.Router.extend({
         }});
     },
     eventAdd: function(){
-        var html = new EventCreateView({model: new Event({ event_date : getDateAsToday() })});
+        var html = new EventCreateView({model: new Event({ event_date : com.podnoms.utils.getDateAsToday() })});
         $('#content').html(html.el);
         $('#site-content-fill').html('');
     },
@@ -132,7 +132,7 @@ var AppRouter = Backbone.Router.extend({
         })
     },
     logout:function () {
-        window.utils.showAlert("Success", "You are now logged out", "alert-success");
+        com.podnoms.utils.showAlert("Success", "You are now logged out", "alert-success");
     },
     connectAccounts:function () {
         alert("sdfkjsdlfj");
@@ -147,7 +147,7 @@ var AppRouter = Backbone.Router.extend({
     }
 });
 
-utils.loadTemplate([
+com.podnoms.utils.loadTemplate([
     'HeaderView', 'SidebarView', 'UserView',
     'MixListView', 'MixListItemView', 'MixView', 'MixCreateView',
     'CommentListView', 'CommentListItemView',

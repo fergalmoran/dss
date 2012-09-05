@@ -215,3 +215,4 @@ PIPELINE_CSS = {
         },
     }
 INTERNAL_IPS = ('127.0.0.1',)
+GOOGLE_ANALYTICS_CODE = localsettings.GOOGLE_ANALYTICS_CODE

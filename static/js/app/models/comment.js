@@ -1,5 +1,5 @@
 var Comment = DSSModel.extend({
-    urlRoot:window.appSettings.urlRoot + "comments/"
+    urlRoot:com.podnoms.settings.urlRoot + "comments/"
 });
 
 var CommentCollection = TastypieCollection.extend({

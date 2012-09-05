@@ -98,7 +98,7 @@ function DssSoundHandler() {
         this.stop_sound();
         _currentSound = soundManager.createSound({
             id:'current_sound',
-            url:window.appSettings.liveStreamRoot,
+            url:com.podnoms.settings.liveStreamRoot,
             volume:50,
             stream:true,
             useMovieStar:true

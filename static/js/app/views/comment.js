@@ -30,7 +30,7 @@ window.CommentListView = Backbone.View.extend({
                     view.render();
                 },
                 error:function () {
-                    utils.showAlert("Error", "Unable to save comment", "alert-error");
+                    com.podnoms.utils.showAlert("Error", "Unable to save comment", "alert-error");
             }});
             $('textarea[name=new-comment]').val('');
         }

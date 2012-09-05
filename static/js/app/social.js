@@ -11,9 +11,9 @@ postFacebookLike = function (mixId) {
                     { mix:'http://' + window.location.host + '/social/redirect/mix/' + mixId},
                     function (response) {
                         if (!response || response.error) {
-                            window.utils.showAlert(response.error.message, 'Error occurred: ', "alert-error", true);
+                            com.podnoms.utils.showAlert(response.error.message, 'Error occurred: ', "alert-error", true);
                         } else {
-                            window.utils.showAlert("Posted your like to facebook, you can stop this in your settings page.", "Cheers feen", "alert-success", true);
+                            com.podnoms.utils.showAlert("Posted your like to facebook, you can stop this in your settings page.", "Cheers feen", "alert-success", true);
                         }
                     }
                 );

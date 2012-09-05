@@ -73,12 +73,13 @@ var EventCreateView = DSSEditableView.extend({
         return this;
     },
     saveChanges:function () {
-        this.model.set('release_description', $('#release-description', this.el).html());
-        this.model.set('release_date', $('#release_date', this.el).val());
+        this.model.set('event_description', $('#event-description', this.el).html());
+        this.model.set('event_date', $('#event_date', this.el).val());
         this._saveChanges({
             success:function () {
-                window.utils.showAlert("Success", "Release successfully added", "alert-info", true);
+                com.podnoms.utils.showAlert("Success", "Event successfully added", "alert-info", true);
             }
         });
+        return false;
     }
 });

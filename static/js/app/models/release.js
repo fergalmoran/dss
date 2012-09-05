@@ -1,5 +1,5 @@
 var Release = DSSModel.extend({
-    urlRoot:window.appSettings.urlRoot + "release/",
+    urlRoot:com.podnoms.settings.urlRoot + "release/",
     isValid:function () {
         this.errors = {};
         if (isEmpty(this.get('release_label'))) {
@@ -21,6 +21,6 @@ var Release = DSSModel.extend({
     }
 });
 var ReleaseCollection = TastypieCollection.extend({
-    url:window.appSettings.urlRoot + "release/",
+    url:com.podnoms.settings.urlRoot + "release/",
     model:Release
 });

@@ -1,7 +1,9 @@
 window.MixListItemView = Backbone.View.extend({
     tagName:"li",
     events:{
-        "click .play-button-small":"playMix",
+        "click .play-button-small-start":"startMix",
+        "click .play-button-small-resume":"resume",
+        "click .play-button-small-pause":"pauseMix",
         "click .like-button a":"likeMix",
         "click .favourite-button a":"favouriteMix",
         "click .share-button a":"shareLink"
@@ -62,35 +64,34 @@ window.MixListItemView = Backbone.View.extend({
             }
         );
     },
-    playMix:function () {
+    pauseMix:function () {
+        com.podnoms.player.pause();
+    },
+    resume: function(){
+        com.podnoms.player.resume();
+    },
+    startMix:function () {
         var id = $(this.el).data("id");
         var mode = "play";
+        $.getJSON(
+            'ajax/mix_stream_url/' + id + '/',
+            function (data) {
+                com.podnoms.player.setupPlayer({
+                    waveFormEl  :$('#waveform-' + id),
+                    playHeadEl  :$('#playhead-player-' + id),
+                    loadingEl   :$('#progress-player-' + id),
+                    seekHeadEl  :$('#player-seekhead'),
+                    playButtonEl:$('#play-pause-button-small-Mi' + id),
+                    url         :data.stream_url,
+                    success:function () {
+                        _eventAggregator.trigger("track_playing");
+                    },
+                    error:function () {
 
-        //check if we're currently playing a sound
-        var playingId = dssSoundHandler.getPlayingId();
-        if (playingId != -1 && dssSoundHandler.isPlaying()) {
-            var newMode = dssSoundHandler.togglePlaying(playingId);
-            //only set the mode if we're toggling an existing track
-            //otherwise default mode of "play" is what we want
-            if (playingId == id)
-                mode = newMode;
-        }
-        var button = $(this.el).find('#play-pause-button-small-' + id);
-        $(button).blur();
-        if (mode == "play") {
-            dssSoundHandler.togglePlayVisual(id);
-            $.getJSON(
-                'ajax/mix_stream_url/' + id + '/',
-                function (data) {
-                    dssSoundHandler.playSound(id, data.stream_url);
-                    _eventAggregator.trigger("track_changed", data);
-                    _eventAggregator.trigger("track_playing");
+                    }
                 });
-        } else if (mode == "resume") {
-            _eventAggregator.trigger("track_playing");
-        } else {
-            _eventAggregator.trigger("track_paused");
-        }
+            }
+        );
     }
 });
 
@@ -128,15 +129,16 @@ window.MixView = Backbone.View.extend({
 window.MixCreateView = Backbone.View.extend({
     events:{
         "click #save-changes":"saveChanges",
-        "change input":"changed"
+        "change input":"changed",
+        "change textarea":"changed"
     },
-    checkRedirect: function(){
-        if (this.state == 2){
+    checkRedirect:function () {
+        if (this.state == 2) {
             app.navigate('/#/mix/' + this.model.get('id'));
         }
     },
     initialize:function () {
-        this.guid = generateGuid();
+        this.guid = com.podnoms.utils.generateGuid();
         this.state = 0;
         this.render();
     },
@@ -154,7 +156,7 @@ window.MixCreateView = Backbone.View.extend({
             },
             'onProgress':function (file, e) {
             },
-            'onUploadComplete' : function(file, data) {
+            'onUploadComplete':function (file, data) {
                 parent.state++;
                 parent.checkRedirect();
             }
@@ -196,7 +198,7 @@ window.MixCreateView = Backbone.View.extend({
                                 } else {
                                     alert(data.msg);
                                 }
-                            }else{
+                            } else {
                                 $('#mix-details', this.el).hide();
                                 parent.state++;
                                 parent.checkRedirect();
@@ -208,7 +210,7 @@ window.MixCreateView = Backbone.View.extend({
                     });
                 },
                 error:function () {
-                    window.utils.showAlert("Error", "Something went wrong", "alert-info", false);
+                    com.podnoms.utils.showAlert("Error", "Something went wrong", "alert-info", false);
                 }
             });
         return false;

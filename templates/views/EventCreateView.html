@@ -1,8 +1,8 @@
 {% load spa_extras %}
-<div class="well" id="release-details">
+<div class="well" id="event-details">
     <form class="form-horizontal">
         {% csrf_token %}
-        <legend>Release details</legend>
+        <legend>Event details</legend>
         <div class="row">
             <div class="span6">
                 <div class="control-group" id="group-event_venue">
@@ -33,7 +33,6 @@
             <div class="span6">
                 <div class="control-group" id="group-event_title">
                     <label class="control-label">Title</label>
-
                     <div class="controls">
                         <input id="event_title" class="input-xxlarge" type="text"
                                placeholder="Brief description of event…">
@@ -51,12 +50,12 @@
             </div>
         </div>
         <div class="row">
-            <div class="control-group" id="group-release_description">
+            <div class="control-group" id="group-event_description">
                 <label class="control-label">Description</label>
 
                 <div class="controls">
-                    <textarea style="width:100%" class="tinymce" id="release-description" rows="10"/>
-                    <span class="help-inline" id="error-release_description"></span>
+                    <textarea style="width:100%" class="tinymce" id="event-description" rows="10"/>
+                    <span class="help-inline" id="error-event_description"></span>
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@ from allauth.socialaccount.models import SocialAccount
 from django import template
 from django.db.models import get_model
 from django_gravatar.helpers import has_gravatar, get_gravatar_url
+from core.analytics.google import ShowGoogleAnalyticsJS
 from dss import settings
 from spa.models import _BaseModel
 
@@ -68,3 +69,7 @@ def bind_lookup(parser, token):
         raise template.TemplateSyntaxError("%r tag requires a single argument" % token.contents.split()[0])
 
     return ""
+
+@register.tag
+def googleanalyticsjs(parser, token):
+    return ShowGoogleAnalyticsJS()

@@ -123,10 +123,10 @@ window.DSSEditableView = Backbone.View.extend({
             }
         });
     },
-    _saveChanges: function(){
+    _saveChanges:function () {
         if (this.model.isValid() != "") {
-            if (this.model.errors){
-                for (var error in this.model.errors){
+            if (this.model.errors) {
+                for (var error in this.model.errors) {
                     $('#group-' + error, this.el).addClass('error');
                     $('#error-' + error, this.el).text(this.model.errors[error]);
                 }
@@ -134,7 +134,9 @@ window.DSSEditableView = Backbone.View.extend({
         } else {
             this.model.save(
                 null, {
-                    success:arguments.success(),
+                    success:function () {
+                        arguments.success();
+                    },
                     error:function () {
                         alert("Error saving release");
                     }

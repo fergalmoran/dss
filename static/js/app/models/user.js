@@ -1,3 +1,3 @@
 var User = DSSModel.extend({
-    urlRoot:window.appSettings.urlRoot + "user/"
+    urlRoot:com.podnoms.settings.urlRoot + "user/"
 });

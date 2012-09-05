@@ -93,7 +93,7 @@ var ReleaseCreateView = DSSEditableView.extend({
                                 alert(data.msg);
                             }
                         } else {
-                            window.utils.showAlert("Success", "Release successfully added", "alert-info", true);
+                            com.podnoms.utils.showAlert("Success", "Release successfully added", "alert-info", true);
                             app.navigate('#/release/' + model.get('id'));
                         }
                     },
