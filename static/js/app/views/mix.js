@@ -67,7 +67,7 @@ window.MixListItemView = Backbone.View.extend({
     pauseMix:function () {
         com.podnoms.player.pause();
     },
-    resume: function(){
+    resume:function () {
         com.podnoms.player.resume();
     },
     startMix:function () {
@@ -77,12 +77,12 @@ window.MixListItemView = Backbone.View.extend({
             'ajax/mix_stream_url/' + id + '/',
             function (data) {
                 com.podnoms.player.setupPlayer({
-                    waveFormEl  :$('#waveform-' + id),
-                    playHeadEl  :$('#playhead-player-' + id),
-                    loadingEl   :$('#progress-player-' + id),
-                    seekHeadEl  :$('#player-seekhead'),
+                    waveFormEl:$('#waveform-' + id),
+                    playHeadEl:$('#playhead-player-' + id),
+                    loadingEl:$('#progress-player-' + id),
+                    seekHeadEl:$('#player-seekhead'),
                     playButtonEl:$('#play-pause-button-small-' + id),
-                    url         :data.stream_url,
+                    url:data.stream_url,
                     success:function () {
                         _eventAggregator.trigger("track_playing");
                     },
@@ -143,27 +143,34 @@ window.MixCreateView = Backbone.View.extend({
         this.render();
     },
     render:function () {
-        $(this.el).html(this.template());
+        $(this.el).html(this.template({"item":this.model.toJSON()}));
         var parent = this;
-        $('#mix-upload', this.el).uploadifive({
-            'uploadScript':'ajax/upload_mix_file_handler/',
-            'formData':{
-                'upload-hash':this.guid
-            },
-            'onAddQueueItem':function (file) {
-                $('#upload-extension', this.el).val(file.name.split('.').pop());
-                $('#mix-details', this.el).show();
-            },
-            'onProgress':function (file, e) {
-            },
-            'onUploadComplete':function (file, data) {
-                parent.state++;
-                parent.checkRedirect();
-            }
-        });
-        $('.fileupload', this.el).fileupload({
-            'uploadtype':'image'
-        });
+        if (this.model.id == undefined) {
+            $('#mix-upload', this.el).uploadifive({
+                'uploadScript':'ajax/upload_mix_file_handler/',
+                'formData':{
+                    'upload-hash':this.guid
+                },
+                'onAddQueueItem':function (file) {
+                    $('#upload-extension', this.el).val(file.name.split('.').pop());
+                    $('#mix-details', this.el).show();
+                },
+                'onProgress':function (file, e) {
+                },
+                'onUploadComplete':function (file, data) {
+                    parent.state++;
+                    parent.checkRedirect();
+                }
+            });
+            $('.fileupload', this.el).fileupload({
+                'uploadtype':'image'
+            });
+            $('#mix-details', this.el).hide();
+            $('.upload-hash', this.el).val(this.guid);
+        } else {
+            $('#div-upload-mix', this.el).hide();
+            this.state = 1;
+        }
         $('#image-form-proxy', this.el).ajaxForm({
             beforeSubmit:function () {
                 $('#results').html('Submitting...');
@@ -174,8 +181,6 @@ window.MixCreateView = Backbone.View.extend({
                 $out.append('<div><pre>' + data + '</pre></div>');
             }
         });
-        $('#mix-details', this.el).hide();
-        $('.upload-hash', this.el).val(this.guid);
         return this;
     },
     saveChanges:function () {

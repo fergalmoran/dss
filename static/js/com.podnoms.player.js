@@ -90,7 +90,7 @@ com.podnoms.player = {
         this.seekHeadEl.css('top', this.waveFormTop);
         this.waveFormEl.mousedown($.proxy(this._mouseDown, this));
         this.waveFormEl.mousemove($.proxy(this._mouseMove, this));
-        this.waveFormEl.mouseleave($.proxy(this._mouseLeave, this));
+        this.waveFormEl.mouseout($.proxy(this._mouseLeave, this));
     },
     /*Methods*/
     setupPlayer:function (options) {

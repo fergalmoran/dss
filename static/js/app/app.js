@@ -4,6 +4,7 @@ var AppRouter = Backbone.Router.extend({
         "/mixes/:type":"mixList",
         "/mix/upload":"mixUpload",
         "/mix/:id":"mixDetails",
+        "/mix/edit/:id":"mixEdit",
         "/releases":"releaseList",
         "/release/add":"releaseAdd",
         "/release/:id":"releaseDetails",
@@ -23,7 +24,7 @@ var AppRouter = Backbone.Router.extend({
         this.bind('all', this.trackPageView);
 
     },
-    trackPageView: function() {
+    trackPageView:function () {
         var url;
         url = Backbone.history.getFragment();
         return com.podnoms.utils.trackPageView(url);
@@ -62,12 +63,22 @@ var AppRouter = Backbone.Router.extend({
                     var content = new CommentListView({collection:comments}).render();
                     $('#site-content-fill').html(content.el);
                 }});
-        }});
+            }});
     },
-    mixUpload: function(id){
-        var html = new MixCreateView({model: new Mix()});
+    mixUpload:function (id) {
+        var html = new MixCreateView({model:new Mix()});
         $('#content').html(html.el);
         $('#site-content-fill').html('');
+    },
+    mixEdit:function (id) {
+        var mix = new Mix({id:id});
+        mix.fetch({
+            success:function () {
+                var html = new MixCreateView({model:mix});
+                $('#content').html(html.el);
+                $('#site-content-fill').html('');
+            }
+        });
     },
     releaseList:function (page) {
         var releaseList = new ReleaseCollection();
@@ -85,19 +96,19 @@ var AppRouter = Backbone.Router.extend({
             var content = new ReleaseView({model:release}).el;
             $('#content').html(content);
             /*
-            var audio = new ReleaseAudioCollection();
-            audio.url = com.podnoms.settings.urlRoot + release.attributes.item_url + "/release_audio/";
-            audio.audio_id = id;
-            audio.release = release.get("resource_uri");
-            audio.fetch({success:function (data) {
-                var content = new ReleaseAudioListView({collection:audio});
-                $('#release-description').html(content.el);
-            }});
-            */
+             var audio = new ReleaseAudioCollection();
+             audio.url = com.podnoms.settings.urlRoot + release.attributes.item_url + "/release_audio/";
+             audio.audio_id = id;
+             audio.release = release.get("resource_uri");
+             audio.fetch({success:function (data) {
+             var content = new ReleaseAudioListView({collection:audio});
+             $('#release-description').html(content.el);
+             }});
+             */
         }});
     },
-    releaseAdd: function(){
-        var html = new ReleaseCreateView({model: new Release({ release_date : com.podnoms.utils.getDateAsToday() })});
+    releaseAdd:function () {
+        var html = new ReleaseCreateView({model:new Release({ release_date:com.podnoms.utils.getDateAsToday() })});
         $('#content').html(html.el);
         $('#site-content-fill').html('');
     },
@@ -118,8 +129,8 @@ var AppRouter = Backbone.Router.extend({
             $('#content').html(content);
         }});
     },
-    eventAdd: function(){
-        var html = new EventCreateView({model: new Event({ event_date : com.podnoms.utils.getDateAsToday() })});
+    eventAdd:function () {
+        var html = new EventCreateView({model:new Event({ event_date:com.podnoms.utils.getDateAsToday() })});
         $('#content').html(html.el);
         $('#site-content-fill').html('');
     },
