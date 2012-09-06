@@ -67,6 +67,7 @@ window.DSSEditableView = Backbone.View.extend({
         var obj = "{\"" + changed.id + "\":\"" + value.replace(/\n/g, '<br />') + "\"}";
         var objInst = JSON.parse(obj);
         this.model.set(objInst);
+
     },
     _bakeForm:function (el, lookups) {
         //TODO extend lookups to be a list
