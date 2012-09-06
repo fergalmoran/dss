@@ -64,7 +64,7 @@ window.DSSEditableView = Backbone.View.extend({
     changed:function (evt) {
         var changed = evt.currentTarget;
         var value = $("#" + changed.id).val();
-        var obj = "{\"" + changed.id + "\":\"" + value + "\"}";
+        var obj = "{\"" + changed.id + "\":\"" + value.replace(/\n/g, '<br />') + "\"}";
         var objInst = JSON.parse(obj);
         this.model.set(objInst);
     },

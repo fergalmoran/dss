@@ -62,7 +62,9 @@ var EventView = Backbone.View.extend({
 });
 var EventCreateView = DSSEditableView.extend({
     events:{
-        "click #save-changes":"saveChanges"
+        "click #save-changes":"saveChanges",
+        "change input":"changed",
+        "change textarea":"changed"
     },
     initialize:function () {
         this.render();

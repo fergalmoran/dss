@@ -126,12 +126,12 @@ window.MixView = Backbone.View.extend({
     }
 });
 
-window.MixCreateView = Backbone.View.extend({
+window.MixCreateView = DSSEditableView.extend({
     events:{
         "click #save-changes":"saveChanges",
+        "change #mix_image":"imageChanged",
         "change input":"changed",
-        "change textarea":"changed",
-        "change #mix_image":"imageChanged"
+        "change textarea":"changed"
     },
     checkRedirect:function () {
         if (this.state == 2) {
@@ -226,13 +226,6 @@ window.MixCreateView = Backbone.View.extend({
                 }
             });
         return false;
-    },
-    changed:function (evt) {
-        var changed = evt.currentTarget;
-        var value = $("#" + changed.id).val();
-        var obj = "{\"" + changed.id + "\":\"" + value + "\"}";
-        var objInst = JSON.parse(obj);
-        this.model.set(objInst);
     },
     imageChanged:function (evt) {
         this.sendImage = true;
