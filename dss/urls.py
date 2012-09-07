@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.http import HttpResponse
 from dss import settings
 
 admin.autodiscover()
@@ -13,6 +14,7 @@ urlpatterns = patterns('',
     (r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/img/favicon.ico'}),
     (r'^channel\.html$', 'django.views.generic.simple.redirect_to', {'url': '/static/html/fb_channel.html'}),
     (r'^privacy\.html$', 'django.views.generic.simple.redirect_to', {'url': '/static/html/privacy.html'}),
+    (r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: /", mimetype="text/plain")),
     (r'^tos\.html$', 'django.views.generic.simple.redirect_to', {'url': '/static/html/tos.html'}),
     (r'^test\.html$', 'django.views.generic.simple.redirect_to', {'url': '/static/html/test.html'}),
     url(r'^', include('spa.urls')),
