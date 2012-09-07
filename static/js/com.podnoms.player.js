@@ -11,7 +11,6 @@ com.podnoms.player = {
 
     /*Members*/
     currentId:-1,
-    currentPosition:-1,
     currentPath:'',
     currentSound:null,
     waveFormEl:null,

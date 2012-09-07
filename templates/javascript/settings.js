@@ -5,5 +5,5 @@ com.podnoms.settings = {
     urlRoot: '{{ API_URL }}',
     liveStreamRoot: 'http://{{ LIVE_STREAM_URL }}:{{ LIVE_STREAM_PORT }}/{{ LIVE_STREAM_MOUNT }}',
     streamInfoUrl: 'http://{{ LIVE_STREAM_INFO_URL }}',
-    volume: 10
+    volume: '{{ DEFAULT_AUDIO_VOLUME }}'
 };
