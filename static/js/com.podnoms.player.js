@@ -66,7 +66,7 @@ com.podnoms.player = {
             this.playButtonEl
                 .removeClass('play-button-small-pause')
                 .removeClass('play-button-small-loading')
-                .addClass('play-button-small-start');
+                .addClass('play-button-smallstart');
 
         this.currentId = null;
         success();

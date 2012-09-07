@@ -75,24 +75,11 @@ window.MixListItemView = Backbone.View.extend({
     startMix:function () {
         var id = $(this.el).data("id");
         var mode = "play";
+        var ref = this;
         $.getJSON(
             'ajax/mix_stream_url/' + id + '/',
             function (data) {
-                com.podnoms.player.setupPlayer({
-                    waveFormEl:$('#waveform-' + id),
-                    playHeadEl:$('#playhead-player-' + id),
-                    loadingEl:$('#progress-player-' + id),
-                    seekHeadEl:$('#player-seekhead'),
-                    playButtonEl:$('#play-pause-button-small-' + id),
-                    url:data.stream_url,
-                    success:function () {
-                        _eventAggregator.trigger("track_playing");
-                        _eventAggregator.trigger("track_changed", data);
-                    },
-                    error:function () {
-                        alert("Error playing mix. Do please try again.");
-                    }
-                });
+                com.podnoms.settings.setupPlayer(data, id);
             }
         );
     }
