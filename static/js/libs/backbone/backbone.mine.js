@@ -59,22 +59,31 @@ window.DSSModel = window.TastypieModel.extend({
 window.DSSEditableView = Backbone.View.extend({
     events:{
         "change input":"changed",
-        "change textarea":"changed"
+        "change textarea":"changed",
+        "change":"changedSelect"
+    },
+    changedSelect: function(evt){
+        console.log("Changed select");
+        var changed = evt.currentTarget;
+        var value = $(evt.currentTarget).val();
+        var obj = "{\"" + changed.id + "\":\"" + value.replace(/\n/g, '<br />') + "\"}";
+        var objInst = JSON.parse(obj);
+        this.model.set(objInst);
     },
     changed:function (evt) {
+        console.log("Changed something else");
         var changed = evt.currentTarget;
         var value = $("#" + changed.id).val();
         var obj = "{\"" + changed.id + "\":\"" + value.replace(/\n/g, '<br />') + "\"}";
         var objInst = JSON.parse(obj);
         this.model.set(objInst);
-
     },
     _bakeForm:function (el, lookups) {
         //TODO extend lookups to be a list
         //TODO this way we can initialise more than one lookup per page
         var model = this.model;
         var labels, mapped;
-
+        _.bindAll(this, "changedSelect");
         $('.typeahead', el).typeahead({
             source:function (query, process) {
                 $.get(
@@ -91,8 +100,8 @@ window.DSSEditableView = Backbone.View.extend({
                     }, 'json');
             },
             updater:function (item) {
-                $('#release_label_id', el).val(mapped[item][0]);
-                model.set('release_label_id', mapped[item][0]);
+                this.$element.val(mapped[item][0]);
+                model.set(this.$element.attr('id'), mapped[item][0]);
                 return item;
             }
         });

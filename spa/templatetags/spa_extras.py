@@ -55,18 +55,25 @@ class LookupNode(template.Node):
 @register.tag
 def bind_lookup(parser, token):
     try:
-        tag_name, lookup = token.split_contents()
-        model = get_model('spa', lookup)
-        if model is not None:
-            results = model.get_lookup(lookup)
-            if results is not None:
-                select = "<select>\n"
-                for result in results:
-                    select += "\t<option>%s</option>\n" % result.description
-                select += "</select>\n"
-                return LookupNode(select)
+        tag_name, args = token.split_contents()
+        arg_list = [arg.strip() for arg in args.split(',')]
+        if len(arg_list) == 2:
+            lookup = arg_list[0]
+            referrer = arg_list[1]
+
+            model = get_model('spa', lookup)
+            if model is not None:
+                results = model.get_lookup(lookup)
+                if results is not None:
+                    select = "<select id='%s'>\n" % referrer
+                    for result in results:
+                        select += "\t<option value='%s'>%s</option>\n" % (result.id, result.description)
+                    select += "</select>\n"
+                    return LookupNode(select)
+        else:
+            raise template.TemplateSyntaxError("%r tag requires two arguments" % token.contents.split()[0])
     except ValueError:
-        raise template.TemplateSyntaxError("%r tag requires a single argument" % token.contents.split()[0])
+        raise template.TemplateSyntaxError("%r tag requires two arguments" % token.contents.split()[0])
 
     return ""
 

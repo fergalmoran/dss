@@ -63,7 +63,7 @@ com.podnoms.utils = {
         var day = currentTime.getDate();
         var month = currentTime.getMonth() + 1;
         var year = currentTime.getFullYear();
-        return (self.tpad2(day) + "/" + self.pad2(month) + "/" + year);
+        return (com.podnoms.utils.pad2(day) + "/" + com.podnoms.utils.pad2(month) + "/" + year);
     },
     isEmpty: function (val) {
         return (val === undefined || val == null || val.length <= 0) ? true : false;

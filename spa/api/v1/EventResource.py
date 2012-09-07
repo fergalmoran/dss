@@ -1,6 +1,8 @@
+from django.core.exceptions import ObjectDoesNotExist
 import humanize
 from tastypie.authorization import Authorization
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.models.Venue import Venue
 from spa.models.Event import  Event
 
 class EventResource(BackboneCompatibleResource):
@@ -19,3 +21,14 @@ class EventResource(BackboneCompatibleResource):
 
     def dehydrate_event_date(self, bundle):
         return humanize.naturalday(bundle.obj.event_date)
+
+    def hydrate(self, bundle):
+        if 'event_venue' in bundle.data:
+            try:
+                venue = Venue.objects.get(venue_name__exact=bundle.data['event_venue'])
+            except ObjectDoesNotExist:
+                venue = Venue(venue_name=bundle.data['event_venue'], user=bundle.request.user)
+                venue.save()
+
+            bundle.obj.event_venue = venue
+        return bundle

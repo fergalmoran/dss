@@ -66,6 +66,7 @@ window.MixListItemView = Backbone.View.extend({
     },
     pauseMix:function () {
         com.podnoms.player.pause();
+        _eventAggregator.trigger("track_playing");
     },
     resume:function () {
         com.podnoms.player.resume();
@@ -216,7 +217,7 @@ window.MixCreateView = DSSEditableView.extend({
                                 alert(e);
                             }
                         });
-                    }else{
+                    } else {
                         parent.state++;
                         parent.checkRedirect();
                     }

@@ -111,6 +111,7 @@ com.podnoms.player = {
                 }
             });
             ref.play();
+            options.success();
         });
     },
 
