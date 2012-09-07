@@ -19,6 +19,7 @@ window.HeaderView = Backbone.View.extend({
     trackPlaying:function (data) {
         $(this.el).find('#header-play-button-icon').removeClass('icon-play');
         $(this.el).find('#header-play-button-icon').addClass('icon-pause');
+
     },
     trackPaused:function (data) {
         $(this.el).find('#header-play-button-icon').removeClass('icon-pause');

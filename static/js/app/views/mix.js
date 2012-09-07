@@ -66,9 +66,10 @@ window.MixListItemView = Backbone.View.extend({
     },
     pauseMix:function () {
         com.podnoms.player.pause();
-        _eventAggregator.trigger("track_playing");
+        _eventAggregator.trigger("track_paused");
     },
     resume:function () {
+        _eventAggregator.trigger("track_playing");
         com.podnoms.player.resume();
     },
     startMix:function () {
@@ -86,9 +87,10 @@ window.MixListItemView = Backbone.View.extend({
                     url:data.stream_url,
                     success:function () {
                         _eventAggregator.trigger("track_playing");
+                        _eventAggregator.trigger("track_changed", data);
                     },
                     error:function () {
-
+                        alert("Error playing mix. Do please try again.");
                     }
                 });
             }
