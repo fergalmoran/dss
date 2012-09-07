@@ -43,8 +43,12 @@ var AppRouter = Backbone.Router.extend({
         mixList.fetch({
             data:data,
             success:function () {
-                var content = new MixListView({collection:mixList}).el;
+                var mixes = new MixListView({collection:mixList});
+                var content = mixes.el;
                 $('#content').html(content);
+                if (mixes.itemPlaying != null){
+                    com.podnoms.settings.setupPlayer(mixes.itemPlaying.toJSON(), mixes.itemPlaying.get('id'));
+                }
             }
         });
     },
@@ -55,6 +59,11 @@ var AppRouter = Backbone.Router.extend({
                 var html = new MixView({model:mix});
                 $('#content').html(html.el);
                 $('#site-content-fill').html('');
+
+                if (com.podnoms.player.isPlayingId(mix.get('id'))){
+                    com.podnoms.settings.setupPlayer(mix.toJSON(), mix.get('id'));
+                }
+
                 var comments = new CommentCollection();
                 comments.url = com.podnoms.settings.urlRoot + mix.attributes.item_url + "/comments/";
                 comments.mix_id = id;

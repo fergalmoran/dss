@@ -50,11 +50,11 @@ com.podnoms.player = {
                 (this.currentSound.duration / 100) * ((event.pageX - this.waveFormLeft) / this.waveFormWidth) * 100);
         }
     },
-    _mouseMove: function(event){
+    _mouseMove:function (event) {
         this.seekHeadEl.show();
         this.seekHeadEl.css('left', (event.pageX) + 'px').fadeIn('fast');
     },
-    _mouseLeave: function(event){
+    _mouseLeave:function (event) {
         this.seekHeadEl.hide();
     },
     _destroyCurrent:function (success) {
@@ -80,7 +80,7 @@ com.podnoms.player = {
         this.playButtonEl = options.playButtonEl;
         this.currentPath = options.url;
     },
-    _setupParams: function(){
+    _setupParams:function () {
         this.waveFormTop = this.waveFormEl.position().top;
         this.waveFormLeft = this.waveFormEl.offset().left;
         this.waveFormWidth = this.waveFormEl.width();
@@ -92,14 +92,30 @@ com.podnoms.player = {
         this.waveFormEl.mouseout($.proxy(this._mouseLeave, this));
     },
     /*Methods*/
+    isPlaying:function () {
+        if (this.currentSound != null)
+            return this.currentSound.playState == 1;
+    },
+    isPlayingId:function (id) {
+        return this.isPlaying() && this.currentSound.sID == id;
+    },
     setupPlayer:function (options) {
+        this._parseOptions(options);
+        this._setupParams();
+        if (this.isPlayingId(options.id)){
+            this.playButtonEl
+                .removeClass('play-button-small-start')
+                .removeClass('play-button-small-loading')
+                .addClass('play-button-small-pause');
+        }
+    },
+    startPlaying:function (options) {
         var ref = this;
+        var currId = this.currentId;
         this._destroyCurrent(function () {
-            ref._parseOptions(options);
-            ref._setupParams();
             ref.currentSound = soundManager.createSound({
-                id:'com.podnoms.player.current',
                 url:ref.currentPath,
+                id:currId.toString(),
                 volume:com.podnoms.settings.volume,
                 stream:true,
                 whileloading:function () {
@@ -109,8 +125,14 @@ com.podnoms.player = {
                     ref._whilePlaying();
                 }
             });
-            ref.play();
-            options.success();
+            if (ref.currentSound) {
+                ref.play();
+                options.success();
+            }
+            else {
+                com.podnoms.utils.showError('Oooopsies', 'Error playing sound..');
+                options.failure();
+            }
         });
     },
 

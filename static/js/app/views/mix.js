@@ -15,8 +15,10 @@ window.MixListItemView = Backbone.View.extend({
     },
     render:function () {
         $(this.el).html(this.template({"item":this.model.toJSON()}));
-        this.setLikeButton(this.model.get("id"), this.model.get('liked'));
-        this.setFavouriteButton(this.model.get("id"), this.model.get('favourited'));
+        var id = this.model.get("id");
+        this.setLikeButton(id, this.model.get('liked'));
+        this.setFavouriteButton(id, this.model.get('favourited'));
+
         return this;
     },
     setLikeButton:function (id, liked) {
@@ -80,21 +82,37 @@ window.MixListItemView = Backbone.View.extend({
             'ajax/mix_stream_url/' + id + '/',
             function (data) {
                 com.podnoms.settings.setupPlayer(data, id);
+                com.podnoms.player.startPlaying({
+                    success:function () {
+                        _eventAggregator.trigger("track_playing");
+                        _eventAggregator.trigger("track_changed", data);
+                    },
+                    error:function () {
+                        alert("Error playing mix. Do please try again.");
+                    }
+                });
+                com.podnoms.storage.setItem('now_playing', id);
             }
         );
     }
 });
 
 window.MixListView = Backbone.View.extend({
+    itemPlaying: null,
     initialize:function () {
         this.render();
     },
     render:function () {
         var mixes = this.collection;
         var el = this.el;
+        var ref = this;
         $(this.el).html(this.template()).append('<ul class="mix-listing audio-listing"></ul>');
         this.collection.each(function (item) {
             $('.mix-listing', el).append(new MixListItemView({model:item}).render().el);
+            if (com.podnoms.player.isPlayingId(item.get('id'))){
+                console.log("Item "+ item.get('id') + " is playing...");
+                ref.itemPlaying = item;
+            }
         });
         var type = this.collection.type;
         $('#' + type, this.el).parent().addClass('active');

@@ -16,7 +16,7 @@ com.podnoms.utils = {
         });
         $.when.apply(null, deferreds).done(callback);
     },
-    trackPageView: function(url){
+    trackPageView:function (url) {
         if (!(typeof(_gag) == "undefined"))
             _gaq.push(['_trackPageview', "/" + url]);
     },
@@ -38,6 +38,9 @@ com.podnoms.utils = {
         controlGroup.removeClass('error');
         $('.help-inline', controlGroup).html('');
     },
+    showError:function (title, message) {
+        this.showAlert(title, message, 'alert-error', true);
+    },
     showAlert:function (title, text, klass, fade) {
         $('.alert').removeClass("alert-error alert-warning alert-success alert-info");
         $('.alert').addClass(klass);
@@ -55,23 +58,23 @@ com.podnoms.utils = {
         $('.alert').fadeOut('slow', function () {
         });
     },
-    pad2:function (number){
+    pad2:function (number) {
         return (number < 10 ? '0' : '') + number;
     },
-    getDateAsToday: function () {
+    getDateAsToday:function () {
         var currentTime = new Date();
         var day = currentTime.getDate();
         var month = currentTime.getMonth() + 1;
         var year = currentTime.getFullYear();
         return (com.podnoms.utils.pad2(day) + "/" + com.podnoms.utils.pad2(month) + "/" + year);
     },
-    isEmpty: function (val) {
+    isEmpty:function (val) {
         return (val === undefined || val == null || val.length <= 0) ? true : false;
     },
-    setHashbangHeader: function (xhr) {
+    setHashbangHeader:function (xhr) {
         xhr.setRequestHeader('X-FB-Nonsense', 'Argle-Bargle');
     },
-    generateGuid: function() {
+    generateGuid:function () {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
             var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
