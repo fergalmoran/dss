@@ -1,17 +1,40 @@
 <style type="text/css">
-    .side-player{
+    .side-player {
+        display: block;
         background: none repeat scroll 0 0 #FFFFFF;
         border: 1px solid #BFD4D9;
         border-radius: 3px 3px 3px 3px;
         list-style: none outside none;
-        margin-bottom: 5px;
-        padding: 5px 10px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        margin: 0 0 10px 25px;
+    }
+
+    #whats-on {
+        padding: 15px 0 15px 70px;
+        background: url(/static/img/whats-on.png) no-repeat left;
+        margin: 0;
     }
 </style>
-<div class="row">
-    {% if user.is_staff %}
+<div class="row" id="side-player-area">
+    <div id="whats-on">
+        {% if user.is_staff %}
+        <h3>Now playing
+            <button id="sidebar-listen-live" class="btn btn-mini btn-primary push-right btn-inverse"
+                    data-toggle="button" type="button">
+                Listen Live
+            </button>
+        </h3>
+    </div>
     <div class="side-player">
-        Player goes here...
+        <span class="content">
+            <div>
+                You: <a href="#" id="now-playing">Nothing currently on</a>
+            </div>
+            <div>
+                Live: <span id="live-now-playing"></span>
+            </div>
+        </span>
     </div>
     {% endif %}
 </div>
