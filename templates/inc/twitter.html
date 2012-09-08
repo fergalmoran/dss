@@ -1,41 +1,53 @@
-<a href="https://twitter.com/DeepSouthSounds" class="twitter-follow-button" data-show-count="false" data-size="large">Follow
-    @DeepSouthSounds</a>
-<script>!function (d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (!d.getElementById(id)) {
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//platform.twitter.com/widgets.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }
-}(document, "script", "twitter-wjs");</script>
-
-<script>
-    new TWTR.Widget({
-        version:2,
-        type:'list',
-        rpp:30,
-        interval:30000,
-        title:'What\'s happening',
-        subject:'',
-        width:'auto',
-        height:500,
-        theme:{
-            shell:{
-                background:'#33332d',
-                color:'#ffffff'
-            },
-            tweets:{
-                background:'#ffffff',
-                color:'#444444',
-                links:'#33332d'
-            }
-        },
-        features:{
-            scrollbar:true,
-            loop:false,
-            live:true,
-            behavior:'all'
+<div id="woo_twitter-3" class="widget widget_woo_twitter"><h3>Twitter</h3>
+    <div class="back">
+        <ul id="twitter_update_list_woo_twitter-3">
+            <li></li>
+        </ul>
+        <p>
+            Follow <a href="http://twitter.com/deepsouthsounds"><strong>@deepsouthsounds</strong></a> on Twitter
+        </p>
+    </div>
+    <div class="clear"></div>
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    function twitterCallback2(twitters) {
+        var statusHTML = [];
+        for (var i = 0; i < twitters.length; i++) {
+            var username = twitters[i].user.screen_name;
+            var status = twitters[i].text.replace(/((https?|s?ftp|ssh)\:\/\/[^"\s\<\>]*[^.,;'">\:\s\<\>\)\]\!])/g,function (url) {
+                return'<a href="' + url + '">' + url + '</a>';
+            }).replace(/\B@([_a-z0-9]+)/ig, function (reply) {
+                return reply.charAt(0) + '<a href="http://twitter.com/' + reply.substring(1) + '">' + reply.substring(1) + '</a>';
+            });
+            statusHTML.push('<li><span class="content">' + status + '</span> <a style="font-size:85%" class="time" href="http://twitter.com/' + username + '/statuses/' + twitters[i].id_str + '">' + relative_time(twitters[i].created_at) + '</a></li>');
         }
-    }).render().setList('DeepSouthSounds', 'sitefeed').start();
-</script>
+        document.getElementById('twitter_update_list_woo_twitter-3').innerHTML = statusHTML.join('');
+    }
+    function relative_time(time_value) {
+        var values = time_value.split(" ");
+        time_value = values[1] + " " + values[2] + ", " + values[5] + " " + values[3];
+        var parsed_date = Date.parse(time_value);
+        var relative_to = (arguments.length > 1) ? arguments[1] : new Date();
+        var delta = parseInt((relative_to.getTime() - parsed_date) / 1000);
+        delta = delta + (relative_to.getTimezoneOffset() * 60);
+        if (delta < 60) {
+            return'less than a minute ago';
+        } else if (delta < 120) {
+            return'about a minute ago';
+        } else if (delta < (60 * 60)) {
+            return(parseInt(delta / 60)).toString() + ' minutes ago';
+        } else if (delta < (120 * 60)) {
+            return'about an hour ago';
+        } else if (delta < (24 * 60 * 60)) {
+            return'about ' + (parseInt(delta / 3600)).toString() + ' hours ago';
+        } else if (delta < (48 * 60 * 60)) {
+            return'1 day ago';
+        } else {
+            return(parseInt(delta / 86400)).toString() + ' days ago';
+        }
+    }
+    /*]]>*/
+    </script>
+    <script type="text/javascript"
+            src="http://api.twitter.com/1/statuses/user_timeline/NooShoes.json?callback=twitterCallback2&amp;count=3&amp;include_rts=t"></script>
+</div>

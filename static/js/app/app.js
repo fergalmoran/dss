@@ -37,8 +37,8 @@ var AppRouter = Backbone.Router.extend({
         var mixList = new MixCollection();
         mixList.type = type || 'latest';
         $('#site-content-fill').html('');
-        //this.sidebarView = new SidebarView();
-        //$('#sidebar').html(this.sidebarView.el);
+        this.sidebarView = new SidebarView();
+        $('#sidebar').html(this.sidebarView.el);
         var data = type != undefined ? $.param({sort:type}) : null;
         mixList.fetch({
             data:data,

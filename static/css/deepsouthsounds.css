@@ -472,3 +472,66 @@ input[type=submit] {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+
+.widget_woo_twitter
+.back {
+    padding: 0px
+}
+
+.widget_woo_twitter
+ul {
+    background: none;
+    padding-left: 0
+}
+
+.widget_woo_twitter ul
+li {
+    background: #fff;
+    border: 1px solid #BFD4D9;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    list-style: none
+}
+
+.widget_woo_twitter ul li
+a {
+    padding: 0px
+}
+
+.widget_woo_twitter ul li
+.time {
+    color: #999
+}
+
+.widget_woo_twitter
+p {
+    padding-top: 10px
+}
+
+.widget_woo_twitter p
+a {
+    color: #222
+}
+
+.widget_woo_twitter ul li
+.content {
+    font-size: 12px
+}
+
+.widget_woo_twitter ul li
+.time {
+    display: block
+}
+
+.widget.widget_woo_twitter
+h3 {
+    border-bottom: none;
+    padding: 0;
+    margin: 0;
+    padding: 15px 0 15px 70px;
+    background: url(/static/img/twitter-ico.png) no-repeat left;
+    margin-bottom: 10px
+}

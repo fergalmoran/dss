@@ -1,1 +1,20 @@
-{% include 'inc/twitter.html' %}
+<style type="text/css">
+    .side-player{
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #BFD4D9;
+        border-radius: 3px 3px 3px 3px;
+        list-style: none outside none;
+        margin-bottom: 5px;
+        padding: 5px 10px;
+    }
+</style>
+<div class="row">
+    {% if user.is_staff %}
+    <div class="side-player">
+        Player goes here...
+    </div>
+    {% endif %}
+</div>
+<div class="row">
+    {% include 'inc/twitter.html' %}
+</div>
