@@ -2,6 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 import humanize
 from tastypie.authorization import Authorization
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.models.Recurrence import Recurrence
 from spa.models.Venue import Venue
 from spa.models.Event import  Event
 
@@ -31,4 +32,9 @@ class EventResource(BackboneCompatibleResource):
                 venue.save()
 
             bundle.obj.event_venue = venue
+
+        recurrence = Recurrence.objects.get(pk=bundle.data['event_recurrence_id'])
+        if recurrence != None:
+            bundle.obj.event_recurrence = recurrence
+
         return bundle

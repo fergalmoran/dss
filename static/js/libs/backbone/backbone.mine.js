@@ -59,10 +59,9 @@ window.DSSModel = window.TastypieModel.extend({
 window.DSSEditableView = Backbone.View.extend({
     events:{
         "change input":"changed",
-        "change textarea":"changed",
-        "change":"changedSelect"
+        "change textarea":"changed"
     },
-    changedSelect: function(evt){
+    changeSelect: function(evt){
         console.log("Changed select");
         var changed = evt.currentTarget;
         var value = $(evt.currentTarget).val();
@@ -83,7 +82,6 @@ window.DSSEditableView = Backbone.View.extend({
         //TODO this way we can initialise more than one lookup per page
         var model = this.model;
         var labels, mapped;
-        _.bindAll(this, "changedSelect");
         $('.typeahead', el).typeahead({
             source:function (query, process) {
                 $.get(

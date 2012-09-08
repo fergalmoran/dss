@@ -64,7 +64,8 @@ var EventCreateView = DSSEditableView.extend({
     events:{
         "click #save-changes":"saveChanges",
         "change input":"changed",
-        "change textarea":"changed"
+        "change textarea":"changed",
+        "change select": "changeSelect"
     },
     initialize:function () {
         this.render();

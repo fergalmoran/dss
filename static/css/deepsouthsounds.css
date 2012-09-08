@@ -1,5 +1,5 @@
 * {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'McLaren', cursive;
 }
 
 body {
@@ -466,6 +466,7 @@ input[type=submit] {
     border: 1px solid #666;
     background: #888;
 }
+
 .boxsizingBorder {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
