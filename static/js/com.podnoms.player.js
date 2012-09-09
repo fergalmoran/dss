@@ -4,16 +4,8 @@ if (!com.podnoms) com.podnoms = {};
 soundManager.setup({
     url:'/static/bin/sm/',
     debugMode:true,
-    flashPollingInterval:15,
-    flashVersion:9,
-    useFlashBlock:false,
-    useHighPerformance:true,
-    useHTML5Audio: true,
-    bufferTime: 0.1,
-    stream: true,
     wmode:'transparent'
 });
-soundManager.useFastPolling = true;
 
 com.podnoms.player = {
 
@@ -128,8 +120,6 @@ com.podnoms.player = {
                 url:ref.currentPath,
                 id:"com.podnoms.player-" + currId.toString(),
                 volume:com.podnoms.settings.volume,
-                bufferTime: 0.1,
-                stream:true,
                 whileloading:function () {
                     ref._whileLoading();
                 },
