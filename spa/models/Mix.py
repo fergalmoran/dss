@@ -62,7 +62,7 @@ class Mix(_BaseModel):
         return settings.STATIC_URL + 'img/default-track.png'
 
     def get_stream_path(self):
-        return settings.MEDIA_URL + self.local_file.name
+        return '/audio/stream/%d' % self.id;
 
     @classmethod
     def get_listing(cls, listing_type, user=None):

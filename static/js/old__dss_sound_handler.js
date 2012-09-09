@@ -1,11 +1,3 @@
-$(document).ready(function () {
-    soundManager.url = '/static/bin/sm/';
-    soundManager.flashVersion = 9;
-    soundManager.debugMode = false;
-    soundManager.useHTML5Audio = true;
-    soundManager.preferFlash = false;
-});
-
 function DssSoundHandler() {
     var _currentSound = null;
     var _currentId = -1;

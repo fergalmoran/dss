@@ -1,11 +1,19 @@
 if (!com) var com = {};
 if (!com.podnoms) com.podnoms = {};
 
-soundManager.url = '/static/bin/sm/';
-soundManager.flashVersion = 9;
-soundManager.debugMode = false;
-soundManager.useHTML5Audio = true;
-soundManager.preferFlash = false;
+soundManager.setup({
+    url:'/static/bin/sm/',
+    debugMode:true,
+    flashPollingInterval:15,
+    flashVersion:9,
+    useFlashBlock:false,
+    useHighPerformance:true,
+    useHTML5Audio: true,
+    bufferTime: 0.1,
+    stream: true,
+    wmode:'transparent'
+});
+soundManager.useFastPolling = true;
 
 com.podnoms.player = {
 
@@ -29,6 +37,10 @@ com.podnoms.player = {
         var percentageFinished = (this.currentSound.bytesLoaded / this.currentSound.bytesTotal) * 100;
         var percentageWidth = (this.waveFormWidth / 100) * percentageFinished;
         this.loadingEl.css('width', percentageWidth);
+        soundManager._writeDebug(
+            'sound ' + this.currentSound.id +
+            ' loading, ' + this.currentSound.bytesLoaded +
+            ' of ' + this.currentSound.bytesTotal);
     },
     _whilePlaying:function () {
         if (!this.trackLoaded) {
@@ -37,7 +49,6 @@ com.podnoms.player = {
                 .addClass('play-button-small-pause');
             this.trackLoaded = true;
         }
-
 
         this.currentPosition = this.currentSound.position;
         var percentageFinished = (this.currentPosition / this.currentSound.duration) * 100;
@@ -97,12 +108,12 @@ com.podnoms.player = {
             return this.currentSound.playState == 1;
     },
     isPlayingId:function (id) {
-        return this.isPlaying() && this.currentSound.sID == id;
+        return this.isPlaying() && this.currentSound.sID == "com.podnoms.player-" + id;
     },
     setupPlayer:function (options) {
         this._parseOptions(options);
         this._setupParams();
-        if (this.isPlayingId(options.id)){
+        if (this.isPlayingId(options.id)) {
             this.playButtonEl
                 .removeClass('play-button-small-start')
                 .removeClass('play-button-small-loading')
@@ -115,8 +126,9 @@ com.podnoms.player = {
         this._destroyCurrent(function () {
             ref.currentSound = soundManager.createSound({
                 url:ref.currentPath,
-                id:currId.toString(),
+                id:"com.podnoms.player-" + currId.toString(),
                 volume:com.podnoms.settings.volume,
+                bufferTime: 0.1,
                 stream:true,
                 whileloading:function () {
                     ref._whileLoading();
