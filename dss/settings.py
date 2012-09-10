@@ -219,4 +219,4 @@ GOOGLE_ANALYTICS_CODE = localsettings.GOOGLE_ANALYTICS_CODE
 
 SENDFILE_BACKEND = localsettings.SENDFILE_BACKEND
 SENDFILE_ROOT = os.path.join(MEDIA_ROOT, 'mixes')
-SENDFILE_URL = '/mixes'
+SENDFILE_URL = '/media/mixes'
