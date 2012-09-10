@@ -148,6 +148,24 @@ com.podnoms.player = {
             }
         });
     },
+    playLive:function () {
+        var ref = this;
+        this._destroyCurrent(function () {
+            ref.currentSound = soundManager.createSound({
+                id:'com.podnoms.player-live',
+                url:com.podnoms.settings.liveStreamRoot,
+                volume:50,
+                stream:true,
+                useMovieStar:true
+            });
+            if (ref.currentSound) {
+                ref.currentSound.play();
+            }
+            else {
+                com.podnoms.utils.showError('Oooopsies', 'Error playing sound..');
+            }
+        });
+    },
 
     play:function () {
         this.currentSound.play();

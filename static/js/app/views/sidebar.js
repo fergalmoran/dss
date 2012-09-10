@@ -12,6 +12,11 @@ window.SidebarView = Backbone.View.extend({
         _eventAggregator.bind("track_changed", this.trackChanged);
         _eventAggregator.bind("track_playing", this.trackPlaying);
         _eventAggregator.bind("track_paused", this.trackPaused);
+        $.getJSON(
+            'ajax/live_now_playing/',
+            function (data) {
+                $("#live-now-playing", this.el).text(data.title);
+            });
     },
     render: function(){
         $(this.el).html(this.template());
@@ -35,7 +40,7 @@ window.SidebarView = Backbone.View.extend({
         $(this.el).find('#header-play-button-icon').addClass('icon-play');
     },
     playLive:function () {
-        dssSoundHandler.playLive();
+        com.podnoms.player.playLive();
         _eventAggregator.trigger("track_playing")
         var button = $(this.el).find('#sidebar-play-pause-button-small');
         var el = this.el;

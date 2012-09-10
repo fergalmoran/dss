@@ -30,6 +30,7 @@ window.HeaderView = Backbone.View.extend({
         return this;
     },
     playLive:function () {
+        var ref = this;
         dssSoundHandler.playLive();
         _eventAggregator.trigger("track_playing")
         var button = $(this.el).find('#header-play-pause-button');
@@ -37,7 +38,8 @@ window.HeaderView = Backbone.View.extend({
         $.getJSON(
             'ajax/live_now_playing/',
             function (data) {
-                _eventAggregator.trigger("track_changed", data);
+                alert(data.title);
+                $(ref.el).find('#live-now-playing').text(data.title);
             });
     },
     togglePlayState:function () {
