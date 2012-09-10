@@ -27,14 +27,18 @@ def redirect_mix(request, mix_id):
         mix = Mix.objects.get(pk=mix_id)
     except Mix.DoesNotExist:
         raise Http404
+
+    image = mix.get_image()
+    audio_url = mix.get_stream_path()
+    redirect_url = mix.get_absolute_url()
     response = render_to_response(
         'inc/fb_like.html',
         {
             "app_id"        : settings.FACEBOOK_APP_ID,
             "description"   : mix.title,
-            "audio_url"     : 'http://www.%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix.get_stream_path()),
-            "image_url"     : 'http://www.%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix.get_image()),
-            "redirect"      : 'http://www.%s:%s#%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix.get_absolute_url())
+            "audio_url"     : 'http://www.%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], audio_url),
+            "image_url"     : 'http://www.%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], image),
+            "redirect"      : 'http://www.%s:%s#%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], redirect_url)
         },
         context_instance = RequestContext(request)
     )
