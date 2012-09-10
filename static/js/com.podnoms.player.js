@@ -48,10 +48,12 @@ com.podnoms.player = {
         this.playHeadEl.css('width', percentageWidth);
     },
     _mouseDown:function (event) {
+        console.log("Got mousedown: " + event.pageX);
         if (this.currentSound != null) {
             this.currentSound.setPosition(
                 (this.currentSound.duration / 100) * ((event.pageX - this.waveFormLeft) / this.waveFormWidth) * 100);
         }
+        $(event.currentTarget).mouseup($.proxy(this._mouseDown, this));
     },
     _mouseMove:function (event) {
         this.seekHeadEl.show();
@@ -90,7 +92,8 @@ com.podnoms.player = {
         this.playHeadEl.css('top', this.waveFormTop);
         this.loadingEl.css('top', this.waveFormTop);
         this.seekHeadEl.css('top', this.waveFormTop);
-        this.waveFormEl.mousedown($.proxy(this._mouseDown, this));
+        /*this.waveFormEl.mousedown($.proxy(this._mouseDown, this));*/
+        this.waveFormEl.mouseup($.proxy(this._mouseDown, this));
         this.waveFormEl.mousemove($.proxy(this._mouseMove, this));
         this.waveFormEl.mouseout($.proxy(this._mouseLeave, this));
     },
