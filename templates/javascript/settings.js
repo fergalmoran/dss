@@ -6,6 +6,7 @@ com.podnoms.settings = {
     liveStreamRoot:'http://{{ LIVE_STREAM_URL }}:{{ LIVE_STREAM_PORT }}/{{ LIVE_STREAM_MOUNT }}',
     streamInfoUrl:'http://{{ LIVE_STREAM_INFO_URL }}',
     volume:'{{ DEFAULT_AUDIO_VOLUME }}',
+    smDebugMode: false,
     setupPlayer:function (data, id) {
         com.podnoms.player.setupPlayer({
             id:id,

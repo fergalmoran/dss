@@ -4,7 +4,7 @@ if (!com.podnoms) com.podnoms = {};
 
 soundManager.setup({
     url:'/static/bin/sm/',
-    debugMode:true,
+    debugMode:false,
     wmode:'transparent',
     usePeakData:false, // [Flash 9 only]: show peak data
     useWaveformData:false, // [Flash 9 only]: enable sound spectrum (raw waveform data) - WARNING: CPU-INTENSIVE: may set CPUs on fire.
