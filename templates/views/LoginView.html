@@ -14,30 +14,4 @@
         </ul>
     </div>
     <br/>
-    <div class="login-or">or</div>
-    {% include "socialaccount/snippets/login_extra.html" %}
-    <form method="post" action="{% url account_login %}" class="uniForm">
-        {% csrf_token %}
-        {% if form.errors %}
-        <div id="errorMsg"><h3>Warning!</h3>
-            Unknown username or password.
-        </div>
-        {% endif %}
-        <fieldset>
-            <div class="ctrlHolder">
-                <label for="id_username">Username</label>
-                <input type="text" id="id_username" name="username" autocomplete="on" class="textInput">
-            </div>
-
-            <div class="ctrlHolder">
-                <label for="id_password">Password</label>
-                <input type="password" name="password" id="id_password" class="textInput">
-            </div>
-
-            <div class="buttonHolder">
-                <button type="submit" class="primaryAction">Submit</button>
-            </div>
-        </fieldset>
-    </form>
-    <a href="{{ signup_url }}">Sign up</a>
 </div>
