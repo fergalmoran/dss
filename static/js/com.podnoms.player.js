@@ -1,14 +1,19 @@
 if (!com) var com = {};
 if (!com.podnoms) com.podnoms = {};
 
+
 soundManager.setup({
     url:'/static/bin/sm/',
     debugMode:true,
-    wmode:'transparent'
+    wmode:'transparent',
+    usePeakData:false, // [Flash 9 only]: show peak data
+    useWaveformData:false, // [Flash 9 only]: enable sound spectrum (raw waveform data) - WARNING: CPU-INTENSIVE: may set CPUs on fire.
+    useEQData:false, // [Flash 9 only]: enable sound EQ (frequency spectrum data) - WARNING: Also CPU-intensive.
+    fillGraph:false, // [Flash 9 only]: draw full lines instead of only top (peak) spectrum points
+    useThrottling:true    // try to rate-limit potentially-expensive calls (eg. dragging position around)
 });
 
 com.podnoms.player = {
-
     /*Members*/
     currentId:-1,
     currentPath:'',
@@ -25,6 +30,13 @@ com.podnoms.player = {
     totalLength:-1,
     currentPosition:-1,
     /*Privates */
+    _getDurationEstimate:function (oSound) {
+        if (oSound.instanceOptions.isMovieStar) {
+            return (oSound.duration);
+        } else {
+            return (!oSound._data.metadata || !oSound._data.metadata.data.givenDuration ? (oSound.durationEstimate || 0) : oSound._data.metadata.data.givenDuration);
+        }
+    },
     _whileLoading:function () {
         var percentageFinished = (this.currentSound.bytesLoaded / this.currentSound.bytesTotal) * 100;
         var percentageWidth = (this.waveFormWidth / 100) * percentageFinished;
@@ -37,9 +49,9 @@ com.podnoms.player = {
                 .addClass('play-button-small-pause');
             this.trackLoaded = true;
         }
-
         this.currentPosition = this.currentSound.position;
-        var percentageFinished = (this.currentPosition / this.currentSound.duration) * 100;
+        var duration = this.currentSound.durationEstimate;
+        var percentageFinished = (this.currentSound.position / duration) * 100;
         var percentageWidth = (this.waveFormWidth / 100) * percentageFinished;
         this.playHeadEl.css('width', percentageWidth);
     },
