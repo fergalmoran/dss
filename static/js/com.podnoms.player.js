@@ -29,10 +29,6 @@ com.podnoms.player = {
         var percentageFinished = (this.currentSound.bytesLoaded / this.currentSound.bytesTotal) * 100;
         var percentageWidth = (this.waveFormWidth / 100) * percentageFinished;
         this.loadingEl.css('width', percentageWidth);
-        soundManager._writeDebug(
-            'sound ' + this.currentSound.id +
-            ' loading, ' + this.currentSound.bytesLoaded +
-            ' of ' + this.currentSound.bytesTotal);
     },
     _whilePlaying:function () {
         if (!this.trackLoaded) {
