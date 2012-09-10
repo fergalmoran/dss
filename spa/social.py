@@ -32,9 +32,9 @@ def redirect_mix(request, mix_id):
         {
             "app_id"        : settings.FACEBOOK_APP_ID,
             "description"   : mix.title,
-            "audio_url"     : 'http://ext-test.%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix.get_stream_path()),
-            "image_url"     : 'http://ext-test.%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix.get_image()),
-            "redirect"      : 'http://ext-test.%s:%s#%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix.get_absolute_url())
+            "audio_url"     : 'http://www.%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix.get_stream_path()),
+            "image_url"     : 'http://www.%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix.get_image()),
+            "redirect"      : 'http://www.%s:%s#%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix.get_absolute_url())
         },
         context_instance = RequestContext(request)
     )
