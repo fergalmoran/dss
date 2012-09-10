@@ -17,7 +17,7 @@ def start_streaming(request, mix_id):
     try:
         mix = Mix.objects.get(pk=mix_id)
         if mix is not None:
-            filename = mix.local_file.file.name   # Select your file here.
+            filename = mix.local_file.path   # Select your file here.
             response = sendfile(request, filename)
             """
             #wrapper = FixedFileWrapper(open(filename, 'rb'))
