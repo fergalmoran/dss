@@ -1,3 +1,11 @@
+/** @license
+
+ ----------------------------------------------
+
+ Copyright (c) 2012, Fergal Moran. All rights reserved.
+ Code provided under the BSD License:
+
+ */
 var EventListItemView = Backbone.View.extend({
     tagName:"tr",
     initialize:function () {

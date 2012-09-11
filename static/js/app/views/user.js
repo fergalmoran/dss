@@ -1,3 +1,11 @@
+/** @license
+
+ ----------------------------------------------
+
+ Copyright (c) 2012, Fergal Moran. All rights reserved.
+ Code provided under the BSD License:
+
+ */
 window.UserView = Backbone.View.extend({
     events:{
         "click #save-changes":"saveChanges",

@@ -1,3 +1,11 @@
+/** @license
+
+ ----------------------------------------------
+
+ Copyright (c) 2012, Fergal Moran. All rights reserved.
+ Code provided under the BSD License:
+
+ */
 postFacebookLike = function (mixId) {
     //first off, find if the current user has allowed facebook likes
 

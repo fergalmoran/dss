@@ -1,3 +1,12 @@
+/** @license
+
+ ----------------------------------------------
+
+ Copyright (c) 2012, Fergal Moran. All rights reserved.
+ Code provided under the BSD License:
+
+ */
+
 if (!com) var com = {};
 if (!com.podnoms) com.podnoms = {};
 

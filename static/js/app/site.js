@@ -1,3 +1,11 @@
+/** @license
+
+ ----------------------------------------------
+
+ Copyright (c) 2012, Fergal Moran. All rights reserved.
+ Code provided under the BSD License:
+
+ */
 $(document).ajaxSend(function (event, xhr, settings) {
     function getCookie(name) {
         var cookieValue = null;

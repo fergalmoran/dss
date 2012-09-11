@@ -1,3 +1,11 @@
+/** @license
+
+ ----------------------------------------------
+
+ Copyright (c) 2012, Fergal Moran. All rights reserved.
+ Code provided under the BSD License:
+
+ */
 var Event = DSSModel.extend({
     urlRoot:com.podnoms.settings.urlRoot + "event/",
     isValid:function () {

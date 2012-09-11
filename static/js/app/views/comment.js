@@ -1,3 +1,11 @@
+/** @license
+
+ ----------------------------------------------
+
+ Copyright (c) 2012, Fergal Moran. All rights reserved.
+ Code provided under the BSD License:
+
+ */
 window.CommentListItemView = Backbone.View.extend({
     tagName:"li",
     initialize:function () {
