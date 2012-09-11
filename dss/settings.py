@@ -1,4 +1,4 @@
-# Django settings for dss project.
+## Django settings for dss project.
 from datetime import timedelta
 from django.core.urlresolvers import reverse_lazy
 import djcelery
