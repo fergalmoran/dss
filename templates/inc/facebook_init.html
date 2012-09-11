@@ -1,17 +1,13 @@
 <script>
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '154504534677009', // App ID
-            channelUrl : '//www.deepsouthsounds.com/channel.html', // Channel File
-            status     : true, // check login status
-            cookie     : true, // enable cookies to allow the server to access the session
-            xfbml      : true  // parse XFBML
+            appId      : '154504534677009',
+            channelUrl : 'http://www.deepsouthsounds.com/channel.html',
+            status     : true,
+            cookie     : true,
+            xfbml      : true
         });
-
-        // Additional initialization code here
     };
-
-    // Load the SDK Asynchronously
     (function(d){
         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
         if (d.getElementById(id)) {return;}
