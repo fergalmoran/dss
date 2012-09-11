@@ -80,7 +80,7 @@ class Mix(_BaseModel):
                 .order_by('-karma')
         elif listing_type == 'mostplayed':
             queryset = Mix.objects.all()\
-                .annotate(karma=Count('likes'))\
+                .annotate(karma=Count('plays'))\
                 .order_by('-karma')
         elif listing_type == 'recommended':
             queryset = Mix.objects.all().order_by( '-id')
