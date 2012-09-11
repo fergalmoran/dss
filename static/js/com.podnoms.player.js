@@ -5,13 +5,13 @@ if (!com.podnoms) com.podnoms = {};
 soundManager.setup({
     url:'/static/bin/sm/',
     debugMode:false,
-    wmode:'transparent',
-    usePeakData:false, // [Flash 9 only]: show peak data
-    useWaveformData:false, // [Flash 9 only]: enable sound spectrum (raw waveform data) - WARNING: CPU-INTENSIVE: may set CPUs on fire.
-    useEQData:false, // [Flash 9 only]: enable sound EQ (frequency spectrum data) - WARNING: Also CPU-intensive.
-    fillGraph:false, // [Flash 9 only]: draw full lines instead of only top (peak) spectrum points
-    useThrottling:true    // try to rate-limit potentially-expensive calls (eg. dragging position around)
+    wmode:'transparent'
 });
+soundManager.usePeakData = false;
+soundManager.useWaveformData = false;
+soundManager.useEQData = false;
+soundManager.fillGraph = false;
+soundManager.useThrottling = true;
 
 com.podnoms.player = {
     /*Members*/
