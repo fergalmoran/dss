@@ -20,30 +20,8 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/uploadifive.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/com.podnoms.player.css">
     {% endcompress %}
+    <script src="/js/settings/"></script>
 
-    {% load assets %}
-    {% assets filter="jsmin", output="gen/packed.js", "js/libs/jquery.min.js", "js/libs/jquery.form.js", "js/libs/ajaxfileupload.js" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
-
-    <!--
-    <script src="{{ STATIC_URL }}js/libs/jquery.min.js"></script>
-    {% compress js %}
-    <script src="{{ STATIC_URL }}js/libs/jquery.form.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/ajaxfileupload.js"></script>
-    -->
-    <script src="{{ STATIC_URL }}js/libs/uploadify/jquery.uploadifive.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/jquery.iphone-switch.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap.min.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-datepicker.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-timepicker.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/jasny/jasny-bootstrap.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-fileupload.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-rowlink.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/jquery.tablesorter.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/tiny_mce/jquery.tinymce.js"></script>
-    {% endcompress %}
     <!-- horrible fix for horrible facebook -->
     <!-- horrible horrible facebook -->
     <script type="text/javascript">
@@ -98,6 +76,21 @@
 
     </div>
 </div>
+<script src="{{ STATIC_URL }}js/libs/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}js/libs/jquery.form.js"></script>
+<script src="{{ STATIC_URL }}js/libs/ajaxfileupload.js"></script>
+<script src="{{ STATIC_URL }}js/libs/uploadify/jquery.uploadifive.js"></script>
+<script src="{{ STATIC_URL }}js/libs/jquery.iphone-switch.js"></script>
+<script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap.min.js"></script>
+<script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-datepicker.js"></script>
+<script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-timepicker.js"></script>
+<script src="{{ STATIC_URL }}js/libs/jasny/jasny-bootstrap.js"></script>
+<script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-fileupload.js"></script>
+<script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-rowlink.js"></script>
+<script src="{{ STATIC_URL }}js/libs/jquery.tablesorter.js"></script>
+<script src="{{ STATIC_URL }}js/libs/sm/soundmanager2.js"></script>
+<script src="{{ STATIC_URL }}js/libs/tiny_mce/jquery.tinymce.js"></script>
+
 <script src="{{ STATIC_URL }}js/libs/modernizr.js"></script>
 <script src="{{ STATIC_URL }}js/com.podnoms.player.js"></script>
 <script src="{{ STATIC_URL }}js/libs/backbone/underscore.js"></script>
@@ -106,12 +99,12 @@
 <script src="{{ STATIC_URL }}js/libs/backbone/backbone.mine.js"></script>
 <script src="{{ STATIC_URL }}js/libs/jquery.colorbox.js"></script>
 <!-- backbone application -->
+{% compress js %}
 <script src="{{ STATIC_URL }}js/libs/backbone/backbone-tastypie.js"></script>
 <script src="{{ STATIC_URL }}js/app/site.js"></script>
 <script src="{{ STATIC_URL }}js/app/social.js"></script>
 <script src="{{ STATIC_URL }}js/com.podnoms.utils.js"></script>
 <script src="{{ STATIC_URL }}js/com.podnoms.storage.js"></script>
-<script src="/js/settings/"></script>
 <script src="{{ STATIC_URL }}js/app/models/mix.js"></script>
 <script src="{{ STATIC_URL }}js/app/models/user.js"></script>
 <script src="{{ STATIC_URL }}js/app/models/comment.js"></script>
@@ -128,6 +121,7 @@
 <script src="{{ STATIC_URL }}js/app/views/event.js"></script>
 <script src="{{ STATIC_URL }}js/app/app.js"></script>
 <script src="{{ STATIC_URL }}js/app/social.js"></script>
+{%  endcompress %}
 
 {% block footerscripts %}
 {% endblock %}
