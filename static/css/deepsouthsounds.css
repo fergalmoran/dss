@@ -542,7 +542,7 @@ h3 {
     padding: 0;
     margin: 0;
     padding: 15px 0 15px 70px;
-    background: url(/static/img/twitter.png) no-repeat left;
+    background: url(../img/twitter.png) no-repeat left;
     margin-bottom: 10px
 }
 
@@ -569,6 +569,6 @@ div.event-content td {
 
 #whats-on {
     padding: 15px 0 15px 70px;
-    background: url(/static/img/whats-on.png) no-repeat left;
+    background: url(../img/whats-on.png) no-repeat left;
     margin: 0;
 }
