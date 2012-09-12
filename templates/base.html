@@ -4,7 +4,11 @@
     <meta charset="utf-8">
     <title>Deep South Sounds</title>
     {% include 'inc/meta.html' %}
+
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    {% load compress %}
+
+    {% compress css %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap/bootstrap-datepicker.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap/bootstrap-timepicker.css">
@@ -15,9 +19,10 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/deepsouthsounds.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/uploadifive.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/com.podnoms.player.css">
-
+    {% endcompress %}
 
     <script src="{{ STATIC_URL }}js/libs/jquery.min.js"></script>
+    {% compress js %}
     <script src="{{ STATIC_URL }}js/libs/jquery.form.js"></script>
     <script src="{{ STATIC_URL }}js/libs/ajaxfileupload.js"></script>
     <script src="{{ STATIC_URL }}js/libs/uploadify/jquery.uploadifive.js"></script>
@@ -31,6 +36,7 @@
     <script src="{{ STATIC_URL }}js/libs/jquery.tablesorter.js"></script>
     <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2.js"></script>
     <script src="{{ STATIC_URL }}js/libs/tiny_mce/jquery.tinymce.js"></script>
+    {% endcompress %}
     <!-- horrible fix for horrible facebook -->
     <!-- horrible horrible facebook -->
     <script type="text/javascript">

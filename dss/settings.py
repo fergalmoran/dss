@@ -81,6 +81,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
     )
 
 SECRET_KEY = '8*&amp;j)j4lnq*ft*=jhajvc7&amp;upaifb2f2s5(v6i($$+3p(4^bvd'
@@ -111,7 +112,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
-    #'pipeline.middleware.MinifyHTMLMiddleware'
+    'pipeline.middleware.MinifyHTMLMiddleware'
     )
 
 WSGI_APPLICATION = 'dss.wsgi.application'
@@ -128,11 +129,12 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django_facebook',
+    'compressor',
     'djcelery',
     #'debug_toolbar',
     'crispy_forms',
     'sorl.thumbnail',
-    #'pipeline',
+    'pipeline',
     'south', # the only requirement for SCT
     'avatar',
     'notification',
@@ -220,3 +222,15 @@ GOOGLE_ANALYTICS_CODE = localsettings.GOOGLE_ANALYTICS_CODE
 SENDFILE_BACKEND = localsettings.SENDFILE_BACKEND
 SENDFILE_ROOT = os.path.join(MEDIA_ROOT, 'mixes')
 SENDFILE_URL = '/media/mixes'
+PIPELINE_CSS = {
+    'site_css': {
+        'source_filenames': (
+          'static/css/*.css'
+        ),
+        'output_filename': 'static/css/dss_min.css',
+        'extra_context': {
+            'media': 'screen,projection',
+        },
+    },
+}
+COMPRESS_ENABLED = True
