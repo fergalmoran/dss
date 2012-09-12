@@ -4,7 +4,7 @@ from django.db.models import Count
 from django.forms import save_instance
 import os
 from core.utils.file import generate_save_file_name
-from dss import settings
+from dss import settings, localsettings
 from spa.models.MixLike import MixLike
 from spa.models.MixPlay import MixPlay
 from spa.models.UserProfile import UserProfile
@@ -49,7 +49,9 @@ class Mix(_BaseModel):
         return os.path.join(settings.MEDIA_ROOT, "waveforms/", "%s.%s" % (self.uid, "png"))
 
     def get_waveform_url(self):
-        return settings.MEDIA_URL + 'waveforms/%s.%s' % (self.uid, "png")
+        return \
+            localsettings.WAVEFORM_URL if hasattr(localsettings, 'WAVEFORM_URL') \
+            else settings.MEDIA_URL + 'waveforms/%s.%s' % (self.uid, "png")
 
     def get_image(self):
         try:
