@@ -49,9 +49,8 @@ class Mix(_BaseModel):
         return os.path.join(settings.MEDIA_ROOT, "waveforms/", "%s.%s" % (self.uid, "png"))
 
     def get_waveform_url(self):
-        return \
-            localsettings.WAVEFORM_URL if hasattr(localsettings, 'WAVEFORM_URL') \
-            else settings.MEDIA_URL + 'waveforms/%s.%s' % (self.uid, "png")
+        waveform_root = localsettings.WAVEFORM_URL if hasattr(localsettings, 'WAVEFORM_URL') else settings.MEDIA_URL
+        return "%s/waveforms/%s.%s" % (waveform_root, self.uid, "png")
 
     def get_image(self):
         try:
