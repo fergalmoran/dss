@@ -545,3 +545,30 @@ h3 {
     background: url(/static/img/twitter.png) no-repeat left;
     margin-bottom: 10px
 }
+
+div.event-content img {
+    width: auto;
+    height: auto;
+    max-width: none;
+}
+
+div.event-content td {
+    padding: 12px;
+}
+
+.side-player {
+    display: block;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #BFD4D9;
+    border-radius: 3px 3px 3px 3px;
+    list-style: none outside none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin: 0 0 10px 25px;
+}
+
+#whats-on {
+    padding: 15px 0 15px 70px;
+    background: url(/static/img/whats-on.png) no-repeat left;
+    margin: 0;
+}
