@@ -166,6 +166,7 @@ window.MixCreateView = DSSEditableView.extend({
         if (this.model.id == undefined) {
             $('#mix-upload', this.el).uploadifive({
                 'uploadScript':'ajax/upload_mix_file_handler/',
+                'buttonText': "Select audio file (mp3 for now please)",
                 'formData':{
                     'upload-hash':this.guid
                 },
