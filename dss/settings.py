@@ -40,7 +40,7 @@ MEDIA_ROOT = here('media')
 CACHE_ROOT = here('media/cache')
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = localsettings.STATIC_ROOT if hasattr(localsettings, 'STATIC_ROOT') else ''
+STATIC_ROOT = here('static') #localsettings.STATIC_ROOT if hasattr(localsettings, 'STATIC_ROOT') else ''
 STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 

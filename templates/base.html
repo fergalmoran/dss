@@ -17,9 +17,16 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/com.podnoms.player.css">
 
 
+    {% load assets %}
+    {% assets filter="jsmin", output="gen/packed.js", "js/libs/jquery.min.js", "js/libs/jquery.form.js", "js/libs/ajaxfileupload.js" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+    <!--
     <script src="{{ STATIC_URL }}js/libs/jquery.min.js"></script>
     <script src="{{ STATIC_URL }}js/libs/jquery.form.js"></script>
     <script src="{{ STATIC_URL }}js/libs/ajaxfileupload.js"></script>
+    -->
     <script src="{{ STATIC_URL }}js/libs/uploadify/jquery.uploadifive.js"></script>
     <script src="{{ STATIC_URL }}js/libs/jquery.iphone-switch.js"></script>
     <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap.min.js"></script>
