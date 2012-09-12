@@ -41,7 +41,11 @@ CACHE_ROOT = here('media/cache')
 MEDIA_URL = '/media/'
 
 STATIC_ROOT = here('static') #localsettings.STATIC_ROOT if hasattr(localsettings, 'STATIC_ROOT') else ''
-STATIC_URL = '/static/'
+if DEBUG:
+    STATIC_URL = '/static/'
+else:
+    STATIC_URL = 'http://static.deepsouthsounds.com/static/'
+
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 
 TINYMCE_JS_URL = os.path.join(STATIC_ROOT, "js/libs/tiny_mce/tiny_mce.js")
