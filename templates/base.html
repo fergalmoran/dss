@@ -81,12 +81,23 @@
 <script src="http://fergalmoran.github.com/cdn/js/jquery.form.min.js"></script>
 
 
-<script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap.min.js"></script>
-<script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-datepicker.js"></script>
-<script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-timepicker.js"></script>
-<script src="{{ STATIC_URL }}js/libs/jasny/jasny-bootstrap.js"></script>
-<script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-fileupload.js"></script>
-<script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-rowlink.js"></script>
+
+
+{% if debug %}
+    <script src="{{ STATIC_URL }}js/libs/jasny/jasny-bootstrap.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-timepicker.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-datepicker.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-fileupload.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-rowlink.js"></script>
+{% else %}
+    <script src="http://fergalmoran.github.com/cdn/js/bootstrap/bootstrap.min.js"></script>
+    <script src="http://fergalmoran.github.com/cdn/js/bootstrap-fileupload.min.js"></script>
+    <script src="http://fergalmoran.github.com/cdn/js/bootstrap-rowlink.min.js"></script>
+    <script src="http://fergalmoran.github.com/cdn/js/jasny-bootstrap.min.js"></script>
+    <script src="http://fergalmoran.github.com/cdn/js/bootstrap-timepicker.min.js"></script>
+    <script src="http://fergalmoran.github.com/cdn/js/bootstrap-datepicker.min.js"></script>
+{% endif %}
 
 <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2-nodebug-jsmin.js"></script>
 
