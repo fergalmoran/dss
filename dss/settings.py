@@ -233,3 +233,9 @@ PIPELINE_CSS = {
         },
     }
 COMPRESS_ENABLED = True
+<<<<<<< HEAD
+=======
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.css_default.CssAbsoluteFilter',
+]
+>>>>>>> 52d6d33f2e6312f24b4fdb91535f7ed1e2b93efe
