@@ -54,12 +54,8 @@ class Mix(_BaseModel):
         return ret
 
     def get_image(self):
-        image_root = localsettings.IMAGE_URL if hasattr(localsettings, 'IMAGE_URL') else "%s/mix-images/" % settings.MEDIA_URL
-        ret = "%s/%s.%s" % (image_root, self.uid, "png")
-
-        if os.path.exists(self.mix_image.file.name):
-            return ret
-
+        image_root = localsettings.IMAGE_URL if hasattr(localsettings, 'IMAGE_URL') else settings.MEDIA_URL
+        ret = "%s/%s" % (image_root, self.mix_image.name)
         return settings.STATIC_URL + 'img/default-track.png'
 
     def get_stream_path(self):
