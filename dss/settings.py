@@ -44,7 +44,7 @@ STATIC_ROOT = here('static') #localsettings.STATIC_ROOT if hasattr(localsettings
 if DEBUG:
     STATIC_URL = '/static/'
 else:
-    STATIC_URL = 'http://static.deepsouthsounds.com/'
+    STATIC_URL = localsettings.STATIC_ROOT if hasattr(localsettings, 'STATIC_ROOT') else 'http://static.deepsouthsounds.com/'
 
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 
