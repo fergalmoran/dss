@@ -8,7 +8,7 @@
         <li><a href="#/mixes/favourites" id='favourites'>Favourites</a></li>
     {% endif %}
 
-    {% if user.is_authenticated %}
+    {% if user.is_staff %}
         <li class="pull-right"><a class="btn" href="#/mix/upload" id='upload'>Upload</a></li>
     {% endif %}
 </ul>
