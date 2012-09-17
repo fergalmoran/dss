@@ -55,7 +55,7 @@ class Mix(_BaseModel):
 
     def get_image_url(self):
         images_root = localsettings.IMAGE_URL if hasattr(localsettings, 'IMAGE_URL') else "%s/mix_images/" % settings.MEDIA_URL
-        ret = "%s/%s.%s" % (images_root, self.uid, self.mix_image)
+        ret = "%s/%s" % (images_root, self.mix_image)
         return ret
         """
         try:
