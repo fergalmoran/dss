@@ -73,7 +73,7 @@ var EventCreateView = DSSEditableView.extend({
         "click #save-changes":"saveChanges",
         "change input":"changed",
         "change textarea":"changed",
-        "change select": "changeSelect"
+        "change select":"changeSelect"
     },
     initialize:function () {
         this.render();
@@ -84,11 +84,13 @@ var EventCreateView = DSSEditableView.extend({
         return this;
     },
     saveChanges:function () {
+        var model = this.model;
         this.model.set('event_description', $('#event-description', this.el).html());
         this.model.set('event_date', $('#event_date', this.el).val());
         this._saveChanges({
             success:function () {
                 com.podnoms.utils.showAlert("Success", "Event successfully added", "alert-info", true);
+                app.navigate('#/event/' + model.get('id'));
             }
         });
         return false;

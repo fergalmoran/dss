@@ -28,7 +28,7 @@ def redirect_mix(request, mix_id):
     except Mix.DoesNotExist:
         raise Http404
 
-    image = mix.get_image()
+    image = mix.get_image_url()
     audio_url = mix.get_stream_path()
     redirect_url = mix.get_absolute_url()
     response = render_to_response(

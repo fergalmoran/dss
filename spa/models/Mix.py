@@ -53,7 +53,11 @@ class Mix(_BaseModel):
         ret = "%s/%s.%s" % (waveform_root, self.uid, "png")
         return ret
 
-    def get_image(self):
+    def get_image_url(self):
+        images_root = localsettings.IMAGE_URL if hasattr(localsettings, 'IMAGE_URL') else "%s/mix_images/" % settings.MEDIA_URL
+        ret = "%s/%s.%s" % (images_root, self.uid, self.mix_image)
+        return ret
+        """
         try:
             if os.path.isfile(self.mix_image.path):
                 image_root = localsettings.IMAGE_URL if hasattr(localsettings, 'IMAGE_URL') else settings.MEDIA_URL
@@ -63,10 +67,11 @@ class Mix(_BaseModel):
             return settings.STATIC_URL + 'img/default-track.png'
 
         return settings.STATIC_URL + 'img/default-track.png'
+        """
 
     def get_stream_path(self):
         #return 'media/%s/' % self.local_file.name
-        return '/audio/stream/%d' % self.id;
+        return '/audio/stream/%d' % self.id
 
     @classmethod
     def get_listing(cls, listing_type, user=None):

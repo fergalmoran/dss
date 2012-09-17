@@ -25,6 +25,6 @@ class _BaseModel(models.Model):
     def get_lookup_filter_field(cls):
         field_list = cls._meta.get_all_field_names();
         for field in field_list:
-            if field.endswith("_name"):
+            if field.endswith("name") or field.endswith("description"):
                 return field
         return "description"

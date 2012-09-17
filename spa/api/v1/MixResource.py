@@ -32,7 +32,7 @@ class MixResource(BackboneCompatibleResource):
         return Mix.get_listing(sort, request.user)
 
     def dehydrate_mix_image(self, bundle):
-        return bundle.obj.get_image()
+        return bundle.obj.get_image_url()
 
     def dehydrate_description(self, bundle):
         return bundle.obj.description.replace("\n", "<br />")

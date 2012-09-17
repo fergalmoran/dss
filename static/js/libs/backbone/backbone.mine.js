@@ -132,6 +132,7 @@ window.DSSEditableView = Backbone.View.extend({
         });
     },
     _saveChanges:function () {
+        var args = arguments;
         if (this.model.isValid() != "") {
             if (this.model.errors) {
                 for (var error in this.model.errors) {
@@ -143,7 +144,7 @@ window.DSSEditableView = Backbone.View.extend({
             this.model.save(
                 null, {
                     success:function () {
-                        arguments.success();
+                        args[0].success();
                     },
                     error:function () {
                         alert("Error saving release");

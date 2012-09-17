@@ -69,14 +69,17 @@ var ReleaseView = Backbone.View.extend({
 });
 var ReleaseCreateView = DSSEditableView.extend({
     events:{
-        "click #save-changes":"saveChanges"
+        "click #save-changes":"saveChanges",
+        "change input":"changed",
+        "change textarea":"changed",
+        "change select":"changeSelect"
     },
     initialize:function () {
         this.render();
     },
     render:function () {
         $(this.el).html(this.template({"item":this.model.toJSON()}));
-        this._bakeForm(this.el, 'release');
+        this._bakeForm(this.el, 'label');
     },
     saveChanges:function () {
         var model = this.model;
@@ -89,27 +92,30 @@ var ReleaseCreateView = DSSEditableView.extend({
 
         this._saveChanges({
             success:function () {
-                $.ajaxFileUpload({
-                    url:'ajax/upload_release_image/' + model.get('id') + '/',
-                    secureuri:false,
-                    fileElementId:'release_image',
-                    success:function (data, status) {
-                        if (typeof(data.error) != 'undefined') {
-                            if (data.error != '') {
-                                alert(data.error);
-                            } else {
-                                alert(data.msg);
-                            }
-                        } else {
-                            com.podnoms.utils.showAlert("Success", "Release successfully added", "alert-info", true);
-                            app.navigate('#/release/' + model.get('id'));
-                        }
-                    },
-                    error:function (data, status, e) {
-                        alert(e);
-                    }
-                });
+                com.podnoms.utils.showAlert("Success", "Release successfully added", "alert-info", true);
+                window.app.navigate('#/release/' + model.get('id'), true);
             }
+            /*
+             $.ajaxFileUpload({
+             url:'ajax/upload_release_image/' + model.get('id') + '/',
+             secureuri:false,
+             fileElementId:'release_image',
+             success:function (data, status) {
+             if (typeof(data.error) != 'undefined') {
+             if (data.error != '') {
+             alert(data.error);
+             } else {
+             alert(data.msg);
+             }
+             } else {
+             com.podnoms.utils.showAlert("Success", "Release successfully added", "alert-info", true);
+             app.navigate('#/release/' + model.get('id'));
+             }
+             },
+             error:function (data, status, e) {
+             alert(e);
+             }
+             });*/
         });
         return false;
     }
