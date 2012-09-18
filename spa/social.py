@@ -22,6 +22,12 @@ class SocialHandler(object):
         ]
         return pattern_list
 
+def _getPayload(request):
+    return {
+        "app_id"        : settings.FACEBOOK_APP_ID,
+        "site_url"      : 'http://%s:%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT']),
+        "site_image_url": '%s/img/dss-large.png' % settings.STATIC_URL,
+    }
 
 def redirect_mix(request, mix_id):
     try:
@@ -34,12 +40,10 @@ def redirect_mix(request, mix_id):
     redirect_url = mix.get_absolute_url()
     response = render_to_response(
         'inc/fb_like.html',
-        {
-            "app_id"        : settings.FACEBOOK_APP_ID,
+        _getPayload(request) + {
             "description"   : mix.title,
-            "audio_url"     : 'http://www.%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], audio_url),
-            "image_url"     : 'http://www.%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], image),
-            "redirect"      : 'http://www.%s:%s#%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], redirect_url)
+            "audio_url"     : 'http://%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], audio_url),
+            "redirect"      : 'http://%s:%s#%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], redirect_url)
         },
         context_instance = RequestContext(request)
     )
@@ -48,6 +52,7 @@ def redirect_mix(request, mix_id):
 def index(request):
     response =  render_to_response(
         "inc/facebook/index.html",
+        _getPayload(request),
         context_instance=RequestContext(request))
     return response
 
