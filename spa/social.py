@@ -1,7 +1,8 @@
 from django.conf.urls import url
 from django.contrib.sites.models import Site
+from django.core.urlresolvers import resolve
 from django.http import  Http404
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.template.context import RequestContext
 from dss import  settings
 from spa.models.Mix import Mix
@@ -17,8 +18,8 @@ class SocialHandler(object):
     def urls(self):
         pattern_list = [
             url(r'^redirect/mix/(?P<mix_id>\d+)/$', 'spa.social.redirect_mix', name='social_redirect'),
-            #url(r'^redirect/mix/(?P<mix_id>\d+)/$', 'spa.social.redirect_mix', name='social_redirect-mix'),
-            ]
+            url(r'^$', 'spa.social.index', name='social_index'),
+        ]
         return pattern_list
 
 
@@ -43,3 +44,17 @@ def redirect_mix(request, mix_id):
         context_instance = RequestContext(request)
     )
     return response
+
+def index(request):
+    response =  render_to_response(
+        "inc/facebook/index.html",
+        context_instance=RequestContext(request))
+    return response
+
+def social_redirect(request):
+    try:
+        resolver = resolve('/social' + request.path)
+        if resolver is not None:
+            return resolver.func(request)
+    except Http404:
+        return index(request)
