@@ -18,6 +18,7 @@ class SocialHandler(object):
     def urls(self):
         pattern_list = [
             url(r'^redirect/mix/(?P<mix_id>\d+)/$', 'spa.social.redirect_mix', name='social_redirect'),
+            url(r'^mix/(?P<mix_id>\d+)/$', 'spa.social.mix', name='social_mix'),
             url(r'^$', 'spa.social.index', name='social_index'),
         ]
         return pattern_list
@@ -29,7 +30,7 @@ def _getPayload(request):
         "site_image_url": '%s/img/dss-large.png' % settings.STATIC_URL,
     }
 
-def redirect_mix(request, mix_id):
+def mix(request, mix_id):
     try:
         mix = Mix.objects.get(pk=mix_id)
     except Mix.DoesNotExist:
@@ -39,7 +40,7 @@ def redirect_mix(request, mix_id):
     audio_url = mix.get_stream_path()
     redirect_url = mix.get_absolute_url()
     response = render_to_response(
-        'inc/fb_like.html',
+        'inc/facebook/mix.html',
         _getPayload(request) + {
             "description"   : mix.title,
             "audio_url"     : 'http://%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], audio_url),
@@ -58,7 +59,7 @@ def index(request):
 
 def social_redirect(request):
     try:
-        resolver = resolve('/social' + request.path)
+        resolver = resolve('/social' + request.path.replace('#', ''))
         if resolver is not None:
             return resolver.func(request)
     except Http404:
