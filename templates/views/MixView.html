@@ -1,4 +1,17 @@
 <div id="mixview-content">
     <ul class="mix-listing audio-listing list-nostyle"></ul>
 </div>
-<div id="mix-description"></div>
+<!-- Tab Stylee -->
+<ul id="mix-tab" class="nav nav-tabs">
+    <li class="active"><a class="no-click" href="#description" data-toggle="tab">Description</a></li>
+    <li class=""><a class="no-click" href="#comments" data-toggle="tab">Comments</a></li>
+</ul>
+
+<div id="mix-tabContent" class="tab-content">
+    <div class="tab-pane active in fade" id="description">
+        <div id="mix-description"></div>
+    </div>
+    <div class="tab-pane fade" id="comments">
+        <div id="mix-comments"></div>
+    </div>
+</div>

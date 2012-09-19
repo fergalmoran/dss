@@ -71,15 +71,6 @@ var AppRouter = Backbone.Router.extend({
                 if (com.podnoms.player.isPlayingId(mix.get('id'))) {
                     com.podnoms.settings.setupPlayer(mix.toJSON(), mix.get('id'));
                 }
-
-                var comments = new CommentCollection();
-                comments.url = com.podnoms.settings.urlRoot + mix.attributes.item_url + "/comments/";
-                comments.mix_id = id;
-                comments.mix = mix.get("resource_uri");
-                comments.fetch({success:function (data) {
-                    var content = new CommentListView({collection:comments}).render();
-                    $('#site-content-fill').html(content.el);
-                }});
             }});
     },
     mixUpload:function (id) {

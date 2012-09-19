@@ -106,7 +106,7 @@ window.MixListItemView = Backbone.View.extend({
 });
 
 window.MixListView = Backbone.View.extend({
-    itemPlaying: null,
+    itemPlaying:null,
     initialize:function () {
         this.render();
     },
@@ -117,8 +117,8 @@ window.MixListView = Backbone.View.extend({
         $(this.el).html(this.template()).append('<ul class="mix-listing audio-listing"></ul>');
         this.collection.each(function (item) {
             $('.mix-listing', el).append(new MixListItemView({model:item}).render().el);
-            if (com.podnoms.player.isPlayingId(item.get('id'))){
-                console.log("Item "+ item.get('id') + " is playing...");
+            if (com.podnoms.player.isPlayingId(item.get('id'))) {
+                console.log("Item " + item.get('id') + " is playing...");
                 ref.itemPlaying = item;
             }
         });
@@ -133,11 +133,22 @@ window.MixView = Backbone.View.extend({
         this.render();
     },
     render:function () {
+        var el = this.el;
         $(this.el).html(this.template());
         var item = new MixListItemView({model:this.model}).render();
         $('.mix-listing', this.el).append(item.el);
         $('#mix-description', this.el).html(this.model.get("description"));
 
+        var comments = new CommentCollection();
+        comments.url = com.podnoms.settings.urlRoot + this.model.get("item_url") + "/comments/";
+        comments.mix_id = this.model.id;
+        comments.mix = this.model.get("resource_uri");
+        comments.fetch({success:function (data) {
+            var content = new CommentListView({collection:comments}).render();
+            $('#mix-comments', el).html(content.el);
+
+        }});
+        $('#mix-tab a:first', el).tab('show');
         return this;
     }
 });
@@ -166,7 +177,7 @@ window.MixCreateView = DSSEditableView.extend({
         if (this.model.id == undefined) {
             $('#mix-upload', this.el).uploadifive({
                 'uploadScript':'ajax/upload_mix_file_handler/',
-                'buttonText': "Select audio file (mp3 for now please)",
+                'buttonText':"Select audio file (mp3 for now please)",
                 'formData':{
                     'upload-hash':this.guid
                 },

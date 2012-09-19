@@ -30,22 +30,26 @@ def _getPayload(request):
         "site_image_url": '%s/img/dss-large.png' % settings.STATIC_URL,
     }
 
-def mix(request, mix_id):
+def mix(request, args):
     try:
-        mix = Mix.objects.get(pk=mix_id)
+        mix = Mix.objects.get(pk=args['mix_id'])
     except Mix.DoesNotExist:
         raise Http404
 
     image = mix.get_image_url()
     audio_url = mix.get_stream_path()
-    redirect_url = mix.get_absolute_url()
+    mix_url = mix.get_absolute_url()
+    default = _getPayload(request)
+    extras = {
+        "description"   : mix.title,
+        "image_url"     : image,
+        "audio_url"     : 'http://%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], audio_url),
+        "mix_url"       : 'http://%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix_url)
+    }
+    payload = dict(default.items() + extras.items())
     response = render_to_response(
         'inc/facebook/mix.html',
-        _getPayload(request) + {
-            "description"   : mix.title,
-            "audio_url"     : 'http://%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], audio_url),
-            "redirect"      : 'http://%s:%s#%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], redirect_url)
-        },
+        payload,
         context_instance = RequestContext(request)
     )
     return response
@@ -59,8 +63,11 @@ def index(request):
 
 def social_redirect(request):
     try:
-        resolver = resolve('/social' + request.path.replace('#', ''))
+        resolver = resolve('/social' + request.path)
         if resolver is not None:
-            return resolver.func(request)
+            return resolver.func(request, resolver.kwargs)
     except Http404:
         return index(request)
+    except Exception, ex:
+        return index(request)
+

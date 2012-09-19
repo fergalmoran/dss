@@ -1,9 +1,6 @@
 (function($){
     // Declare the rootUrl used for filtering internal links.
-    var rootUrl =
-        document.location.protocol + '//' +
-            (document.location.hostname || document.location.host) +
-            (document.location.port ? ':' + document.location.port : '') + '/';
+    var rootUrl = document.location.protocol + '//' + (document.location.hostname || document.location.host) + (document.location.port ? ':' + document.location.port : '') + '/';
 
     // Helper functions
     var getFragment = function(url, root) { // Grab the fragment and format it how Backbone expects
