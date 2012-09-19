@@ -8,21 +8,21 @@
  */
 var AppRouter = Backbone.Router.extend({
     routes:{
-        "/mixes":"mixList",
-        "/mixes/:type":"mixList",
-        "/mix/upload":"mixUpload",
-        "/mix/:id":"mixDetails",
-        "/mix/edit/:id":"mixEdit",
-        "/releases":"releaseList",
-        "/release/add":"releaseAdd",
-        "/release/:id":"releaseDetails",
-        "/events":"eventList",
-        "/event/add":"eventAdd",
-        "/event/:id":"eventDetails",
-        "/accounts/social/connections/":"connectAccounts",
-        "/accounts/login/":"login",
-        "/accounts/logout/":"logout",
-        "/me":"userDetails",
+        "mixes":"mixList",
+        "mixes/:type":"mixList",
+        "mix/upload":"mixUpload",
+        "mix/:id":"mixDetails",
+        "mix/edit/:id":"mixEdit",
+        "releases":"releaseList",
+        "release/add":"releaseAdd",
+        "release/:id":"releaseDetails",
+        "events":"eventList",
+        "event/add":"eventAdd",
+        "event/:id":"eventDetails",
+        "accounts/social/connections/":"connectAccounts",
+        "accounts/login/":"login",
+        "accounts/logout/":"logout",
+        "me":"userDetails",
         "*path":"defaultRoute"
     },
     initialize:function () {
@@ -54,7 +54,7 @@ var AppRouter = Backbone.Router.extend({
                 var mixes = new MixListView({collection:mixList});
                 var content = mixes.el;
                 $('#content').html(content);
-                if (mixes.itemPlaying != null){
+                if (mixes.itemPlaying != null) {
                     com.podnoms.settings.setupPlayer(mixes.itemPlaying.toJSON(), mixes.itemPlaying.get('id'));
                 }
             }
@@ -68,7 +68,7 @@ var AppRouter = Backbone.Router.extend({
                 $('#content').html(html.el);
                 $('#site-content-fill').html('');
 
-                if (com.podnoms.player.isPlayingId(mix.get('id'))){
+                if (com.podnoms.player.isPlayingId(mix.get('id'))) {
                     com.podnoms.settings.setupPlayer(mix.toJSON(), mix.get('id'));
                 }
 
@@ -183,7 +183,19 @@ com.podnoms.utils.loadTemplate([
     'EventCreateView', 'EventListView', 'EventListItemView', 'EventView', 'EventItemView'
 ], function () {
         window.app = new AppRouter();
-        Backbone.history.start();
+        $(document).on('click', 'a:internal:not(.no-click)', function (event) {
+            Backbone.history.navigate($(this).attr('href'), {trigger:true});
+            return false;
+        });
+        /*
+         $(document.body).find('a:internal:not(.no-click)').click(function(event){
+         Backbone.history.navigate($(this).attr('href'),  {trigger: true});
+         return false;
+         });
+         */
+        Backbone.history = Backbone.history || new Backbone.History({});
+        Backbone.history.start({pushState:true});
     }
 );
 var _eventAggregator = _.extend({}, Backbone.Events);
+

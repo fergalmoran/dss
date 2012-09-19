@@ -3,16 +3,14 @@
 <div class="navbar navbar-fixed-top" xmlns="http://www.w3.org/1999/html">
     <div class="navbar-inner">
         <div class="container">
-
-            <a href="/#/" class="brand">
+            <a href="/" class="brand">
                 <img src="{{STATIC_URL }}img/site-logo-gr.png"/>
                 Deep|South|Sounds</a>
-
             <div class="nav-collapse">
                 <ul class="nav">
-                    <li><a href="#/mixes">Mixes</a></li>
-                    <li><a href="#/releases">Releases</a></li>
-                    <li><a href="#/events">Events</a></li>
+                    <li><a href="/mixes">Mixes</a></li>
+                    <li><a href="/releases">Releases</a></li>
+                    <li><a href="/events">Events</a></li>
                     {% if user.is_authenticated %}
                     <li><a href="{% url account_logout %}" id="logout">Logout&nbsp;<i class="icon-eject icon-black"></i></a>
                     </li>

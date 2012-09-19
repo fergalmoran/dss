@@ -34,4 +34,5 @@ urlpatterns = django.conf.urls.patterns(
     (r'^ajax/', include(ajax.urls)),
     (r'^audio/', include(audio.urls)),
     (r'^api/', include(v1_api.urls)),
+    (r'^.*/$', 'spa.views.default')
 )

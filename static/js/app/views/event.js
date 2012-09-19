@@ -43,7 +43,7 @@ var EventListView = Backbone.View.extend({
         return this;
     },
     showDetails:function (row) {
-        window.app.navigate('#/event/' + $(row.currentTarget).data("id"), true);
+        Backbone.history.navigate('event/' + $(row.currentTarget).data("id"), {trigger:true});
     }
 });
 var EventItemView = Backbone.View.extend({

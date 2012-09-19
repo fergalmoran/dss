@@ -42,7 +42,7 @@ var ReleaseListView = Backbone.View.extend({
         return this;
     },
     showDetails:function (row) {
-        window.app.navigate('#/release/' + $(row.currentTarget).data("id"), true);
+        Backbone.history.navigate('/release/' + $(row.currentTarget).data("id"), {trigger:true});
     }
 });
 var ReleaseItemView = Backbone.View.extend({

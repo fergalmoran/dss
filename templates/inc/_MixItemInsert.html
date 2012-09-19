@@ -6,7 +6,7 @@
     </div>
     <div class="span10">
         <div class="title-bar">
-            <h4><a href="#/<%= item.item_url %>"><%= item.title %></a></h4>
+            <h4><a href="<%= item.item_url %>"><%= item.title %></a></h4>
         </div>
         <div class="player-seekhead" id="player-seekhead" style="display: none;">
             <span class="player-seekhead-time"></span>
@@ -45,7 +45,6 @@
                     <ul class="dropdown-menu">
                         <li><a data-mode="<%= item.mode %>" data-id="<%= item.id %>" class="share-button-facebook"> Facebook</a></li>
                         <li><a data-mode="<%= item.mode %>" data-id="<%= item.id %>" class="share-button-twitter"> Twitter</a></li>
-                        <li><a data-mode="<%= item.mode %>" data-id="<%= item.id %>" class="share-button-clusterfuck"> Clusterfuck</a></li>
                     </ul>
                 </div>
             </div>

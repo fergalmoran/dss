@@ -17,7 +17,7 @@ class SocialHandler(object):
     @property
     def urls(self):
         pattern_list = [
-            url(r'^redirect/mix/(?P<mix_id>\d+)/$', 'spa.social.redirect_mix', name='social_redirect'),
+            url(r'^redirect/mix/(?P<mix_id>\d+)/$', 'spa.social.mix', name='social_redirect'),
             url(r'^mix/(?P<mix_id>\d+)/$', 'spa.social.mix', name='social_mix'),
             url(r'^$', 'spa.social.index', name='social_index'),
         ]

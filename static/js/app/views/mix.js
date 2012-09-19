@@ -42,7 +42,7 @@ window.MixListItemView = Backbone.View.extend({
             $('#favourite-' + id, this.el).html('<i class="icon-star"></i> Favourite');
     },
     shareLink:function (e) {
-        alert("Sharing");
+        com.podnoms.utils.showAlert("Sorry", "Not currently implemented", 'alert-info', true);
     },
     likeMix:function (e) {
         var id = $(e.currentTarget).data("id");
@@ -87,7 +87,7 @@ window.MixListItemView = Backbone.View.extend({
         var mode = "play";
         var ref = this;
         $.getJSON(
-            'ajax/mix_stream_url/' + id + '/',
+            '/ajax/mix_stream_url/' + id + '/',
             function (data) {
                 com.podnoms.settings.setupPlayer(data, id);
                 com.podnoms.player.startPlaying({
