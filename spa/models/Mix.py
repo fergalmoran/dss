@@ -77,7 +77,7 @@ class Mix(_BaseModel):
     def get_listing(cls, listing_type, user=None):
         queryset = None
         if listing_type == 'latest':
-            queryset = Mix.objects.all().order_by( '-id')
+            queryset = Mix.objects.filter(waveform_generated=True).order_by( '-id')
         elif listing_type == 'toprated':
             queryset = Mix.objects.all()\
                 .annotate(karma=Count('likes'))\
