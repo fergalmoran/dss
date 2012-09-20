@@ -412,7 +412,7 @@ Released under the UploadiFive Standard License <http://www.uploadify.com/upload
                                     } else if (this.status == 404) {
                                         $data.error('404_FILE_NOT_FOUND', file, uploadAll);
                                     } else if (this.status == 403) {
-                                        $data.error('403_FORBIDDEN', file, uplaodAll);
+                                        $data.error('403_FORBIDDEN', file, uploadAll);
                                     } else {
                                         $data.error('Unknown Error', file, uploadAll);
                                     }

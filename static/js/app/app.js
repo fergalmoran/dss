@@ -20,8 +20,10 @@ var AppRouter = Backbone.Router.extend({
         "event/add":"eventAdd",
         "event/:id":"eventDetails",
         "accounts/social/connections/":"connectAccounts",
+        "accounts/facebook/login":"loginRedirect",
         "accounts/login/":"login",
         "accounts/logout/":"logout",
+        "upload/":"defaultRoute",
         "me":"userDetails",
         "*path":"defaultRoute"
     },
@@ -142,6 +144,10 @@ var AppRouter = Backbone.Router.extend({
         $('#content').html(html.el);
         $('#site-content-fill').html('');
     },
+    loginRedirect:function(){
+        com.podnoms.utils.showAlert("Success", "Thank you for logging in.", "alert-success", true);
+        this.defaultRoute();
+    },
     login:function () {
         $.colorbox({
             href:"/tpl/LoginView/",
@@ -151,10 +157,10 @@ var AppRouter = Backbone.Router.extend({
         })
     },
     logout:function () {
-        com.podnoms.utils.showAlert("Success", "You are now logged out", "alert-success");
+        com.podnoms.utils.showAlert("Success", "You are now logged out", "alert-success", true);
     },
     connectAccounts:function () {
-        alert("sdfkjsdlfj");
+        alert("Connecting accounts");
     },
     userDetails:function () {
         var user = new User();

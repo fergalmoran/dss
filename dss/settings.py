@@ -151,7 +151,6 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.linkedin',
     'allauth.socialaccount.providers.openid',
     'allauth.socialaccount.providers.twitter',
-    'emailconfirmation',
     'backbone_tastypie',
     )
 

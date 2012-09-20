@@ -1,4 +1,6 @@
-{% load socialaccount_tags %}
+{% load account %}
+{% load socialaccount %}
+
 <div class="well">
     <h2>Login to Deep South Sounds</h2>
 
@@ -6,11 +8,11 @@
         <div>
             <ul class="social_login_providers">
                 <li>
-                    <a class='signin_button' href='{% provider_login_url "twitter" %}' id='twitter_button'>
+                    <a class='o-click signin_button' href='{% provider_login_url "twitter" %}' id='twitter_button'>
                     </a>
                 </li>
                 <li>
-                    <a class='signin_button' id='facebook_button' href="{% provider_login_url "facebook" method="oauth2" %}">
+                    <a class='no-click signin_button' id='facebook_button' href="{% provider_login_url "facebook" method="oauth2" %}">
                     </a>
                 </li>
             </ul>

@@ -12,10 +12,10 @@
                     <li><a href="/releases">Releases</a></li>
                     <li><a href="/events">Events</a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url account_logout %}" id="logout">Logout&nbsp;<i class="icon-eject icon-black"></i></a>
+                    <li><a class="no-click" href="{% url account_logout %}" id="logout">Logout&nbsp;<i class="icon-eject icon-black"></i></a>
                     </li>
                     {% else %}
-                    <li><a href="#{% url account_login %}" id="login">Login/Signup&nbsp;<i
+                    <li><a href="{% url account_login %}" id="login">Login/Signup&nbsp;<i
                             class="icon-music icon-black"></i></a></li>
                     {% endif %}
                 </ul>

@@ -18,11 +18,11 @@ urlpatterns = patterns('',
     (r'^tos\.html$', 'django.views.generic.simple.redirect_to', {'url': '/static/html/tos.html'}),
     (r'^test\.html$', 'django.views.generic.simple.redirect_to', {'url': '/static/html/test.html'}),
     (r'^500', 'django.views.defaults.server_error'),
-    url(r'^', include('spa.urls')),
     (r'^grappelli/', include('grappelli.urls')),
     url(r'^accounts/', include('allauth.urls')),
     (r'^avatar/', include('avatar.urls')),
     (r'^tinymce/', include('tinymce.urls')),
+    url(r'^', include('spa.urls')),
 )
 
 if settings.DEBUG:

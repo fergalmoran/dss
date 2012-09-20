@@ -1,3 +1,8 @@
+/*
+UploadiFive
+Copyright (c) 2012 Reactive Apps, Ronnie Garcia
+*/
+
 .uploadifive-button {
 	background-color: #505050;
 	background-image: linear-gradient(bottom, #505050 0%, #707070 100%);
@@ -52,7 +57,7 @@
 	padding: 15px;
 }
 .uploadifive-queue-item .close {
-	background: url('../img/uploadifive-cancel.png') 0 0 no-repeat;
+	background: url('uploadifive-cancel.png') 0 0 no-repeat;
 	display: block;
 	float: right;
 	height: 16px;
