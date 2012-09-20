@@ -202,6 +202,7 @@ def upload_avatar_image(request):
         logger.exception("Error uploading avatar")
     return HttpResponse(_get_json("Failed"))
 
+@csrf_exempt
 def upload_mix_file_handler(request):
     try:
         if 'Filedata' in request.FILES and 'upload-hash' in request.POST:
