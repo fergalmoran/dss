@@ -182,6 +182,11 @@ window.MixCreateView = DSSEditableView.extend({
                     'upload-hash':this.guid,
                     'sessionid': $.cookie('sessionid')
                 },
+                'onUploadFile': function(file){
+                    $(window).on('beforeunload', function(){
+                        alert('Go on outta that..');
+                    });
+                },
                 'onAddQueueItem':function (file) {
                     $('#upload-extension', this.el).val(file.name.split('.').pop());
                     $('#mix-details', this.el).show();
