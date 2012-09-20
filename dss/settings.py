@@ -115,6 +115,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.gzip.GZipMiddleware',
+    'spa.middleware.uploadify.SWFUploadMiddleware'
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
 
