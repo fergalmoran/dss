@@ -1,20 +1,22 @@
+from django.db.models.signals import post_save
+from django.dispatch import Signal, receiver
+import os
+from core.utils import url
 from datetime import datetime
 from django.db import models
 from django.db.models import Count
-from django.forms import save_instance
-import os
-from core.utils.file import generate_save_file_name
-from dss import settings, localsettings
-from spa.models.MixLike import MixLike
 from spa.models.MixPlay import MixPlay
+from dss import settings, localsettings
 from spa.models.UserProfile import UserProfile
 from spa.models._BaseModel import _BaseModel
+from core.utils.file import generate_save_file_name
 
 def mix_file_name(instance, filename):
-    return generate_save_file_name('mixes', filename)
+    return generate_save_file_name(instance.uid, 'mixes', filename)
 
 def mix_image_name(instance, filename):
-    return generate_save_file_name('mix-images', filename)
+    ret =  generate_save_file_name(instance.uid, 'mix-images', filename)
+    return ret
 
 class Mix(_BaseModel):
     class Meta:
@@ -30,7 +32,7 @@ class Mix(_BaseModel):
     is_active = models.BooleanField(default=True)
     user = models.ForeignKey(UserProfile, editable=False)
     waveform_generated = models.BooleanField(default=False)
-    uid = models.CharField(max_length=38, blank=True)
+    uid = models.CharField(max_length=38, blank=True, unique=True)
 
     def __unicode__(self):
         return self.title
@@ -40,6 +42,11 @@ class Mix(_BaseModel):
         #from image - will sort when I've figured backbone out better
         if self.mix_image.name.startswith(settings.MEDIA_URL):
             self.mix_image.name = self.mix_image.name[len(settings.MEDIA_URL):len(self.mix_image.name)]
+
+        #Check for the unlikely event that the waveform has been generated
+        if os.path.isfile(self.get_waveform_path()):
+            self.waveform_generated = True
+
         super(Mix, self).save(force_insert, force_update, using)
 
     def get_absolute_url(self):
@@ -51,23 +58,18 @@ class Mix(_BaseModel):
     def get_waveform_url(self):
         waveform_root = localsettings.WAVEFORM_URL if hasattr(localsettings, 'WAVEFORM_URL') else "%s/waveforms/" % settings.MEDIA_URL
         ret = "%s/%s.%s" % (waveform_root, self.uid, "png")
-        return ret
+        return url.urlclean(ret)
 
     def get_image_url(self):
-        images_root = localsettings.IMAGE_URL if hasattr(localsettings, 'IMAGE_URL') else "%s/mix_images/" % settings.MEDIA_URL
-        ret = "%s/%s" % (images_root, self.mix_image)
-        return ret
-        """
         try:
             if os.path.isfile(self.mix_image.path):
-                image_root = localsettings.IMAGE_URL if hasattr(localsettings, 'IMAGE_URL') else settings.MEDIA_URL
-                ret = "%s/%s" % (image_root, self.mix_image.name)
-                return ret
-        except:
-            return settings.STATIC_URL + 'img/default-track.png'
+                images_root = localsettings.IMAGE_URL if hasattr(localsettings, 'IMAGE_URL') else "%s/" % settings.MEDIA_URL
+                ret = "%s/%s" % (images_root, self.mix_image)
+                return url.urlclean(ret)
+        except Exception, ex:
+            pass
 
         return settings.STATIC_URL + 'img/default-track.png'
-        """
 
     def get_stream_path(self):
         #return 'media/%s/' % self.local_file.name

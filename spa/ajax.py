@@ -214,7 +214,7 @@ def upload_mix_file_handler(request):
                 for chunk in f.chunks():
                     destination.write(chunk)
             try:
-                create_waveform_task.delay(in_file=in_file, uid=uid)
+                create_waveform_task.delay(in_file=in_file, mix_uid=uid)
             except Exception, ex:
                 logger.exception("Error starting waveform generation task: %s" % ex.message)
         return HttpResponse(_get_json("Success"), mimetype='application/json')

@@ -57,7 +57,7 @@ Copyright (c) 2012 Reactive Apps, Ronnie Garcia
 	padding: 15px;
 }
 .uploadifive-queue-item .close {
-	background: url('uploadifive-cancel.png') 0 0 no-repeat;
+	background: url('../img/uploadifive-cancel.png') 0 0 no-repeat;
 	display: block;
 	float: right;
 	height: 16px;

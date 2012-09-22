@@ -162,7 +162,7 @@ window.MixCreateView = DSSEditableView.extend({
     },
     checkRedirect:function () {
         if (this.state == 2) {
-            app.navigate('/#/mix/' + this.model.get('id'));
+            Backbone.history.navigate('/mix/' + this.model.get('id'), {trigger:true});
         }
     },
     initialize:function () {
@@ -230,7 +230,7 @@ window.MixCreateView = DSSEditableView.extend({
                 success:function () {
                     if (parent.sendImage) {
                         $.ajaxFileUpload({
-                            url:'ajax/upload_image/' + model.get('id') + '/',
+                            url:'/ajax/upload_image/' + model.get('id') + '/',
                             secureuri:false,
                             fileElementId:'mix_image',
                             success:function (data, status) {
@@ -251,6 +251,7 @@ window.MixCreateView = DSSEditableView.extend({
                             }
                         });
                     } else {
+                        $('#mix-details', this.el).hide();
                         parent.state++;
                         parent.checkRedirect();
                     }

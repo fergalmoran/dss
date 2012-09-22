@@ -142,6 +142,7 @@ INSTALLED_APPS = (
     'avatar',
     'notification',
     'spa',
+    'spa.signals',
     'core',
     'allauth',
     'allauth.account',

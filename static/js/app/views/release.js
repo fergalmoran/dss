@@ -93,29 +93,8 @@ var ReleaseCreateView = DSSEditableView.extend({
         this._saveChanges({
             success:function () {
                 com.podnoms.utils.showAlert("Success", "Release successfully added", "alert-info", true);
-                window.app.navigate('#/release/' + model.get('id'), true);
+                Backbone.history.navigate('/release/' + model.get('id'), {trigger:true});
             }
-            /*
-             $.ajaxFileUpload({
-             url:'ajax/upload_release_image/' + model.get('id') + '/',
-             secureuri:false,
-             fileElementId:'release_image',
-             success:function (data, status) {
-             if (typeof(data.error) != 'undefined') {
-             if (data.error != '') {
-             alert(data.error);
-             } else {
-             alert(data.msg);
-             }
-             } else {
-             com.podnoms.utils.showAlert("Success", "Release successfully added", "alert-info", true);
-             app.navigate('#/release/' + model.get('id'));
-             }
-             },
-             error:function (data, status, e) {
-             alert(e);
-             }
-             });*/
         });
         return false;
     }

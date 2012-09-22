@@ -90,7 +90,7 @@ var EventCreateView = DSSEditableView.extend({
         this._saveChanges({
             success:function () {
                 com.podnoms.utils.showAlert("Success", "Event successfully added", "alert-info", true);
-                app.navigate('#/event/' + model.get('id'));
+                Backbone.router.navigate('/event/' + model.get('id'));
             }
         });
         return false;

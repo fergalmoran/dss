@@ -21,8 +21,7 @@ class MixResource(BackboneCompatibleResource):
         file_name = "mixes/%s.%s" % (bundle.data['upload-hash'], bundle.data['upload-extension'])
         uid = bundle.data['upload-hash']
         bundle.data['user'] = request.user.get_profile()
-        return super(MixResource, self).obj_create(bundle, request, user=request.user.get_profile(),
-            local_file=file_name, uid=uid)
+        return super(MixResource, self).obj_create(bundle, request, user=request.user.get_profile(), local_file=file_name, uid=uid)
 
     def obj_get_list(self, request=None, **kwargs):
         sort = 'latest'

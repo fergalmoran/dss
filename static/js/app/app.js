@@ -152,7 +152,7 @@ var AppRouter = Backbone.Router.extend({
         $.colorbox({
             href:"/tpl/LoginView/",
             onClosed:function () {
-                app.navigate('/');
+                Backbone.history.navigate('/', {trigger:true});
             }
         })
     },
@@ -195,4 +195,3 @@ com.podnoms.utils.loadTemplate([
     }
 );
 var _eventAggregator = _.extend({}, Backbone.Events);
-

@@ -61,21 +61,23 @@ window.DSSEditableView = Backbone.View.extend({
         "change input":"changed",
         "change textarea":"changed"
     },
-    changeSelect: function(evt){
-        console.log("Changed select");
+    changeSelect:function (evt) {
         var changed = evt.currentTarget;
-        var value = $(evt.currentTarget).val();
-        var obj = "{\"" + changed.id + "\":\"" + value.replace(/\n/g, '<br />') + "\"}";
-        var objInst = JSON.parse(obj);
-        this.model.set(objInst);
+        if (!com.podnoms.utils.isEmpty(changed.id)) {
+            var value = $(evt.currentTarget).val();
+            var obj = "{\"" + changed.id + "\":\"" + value.replace(/\n/g, '<br />') + "\"}";
+            var objInst = JSON.parse(obj);
+            this.model.set(objInst);
+        }
     },
     changed:function (evt) {
-        console.log("Changed something else");
         var changed = evt.currentTarget;
-        var value = $("#" + changed.id).val();
-        var obj = "{\"" + changed.id + "\":\"" + value.replace(/\n/g, '<br />') + "\"}";
-        var objInst = JSON.parse(obj);
-        this.model.set(objInst);
+        if (!com.podnoms.utils.isEmpty(changed.id)) {
+            var value = $("#" + changed.id).val();
+            var obj = "{\"" + changed.id + "\":\"" + value.replace(/\n/g, '<br />') + "\"}";
+            var objInst = JSON.parse(obj);
+            this.model.set(objInst);
+        }
     },
     _bakeForm:function (el, lookups) {
         //TODO extend lookups to be a list
