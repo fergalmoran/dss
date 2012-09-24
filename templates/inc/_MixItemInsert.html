@@ -16,7 +16,6 @@
                 <img id="waveform-image-<%= item.id %>" class="waveform_image"
                      alt="Audio waveform"
                      src="<%= item.waveform_url %>">
-
                 <div class="download-progress-overlay" id="progress-player-<%= item.id %>"></div>
                 <div class="playhead" id="playhead-player-<%= item.id %>" style="width: 0px"></div>
             </div>
@@ -48,6 +47,14 @@
                     </ul>
                 </div>
             </div>
+            {% if user.is_authenticated %}
+                <% if (item.download_allowed) { %>
+                    <div class="download-button footer-button">
+                        <a class="btn" data-mode="<%= item.mode %>" data-id="<%= item.id %>">
+                            <i class="icon-download"></i> Download</a>
+                    </div>
+                <% } %>
+            {% endif %}
             <div class="footer-button">
                 <ul class="list-nostyle list-horiz">
                     <li title="<%= item.play_count %> Plays" class="stats-item bordered-right">

@@ -88,6 +88,17 @@ com.podnoms.utils = {
             var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
+    },
+    downloadURL:function downloadURL(url) {
+        var iframe;
+        iframe = document.getElementById("hiddenDownloader");
+        if (iframe === null) {
+            iframe = document.createElement('iframe');
+            iframe.id = "hiddenDownloader";
+            iframe.style.visibility = 'hidden';
+            document.body.appendChild(iframe);
+        }
+        iframe.src = url;
     }
 };
 

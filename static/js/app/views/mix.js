@@ -14,7 +14,8 @@ window.MixListItemView = Backbone.View.extend({
         "click .play-button-small-pause":"pauseMix",
         "click .like-button a":"likeMix",
         "click .favourite-button a":"favouriteMix",
-        "click .share-button":"shareLink"
+        "click .share-button":"shareLink",
+        "click .download-button a":"downloadMix"
     },
     initialize:function () {
         $(this.el).attr("id", "mixitem-" + this.model.get("id"));
@@ -48,6 +49,11 @@ window.MixListItemView = Backbone.View.extend({
             sharePageToFacebook(this.model);
         else if (mode == "twitter")
             sharePageToTwitter(this.model);
+    },
+    downloadMix:function (e) {
+        var id = $(e.currentTarget).data("id");
+        var mode = $(e.currentTarget).data("mode");
+        com.podnoms.utils.downloadURL("/audio/download/" + id);
     },
     likeMix:function (e) {
         var id = $(e.currentTarget).data("id");

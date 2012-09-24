@@ -18,10 +18,11 @@ def download(request, mix_id):
     try:
         mix = Mix.objects.get(pk=mix_id)
         if mix is not None:
-            filename = mix.local_file.path   # Select your file here.
-            file, ext = os.path.splitext(filename)
-            response = sendfile(request, filename, attachment=True, attachment_filename="%s.%s" % (mix.title, ext))
-            return response
+            if mix.download_allowed:
+                filename = mix.local_file.path   # Select your file here.
+                file, ext = os.path.splitext(filename)
+                response = sendfile(request, filename, attachment=True, attachment_filename="%s.%s" % (mix.title, ext))
+                return response
     except Exception, ex:
         print ex
 
