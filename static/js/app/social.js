@@ -8,7 +8,6 @@
  */
 postFacebookLike = function (mixId) {
     //first off, find if the current user has allowed facebook likes
-
     $.getJSON(
         'ajax/facebook_post_likes_allowed/',
         function (data) {
@@ -28,8 +27,23 @@ postFacebookLike = function (mixId) {
             }
         }
     );
-}
+};
 
 postFacebookFavourite = function(mixId){
 
-}
+};
+
+sharePageToFacebook = function(model){
+    var obj = {
+        method: 'feed',
+        link: 'http://' + window.location.host  + "/" + model.get('item_url'),
+        picture: model.get('mix_image'),
+        name: 'Check out this mix on Deep South Sounds',
+        caption: model.get('title'),
+        description: model.get('description')
+    };
+    function callback(response) {
+        com.podnoms.utils.alert("Post ID: " + response['post_id']);
+    }
+    FB.ui(obj, callback);
+};

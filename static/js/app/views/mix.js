@@ -14,7 +14,7 @@ window.MixListItemView = Backbone.View.extend({
         "click .play-button-small-pause":"pauseMix",
         "click .like-button a":"likeMix",
         "click .favourite-button a":"favouriteMix",
-        "click .share-button a":"shareLink"
+        "click .share-button":"shareLink"
     },
     initialize:function () {
         $(this.el).attr("id", "mixitem-" + this.model.get("id"));
@@ -42,7 +42,7 @@ window.MixListItemView = Backbone.View.extend({
             $('#favourite-' + id, this.el).html('<i class="icon-star"></i> Favourite');
     },
     shareLink:function (e) {
-        com.podnoms.utils.showAlert("Sorry", "Not currently implemented", 'alert-info', true);
+        sharePageToFacebook(this.model);
     },
     likeMix:function (e) {
         var id = $(e.currentTarget).data("id");
