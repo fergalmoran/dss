@@ -1,8 +1,11 @@
-<div id="chat-area">
-    <span id="status">Connecting...</span>
-    <input type="text" id="input" disabled="disabled"/>
-</div>
-<table id="chat-messages"  class="table table-striped table-condensed table-hover">
+{% if user.is_authenticated %}
+    <div id="chat-area">
+        <span id="status">Connecting...</span>
+        <input type="text" id="input" disabled="disabled"/>
+    </div>
+    <table id="chat-messages" class="table table-striped table-condensed table-hover">
 
-</table>
-
+    </table>
+{% else %}
+    <h3>Please <a href="/accounts/login/">login</a> to chat..</h3>
+{% endif %}

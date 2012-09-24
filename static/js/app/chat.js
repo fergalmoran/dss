@@ -1,4 +1,4 @@
-function startChat(content, input, status) {
+function startChat(content, input, status, user) {
     "use strict";
 
     // for better performance - to avoid searching in DOM
@@ -24,7 +24,12 @@ function startChat(content, input, status) {
     connection.onopen = function () {
         // first we want users to enter their names
         input.removeAttr('disabled');
-        status.text('Choose name:');
+        if (user) {
+            myName = user;
+            connection.send(user);
+        } else {
+            status.text('Choose name:');
+        }
     };
 
     connection.onerror = function (error) {
@@ -109,7 +114,7 @@ function startChat(content, input, status) {
     function addMessage(author, message, color, dt) {
         content.append(
             '<tr><td style="color:' + color + '">' + author + '</td> <td>@ ' + +(dt.getHours() < 10 ? '0' + dt.getHours() : dt.getHours()) + ':'
-            + (dt.getMinutes() < 10 ? '0' + dt.getMinutes() : dt.getMinutes()) + "</td></tr>"
-            + '<tr><td colspan="2">' + message + '</td></tr>');
+                + (dt.getMinutes() < 10 ? '0' + dt.getMinutes() : dt.getMinutes()) + "</td></tr>"
+                + '<tr><td colspan="2">' + message + '</td></tr>');
     }
 }

@@ -49,7 +49,7 @@ var AppRouter = Backbone.Router.extend({
         $('#site-content-fill').html('');
         this.sidebarView = new SidebarView();
         $('#sidebar').html(this.sidebarView.el);
-        startChat($('#chat-messages', this.sidebarView.el), $('#input', this.sidebarView.el), $('#status', this.sidebarView.el));
+        startChat($('#chat-messages', this.sidebarView.el), $('#input', this.sidebarView.el), $('#status', this.sidebarView.el), "Fergal Moran");
 
         var data = type != undefined ? $.param({sort:type}) : null;
         mixList.fetch({
