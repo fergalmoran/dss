@@ -1,45 +1,14 @@
-<div class="row" id="side-player-area">
-
-    <div id="whats-on">
-        <h3>Now playing
-            </button>
-        </h3>
+<ul id="mix-tab" class="nav nav-tabs">
+    <li class="active"><a class="no-click" href="#nowplaying" data-toggle="tab">Now Playing</a></li>
+    <li class=""><a class="no-click" href="#chat" data-toggle="tab">Chat</a></li>
+</ul>
+<div id="mix-tabContent" class="tab-content">
+    <div class="tab-pane active in fade" id="nowplaying">
+        {% include 'inc/side-player.html' %}
+        {% include 'inc/twitter.html' %}
+        {% include 'inc/facebook.html' %}
     </div>
-    <div>
-        <h5>You are listening to</h5>
+    <div class="tab-pane fade" id="chat">
+        {% include 'inc/chat.html' %}
     </div>
-    <div class="side-player">
-    <span class="content">
-        <div>
-            <span class="content">
-                <div>
-                    <a href="#" id="now-playing">Nothing currently on</a>
-                </div>
-            </span>
-        </div>
-    </span>
-    </div>
-    <div>
-        <h5>Now on DSS Radio
-            <button id="sidebar-listen-live" class="btn btn-mini btn-primary push-right btn-inverse"
-                    data-toggle="button" type="button">
-                Listen Live
-            </button>
-        </h5>
-    </div>
-
-    <div class="side-player">
-        <span class="content">
-            <div>
-                <span id="live-now-playing"></span>
-            </div>
-        </span>
-    </div>
-
-</div>
-<div class="row">
-    {% include 'inc/twitter.html' %}
-</div>
-<div class="row">
-    {% include 'inc/facebook.html' %}
 </div>

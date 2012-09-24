@@ -138,7 +138,7 @@ INSTALLED_APPS = (
     #'debug_toolbar',
     'crispy_forms',
     'sorl.thumbnail',
-    'south', # the only requirement for SCT
+#'south', # the only requirement for SCT
     'avatar',
     'notification',
     'spa',
@@ -240,3 +240,5 @@ PIPELINE_CSS = {
 COMPRESS_CSS_FILTERS = [
     'compressor.filters.css_default.CssAbsoluteFilter',
 ]
+APE_PASSWORD = localsettings.APE_PASSWORD
+APE_SERVER = localsettings.APE_SERVER

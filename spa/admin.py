@@ -1,4 +1,5 @@
 from django.contrib import admin
+from spa.models.ChatMessage import ChatMessage
 from spa.models.Recurrence import Recurrence
 from spa.models.Release import Release
 from spa.models.Event import Event
@@ -22,3 +23,4 @@ admin.site.register(ReleaseAudio)
 admin.site.register(Venue)
 admin.site.register(Event)
 admin.site.register(Recurrence)
+admin.site.register(ChatMessage)

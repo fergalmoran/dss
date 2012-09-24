@@ -1,7 +1,8 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models.signals import post_save
 from django.dispatch import receiver, Signal
-import os
+from django.db.models import signals
+from django.contrib.auth.management import create_superuser
+from django.contrib.auth import models as auth_app
 from spa.models.Mix import Mix
 
 waveform_generated = Signal()
@@ -16,5 +17,10 @@ def waveform_generated_callback(sender, **kwargs):
                 mix.save()
     except ObjectDoesNotExist:
         pass
-
 waveform_generated.connect(waveform_generated_callback)
+"""
+signals.post_syncdb.disconnect(
+    create_superuser,
+    sender=auth_app,
+    dispatch_uid = "django.contrib.auth.management.create_superuser")
+"""

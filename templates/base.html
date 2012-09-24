@@ -68,7 +68,7 @@
             {% block content %}
             {% endblock %}
         </div>
-        <div class="span3" style="float: right" id="side-content">
+        <div class="span4" style="float: right" id="side-content">
             {% block sidecontent %}
 
             {% endblock %}
@@ -80,7 +80,7 @@
 </div>
 <script src="/js/settings/"></script>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}js/libs/jquery.min.js"></script>
 <script src="http://fergalmoran.github.com/cdn/js/jquery.form.min.js"></script>
 <script src="{{ STATIC_URL }}js/libs/jquery.cookie.js"></script>
 {% if debug %}
@@ -122,6 +122,7 @@
     <script src="{{ STATIC_URL }}js/com.podnoms.utils.js"></script>
     <script src="{{ STATIC_URL }}js/com.podnoms.storage.js"></script>
     <script src="{{ STATIC_URL }}js/com.podnoms.player.js"></script>
+    <script src="{{ STATIC_URL }}js/app/chat.js"></script>
     <script src="{{ STATIC_URL }}js/app/social.js"></script>
     <script src="{{ STATIC_URL }}js/app/models/mix.js"></script>
     <script src="{{ STATIC_URL }}js/app/models/user.js"></script>

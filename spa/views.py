@@ -1,6 +1,5 @@
 from django.shortcuts import render_to_response, redirect
 from django.template.context import RequestContext
-import re
 from core.utils.string import lreplace, rreplace
 from spa.social import social_redirect
 
@@ -24,3 +23,6 @@ def default(request):
 
 def upload(request):
     return render_to_response("inc/upload.html", context_instance=RequestContext(request))
+
+
+
