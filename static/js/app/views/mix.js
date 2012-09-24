@@ -42,7 +42,12 @@ window.MixListItemView = Backbone.View.extend({
             $('#favourite-' + id, this.el).html('<i class="icon-star"></i> Favourite');
     },
     shareLink:function (e) {
-        sharePageToFacebook(this.model);
+        var id = $(e.currentTarget).data("id");
+        var mode = $(e.currentTarget).data("mode");
+        if (mode == "facebook")
+            sharePageToFacebook(this.model);
+        else if (mode == "twitter")
+            sharePageToTwitter(this.model);
     },
     likeMix:function (e) {
         var id = $(e.currentTarget).data("id");
@@ -180,10 +185,10 @@ window.MixCreateView = DSSEditableView.extend({
                 'buttonText':"Select audio file (mp3 for now please)",
                 'formData':{
                     'upload-hash':this.guid,
-                    'sessionid': $.cookie('sessionid')
+                    'sessionid':$.cookie('sessionid')
                 },
-                'onUploadFile': function(file){
-                    $(window).on('beforeunload', function(){
+                'onUploadFile':function (file) {
+                    $(window).on('beforeunload', function () {
                         alert('Go on outta that..');
                     });
                 },

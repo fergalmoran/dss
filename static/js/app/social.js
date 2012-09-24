@@ -29,21 +29,39 @@ postFacebookLike = function (mixId) {
     );
 };
 
-postFacebookFavourite = function(mixId){
+postFacebookFavourite = function (mixId) {
 
 };
 
-sharePageToFacebook = function(model){
+sharePageToTwitter = function (model) {
+//We get the URL of the link
+    var loc = $(this).attr('href');
+
+//We get the title of the link
+    var title = $(this).attr('title');
+
+//We trigger a new window with the Twitter dialog, in the middle of the page
+    window.open(
+        'http://twitter.com/share?url=' + 'http://' + window.location.host + "/" + model.get('item_url') +
+        '&amp;text=' + model.get('title'),
+        'twitterwindow',
+        'height=450, width=550, top=' + ($(window).height() / 2 - 225) +
+        ', left=' + $(window).width() / 2 +
+        ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+};
+sharePageToFacebook = function (model) {
     var obj = {
-        method: 'feed',
-        link: 'http://' + window.location.host  + "/" + model.get('item_url'),
-        picture: model.get('mix_image'),
-        name: 'Check out this mix on Deep South Sounds',
-        caption: model.get('title'),
-        description: model.get('description')
+        method:'feed',
+        link:'http://' + window.location.host + "/" + model.get('item_url'),
+        picture:model.get('mix_image'),
+        name:'Check out this mix on Deep South Sounds',
+        caption:model.get('title'),
+        description:model.get('description')
     };
+
     function callback(response) {
         com.podnoms.utils.alert("Post ID: " + response['post_id']);
     }
+
     FB.ui(obj, callback);
 };
