@@ -11,7 +11,6 @@ from spa.api.v1.ReleaseAudioResource import ReleaseAudioResource
 from spa.api.v1.ReleaseResource import ReleaseResource
 from spa.api.v1.UserResource import UserResource
 from spa.social import SocialHandler
-from spa.chat import ChatHandler
 
 v1_api = Api(api_name='v1')
 v1_api.register(MixResource())
@@ -24,7 +23,6 @@ v1_api.register(UserResource())
 ajax = AjaxHandler()
 audio = AudioHandler()
 social = SocialHandler()
-chat = ChatHandler()
 
 urlpatterns = django.conf.urls.patterns(
     '',
@@ -34,7 +32,6 @@ urlpatterns = django.conf.urls.patterns(
     url(r'^tplex/(?P<template_name>\w+)/$', 'spa.templates.get_template_ex'),
     (r'^social/', include(social.urls)),
     (r'^ajax/', include(ajax.urls)),
-    (r'^chat/', include(chat.urls)),
     (r'^audio/', include(audio.urls)),
     (r'^api/', include(v1_api.urls)),
     (r'^.*/$', 'spa.views.default')
