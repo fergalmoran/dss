@@ -10,12 +10,12 @@
 if (!com) var com = {};
 if (!com.podnoms) com.podnoms = {};
 
-
 soundManager.setup({
     url:'/static/bin/sm/',
     debugMode:false,
     wmode:'transparent'
 });
+
 soundManager.usePeakData = false;
 soundManager.useWaveformData = false;
 soundManager.useEQData = false;
@@ -206,4 +206,4 @@ com.podnoms.player = {
     updateWaveform:function (position) {
 
     }
-}
+};
