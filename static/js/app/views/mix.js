@@ -12,6 +12,7 @@ window.MixListItemView = Backbone.View.extend({
         "click .play-button-small-start":"startMix",
         "click .play-button-small-resume":"resume",
         "click .play-button-small-pause":"pauseMix",
+        "click .mix-link":"mixLink",
         "click .like-button a":"likeMix",
         "click .favourite-button a":"favouriteMix",
         "click .share-button":"shareLink",
@@ -27,7 +28,13 @@ window.MixListItemView = Backbone.View.extend({
         var id = this.model.get("id");
         this.setLikeButton(id, this.model.get('liked'));
         this.setFavouriteButton(id, this.model.get('favourited'));
-
+        $('#mix-link-' + id, this.el).popover({
+            animation: true,
+            placement: 'bottom',
+            trigger: 'hover',
+            html: 'true',
+            delay: { show: 500, hide: 500 }
+        });
         return this;
     },
     setLikeButton:function (id, liked) {
@@ -54,6 +61,9 @@ window.MixListItemView = Backbone.View.extend({
         var id = $(e.currentTarget).data("id");
         var mode = $(e.currentTarget).data("mode");
         com.podnoms.utils.downloadURL("/audio/download/" + id);
+    },
+    mixLink:function (e) {
+        $(e.currentTarget).popover('hide');
     },
     likeMix:function (e) {
         var id = $(e.currentTarget).data("id");

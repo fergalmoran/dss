@@ -2,8 +2,10 @@ import urlparse
 from allauth.socialaccount.models import SocialAccount
 from django import template
 from django.db.models import get_model
+from django.template.defaultfilters import linenumbers
 from django_gravatar.helpers import has_gravatar, get_gravatar_url
 from core.analytics.google import ShowGoogleAnalyticsJS
+from core.utils.string import is_number, trunc_lines
 from dss import settings
 from spa.models import _BaseModel
 
@@ -80,3 +82,12 @@ def bind_lookup(parser, token):
 @register.tag
 def googleanalyticsjs(parser, token):
     return ShowGoogleAnalyticsJS()
+
+@register.filter
+def truncmixlist(value):
+    if len(value) > 0:
+        if not is_number(value[0]):
+            value = linenumbers(value)
+
+    value = trunc_lines(value, 5)
+    return value

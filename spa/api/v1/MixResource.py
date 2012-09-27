@@ -1,4 +1,4 @@
-from django.db.models.aggregates import Count
+from django.template.loader import render_to_string
 from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL_WITH_RELATIONS
@@ -33,9 +33,6 @@ class MixResource(BackboneCompatibleResource):
     def dehydrate_mix_image(self, bundle):
         return bundle.obj.get_image_url()
 
-    def dehydrate_description(self, bundle):
-        return bundle.obj.description.replace("\n", "<br />")
-
     def dehydrate(self, bundle):
         bundle.data['waveform_url'] = bundle.obj.get_waveform_url()
         bundle.data['user_name'] = bundle.obj.user.nice_name()
@@ -44,7 +41,7 @@ class MixResource(BackboneCompatibleResource):
         bundle.data['play_count'] = bundle.obj.plays.count()
         bundle.data['like_count'] = bundle.obj.likes.count()
         bundle.data['mode'] = 'mix'
-
+        bundle.data['tooltip'] = render_to_string('inc/player_tooltip.html', {'item': bundle.obj})
         bundle.data['comment_count'] = bundle.obj.comments.count()
 
         bundle.data['liked'] = bundle.obj.is_liked(bundle.request.user)

@@ -84,13 +84,16 @@
 <script src="{{ STATIC_URL }}js/libs/jquery.min.js"></script>
 <script src="http://fergalmoran.github.com/cdn/js/jquery.form.min.js"></script>
 <script src="{{ STATIC_URL }}js/libs/jquery.cookie.js"></script>
-{% if debug %}
+<script src="{{ STATIC_URL }}js/app/chat.js"></script>
+
+<!--{% if debug %}-->
     <script src="{{ STATIC_URL }}js/libs/jasny/jasny-bootstrap.js"></script>
     <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-timepicker.js"></script>
     <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-datepicker.js"></script>
     <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap.min.js"></script>
     <script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-fileupload.js"></script>
     <script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-rowlink.js"></script>
+<!--
 {% else %}
     <script src="http://fergalmoran.github.com/cdn/js/bootstrap.min.js"></script>
     <script src="http://fergalmoran.github.com/cdn/js/bootstrap-fileupload.min.js"></script>
@@ -99,7 +102,7 @@
     <script src="http://fergalmoran.github.com/cdn/js/bootstrap-timepicker.min.js"></script>
     <script src="http://fergalmoran.github.com/cdn/js/bootstrap-datepicker.min.js"></script>
 {% endif %}
-
+-->
 <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2-nodebug-jsmin.js"></script>
 
 <!-- backbone application -->
@@ -141,7 +144,6 @@
     <script src="{{ STATIC_URL }}js/app/app.js"></script>
     <script src="{{ STATIC_URL }}js/app/social.js"></script>
 {% endcompress %}
-<script src="{{ STATIC_URL }}js/app/chat.js"></script>
 
 {% block footerscripts %}
 {% endblock %}

@@ -91,7 +91,8 @@ com.podnoms.player = {
                 .addClass('play-button-smallstart');
 
         this.currentId = null;
-        success();
+        if (success != undefined)
+            success();
     },
     _parseOptions:function (options) {
         this.currentId = options.id;
@@ -157,8 +158,12 @@ com.podnoms.player = {
             }
         });
     },
+    stopPlaying: function(){
+        this._destroyCurrent();
+    },
     playLive:function () {
         var ref = this;
+        var args = arguments;
         this._destroyCurrent(function () {
             ref.currentSound = soundManager.createSound({
                 id:'com.podnoms.player-live',
@@ -169,6 +174,7 @@ com.podnoms.player = {
             });
             if (ref.currentSound) {
                 ref.currentSound.play();
+                args[0].success();
             }
             else {
                 com.podnoms.utils.showError('Oooopsies', 'Error playing sound..');
