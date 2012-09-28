@@ -62,10 +62,10 @@ window.SidebarView = Backbone.View.extend({
                             $('#live-now-playing', el).text(data.title);
                             data.title += " (live)";
                             _eventAggregator.trigger("track_changed", data);
+                            liveButton.button('reset');
+                            liveButton.removeClass('btn-success').addClass('btn-danger').text('Stop listening');
                         });
-                    liveButton.button('reset');
-                    liveButton.removeClass('btn-success').addClass('btn-danger').text('Stop listening');
-                }
+               }
             });
         }
         _eventAggregator.trigger("track_playing")
