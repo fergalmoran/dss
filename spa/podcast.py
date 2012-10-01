@@ -3,7 +3,7 @@ from django.template import RequestContext, Context
 from spa.models import Mix
 
 def get_default_podcast(request):
-    mixes = Mix.objects.all()
+    mixes = Mix.objects.filter(download_allowed=True)
     return render(
         request,
         'inc/xml/podcast.xml',
