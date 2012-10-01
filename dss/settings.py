@@ -135,6 +135,7 @@ INSTALLED_APPS = (
     'django_facebook',
     'compressor',
     'djcelery',
+    'podcast',
     #'debug_toolbar',
     'crispy_forms',
     'sorl.thumbnail',

@@ -30,6 +30,8 @@ urlpatterns = django.conf.urls.patterns(
     url(r'^js/(?P<template_name>\w+)/$', 'spa.templates.get_javascript'),
     url(r'^tplex/(?P<template_name>\w+)/$', 'spa.templates.get_template_ex'),
     (r'^podcast\.xml', 'spa.podcast.get_default_podcast'),
+    (r'^podcast', 'spa.podcast.get_default_podcast'),
+    (r'^podcasts', 'spa.podcast.get_default_podcast'),
     (r'^social/', include(social.urls)),
     (r'^ajax/', include(ajax.urls)),
     (r'^audio/', include(audio.urls)),

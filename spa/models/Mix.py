@@ -1,3 +1,4 @@
+from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
 from django.dispatch import Signal, receiver
 import os
@@ -52,6 +53,9 @@ class Mix(_BaseModel):
 
     def get_absolute_url(self):
         return '/mix/%i' % self.id
+
+    def get_download_url(self):
+        return 'http://%s/audio/download/%s' % (Site.objects.get_current().domain, self.pk)
 
     def get_waveform_path(self):
         return os.path.join(settings.MEDIA_ROOT, "waveforms/", "%s.%s" % (self.uid, "png"))
