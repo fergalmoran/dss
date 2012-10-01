@@ -3,7 +3,6 @@ import django.conf.urls
 from tastypie.api import Api
 from spa.ajax import AjaxHandler
 from spa.audio import AudioHandler
-
 from spa.api.v1.CommentResource import CommentResource
 from spa.api.v1.EventResource import EventResource
 from spa.api.v1.MixResource import MixResource
@@ -30,6 +29,7 @@ urlpatterns = django.conf.urls.patterns(
     url(r'^tpl/(?P<template_name>\w+)/$', 'spa.templates.get_template'),
     url(r'^js/(?P<template_name>\w+)/$', 'spa.templates.get_javascript'),
     url(r'^tplex/(?P<template_name>\w+)/$', 'spa.templates.get_template_ex'),
+    (r'^podcast\.xml', 'spa.podcast.get_default_podcast'),
     (r'^social/', include(social.urls)),
     (r'^ajax/', include(ajax.urls)),
     (r'^audio/', include(audio.urls)),

@@ -1,27 +1,21 @@
-<div class="hero-unit">
-    <div class="row">
-        <div id="release-header" class="bordered">
-            <h3><i class="icon-time"></i>
-                <%= item.release_date %>
-                &nbsp;::&nbsp;
-                <%= item.release_artist %>
-                &nbsp;-&nbsp;
-                <%= item.release_title %>
-            </h3>
-        </div>
-    </div>
-    <div class="row bordered">
-        <div class="span3">
-            <img class="release-image" src="<%= item.release_image %>"/>
-        </div>
-        <div class="span7">
-            <%= item.release_description %>
-        </div>
-    </div>
-    <div class="row bordered">
-        <div id="embed-insert"><%= item.embed_code %></div>
-    </div>
-    <div class="row">
-        <div id="player-insert"></div>
-    </div>
+<div id="release-header" class="bordered">
+    <h3><i class="icon-time"></i>
+        <%= item.release_date %>
+        &nbsp;::&nbsp;
+        <%= item.release_artist %>
+        &nbsp;-&nbsp;
+        <%= item.release_title %>
+    </h3>
+</div>
+<div class="span3">
+    <img class="release-image" src="<%= item.release_image %>"/>
+</div>
+<div class="span7">
+    <%= item.release_description %>
+</div>
+<div class="row bordered">
+    <div id="embed-insert"><%= item.embed_code %></div>
+</div>
+<div class="row">
+    <div id="player-insert"></div>
 </div>

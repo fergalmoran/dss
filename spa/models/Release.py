@@ -37,6 +37,9 @@ class Release(_BaseModel):
     def get_absolute_url(self):
         return '/release/%i' % self.id
 
+    def get_image_url(self):
+        return super(Release, self).get_image_url(self.release_image, "")
+
     @classmethod
     def get_view_model(cls):
         qs = cls.objects.get(is_active=True)
