@@ -17,7 +17,7 @@ def get_default_podcast(request):
                 description = mix.description,
                 pubDate = mix.upload_date,
                 categories = [PyRSS2Gen.Category("Music")],
-                guid = mix.uid)
+                guid = 'http://%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix.get_absolute_url()))
         ]
 
     rss = PyRSS2Gen.RSS2(
