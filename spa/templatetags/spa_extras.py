@@ -85,9 +85,9 @@ def googleanalyticsjs(parser, token):
 
 @register.filter
 def truncmixlist(value):
+    value = trunc_lines(value, 5)
     if len(value) > 0:
         if not is_number(value[0]):
             value = linenumbers(value)
 
-    value = trunc_lines(value, 5)
     return value

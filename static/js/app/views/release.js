@@ -33,10 +33,46 @@ var ReleaseListView = Backbone.View.extend({
         });
         $("#release-table", this.el).tablesorter({
             sortList:[
-                [0, 0],
-                [1, 0]
-            ]
+                [1, 1],
+                [0, 0]
+            ],
+            headers:{
+                1:{
+                    sorter:'humanDates'
+                }
+            }
         });
+        // <editor-fold desc="Custom sorter">
+        $.tablesorter.addParser({
+            id:'humanDates',
+            is:function (s) {
+                return false;
+            },
+            format:function (s) {
+                var date = s.match(/^(\w{3})[ ](\d{1,2}),[ ](\d{4})$/);
+                var m = monthNames[date[1]];
+                var d = String(date[2]);
+                if (d.length == 1) {d = "0" + d;}
+                var y = date[3];
+                return '' + y + m + d;
+            },
+            type:'Numeric'
+        });
+        var monthNames = {};
+        monthNames["Jan"] = "01";
+        monthNames["Feb"] = "02";
+        monthNames["Mar"] = "03";
+        monthNames["Apr"] = "04";
+        monthNames["May"] = "05";
+        monthNames["Jun"] = "06";
+        monthNames["Jul"] = "07";
+        monthNames["Aug"] = "08";
+        monthNames["Sep"] = "09";
+        monthNames["Oct"] = "10";
+        monthNames["Nov"] = "11";
+        monthNames["Dec"] = "12";
+        // </editor-fold>
+
         $('tr.rowlink', this.el).rowlink();
         $('#tablesorter-fix', this.el).hide();
         return this;

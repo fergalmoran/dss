@@ -64,7 +64,8 @@ window.SidebarView = Backbone.View.extend({
                             _eventAggregator.trigger("track_changed", data);
                             liveButton.button('reset');
                             liveButton.removeClass('btn-success').addClass('btn-danger').text('Stop listening');
-                        });
+                        }
+                    );
                }
             });
         }
