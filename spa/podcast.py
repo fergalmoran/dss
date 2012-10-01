@@ -3,6 +3,7 @@ from django.contrib.sites.models import Site
 from django.http import HttpResponse
 from xml.etree.ElementTree import Element, SubElement, Comment, tostring
 import datetime
+import os
 from spa.models import Mix
 
 def get_default_podcast(request):
@@ -14,6 +15,10 @@ def get_default_podcast(request):
             PyRSS2Gen.RSSItem(
                 title = mix.title,
                 link = 'http://%s:%s/audio/download/%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix.pk),
+                enclosure =
+                    PyRSS2Gen.Enclosure('http://%s:%s/audio/download/%s' %
+                                        (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix.pk),
+                        os.path.getsize(mix.local_file.path), "audio/mpeg"),
                 description = mix.description,
                 pubDate = mix.upload_date,
                 categories = [PyRSS2Gen.Category("Music")],
