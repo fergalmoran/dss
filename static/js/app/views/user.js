@@ -38,7 +38,10 @@ window.UserView = Backbone.View.extend({
             );
         });
         $("#div_avatar_image", this.el).hide();
-        $('#' + this.model.get('avatar_type'), this.el).attr('checked', 'checked');
+        var avatarType = this.model.get('avatar_type');
+        if (!com.podnoms.utils.isEmpty(avatarType))
+            $('#' + this.model.get('avatar_type'), this.el).attr('checked', 'checked');
+
         //console.clear();
         return this;
     },
