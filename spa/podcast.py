@@ -8,7 +8,7 @@ def get_default_podcast(request):
         request,
         'inc/xml/podcast.xml',
         {'items': mixes},
-        content_type='text/xml'
+        content_type='text/xml; charset=utf-8'
     )
 
 

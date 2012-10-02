@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <ttl>60</ttl>
-        <!-- Automatically feed your weblog name and description to iTunes -->
         <title>Deep South Sounds Podcast</title>
         <description>Deep House Music with a Cork twist</description>
-        <!-- You can also autofeed the link to your podcast weblog -->
         <link>http://www.deepsouthsounds.com/podcast/</link>
+        <atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" type="application/rss+xml"
+                     href="http://deepsouthsounds.com/podcasts/"/>
         <language>en-IE</language>
         <copyright>All your muzik is belong to us</copyright>
+        <image>
+            <url>http://static.deepsouthsounds.com/img/dss-large.png</url>
+            <title>Deep South Sounds Podcast</title>
+            <link>http://www.deepsouthsounds.com</link>
+            <width>200</width>
+            <height>200</height>
+            <description>Deep House Music with a Cork twist</description>
+        </image>
         <itunes:subtitle>Deep House Music with a Cork twist</itunes:subtitle>
         <itunes:author>Deep South Sounds</itunes:author>
         <itunes:summary>Deep House Music with a Cork twist</itunes:summary>
@@ -16,33 +24,24 @@
             <itunes:name>Deep South Sounds</itunes:name>
             <itunes:email>admin@deepsouthsounds.com</itunes:email>
         </itunes:owner>
-        <!-- This is the image that shows in your iTunes listing -->
         <itunes:image href="http://static.deepsouthsounds.com/img/dss-large.png"/>
         <itunes:category text="Music">
-            <itunes:category text="Music Podcast"/>
         </itunes:category>
-        <!--
-            This portion starts the actual listing of your podcast episodes. The above
-            just gives info on your podcast show. That's why we specify the weblog tag
-            here.
-        -->
+        <itunes:explicit>no</itunes:explicit>
         {% for item in items %}
-        <item>
-            <title>{{ item.title }}</title>
-            <itunes:author>Episode author</itunes:author>
-            <itunes:subtitle>{{ item.title }}</itunes:subtitle>
-            <itunes:summary>{{ item.description }}</itunes:summary>
-            <enclosure url="{{ item.get_download_url }}" length="{episode_size}" type="audio/x-m4a"/>
-            <!-- url to your episode. I'm using the title permalink but any tag that generates a unique
-      URL to your episode will do. -->
-            <guid>item.get_download_url</guid>
-            <!-- The date/time stamp for your podcast. Again, iTunes is super-strict about this. If your
-date/time stamp is not exactly how Apple wants it your feed will break. -->
-            <pubDate>{{ item.get_download_url }}</pubDate>
-            <!-- Insert episode length. -->
-            <itunes:duration></itunes:duration>
-            <itunes:keywords>deep, house, music</itunes:keywords>
-        </item>
+            <item>
+                <title>{{ item.title }}</title>
+                <itunes:author>Episode author</itunes:author>
+                <itunes:subtitle>{{ item.title }}</itunes:subtitle>
+                <itunes:summary>{{ item.description|escape }}</itunes:summary>
+                <itunes:image href="{{ item.get_image_url }}"/>
+                <itunes:explicit>no</itunes:explicit>
+                <enclosure url="{{ item.get_download_url }}" length="100" type="audio/x-m4a"/>
+                <guid>{{ item.get_download_url }}</guid>
+                <pubDate>{{ item.get_date_as_rfc822 }}</pubDate>
+                <itunes:duration>100</itunes:duration>
+                <itunes:keywords>deep, house, music</itunes:keywords>
+            </item>
         {% endfor %}
     </channel>
 </rss>

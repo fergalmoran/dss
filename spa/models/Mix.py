@@ -2,6 +2,7 @@ from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
 from django.dispatch import Signal, receiver
 import os
+import rfc822
 from core.utils import url
 from datetime import datetime
 from django.db import models
@@ -71,6 +72,10 @@ class Mix(_BaseModel):
     def get_stream_path(self):
         #return 'media/%s/' % self.local_file.name
         return '/audio/stream/%d' % self.id
+
+    def get_date_as_rfc822(self):
+        return rfc822.formatdate(rfc822.mktime_tz(rfc822.parsedate_tz(self.upload_date.strftime("%a, %d %b %Y %H:%M:%S"))))
+
 
     @classmethod
     def get_listing(cls, listing_type, user=None):

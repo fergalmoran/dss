@@ -52,7 +52,9 @@ var ReleaseListView = Backbone.View.extend({
                 var date = s.match(/^(\w{3})[ ](\d{1,2}),[ ](\d{4})$/);
                 var m = monthNames[date[1]];
                 var d = String(date[2]);
-                if (d.length == 1) {d = "0" + d;}
+                if (d.length == 1) {
+                    d = "0" + d;
+                }
                 var y = date[3];
                 return '' + y + m + d;
             },
@@ -88,6 +90,9 @@ var ReleaseItemView = Backbone.View.extend({
     },
     render:function () {
         $(this.el).html(this.template({"item":this.model.toJSON()}));
+        if (com.podnoms.utils.isEmpty(this.model.get('release_image'))){
+            $('#release-image-div', this.el).remove();
+        }
         return this;
     }
 });
