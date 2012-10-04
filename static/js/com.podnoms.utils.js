@@ -101,9 +101,11 @@ com.podnoms.utils = {
         iframe.src = url;
     },
     indeterminateProgress:function (bar) {
+        /*
         $(bar).css({ "padding-left": "0%", "padding-right": "90%" });
         $(bar).animate({ paddingLeft: "90%", paddingRight: "0%" }, 1000, "linear",
             function () { this.indeterminateProgress(bar); });
+        */
     }
 };
 
