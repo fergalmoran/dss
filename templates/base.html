@@ -4,10 +4,8 @@
     <meta charset="utf-8">
     <title>Deep South Sounds</title>
     {% include 'inc/meta.html' %}
-
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     {% load compress %}
-
     {% compress css %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap/bootstrap-datepicker.css">
@@ -21,9 +19,6 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/com.podnoms.player.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/emoticons.css">
     {% endcompress %}
-
-    <!-- horrible fix for horrible facebook -->
-    <!-- horrible horrible facebook -->
     <script type="text/javascript">
         if (window.location.hash == '#_=_') {
             window.location.hash = '';
@@ -33,7 +28,6 @@
         }
     </script>
     {% block headerscripts %}
-
     {% endblock %}
 </head>
 <body>
@@ -41,12 +35,10 @@
 {% include 'inc/facebook_init.html' %}
 {% include 'inc/ancient_browser.html' %}
 <div id="header"></div>
-
 <div class="container-fluid">
     <div id="alert-proxy" class="modal hide fade">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3>Oooopsies..</h3>
         </div>
         <div class="modal-body">
             <p id="alert-proxy-message"></p>
@@ -58,14 +50,12 @@
     <div class="row status-bar">
         <div class="span12">
             <div class="alert alert-success" style="display: none">
-                <b>Success!</b>Something happened and it was good.
             </div>
         </div>
     </div>
     <div class="row-fluid">
         <div class="span8" id="content">
             <h1>Loading</h1>
-
             <div class="progress progress-striped active">
                 <div class="bar" id="progress-bar"></div>
             </div>
@@ -79,16 +69,13 @@
             <div id="sidebar"></div>
             <div id="site-content-fill"></div>
         </div>
-
     </div>
 </div>
 <script src="/js/settings/"></script>
-
 <script src="{{ STATIC_URL }}js/libs/jquery.js"></script>
 <script src="http://fergalmoran.github.com/cdn/js/jquery.form.min.js"></script>
 <script src="{{ STATIC_URL }}js/libs/jquery.cookie.js"></script>
 <script src="{{ STATIC_URL }}js/app/chat.js"></script>
-
 <script src="{{ STATIC_URL }}js/libs/jasny/jasny-bootstrap.js"></script>
 <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-timepicker.js"></script>
 <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-datepicker.js"></script>
@@ -96,8 +83,6 @@
 <script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-fileupload.js"></script>
 <script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-rowlink.js"></script>
 <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2-nodebug-jsmin.js"></script>
-
-<!-- backbone application -->
 {% compress js %}
 <script src="{{ STATIC_URL }}js/app/site.js"></script>
 <script src="{{ STATIC_URL }}js/libs/ajaxfileupload.js"></script>
@@ -107,14 +92,13 @@
 <script src="{{ STATIC_URL }}js/libs/tiny_mce/jquery.tinymce.js"></script>
 <script src="{{ STATIC_URL }}js/libs/modernizr.js"></script>
 <script src="{{ STATIC_URL }}js/libs/backbone/underscore.js"></script>
+<script src="{{ STATIC_URL }}js/libs/backbone/moment.js"></script>
 <script src="{{ STATIC_URL }}js/libs/ICanHaz.js"></script>
 <script src="{{ STATIC_URL }}js/libs/backbone/backbone.js"></script>
 <script src="{{ STATIC_URL }}js/libs/backbone/backbone.mine.js"></script>
 <script src="{{ STATIC_URL }}js/libs/backbone/backbone-tastypie.js"></script>
 <script src="{{ STATIC_URL }}js/libs/clickify.js"></script>
-
 <script src="{{ STATIC_URL }}js/libs/jquery.colorbox.js"></script>
-
 <script src="{{ STATIC_URL }}js/com.podnoms.utils.js"></script>
 <script src="{{ STATIC_URL }}js/com.podnoms.storage.js"></script>
 <script src="{{ STATIC_URL }}js/com.podnoms.player.js"></script>
@@ -136,7 +120,6 @@
 <script src="{{ STATIC_URL }}js/app/app.js"></script>
 <script src="{{ STATIC_URL }}js/app/social.js"></script>
 {% endcompress %}
-
 {% block footerscripts %}
 {% endblock %}
 <script type="text/javascript">

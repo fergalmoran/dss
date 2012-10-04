@@ -1,5 +1,4 @@
 import datetime
-import humanize
 from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL_WITH_RELATIONS
@@ -36,9 +35,6 @@ class ReleaseResource(BackboneCompatibleResource):
         bundle.data['item_url'] = 'release/%s' % bundle.obj.id
         bundle.data['mode'] = 'release'
         return bundle
-
-    def dehydrate_release_date(self, bundle):
-        return humanize.naturalday(bundle.obj.release_date)
 
     def dehydrate_release_image(self, bundle):
         return bundle.obj.get_image_url()

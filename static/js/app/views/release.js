@@ -7,8 +7,8 @@
 
  */
 var ReleaseListItemView = Backbone.View.extend({
-    tagName:"tr",
-    initialize:function () {
+    tagName: "tr",
+    initialize: function () {
         $(this.el).addClass("rowlink");
         $(this.el).data("id", this.model.get("id"));
         this.render();
@@ -22,10 +22,10 @@ var ReleaseListView = Backbone.View.extend({
     events:{
         "click tr":"showDetails"
     },
-    initialize:function () {
+    initialize: function () {
         this.render();
     },
-    render:function () {
+    render: function () {
         $(this.el).html(this.template());
         var el = this.el;
         this.collection.each(function (item) {
@@ -61,6 +61,7 @@ var ReleaseItemView = Backbone.View.extend({
         if (com.podnoms.utils.isEmpty(this.model.get('release_image'))){
             $('#release-image-div', this.el).remove();
         }
+        $('#release_date', this.el).
         return this;
     }
 });

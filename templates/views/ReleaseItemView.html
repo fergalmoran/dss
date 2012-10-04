@@ -7,6 +7,11 @@
         <%= item.release_title %>
     </h3>
 </div>
+{% if user.is_staff %}
+    <div class="edit-button footer-button-right">
+        <a href="/release/edit/<%= item.id %>" class="btn" data-mode="release" data-id="<%= item.id %>"><i class="icon-edit"></i>Edit</a>
+    </div>
+{% endif %}
 <div class="span3" id="release-image-div">
     <img class="release-image" src="<%= item.release_image %>"/>
 </div>
