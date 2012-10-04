@@ -61,7 +61,7 @@ var ReleaseItemView = Backbone.View.extend({
         if (com.podnoms.utils.isEmpty(this.model.get('release_image'))){
             $('#release-image-div', this.el).remove();
         }
-        $('#release_date', this.el).
+        //$('#release_date', this.el).
         return this;
     }
 });
