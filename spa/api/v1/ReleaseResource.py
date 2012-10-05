@@ -9,7 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 class ReleaseResource(BackboneCompatibleResource):
     release_audio = fields.ToManyField('spa.api.v1.ReleaseAudioResource.ReleaseAudioResource', 'release_audio', 'release', null=True, blank=True)
     class Meta:
-        queryset = Release.objects.filter(release_date__gte=datetime.date.today() - datetime.timedelta(days=7)).order_by('-release_date')
+        queryset = Release.objects.all()
         filtering = {
             'release_audio' : ALL_WITH_RELATIONS
         }

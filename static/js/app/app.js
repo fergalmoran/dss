@@ -14,9 +14,9 @@
         "mix/:id": "mixDetails",
         "mix/edit/:id": "mixEdit",
         "releases": "releaseList",
-        "release/:id": "releaseDetails",
         "release/add": "releaseAdd",
         "release/edit/:id": "releaseEdit",
+        "release/:id": "releaseDetails",
         "events": "eventList",
         "event/add": "eventAdd",
         "event/:id": "eventDetails",
@@ -91,7 +91,7 @@
             }
         });
     },
-    mixUpload: function(id) {
+    mixUpload: function() {
         var html = new MixCreateView({
             model: new Mix()
         });
@@ -236,12 +236,6 @@ com.podnoms.utils.loadTemplate(['HeaderView', 'SidebarView', 'UserView', 'MixLis
         });
         return false;
     });
-    /*
-         $(document.body).find('a:internal:not(.no-click)').click(function(event){
-         Backbone.history.navigate($(this).attr('href'),  {trigger: true});
-         return false;
-         });
-*/
 Backbone.history = Backbone.history || new Backbone.History({});
 Backbone.history.start({
     pushState: true
