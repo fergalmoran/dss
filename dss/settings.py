@@ -20,10 +20,10 @@ AUTH_PROFILE_MODULE = 'spa.UserProfile'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'deepsouthsounds',
-        'USER': 'deepsouthsounds',
-        'PASSWORD': '',
-        'HOST': '',
+        'NAME': localsettings.DATABASE_NAME if hasattr(localsettings, 'DATABASE_NAME') else 'deepsouthsounds',
+        'USER': localsettings.DATABASE_USER if hasattr(localsettings, 'DATABASE_USER') else 'deepsouthsounds',
+        'PASSWORD': localsettings.DATABASE_PASSWORD if hasattr(localsettings, 'DATABASE_PASSWORD') else '',
+        'HOST': localsettings.DATABASE_HOST if hasattr(localsettings, 'DATABASE_HOST') else '',
         'PORT': '',
         }
 }
