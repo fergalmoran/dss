@@ -11,6 +11,13 @@ window.Mix = DSSModel.extend({
     schema:{
         title:'Text',
         description:'Text'
+    },
+    isValid:function () {
+        this.errors = {};
+        if (com.podnoms.utils.isEmpty(this.get('title'))) {
+            return this.addError('title', 'Please enter a title');
+        }
+        return "";
     }
 });
 window.MixCollection = TastypieCollection.extend({

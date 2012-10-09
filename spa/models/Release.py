@@ -32,6 +32,7 @@ class Release(_BaseModel):
         return self.release_title
 
     def save(self, force_insert=False, force_update=False, using=None):
+        self.clean_image('release_image', Release)
         super(Release, self).save(force_insert, force_update, using)
 
     def get_absolute_url(self):

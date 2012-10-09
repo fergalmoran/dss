@@ -28,13 +28,15 @@ window.MixListItemView = Backbone.View.extend({
         var id = this.model.get("id");
         this.setLikeButton(id, this.model.get('liked'));
         this.setFavouriteButton(id, this.model.get('favourited'));
-        $('#mix-link-' + id, this.el).popover({
-            animation: true,
-            placement: 'bottom',
-            trigger: 'hover',
-            html: 'true',
-            delay: { show: 500, hide: 500 }
-        });
+        /*
+         $('#mix-link-' + id, this.el).popover({
+         animation: true,
+         placement: 'bottom',
+         trigger: 'hover',
+         html: 'true',
+         delay: { show: 500, hide: 500 }
+         });
+         */
         return this;
     },
     setLikeButton:function (id, liked) {
@@ -244,41 +246,43 @@ window.MixCreateView = DSSEditableView.extend({
         var parent = this;
         this.model.set('upload-hash', this.guid);
         this.model.set('upload-extension', $('#upload-extension', this.el).val());
-        this.model.save(
-            null, {
-                success:function () {
-                    if (parent.sendImage) {
-                        $.ajaxFileUpload({
-                            url:'/ajax/upload_image/' + model.get('id') + '/',
-                            secureuri:false,
-                            fileElementId:'mix_image',
-                            success:function (data, status) {
-                                if (typeof(data.error) != 'undefined') {
-                                    if (data.error != '') {
-                                        alert(data.error);
-                                    } else {
-                                        alert(data.msg);
-                                    }
+        if (!parent.sendImage)
+            this.model.set('mix_image', 'DONOTSEND');
+
+        this._saveChanges({
+            success:function () {
+                if (parent.sendImage) {
+                    $.ajaxFileUpload({
+                        url:'/ajax/upload_image/' + model.get('id') + '/',
+                        secureuri:false,
+                        fileElementId:'mix_image',
+                        success:function (data, status) {
+                            if (typeof(data.error) != 'undefined') {
+                                if (data.error != '') {
+                                    alert(data.error);
                                 } else {
-                                    $('#mix-details', this.el).hide();
-                                    parent.state++;
-                                    parent.checkRedirect();
+                                    alert(data.msg);
                                 }
-                            },
-                            error:function (data, status, e) {
-                                alert(e);
+                            } else {
+                                $('#mix-details', this.el).hide();
+                                parent.state++;
+                                parent.checkRedirect();
                             }
-                        });
-                    } else {
-                        $('#mix-details', this.el).hide();
-                        parent.state++;
-                        parent.checkRedirect();
-                    }
-                },
-                error:function () {
-                    com.podnoms.utils.showAlert("Error", "Something went wrong", "alert-info", false);
+                        },
+                        error:function (data, status, e) {
+                            alert(e);
+                        }
+                    });
+                } else {
+                    $('#mix-details', this.el).hide();
+                    parent.state++;
+                    parent.checkRedirect();
                 }
-            });
+            },
+            error:function () {
+                com.podnoms.utils.showAlert("Error", "Something went wrong", "alert-info", false);
+            }
+        });
         return false;
     },
     imageChanged:function (evt) {

@@ -1,6 +1,5 @@
 import logging
 from django.db import models
-from django.db.models import get_model
 from django.utils import simplejson
 import os
 from core.utils import url
@@ -42,3 +41,12 @@ class _BaseModel(models.Model):
             if field.endswith("name") or field.endswith("description"):
                 return field
         return "description"
+
+    def base_pre_save(self, sender, instance, created, **kwargs):
+        pass
+
+    def clean_image(self, image_field, sender):
+        if self.__dict__[image_field] == "DONOTSEND":
+            old_instance = sender.objects.get(pk=self.pk)
+            if old_instance is not None:
+                self.__dict__[image_field] = old_instance.__dict__[image_field]

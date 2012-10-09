@@ -18,7 +18,8 @@
                     <label class="control-label">Artist</label>
 
                     <div class="controls">
-                        <input id="release_artist" type="text" placeholder="Who dunnit…" value="<%= item.release_artist %>">
+                        <input id="release_artist" type="text" placeholder="Who dunnit…"
+                               value="<%= item.release_artist %>">
                         <span class="help-inline" id="error-release_artist"></span>
                     </div>
                 </div>
@@ -26,8 +27,10 @@
             <div class="span6">
                 <div class="control-group" id="group-release_title">
                     <label class="control-label">Title</label>
+
                     <div class="controls">
-                        <input id="release_title" type="text" placeholder="What they dun…" value="<%= item.release_title %>">
+                        <input id="release_title" type="text" placeholder="What they dun…"
+                               value="<%= item.release_title %>">
                         <span class="help-inline" id="error-release_title"></span>
                     </div>
                 </div>
@@ -35,18 +38,41 @@
                     <label class="control-label">Release date</label>
 
                     <div class="controls">
-                        <input id="release_date" class="datepicker" type="text">
+                        <input id="release_date" class="datepicker" type="text" value="<%= item.release_date %>">
                         <span class="help-inline" id="error-release_date"></span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="control-group">
-                <label class="control-label">Embed Code</label>
-
-                <div class="controls">
-                    <textarea style="width:98%" id="embed_code" rows="3"/>
+            <div class="span8">
+                <div class="control-group">
+                    <label class="control-label">Embed Code</label>
+                    <div class="controls">
+                        <textarea style="width:98%" id="embed_code" rows="5"><%= item.embed_code %></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="span4 pull-right">
+                <div class="fileupload fileupload-new" data-provides="fileupload">
+                    <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                        <img src="<%= item.release_image %>" />
+                    </div>
+                    <div class="fileupload-preview fileupload-exists thumbnail"
+                         style="max-width: 200px; max-height: 150px; line-height: 20px;">
+                    </div>
+                    <div>
+                        <span class="btn btn-file">
+                            <span class="fileupload-new">
+                                Select image
+                            </span>
+                        <span class="fileupload-exists">
+                            Change
+                        </span>
+                            <input id="release_image" type="file" size="45" name="release_image" class="input">
+                        </span>
+                        <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,7 +81,7 @@
                 <label class="control-label">Description</label>
 
                 <div class="controls">
-                    <textarea style="width:100%" class="tinymce" id="release-description" rows="10"/>
+                    <textarea style="width:100%" class="tinymce" id="release-description" rows="10"><%= item.description %></textarea>
                     <span class="help-inline" id="error-release_description"></span>
                 </div>
             </div>

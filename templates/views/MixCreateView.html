@@ -14,25 +14,26 @@
         <input type="hidden" id="upload-extension">
         <legend>Mix details</legend>
         <div class="row">
-            <div class="span6">
-                <div class="control-group">
-                    <label class="control-label">Title</label>
-                    <div class="controls">
-                        <input id="title" type="text" value="<%= item.title %>" placeholder="Brief title for your mix…">
-                    </div>
+            <div class="control-group">
+                <label class="control-label">Title</label>
+                <div class="controls">
+                    <input style="width: 98%" id="title" type="text" value="<%= item.title %>" placeholder="Brief title for your mix…">
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span9">
                 <div class="control-group">
                     <label class="control-label">Description</label>
-
                     <div class="controls">
-                        <textarea id="description" rows="10" placeholder="Tracklist would be nice…"><%= item.description %></textarea>
+                        <textarea style="width: 98%" id="description" rows="12" placeholder="Tracklist would be nice…"><%= item.description %></textarea>
                     </div>
                 </div>
             </div>
-            <div class="span6">
+            <div class="span3">
                 <div class="fileupload fileupload-new" data-provides="fileupload">
                     <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                        <img src="<%= item.mix_image %>" />
+                        <img src="<%= item.mix_image %>"/>
                     </div>
                     <div class="fileupload-preview fileupload-exists thumbnail"
                          style="max-width: 200px; max-height: 150px; line-height: 20px;">

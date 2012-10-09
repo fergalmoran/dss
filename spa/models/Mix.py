@@ -1,5 +1,6 @@
 from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
+from django.db.models.signals import pre_save
 from django.dispatch import Signal, receiver
 import os
 import rfc822
@@ -51,6 +52,7 @@ class Mix(_BaseModel):
         if os.path.isfile(self.get_waveform_path()):
             self.waveform_generated = True
 
+        self.clean_image('mix_image', Mix)
         super(Mix, self).save(force_insert, force_update, using)
 
     def get_absolute_url(self):

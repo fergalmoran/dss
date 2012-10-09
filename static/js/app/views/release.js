@@ -80,6 +80,7 @@ var ReleaseView = Backbone.View.extend({
 var ReleaseCreateView = DSSEditableView.extend({
     events:{
         "click #save-changes":"saveChanges",
+        "change #release_image":"imageChanged",
         "change input":"changed",
         "change textarea":"changed",
         "change select":"changeSelect"
@@ -88,6 +89,7 @@ var ReleaseCreateView = DSSEditableView.extend({
         this.render();
     },
     render:function () {
+        this.sendImage = false;
         $(this.el).html(this.template({"item":this.model.toJSON()}));
         this._bakeForm(this.el, 'label');
     },
@@ -99,7 +101,6 @@ var ReleaseCreateView = DSSEditableView.extend({
         this.model.set('release_description', $('#release-description', this.el).html());
         this.model.set('release_date', $('#release_date', this.el).val());
         this.model.set('embed_code', $('#embed_code', this.el).val());
-
         this._saveChanges({
             success:function () {
                 com.podnoms.utils.showAlert("Success", "Release successfully added", "alert-info", true);
@@ -107,5 +108,8 @@ var ReleaseCreateView = DSSEditableView.extend({
             }
         });
         return false;
+    },
+    imageChanged:function (evt) {
+        this.sendImage = true;
     }
 });
