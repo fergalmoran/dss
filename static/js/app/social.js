@@ -9,8 +9,10 @@
 postFacebookLike = function (mixId) {
     //first off, find if the current user has allowed facebook likes
     $.getJSON(
-        'ajax/facebook_post_likes_allowed/',
+        'social/like/' + mixId + '/',
         function (data) {
+            com.podnoms.utils.showAlert("Posted your like to facebook, you can stop this in your settings page.", "Cheers feen", "alert-success", true);
+            /*
             if (data.value) {
                 FB.api(
                     '/me/deepsouthsounds:like',
@@ -25,6 +27,7 @@ postFacebookLike = function (mixId) {
                     }
                 );
             }
+            */
         }
     );
 };

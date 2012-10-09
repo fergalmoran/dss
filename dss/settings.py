@@ -8,6 +8,8 @@ from utils import here
 from django.conf import global_settings
 
 DEBUG = localsettings.DEBUG
+DEVELOPMENT = localsettings.DEBUG
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -133,6 +135,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django_facebook',
+    'django_extensions',
     'compressor',
     'djcelery',
     #'debug_toolbar',
@@ -200,6 +203,14 @@ CELERYBEAT_SCHEDULE = {
 djcelery.setup_loader()
 
 SOCIALACCOUNT_AVATAR_SUPPORT = True
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': ['email', 'publish_stream', 'publish_actions'],
+        'METHOD': 'oauth2' ,
+        'LOCALE_FUNC': 'path.to.callable'
+    }
+}
+
 AVATAR_STORAGE_DIR = MEDIA_ROOT + '/avatars/'
 EMAIL_CONFIRMATION_DAYS = 7
 

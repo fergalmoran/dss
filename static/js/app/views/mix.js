@@ -73,10 +73,7 @@ window.MixListItemView = Backbone.View.extend({
             "/ajax/like/",
             { dataId:id, dataMode:mode },
             function (data) {
-                var result = $.parseJSON(data);
-                self.setLikeButton(id, result.value == 'Liked');
-                if (result.value == 'Liked')
-                    postFacebookLike(id);
+                com.podnoms.utils.showAlert("Success", "Thanks for liking!!", "alert-success", true);
             }
         );
     },
@@ -129,7 +126,9 @@ window.MixListItemView = Backbone.View.extend({
 window.MixListView = Backbone.View.extend({
     itemPlaying:null,
     initialize:function () {
+        _.bindAll(this, "render");
         this.render();
+        this.infiniScroll = new Backbone.InfiniScroll(this.collection);
     },
     render:function () {
         var mixes = this.collection;
@@ -139,7 +138,6 @@ window.MixListView = Backbone.View.extend({
         this.collection.each(function (item) {
             $('.mix-listing', el).append(new MixListItemView({model:item}).render().el);
             if (com.podnoms.player.isPlayingId(item.get('id'))) {
-                console.log("Item " + item.get('id') + " is playing...");
                 ref.itemPlaying = item;
             }
         });

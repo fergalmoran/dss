@@ -3,6 +3,7 @@ from django.db.models.signals import post_save
 from django.dispatch import Signal, receiver
 import os
 import rfc822
+from sorl.thumbnail import get_thumbnail
 from core.utils import url
 from datetime import datetime
 from django.db import models
@@ -55,6 +56,9 @@ class Mix(_BaseModel):
     def get_absolute_url(self):
         return '/mix/%i' % self.id
 
+    def get_full_url(self):
+        return 'http://%s%s' % (Site.objects.get_current().domain, self.get_absolute_url())
+
     def get_download_url(self):
         return 'http://%s/audio/download/%s' % (Site.objects.get_current().domain, self.pk)
 
@@ -67,6 +71,7 @@ class Mix(_BaseModel):
         return url.urlclean(ret)
 
     def get_image_url(self):
+        #return get_thumbnail(self.mix_image, '16x16')
         return super(Mix, self).get_image_url(self.mix_image, settings.STATIC_URL + 'img/default-track.png')
 
     def get_stream_path(self):

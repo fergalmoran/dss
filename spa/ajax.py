@@ -12,6 +12,7 @@ import os
 from core.serialisers.json import dumps
 from core.utils import live
 from dss import localsettings, settings
+from spa import social
 from spa.models import UserProfile, MixFavourite, Release, Label, _BaseModel
 from spa.models.Mix import Mix
 from spa.models.Comment import Comment
@@ -134,6 +135,7 @@ def like(request):
                         mix.likes.all().delete()
                         response = _get_json('Unliked')
                     mix.save()
+                    social.post_like(request, mix)
                     return HttpResponse(response)
 
 @login_required()
