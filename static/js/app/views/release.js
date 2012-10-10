@@ -101,6 +101,9 @@ var ReleaseCreateView = DSSEditableView.extend({
         this.model.set('release_description', $('#release-description', this.el).html());
         this.model.set('release_date', $('#release_date', this.el).val());
         this.model.set('embed_code', $('#embed_code', this.el).val());
+        if (!parent.sendImage)
+            this.model.set('release_image', 'DONOTSEND');
+
         this._saveChanges({
             success:function () {
                 com.podnoms.utils.showAlert("Success", "Release successfully added", "alert-info", true);

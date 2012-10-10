@@ -1,25 +1,26 @@
 <div id="release-header" class="bordered">
-    <h3><i class="icon-time"></i>
+    <h3>
         <%= item.release_date %>
         &nbsp;::&nbsp;
         <%= item.release_artist %>
         &nbsp;-&nbsp;
         <%= item.release_title %>
+        {% if user.is_staff %}
+        <div class="edit-button footer-button-right">
+            <a href="/release/edit/<%= item.id %>" class="btn" data-mode="release" data-id="<%= item.id %>"><i
+                    class="icon-edit"></i>Edit</a>
+        </div>
+        {% endif %}
     </h3>
 </div>
-{% if user.is_staff %}
-    <div class="edit-button footer-button-right">
-        <a href="/release/edit/<%= item.id %>" class="btn" data-mode="release" data-id="<%= item.id %>"><i class="icon-edit"></i>Edit</a>
-    </div>
-{% endif %}
 <div class="span3" id="release-image-div">
     <img class="release-image" src="<%= item.release_image %>"/>
 </div>
 <div class="span7">
     <%= item.release_description %>
 </div>
-<div class="row well">
-    <div id="embed-insert"><%= item.embed_code %></div>
+<div class="row">
+    <div id="embed-insert" class="`embed-insert"><%= item.embed_code %></div>
 </div>
 <div class="row">
     <div id="player-insert"></div>

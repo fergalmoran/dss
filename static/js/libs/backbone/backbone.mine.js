@@ -110,8 +110,8 @@ window.DSSEditableView = Backbone.View.extend({
                 'format':'dd/mm/yyyy'
             }
         );
-        $('.timepicker', this.el).timepicker();
-        $('textarea.tinymce', el).tinymce({
+        $('.timepicker', el).timepicker();
+        $('textarea.tinymce', this.el).tinymce({
             script_url:"/static/js/libs/tiny_mce/tiny_mce.js",
             mode:"textareas",
             theme:"advanced",
