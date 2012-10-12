@@ -129,13 +129,18 @@ def like(request):
                 mix = Mix.objects.get(pk=request.POST['dataId'])
                 if mix is not None:
                     if mix.likes.count() == 0:
-                        mix.likes.add(MixLike(mix=mix, user=request.user))
+                        uid = social.post_like(request, mix)
+                        mix.likes.add(MixLike(mix=mix, user=request.user, uid=uid))
                         response = _get_json('Liked')
                     else:
+                        for like in mix.likes.all():
+                            uid = like.uid
+                            if uid is not None and uid <> '':
+                                social.delete_like(request, uid)
+
                         mix.likes.all().delete()
                         response = _get_json('Unliked')
                     mix.save()
-                    social.post_like(request, mix)
                     return HttpResponse(response)
 
 @login_required()

@@ -42,8 +42,11 @@ window.MixListItemView = Backbone.View.extend({
     setLikeButton:function (id, liked) {
         if (liked) {
             $('#like-' + id, this.el).html('<i class="icon-heart"></i> Unlike');
-        } else
+            $('#like-' + id, this.el).data('loading-text', 'Unliking');
+        } else{
             $('#like-' + id, this.el).html('<i class="icon-heart"></i> Like');
+            $('#like-' + id, this.el).data('loading-text', 'Liking');
+        }
     },
     setFavouriteButton:function (id, liked) {
         if (liked) {
@@ -68,14 +71,25 @@ window.MixListItemView = Backbone.View.extend({
         $(e.currentTarget).popover('hide');
     },
     likeMix:function (e) {
-        var id = $(e.currentTarget).data("id");
-        var mode = $(e.currentTarget).data("mode");
+        var parent = this;
+        var button = $(e.currentTarget);
+        var id = button.data("id");
+        var mode = button.data("mode");
         var self = this;
+        button.button('loading');
         $.post(
             "/ajax/like/",
             { dataId:id, dataMode:mode },
             function (data) {
-                com.podnoms.utils.showAlert("Success", "Thanks for liking!!", "alert-success", true);
+                button.button('reset');
+                var result = JSON.parse(data);
+                if (result.value == "Liked"){
+                    parent.setLikeButton(id, true);
+                    com.podnoms.utils.showAlert("Success", "Thanks for liking!!", "alert-success", true);
+                }else if (result.value == "Unliked"){
+                    parent.setLikeButton(id, false);
+                    com.podnoms.utils.showAlert("Success", "Mix unliked!!", "alert-success", true);
+                }
             }
         );
     },
