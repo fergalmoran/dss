@@ -575,3 +575,8 @@ div.event-content td {
 #embed-insert{
     padding: 15px 15px 15px 70px;
 }
+
+#social-login-buttons{
+    width: 340px;
+    height: 32px;
+}

@@ -25,6 +25,3 @@ def default(request):
 
 def upload(request):
     return render_to_response("inc/upload.html", context_instance=RequestContext(request))
-
-
-
