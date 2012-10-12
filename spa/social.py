@@ -96,7 +96,10 @@ def post_like(request, mix):
             }
             response = requests.post(url, data=values)
             if response.status_code == 200:
+                print "Returned %s" % response.json
                 return response.json['id']
+            else:
+                print "Returned status code of %s" % response.status_code
     except urllib2.HTTPError, httpEx:
         print httpEx.message
     except Exception, ex:
