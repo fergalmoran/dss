@@ -24,11 +24,14 @@ class MixResource(BackboneCompatibleResource):
         return super(MixResource, self).obj_create(bundle, request, user=request.user.get_profile(), local_file=file_name, uid=uid)
 
     def obj_get_list(self, request=None, **kwargs):
-        sort = 'latest'
-        if 'sort' in request.GET and request.GET['sort']:
+        if 'user' in request.GET and request.GET['user']:
+            user = request.GET['user']
+            return Mix.get_for_username(user)
+        elif 'sort' in request.GET and request.GET['sort']:
             sort = request.GET['sort']
+            return Mix.get_listing(sort, request.user)
 
-        return Mix.get_listing(sort, request.user)
+        return Mix.get_listing('latest', request.user)
 
     def dehydrate_mix_image(self, bundle):
         return bundle.obj.get_image_url()

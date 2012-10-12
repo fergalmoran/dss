@@ -85,6 +85,11 @@ class Mix(_BaseModel):
 
 
     @classmethod
+    def get_for_username(cls, user):
+        queryset = Mix.objects.filter(user__profile_slug__exact=user)
+        return queryset
+
+    @classmethod
     def get_listing(cls, listing_type, user=None):
         queryset = None
         if listing_type == 'latest':
