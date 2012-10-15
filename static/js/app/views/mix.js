@@ -236,7 +236,7 @@ window.MixCreateView = DSSEditableView.extend({
             $('.fileupload', this.el).fileupload({
                 'uploadtype':'image'
             });
-            //$('#mix-details', this.el).hide();
+            $('#mix-details', this.el).hide();
             $('.upload-hash', this.el).val(this.guid);
         } else {
             $('#div-upload-mix', this.el).hide();
