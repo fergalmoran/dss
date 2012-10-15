@@ -28,7 +28,7 @@ class UserProfile(_BaseModel):
     avatar_type = models.CharField(max_length=15, default='social')
     avatar_image = models.ImageField(blank=True, upload_to=avatar_name)
     display_name = models.CharField(blank=True, max_length=35)
-    profile_slug = models.CharField(blank=True, max_length=35)
+    profile_slug = models.CharField(max_length=35, blank=True, null=True, default=None)
     activity_sharing = models.IntegerField(default=0)
     activity_sharing_networks = models.IntegerField(default=0)
     def save(self, size=(260, 180)):
@@ -38,6 +38,9 @@ class UserProfile(_BaseModel):
         from PIL import Image
         if not self.id and not self.source:
             return
+
+        if self.profile_slug == '':
+            self.profile_slug = None
 
         super(UserProfile, self).save()
 

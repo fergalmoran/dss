@@ -42,3 +42,9 @@ class UserResource(BackboneCompatibleResource):
     def apply_authorization_limits(self, request, object_list):
         if request.user is not None:
             return object_list.filter(user=request.user)
+
+    def hydrate_profile_slug(self, bundle):
+        if bundle.data['profile_slug'] == '':
+            bundle.data['profile_slug'] = None
+        return bundle
+
