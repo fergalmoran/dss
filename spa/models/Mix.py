@@ -34,6 +34,7 @@ class Mix(_BaseModel):
     download_url = models.CharField(max_length=255)
     stream_url = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
+    is_featured = models.BooleanField(default=True)
     user = models.ForeignKey(UserProfile, editable=False)
     waveform_generated = models.BooleanField(default=False)
     uid = models.CharField(max_length=38, blank=True, unique=True)
@@ -86,7 +87,7 @@ class Mix(_BaseModel):
 
     @classmethod
     def get_for_username(cls, user):
-        queryset = Mix.objects.filter(user__profile_slug__exact=user)
+        queryset = Mix.objects.filter(user__profile_slug__exact=user).order_by( '-id')
         return queryset
 
     @classmethod
