@@ -20,6 +20,9 @@ class MixResource(BackboneCompatibleResource):
     def obj_create(self, bundle, request=None, **kwargs):
         file_name = "mixes/%s.%s" % (bundle.data['upload-hash'], bundle.data['upload-extension'])
         uid = bundle.data['upload-hash']
+        if 'is_featured' not in bundle.data:
+            bundle.data['is_featured'] = False
+
         bundle.data['user'] = request.user.get_profile()
         return super(MixResource, self).obj_create(bundle, request, user=request.user.get_profile(), local_file=file_name, uid=uid)
 
