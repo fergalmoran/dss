@@ -16,8 +16,10 @@
         <div class="row">
             <div class="control-group">
                 <label class="control-label">Title</label>
+
                 <div class="controls">
-                    <input style="width: 98%" id="title" type="text" value="<%= item.title %>" placeholder="Brief title for your mix…">
+                    <input style="width: 98%" id="title" type="text" value="<%= item.title %>"
+                           placeholder="Brief title for your mix…">
                 </div>
             </div>
         </div>
@@ -51,6 +53,12 @@
                         <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
                     </div>
                 </div>
+                {%  if user.is_staff %}
+                <div>
+                <label class="checkbox">
+                    <input type="checkbox" id="is_featured" <% if (item.is_featured) { %>checked="checked"<% } %>">Is featured?</label>
+                </div>
+                {% endif %}
             </div>
         </div>
         <div class="row">

@@ -72,9 +72,16 @@ window.DSSEditableView = Backbone.View.extend({
     },
     changed:function (evt) {
         var changed = evt.currentTarget;
+        //$("#" + changed.id)
         if (!com.podnoms.utils.isEmpty(changed.id)) {
-            var value = $("#" + changed.id).val();
-            var obj = "{\"" + changed.id + "\":\"" + value.replace(/\n/g, '<br />') + "\"}";
+            var value, obj;
+            if ($(changed).is(':checkbox')) {
+                value = $(changed).is(':checked');
+                obj = "{\"" + changed.id + "\":" + value + "}";
+            } else {
+                value = $(changed).val();
+                obj = "{\"" + changed.id + "\":\"" + value.replace(/\n/g, '<br />') + "\"}";
+            }
             var objInst = JSON.parse(obj);
             this.model.set(objInst);
         }
@@ -149,7 +156,7 @@ window.DSSEditableView = Backbone.View.extend({
                         args[0].success();
                     },
                     error:function () {
-                        alert("Error saving release");
+                        args[0].error();
                     }
                 });
         }

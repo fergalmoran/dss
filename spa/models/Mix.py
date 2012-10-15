@@ -84,7 +84,6 @@ class Mix(_BaseModel):
     def get_date_as_rfc822(self):
         return rfc822.formatdate(rfc822.mktime_tz(rfc822.parsedate_tz(self.upload_date.strftime("%a, %d %b %Y %H:%M:%S"))))
 
-
     @classmethod
     def get_for_username(cls, user):
         queryset = Mix.objects.filter(user__profile_slug__exact=user).order_by( '-id')
@@ -93,25 +92,23 @@ class Mix(_BaseModel):
     @classmethod
     def get_listing(cls, listing_type, user=None):
         queryset = None
+        candidates = Mix.objects\
+            .filter(waveform_generated=True)\
+            .filter(is_featured=True)
+
         if listing_type == 'latest':
-            queryset = Mix.objects.filter(waveform_generated=True).order_by( '-id')
+            queryset = candidates.order_by( '-id')
         elif listing_type == 'toprated':
-            queryset = Mix.objects.all()\
-                .annotate(karma=Count('likes'))\
-                .order_by('-karma')
+            queryset = candidates.annotate(karma=Count('likes')).order_by('-karma')
         elif listing_type == 'mostactive':
-            queryset = Mix.objects.all()\
-                .annotate(karma=Count('comments'))\
-                .order_by('-karma')
+            queryset = candidates.filter(waveform_generated=True).annotate(karma=Count('comments')).order_by('-karma')
         elif listing_type == 'mostplayed':
-            queryset = Mix.objects.all()\
-                .annotate(karma=Count('plays'))\
-                .order_by('-karma')
+            queryset = queryset = candidates.annotate(karma=Count('plays')).order_by('-karma')
         elif listing_type == 'recommended':
-            queryset = Mix.objects.all().order_by( '-id')
+            queryset = queryset = candidates.order_by( '-id')
         elif listing_type == 'favourites':
-            queryset = Mix.objects.filter(favourites__user=user).order_by('favourites__date')
-            debug = queryset.query
+            queryset = queryset = candidates.filter(favourites__user=user).order_by('favourites__date')
+
         return queryset
 
     @classmethod

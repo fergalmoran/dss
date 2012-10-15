@@ -283,11 +283,11 @@ table .headerSortUp:after {
     -moz-opacity: 0.6;
     opacity: 0.6;
 }
-
+/*
 input[type="checkbox"] {
     visibility: hidden;
 }
-
+*/
 .slideThree {
     width: 80px;
     height: 26px;

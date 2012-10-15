@@ -47,6 +47,9 @@ class _BaseModel(models.Model):
 
     def clean_image(self, image_field, sender):
         if self.__dict__[image_field] == "DONOTSEND":
-            old_instance = sender.objects.get(pk=self.pk)
-            if old_instance is not None:
-                self.__dict__[image_field] = old_instance.__dict__[image_field]
+            try:
+                old_instance = sender.objects.get(pk=self.pk)
+                if old_instance is not None:
+                    self.__dict__[image_field] = old_instance.__dict__[image_field]
+            except Exception, ex:
+                pass
