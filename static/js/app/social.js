@@ -64,9 +64,9 @@ sharePageToFacebook = function (model) {
         },
         function (response) {
             if (response && response.post_id) {
-                com.podnoms.utils.alert("Post ID: " + response.post_id);
+                com.podnoms.utils.showAlert("Success", "Post shared to facebook", "alert-success", true);
             } else {
-                com.podnoms.utils.alert("Failure sharing post");
+                com.podnoms.utils.showAlert("Error", "Failure sharing post", "alert-error", true);
             }
         }
     );
