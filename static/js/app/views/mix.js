@@ -66,6 +66,7 @@ window.MixListItemView = Backbone.View.extend({
         var id = $(e.currentTarget).data("id");
         var mode = $(e.currentTarget).data("mode");
         com.podnoms.utils.downloadURL("/audio/download/" + id);
+        return false;
     },
     mixLink:function (e) {
         $(e.currentTarget).popover('hide');
