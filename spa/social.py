@@ -29,6 +29,7 @@ class SocialHandler(object):
             url(r'^redirect/mix/(?P<mix_id>\d+)/$', 'spa.social.mix', name='social_redirect'),
             url(r'^mix/(?P<mix_id>\d+)/$', 'spa.social.mix', name='social_mix'),
             url(r'^like/(?P<mix_id>\d+)/$', 'spa.social.post_like', name='social_like'),
+            url(r'^user/(?P<user_name>\w+)/$', 'spa.social.post_like', name='social_like'),
             url(r'^$', 'spa.social.index', name='social_index'),
         ]
         return pattern_list
