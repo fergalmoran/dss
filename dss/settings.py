@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse_lazy
 import djcelery
 import os
 from dss import localsettings
+from dss import logsettings
 from utils import here
 from django.conf import global_settings
 
@@ -117,8 +118,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.gzip.GZipMiddleware',
-    'spa.middleware.uploadify.SWFUploadMiddleware'
-    #'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'spa.middleware.uploadify.SWFUploadMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
 
 WSGI_APPLICATION = 'dss.wsgi.application'
@@ -138,7 +139,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'compressor',
     'djcelery',
-    #'debug_toolbar',
+    'debug_toolbar',
     'crispy_forms',
     'sorl.thumbnail',
 #'south', # the only requirement for SCT
@@ -163,29 +164,13 @@ INSTALLED_APPS = (
 LOGIN_REDIRECT_URL = reverse_lazy('home')
 LOGOUT_URL = reverse_lazy('home')
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-            },
-        }
-}
+LOGGING = logsettings.LOGGING
+if DEBUG:
+    # make all loggers use the console.
+    for logger in LOGGING['loggers']:
+        LOGGING['loggers'][logger]['handlers'] = ['console']
+
+
 FACEBOOK_APP_ID = '154504534677009'
 FACEBOOK_APP_SECRET = localsettings.FACEBOOK_APP_SECRET
 
@@ -233,7 +218,7 @@ PIPELINE_CSS = {
             },
         },
     }
-INTERNAL_IPS = ('127.0.0.1',)
+INTERNAL_IPS = ('127.0.0.1', '86.44.166.21')
 GOOGLE_ANALYTICS_CODE = localsettings.GOOGLE_ANALYTICS_CODE
 
 SENDFILE_BACKEND = localsettings.SENDFILE_BACKEND

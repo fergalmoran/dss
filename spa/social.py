@@ -1,23 +1,18 @@
 import urllib2
 from django.conf.urls import url
-from django.contrib import messages
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import resolve
 from django.http import  Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from django_facebook.api import get_persistent_graph
-from django_facebook.decorators import facebook_required
-from django_facebook.models import OpenGraphShare
-from django_facebook.utils import get_profile_class
 import requests
 from dss import  settings
 from spa.models.Mix import Mix
+from spa.models.UserProfile import UserProfile
 from allauth.socialaccount.models import SocialToken
 
 class SocialHandler(object):
     import logging
-
     logger = logging.getLogger(__name__)
 
     def __init__(self, api_name="v1"):
@@ -26,11 +21,26 @@ class SocialHandler(object):
     @property
     def urls(self):
         pattern_list = [
-            url(r'^redirect/mix/(?P<mix_id>\d+)/$', 'spa.social.mix', name='social_redirect'),
-            url(r'^mix/(?P<mix_id>\d+)/$', 'spa.social.mix', name='social_mix'),
-            url(r'^like/(?P<mix_id>\d+)/$', 'spa.social.post_like', name='social_like'),
-            url(r'^user/(?P<user_name>\w+)/$', 'spa.social.post_like', name='social_like'),
-            url(r'^$', 'spa.social.index', name='social_index'),
+            url(
+                r'^redirect/mix/(?P<mix_id>\d+)/$',
+                'spa.social.mix',
+                name='social_redirect'),
+            url(
+                r'^mix/(?P<mix_id>\d+)/$',
+                'spa.social.mix',
+                name='social_mix'),
+            url(
+                r'^user/(?P<user_id>\w+)/$',
+                'spa.social.user',
+                name='social_user'),
+            url(
+                r'^like/(?P<mix_id>\d+)/$',
+                'spa.social.post_like',
+                name='social_like'),
+            url(
+                r'^$',
+                'spa.social.index',
+                name='social_index'),
         ]
         return pattern_list
 
@@ -38,7 +48,8 @@ class SocialHandler(object):
 def _getPayload(request):
     return {
         "app_id": settings.FACEBOOK_APP_ID,
-        "site_url": 'http://%s:%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT']),
+        "site_url": 'http://%s:%s' % (Site.objects.get_current().domain,
+                                      request.META['SERVER_PORT']),
         "site_image_url": '%s/img/dss-large.png' % settings.STATIC_URL,
     }
 
@@ -56,8 +67,10 @@ def mix(request, args):
     extras = {
         "description": mix.title,
         "image_url": image,
-        "audio_url": 'http://%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], audio_url),
-        "mix_url": 'http://%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix_url)
+        "audio_url": 'http://%s:%s%s' % (Site.objects.get_current().domain,
+                                    request.META['SERVER_PORT'], audio_url),
+        "mix_url": 'http://%s:%s%s' % (Site.objects.get_current().domain,
+                                    request.META['SERVER_PORT'], mix_url)
     }
     payload = dict(default.items() + extras.items())
     response = render_to_response(
@@ -66,6 +79,27 @@ def mix(request, args):
         context_instance=RequestContext(request)
     )
     return response
+
+def user(request, args):
+    try:
+        user = UserProfile.objects.get(profile_slug=args['mix_id'])
+    except UserProfile.DoesNotExist:
+        raise Http404
+
+    image = user.get_avatar_image()
+    default = _getPayload(request)
+    extras = {
+        "description": user.nice_name,
+        "image_url": image,
+    }
+    payload = dict(default.items() + extras.items())
+    response = render_to_response(
+        'inc/facebook/mix.html',
+        payload,
+        context_instance=RequestContext(request)
+    )
+    return response
+
 
 
 def index(request):
@@ -80,15 +114,22 @@ def social_redirect(request):
     try:
         resolver = resolve('/social' + request.path)
         if resolver is not None:
+            logger.debug("Resolver succesfully resolved")
             return resolver.func(request, resolver.kwargs)
+        else:
+            logger.debug("No resolver found for: $%s" % request.path)
     except Http404:
+        logger.debug("404 on resolver: $%s" % request.path)
         return index(request)
     except Exception, ex:
+        logger.debug("Unhandled exception in social_redirect: $%s" % ex)
         return index(request)
 
 def post_like(request, mix):
     try:
-        tokens = SocialToken.objects.filter(account__user=request.user, account__provider='facebook')
+        tokens = SocialToken.objects.filter(
+            account__user=request.user,
+            account__provider='facebook')
         for token in tokens:
             url = 'https://graph.facebook.com/%s/og.likes' % token.account.uid
             values = {
