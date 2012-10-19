@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.template.context import RequestContext
 from core.utils.string import lreplace, rreplace
@@ -11,7 +12,6 @@ def _app(request):
 
 def app(request):
     logger.error("App request hit")
-    return HttpResponse('Hello Sailor')
     if 'HTTP_USER_AGENT' in request.META:
         if request.META['HTTP_USER_AGENT'].startswith('facebookexternalhit'):
             logger.debug("Redirecting facebook hit")

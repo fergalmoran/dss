@@ -1,6 +1,7 @@
 import urlparse
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
@@ -95,6 +96,9 @@ class UserProfile(_BaseModel):
             return self.avatar_image.url
 
         return urlparse.urljoin(settings.STATIC_URL, "img/default-avatar-32.png")
+
+    def get_profile_url(self):
+        return 'http://%s/user/%s' % (Site.objects.get_current().domain, self.profile_slug)
 
     def save(self, force_insert=False, force_update=False, using=None):
         return super(UserProfile, self).save(force_insert, force_update, using)

@@ -1,3 +1,9 @@
+import os
+if os.name == 'posix':
+    LOG_FILE = '/tmp/dss.log'
+else:
+    LOG_FILE = 'c:\\temp\\dss.log'
+
 LOGGING = {
     'version': 1,
     'formatters': {
@@ -17,7 +23,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/tmp/dss.lgo',
+            'filename': LOG_FILE,
             'formatter': 'simple'
             },
         },

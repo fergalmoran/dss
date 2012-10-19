@@ -10,10 +10,10 @@ from dss import  settings
 from spa.models.Mix import Mix
 from spa.models.UserProfile import UserProfile
 from allauth.socialaccount.models import SocialToken
+import logging
+logger = logging.getLogger(__name__)
 
 class SocialHandler(object):
-    import logging
-    logger = logging.getLogger(__name__)
 
     def __init__(self, api_name="v1"):
         self.api_name = api_name
@@ -67,8 +67,8 @@ def mix(request, args):
     extras = {
         "description": mix.title,
         "image_url": image,
-        "audio_url": 'http://%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], audio_url),
-        "mix_url": 'http://%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix_url)
+        "audio_url": 'http://%s%s' % (Site.objects.get_current().domain, audio_url),
+        "mix_url": 'http://%s%s' % (Site.objects.get_current().domain, mix_url)
     }
     payload = dict(default.items() + extras.items())
     response = render_to_response(
@@ -80,19 +80,21 @@ def mix(request, args):
 
 def user(request, args):
     try:
-        user = UserProfile.objects.get(profile_slug=args['mix_id'])
+        user = UserProfile.objects.get(profile_slug=args['user_id'])
     except UserProfile.DoesNotExist:
         raise Http404
 
     image = user.get_avatar_image()
+    profile_url = user.get_profile_url()
     default = _getPayload(request)
     extras = {
         "description": user.nice_name,
+        "profile_url": profile_url,
         "image_url": image,
     }
     payload = dict(default.items() + extras.items())
     response = render_to_response(
-        'inc/facebook/mix.html',
+        'inc/facebook/user.html',
         payload,
         context_instance=RequestContext(request)
     )
