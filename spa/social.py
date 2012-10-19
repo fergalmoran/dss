@@ -48,8 +48,7 @@ class SocialHandler(object):
 def _getPayload(request):
     return {
         "app_id": settings.FACEBOOK_APP_ID,
-        "site_url": 'http://%s:%s' % (Site.objects.get_current().domain,
-                                      request.META['SERVER_PORT']),
+        "site_url": 'http://%s' % Site.objects.get_current().domain,
         "site_image_url": '%s/img/dss-large.png' % settings.STATIC_URL,
     }
 
