@@ -119,7 +119,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'spa.middleware.uploadify.SWFUploadMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
 
 WSGI_APPLICATION = 'dss.wsgi.application'
@@ -139,7 +139,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'compressor',
     'djcelery',
-    'debug_toolbar',
+    #'debug_toolbar',
     'crispy_forms',
     'sorl.thumbnail',
 #'south', # the only requirement for SCT

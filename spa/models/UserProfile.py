@@ -11,7 +11,7 @@ from core.utils.file import generate_save_file_name
 from dss import settings
 from spa.models._BaseModel import _BaseModel
 def avatar_name(instance, filename):
-    return generate_save_file_name('avatars', filename)
+    return generate_save_file_name(str(instance.id), 'avatars', filename)
 
 class UserProfile(_BaseModel):
     class Meta:
