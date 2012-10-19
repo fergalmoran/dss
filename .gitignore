@@ -2,6 +2,7 @@
 tags
 .idea
 *.pyc
+*.swp
 static/CACHE
 media
 media/*
