@@ -67,10 +67,8 @@ def mix(request, args):
     extras = {
         "description": mix.title,
         "image_url": image,
-        "audio_url": 'http://%s:%s%s' % (Site.objects.get_current().domain,
-                                    request.META['SERVER_PORT'], audio_url),
-        "mix_url": 'http://%s:%s%s' % (Site.objects.get_current().domain,
-                                    request.META['SERVER_PORT'], mix_url)
+        "audio_url": 'http://%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], audio_url),
+        "mix_url": 'http://%s:%s%s' % (Site.objects.get_current().domain, request.META['SERVER_PORT'], mix_url)
     }
     payload = dict(default.items() + extras.items())
     response = render_to_response(

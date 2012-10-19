@@ -23,7 +23,6 @@ logger = logging.getLogger(__name__)
 
 class AjaxHandler(object):
     # Get an instance of a logger
-    logger = logging.getLogger(__name__)
 
     def __init__(self, api_name="v1"):
         self.api_name = api_name
