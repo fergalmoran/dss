@@ -102,10 +102,14 @@ TEMPLATE_LOADERS = (
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django_facebook.context_processors.facebook',
     'django.core.context_processors.request',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
     'django.contrib.auth.context_processors.auth',
     "allauth.socialaccount.context_processors.socialaccount",
     "allauth.account.context_processors.account",
-    )
+    'zinnia.context_processors.version',
+)
 AUTHENTICATION_BACKENDS = global_settings.AUTHENTICATION_BACKENDS + (
     "allauth.account.auth_backends.AuthenticationBackend",
     )
@@ -128,7 +132,6 @@ INSTALLED_APPS = (
     'grappelli',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
@@ -139,7 +142,6 @@ INSTALLED_APPS = (
     'django_extensions',
     'compressor',
     'djcelery',
-    #'debug_toolbar',
     'crispy_forms',
     'sorl.thumbnail',
     'south', # the only requirement for SCT
@@ -158,6 +160,9 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.openid',
     'allauth.socialaccount.providers.twitter',
     'backbone_tastypie',
+    'tagging',
+    'mptt',
+    'zinnia',
     )
 
 # where to redirect users to after logging in

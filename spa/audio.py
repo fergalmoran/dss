@@ -3,7 +3,9 @@ from django.conf.urls import url
 from django.http import HttpResponse, Http404
 import os
 from sendfile import sendfile
+from dss import settings
 from spa.models.Mix import Mix
+from utils import here
 
 class AudioHandler(object):
     @property
@@ -32,7 +34,7 @@ def start_streaming(request, mix_id):
     try:
         mix = Mix.objects.get(pk=mix_id)
         if mix is not None:
-            filename = mix.local_file.path   # Select your file here.
+            filename = "%s/mixes/%s.mp3" % (here(settings.MEDIA_ROOT), mix.uid)# Select your file here.
             response = sendfile(request, filename)
             """
             #wrapper = FixedFileWrapper(open(filename, 'rb'))
