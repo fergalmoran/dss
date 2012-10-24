@@ -1,5 +1,6 @@
 from django.contrib import admin
-from spa.models import Genre
+from spa.models.Genre import Genre
+from spa.models.UserProfile import UserProfile
 from spa.models.ChatMessage import ChatMessage
 from spa.models.Recurrence import Recurrence
 from spa.models.Release import Release
@@ -23,5 +24,6 @@ admin.site.register(Release, DefaultAdmin)
 admin.site.register(ReleaseAudio)
 admin.site.register(Venue)
 admin.site.register(Event)
+admin.site.register(UserProfile)
 admin.site.register(Recurrence)
 admin.site.register(ChatMessage)
