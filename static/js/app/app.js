@@ -42,7 +42,14 @@ var AppRouter = Backbone.Router.extend({
         return com.podnoms.utils.trackPageView(url);
     },
     defaultRoute:function (path) {
-        if (path == undefined || path == "" || path == "/") this.mixList('latest');
+        if (path == undefined || path == "" || path == "/")
+            this.mixList('latest');
+        else{
+            $.get('/tpl/404/', function (data) {
+                $('#content').html(_.template(data));
+            });
+
+        }
     },
     user:function (user) {
         var mixList = new MixCollection();

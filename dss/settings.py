@@ -108,7 +108,6 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.contrib.auth.context_processors.auth',
     "allauth.socialaccount.context_processors.socialaccount",
     "allauth.account.context_processors.account",
-    'zinnia.context_processors.version',
 )
 AUTHENTICATION_BACKENDS = global_settings.AUTHENTICATION_BACKENDS + (
     "allauth.account.auth_backends.AuthenticationBackend",
@@ -160,9 +159,6 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.openid',
     'allauth.socialaccount.providers.twitter',
     'backbone_tastypie',
-    'tagging',
-    'mptt',
-    'zinnia',
     )
 
 # where to redirect users to after logging in

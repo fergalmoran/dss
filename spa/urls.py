@@ -36,7 +36,6 @@ urlpatterns = django.conf.urls.patterns(
     url(r'^ajax/', include(ajax.urls)),
     url(r'^audio/', include(audio.urls)),
     url(r'^api/', include(v1_api.urls)),
-    url(r'^weblog/', include('zinnia.urls')),
     url(r'^comments/', include('django.contrib.comments.urls')),
     (r'^.*/$', 'spa.views.default')
 )
