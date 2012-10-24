@@ -10,6 +10,7 @@ from Label import Label
 from Mix import Mix
 from MixLike import MixLike
 from MixPlay import MixPlay
+from Genre import Genre
 from Tracklist import Tracklist
 from PurchaseLink import PurchaseLink
 from Release import Release

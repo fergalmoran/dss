@@ -26,24 +26,20 @@ window.MixListItemView = Backbone.View.extend({
     render:function () {
         $(this.el).html(this.template({"item":this.model.toJSON()}));
         var id = this.model.get("id");
+        var parent = this;
         this.setLikeButton(id, this.model.get('liked'));
         this.setFavouriteButton(id, this.model.get('favourited'));
-        /*
-         $('#mix-link-' + id, this.el).popover({
-         animation: true,
-         placement: 'bottom',
-         trigger: 'hover',
-         html: 'true',
-         delay: { show: 500, hide: 500 }
-         });
-         */
+        $.each(this.model.get("genre-list"), function (data) {
+            $('#genre-list', parent.el).append('<a href="/mixes/' + this.slug + '" class="btn btn-mini btn-warning"><i class="icon-tags"></i>&nbsp;' + this.text + '</a>');
+        });
+
         return this;
     },
     setLikeButton:function (id, liked) {
         if (liked) {
             $('#like-' + id, this.el).html('<i class="icon-heart"></i> Unlike');
             $('#like-' + id, this.el).data('loading-text', 'Unliking');
-        } else{
+        } else {
             $('#like-' + id, this.el).html('<i class="icon-heart"></i> Like');
             $('#like-' + id, this.el).data('loading-text', 'Liking');
         }
@@ -84,10 +80,10 @@ window.MixListItemView = Backbone.View.extend({
             function (data) {
                 button.button('reset');
                 var result = JSON.parse(data);
-                if (result.value == "Liked"){
+                if (result.value == "Liked") {
                     parent.setLikeButton(id, true);
                     com.podnoms.utils.showAlert("Success", "Thanks for liking!!", "alert-success", true);
-                }else if (result.value == "Unliked"){
+                } else if (result.value == "Unliked") {
                     parent.setLikeButton(id, false);
                     com.podnoms.utils.showAlert("Success", "Mix unliked!!", "alert-success", true);
                 }
@@ -237,7 +233,7 @@ window.MixCreateView = DSSEditableView.extend({
             $('.fileupload', this.el).fileupload({
                 'uploadtype':'image'
             });
-            $('#mix-details', this.el).hide();
+            //$('#mix-details', this.el).hide();
             $('.upload-hash', this.el).val(this.guid);
         } else {
             $('#div-upload-mix', this.el).hide();
@@ -253,6 +249,38 @@ window.MixCreateView = DSSEditableView.extend({
                 $out.append('<div><pre>' + data + '</pre></div>');
             }
         });
+        $("#genres", this.el).select2({
+            placeholder:"Start typing and choose or press enter",
+            minimumInputLength:1,
+            multiple:true,
+            initSelection:function (element, callback) {
+                var result = [];
+                $.each(parent.model.get('genre-list'), function(data){
+                    result.push({id:this.id, text:this.text});
+                });
+                callback(result);
+            },
+            ajax:{ // instead of writing the function to execute the request we use Select2's convenient helper
+                url:"/ajax/lookup/genre/",
+                dataType:'json',
+                data:function (term, page) {
+                    return {
+                        q:term
+                    };
+                },
+                results:function (data, page) { // parse the results into the format expected by Select2.
+                    // since we are using custom formatting functions we do not need to alter remote JSON data
+                    return {results:data};
+                }
+            },
+            createSearchChoice:function (term, data) {
+                if ($(data).filter(function () {
+                    return this.text.localeCompare(term) === 0;
+                }).length === 0) {
+                    return {id:term, text:term};
+                }
+            }
+        });
         return this;
     },
     saveChanges:function () {
@@ -261,6 +289,8 @@ window.MixCreateView = DSSEditableView.extend({
         var parent = this;
         this.model.set('upload-hash', this.guid);
         this.model.set('upload-extension', $('#upload-extension', this.el).val());
+        this.model.set('genre-list', $('#genres', this.el).select2('data'));
+
         if (!parent.sendImage)
             this.model.set('mix_image', 'DONOTSEND');
 

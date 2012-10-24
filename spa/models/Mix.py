@@ -1,14 +1,11 @@
 from django.contrib.sites.models import Site
-from django.db.models.signals import post_save
-from django.db.models.signals import pre_save
-from django.dispatch import Signal, receiver
 import os
 import rfc822
-from sorl.thumbnail import get_thumbnail
 from core.utils import url
 from datetime import datetime
 from django.db import models
 from django.db.models import Count
+from spa.models.Genre import Genre
 from spa.models.MixPlay import MixPlay
 from dss import settings, localsettings
 from spa.models.UserProfile import UserProfile
@@ -39,6 +36,8 @@ class Mix(_BaseModel):
     waveform_generated = models.BooleanField(default=False)
     uid = models.CharField(max_length=38, blank=True, unique=True)
     download_allowed = models.BooleanField(default=False)
+
+    genres = models.ManyToManyField(Genre)
 
     def __unicode__(self):
         return self.title
@@ -106,12 +105,14 @@ class Mix(_BaseModel):
         elif listing_type == 'mostactive':
             queryset = candidates.filter(waveform_generated=True).annotate(karma=Count('comments')).order_by('-karma')
         elif listing_type == 'mostplayed':
-            queryset = queryset = candidates.annotate(karma=Count('plays')).order_by('-karma')
+            queryset = candidates.annotate(karma=Count('plays')).order_by('-karma')
         elif listing_type == 'recommended':
-            queryset = queryset = candidates.order_by( '-id')
+            queryset = candidates.order_by( '-id')
         elif listing_type == 'favourites':
-            queryset = queryset = candidates.filter(favourites__user=user).order_by('favourites__date')
-
+            queryset = candidates.filter(favourites__user=user).order_by('favourites__date')
+        else:
+            #check if we have a valid genre
+            queryset = candidates.filter(genres__slug__exact = listing_type)
         return queryset
 
     @classmethod

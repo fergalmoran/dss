@@ -16,7 +16,6 @@
         <div class="row">
             <div class="control-group">
                 <label class="control-label">Title</label>
-
                 <div class="controls">
                     <input style="width: 98%" id="title" type="text" value="<%= item.title %>"
                            placeholder="Brief title for your mix…">
@@ -61,6 +60,14 @@
                 {% endif %}
             </div>
         </div>
+    <div class="row">
+        <div class="control-group">
+            <label class="control-label">Genres</label>
+            <div class="controls">
+                <input type="hidden" value="__placeholder__" id="genres" style="width:98%"/>
+            </div>
+        </div>
+    </div>
         <div class="row">
             <div class="form-actions">
                 <button id="save-changes" class="btn">Submit</button>

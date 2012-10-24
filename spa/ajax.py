@@ -1,7 +1,5 @@
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
-from django.core import serializers
-from django.db import connection
 from django.db.models import get_model
 from django.http import HttpResponse
 from annoying.decorators import render_to
@@ -9,14 +7,14 @@ from django.shortcuts import render_to_response
 from django.utils import simplejson
 from django.views.decorators.csrf import csrf_exempt
 import os
-from core.serialisers.json import dumps
 from core.utils import live
 from dss import localsettings, settings
 from spa import social
-from spa.models import UserProfile, MixFavourite, Release, Label, _BaseModel
+from spa.models import UserProfile, MixFavourite, Release
 from spa.models.Mix import Mix
 from spa.models.Comment import Comment
 from spa.models.MixLike import MixLike
+from core.serialisers import json
 from core.tasks import create_waveform_task
 import logging
 logger = logging.getLogger(__name__)
@@ -230,17 +228,15 @@ def upload_mix_file_handler(request):
 
 @csrf_exempt
 def lookup(request, source):
-    if 'query' in request.GET:
+    query = request.GET['query'] if 'query' in request.GET else request.GET['q'] if 'q' in request.GET else ''
+    if query <> '':
         model = get_model('spa', source)
         if model is not None:
             filter_field = model.get_lookup_filter_field()
-            sql = "SELECT id, %s AS description FROM %s_%s WHERE %s LIKE('%s%s')" % \
-                  (filter_field, model._meta.app_label,  source, filter_field, request.GET['query'], "%%")
-            cursor = connection.cursor()
-            count = cursor.execute(sql)
-            if count <> 0:
-                results = cursor.fetchall()
-                json = simplejson.dumps(results)
-                return HttpResponse(json, mimetype='application/json')
-
+            kwargs = {
+                '{0}__{1}'.format(filter_field, 'icontains'): query,
+            }
+            rows = model.objects.filter(**kwargs)
+            results = json.to_ajax(rows, filter_field)
+            return HttpResponse(simplejson.dumps(results), mimetype='application/json')
     return HttpResponse(_get_json("Key failure in lookup"), mimetype='application/json')

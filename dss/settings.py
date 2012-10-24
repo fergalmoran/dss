@@ -142,7 +142,7 @@ INSTALLED_APPS = (
     #'debug_toolbar',
     'crispy_forms',
     'sorl.thumbnail',
-#'south', # the only requirement for SCT
+    'south', # the only requirement for SCT
     'avatar',
     'notification',
     'spa',
@@ -165,11 +165,12 @@ LOGIN_REDIRECT_URL = reverse_lazy('home')
 LOGOUT_URL = reverse_lazy('home')
 
 LOGGING = logsettings.LOGGING
+"""
 if DEBUG:
     # make all loggers use the console.
     for logger in LOGGING['loggers']:
         LOGGING['loggers'][logger]['handlers'] = ['console']
-
+"""
 
 FACEBOOK_APP_ID = '154504534677009'
 FACEBOOK_APP_SECRET = localsettings.FACEBOOK_APP_SECRET

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from spa.models import Genre
 from spa.models.ChatMessage import ChatMessage
 from spa.models.Recurrence import Recurrence
 from spa.models.Release import Release
@@ -16,7 +17,7 @@ class DefaultAdmin(admin.ModelAdmin):
 
 admin.site.register(Mix)
 admin.site.register(MixLike)
-#admin.site.register(Genre)
+admin.site.register(Genre)
 admin.site.register(Label)
 admin.site.register(Release, DefaultAdmin)
 admin.site.register(ReleaseAudio)

@@ -6,11 +6,12 @@
  Code provided under the BSD License:
 
  */
-window.UserView = Backbone.View.extend({
+window.UserView = DSSEditableView.extend({
     events:{
         "click #save-changes":"saveChanges",
         "click input[type=radio]":"selectAvatar",
         "change input":"changed",
+        "change textarea":"changed",
         "change select":"changed",
         "change .switch":"changeSwitch"
     },
@@ -46,17 +47,17 @@ window.UserView = Backbone.View.extend({
         return this;
     },
     saveChanges:function () {
-        this.model.save(
-            null, {
-                success:function () {
-                    com.podnoms.utils.showAlert("Success", "Successfully updated yourself", "alert-info", true);
-                    window.history.back();
-                },
-                error:function () {
-                    com.podnoms.utils.showAlert("Success", "Successfully updated yourself", "alert-info", false);
-                    alert("Error");
-                }
-            });
+        var model = this.model;
+        this._saveChanges({
+            success:function () {
+                com.podnoms.utils.showAlert("Success", "Successfully updated yourself", "alert-info", true);
+                Backbone.history.navigate('/me', {trigger:true});
+            },
+            error:function () {
+                com.podnoms.utils.showAlert("Success", "Successfully updated yourself", "alert-info", false);
+                alert("Error");
+            }
+        });
         return false;
     },
     changeSwitch:function (evt) {
@@ -68,13 +69,6 @@ window.UserView = Backbone.View.extend({
             this.model.set(coalesce, this.model.get(coalesce) & ~bit);
         }
         this.model.save();
-    },
-    changed:function (evt) {
-        var changed = evt.currentTarget;
-        var value = $("#" + changed.id).val();
-        var obj = "{\"" + changed.id + "\":\"" + value + "\"}";
-        var objInst = JSON.parse(obj);
-        this.model.set(objInst);
     },
     selectAvatar:function (evt) {
         var type = $(evt.currentTarget).val();

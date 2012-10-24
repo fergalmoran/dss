@@ -15,3 +15,14 @@ class DjangoJSONEncoder(JSONEncoder):
 # partial function, we can now use dumps(my_dict) instead
 # of dumps(my_dict, cls=DjangoJSONEncoder)
 dumps = curry(dumps, cls=DjangoJSONEncoder)
+
+def to_ajax(rows, filter_field, slug_field=None):
+    ret = []
+    for row in rows:
+        ret.append(
+            {'id': row.id,
+             'text': getattr(row, filter_field),
+             'slug': getattr(row, slug_field) if slug_field else ''
+            }
+        )
+    return ret

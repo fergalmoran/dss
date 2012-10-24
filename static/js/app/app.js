@@ -72,10 +72,10 @@ var AppRouter = Backbone.Router.extend({
             $('#status', this.sidebarView.el),
             $('#header-profile-edit').text());
 
-
         var data = type != undefined ? $.param({
-            sort:type
+            type:type
         }) : null;
+
         mixList.fetch({
             data:data,
             success:function () {

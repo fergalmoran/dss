@@ -7,16 +7,22 @@
     </div>
     <div class="span10">
         <div class="title-bar">
-            <h4>
-                <a      class="mix-link"
-                        id="mix-link-<%= item.id %>"
-                        href="<%= item.item_url %>"
-                        data-placement="right"
-                        rel="tooltip"
-                        data-content="<%=item.tooltip%>"
-                        title="<%= item.title %>"><%= item.title %>
-                </a>
-            </h4>
+            <div class="span6">
+                <h4>
+                    <a      class="mix-link"
+                            id="mix-link-<%= item.id %>"
+                            href="<%= item.item_url %>"
+                            data-placement="right"
+                            rel="tooltip"
+                            data-content="<%=item.tooltip%>"
+                            title="<%= item.title %>"><%= item.title %>
+                    </a>
+                </h4>
+            </div>
+            <div class="span6">
+                <div id="genre-list" class="btn-toolbar btn-group-horizontal pull-right">
+                </div>
+            </div>
         </div>
         <div class="player-seekhead" id="player-seekhead" style="display: none;">
             <span class="player-seekhead-time"></span>

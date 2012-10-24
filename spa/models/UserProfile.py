@@ -29,6 +29,8 @@ class UserProfile(_BaseModel):
     avatar_type = models.CharField(max_length=15, default='social')
     avatar_image = models.ImageField(blank=True, upload_to=avatar_name)
     display_name = models.CharField(blank=True, max_length=35)
+    description = models.CharField(blank=True, max_length=2048)
+
     profile_slug = models.CharField(max_length=35, blank=True, null=True, default=None)
     activity_sharing = models.IntegerField(default=0)
     activity_sharing_networks = models.IntegerField(default=0)

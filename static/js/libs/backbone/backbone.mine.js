@@ -151,14 +151,12 @@ window.DSSEditableView = Backbone.View.extend({
             }
         } else {
             this.model.save(
-                null, {
-                    success:function () {
-                        args[0].success();
-                    },
-                    error:function () {
-                        args[0].error();
-                    }
-                });
+                null,
+                {
+                    success:args[0].success,
+                    error:args[0].error
+                }
+            );
         }
     }
 });

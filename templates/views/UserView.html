@@ -2,119 +2,126 @@
     <p class="page-header">User details</p>
 </div>
 <div id="layout-area" class="hero-well">
-    <form enctype="multipart/form-data" method="post" class="form-horizontal" id="id-new-user-form">
-        {% csrf_token %}
-        <fieldset>
-            <div class="span6">
-                <div class="clearfix control-group" id="div_display_name">
-                    <label class="control-label" for="display_name">Display name</label>
+    <div class="row">
+        <form enctype="multipart/form-data" method="post" class="form-horizontal" id="id-new-user-form">
+            {% csrf_token %}
+            <fieldset>
+                <div class="span6">
+                    <div class="clearfix control-group" id="div_display_name">
+                        <label class="control-label" for="display_name">Display name</label>
+                        <div class="controls">
+                            <input type="text" maxlength="75" name="email" class="textinput textInput" id="display_name"
+                                   value="<%= item.display_name %>">
+                        </div>
+                    </div>
+                    <div class="clearfix control-group" id="div_profile_slug">
+                        <label class="control-label" for="profile_slug">Profile Slug</label>
 
-                    <div class="controls">
-                        <input type="text" maxlength="75" name="email" class="textinput textInput" id="display_name"
-                               value="<%= item.display_name %>">
+                        <div class="controls">
+                            <input type="text" maxlength="75" name="email" class="textinput textInput" id="profile_slug"
+                                   value="<%= item.profile_slug %>">
+                        </div>
+                    </div>
+                    <div class="clearfix control-group" id="div_email">
+                        <label class="control-label" for="email">E-mail address</label>
+
+                        <div class="controls">
+                            <input type="text" maxlength="75" name="email" class="textinput textInput" id="email"
+                                   value="{{ user.email }}">
+                        </div>
+                    </div>
+                    <div class="clearfix control-group" id="div_first_name">
+                        <label class="control-label " for="first_name">First name</label>
+                        <div class="controls">
+                            <input type="text" maxlength="30" name="first_name" class="textinput textInput"
+                                   id="first_name"
+                                   value="{{ user.first_name }}">
+                        </div>
+                    </div>
+                    <div class="clearfix control-group" id="div_last_name">
+                        <label class="control-label " for="last_name">Last name</label>
+
+                        <div class="controls">
+                            <input type="text" maxlength="30" name="last_name" class="textinput textInput"
+                                   id="last_name"
+                                   value="{{ user.last_name }}">
+                        </div>
+                    </div>
+                    <div class="clearfix control-group" id="div_avatar_image_select">
+                        <label class="control-label requiredField" for="avatar_image_select_0">Avatar Image<span
+                                class="asteriskField">*</span></label>
+
+                        <div class="controls">
+                            <label class="radio">
+                                Use gravatar image.
+                                <input type="radio" value="gravatar" id="gravatar" name="avatar_type">
+                            </label>
+                            <label class="radio">
+                                Use Twitter/Facebook image.
+                                <input type="radio" value="social" id="social" name="avatar_type">
+                            </label>
+                            <label class="radio">
+                                Use custom image (upload below).
+                                <input type="radio" value="custom" id="custom" name="avatar_type">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clearfix control-group" id="div_avatar_image">
+                        <div class="controls">
+                            <form action="/ajax/file-upload">
+                                {% csrf_token %}
+                                <input id="file_upload" type="file" name="file_upload"/>
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <div class="clearfix control-group" id="div_profile_slug">
-                    <label class="control-label" for="profile_slug">Profile Slug</label>
-
-                    <div class="controls">
-                        <input type="text" maxlength="75" name="email" class="textinput textInput" id="profile_slug"
-                               value="<%= item.profile_slug %>">
+                <div class="span6">
+                    <div class="row">
+                        <textarea style="width: 92%" id="description" rows="5">{{ user.description }}</textarea>
+                        <span class="help-block">Tell us a bit about yourself.</span>
+                    </div>
+                    <div class="row">
+                        <h5>Share this activity</h5>
+                        <ul class="list-horiz">
+                            <li>
+                                <h5>Likes</h5>
+                                <input type="checkbox" name="switch" value="" id="activity_share_likes"
+                                       class="switch" data-coalesce="activity_sharing" data-bitflag="1">
+                            </li>
+                            <li>
+                                <h5>Favourites</h5>
+                                <input type="checkbox" name="switch" value="" id="activity_share_favourites"
+                                       class="switch" data-coalesce="activity_sharing" data-bitflag="2">
+                            </li>
+                            <li>
+                                <h5>Comments</h5>
+                                <input type="checkbox" name="switch" value="" id="activity_share_comments"
+                                       class="switch" data-coalesce="activity_sharing" data-bitflag="4">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="row">
+                        <h5>On these networks</h5>
+                        <ul class="list-horiz">
+                            <li>
+                                <h5>Facebook</h5>
+                                <input type="checkbox" name="switch" value="" id="activity_share_networks_facebook"
+                                       class="switch" data-coalesce="activity_sharing_networks" data-bitflag="1">
+                            </li>
+                            <li>
+                                <h5>Twitter</h5>
+                                <input type="checkbox" name="switch" value="" id="activity_share_networks_twitter"
+                                       class="switch" data-coalesce="activity_sharing_networks" data-bitflag="2">
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="clearfix control-group" id="div_email">
-                    <label class="control-label" for="email">E-mail address</label>
-
-                    <div class="controls">
-                        <input type="text" maxlength="75" name="email" class="textinput textInput" id="email"
-                               value="{{ user.email }}">
-                    </div>
-                </div>
-                <div class="clearfix control-group" id="div_first_name">
-                    <label class="control-label " for="first_name">First name</label>
-
-                    <div class="controls">
-                        <input type="text" maxlength="30" name="first_name" class="textinput textInput" id="first_name"
-                               value="{{ user.first_name }}">
-                    </div>
-                </div>
-                <div class="clearfix control-group" id="div_last_name">
-                    <label class="control-label " for="last_name">Last name</label>
-
-                    <div class="controls">
-                        <input type="text" maxlength="30" name="last_name" class="textinput textInput" id="last_name"
-                               value="{{ user.last_name }}">
-                    </div>
-                </div>
-                <div class="clearfix control-group" id="div_avatar_image_select">
-                    <label class="control-label requiredField" for="avatar_image_select_0">Avatar Image<span
-                            class="asteriskField">*</span></label>
-
-                    <div class="controls">
-                        <label class="radio" >
-                            Use gravatar image.
-                            <input type="radio" value="gravatar" id="gravatar" name="avatar_type">
-                        </label>
-                        <label class="radio">
-                            Use Twitter/Facebook image.
-                            <input type="radio" value="social" id="social" name="avatar_type">
-                        </label>
-                        <label class="radio">
-                            Use custom image (upload below).
-                            <input type="radio" value="custom" id="custom" name="avatar_type">
-                        </label>
-                    </div>
-                </div>
-                <div class="clearfix control-group" id="div_avatar_image">
-                    <div class="controls">
-                        <form action="/ajax/file-upload">
-                            {% csrf_token %}
-                            <input id="file_upload" type="file" name="file_upload" />
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="span6">
-                <div class="row well">
-                    <h3>Share this activity</h3>
-                    <ul class="list-horiz">
-                        <li>
-                            <h5>Likes</h5>
-                            <input type="checkbox" name="switch" value="" id="activity_share_likes" class="switch"
-                                   data-coalesce="activity_sharing" data-bitflag="1">
-                        </li>
-                        <li>
-                            <h5>Favourites</h5>
-                            <input type="checkbox" name="switch" value="" id="activity_share_favourites" class="switch"
-                                   data-coalesce="activity_sharing" data-bitflag="2">
-                        </li>
-                        <li>
-                            <h5>Comments</h5>
-                            <input type="checkbox" name="switch" value="" id="activity_share_comments" class="switch"
-                                   data-coalesce="activity_sharing" data-bitflag="4">
-                        </li>
-                    </ul>
-                </div>
-                <div class="row well">
-                    <h3>On these networks</h3>
-                    <ul class="list-horiz">
-                        <li>
-                            <h5>Facebook</h5>
-                            <input type="checkbox" name="switch" value="" id="activity_share_networks_facebook"
-                                   class="switch" data-coalesce="activity_sharing_networks" data-bitflag="1">
-                        </li>
-                        <li>
-                            <h5>Twitter</h5>
-                            <input type="checkbox" name="switch" value="" id="activity_share_networks_twitter"
-                                   class="switch" data-coalesce="activity_sharing_networks" data-bitflag="2">
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </fieldset>
+            </fieldset>
+        </form>
+    </div>
+    <div class="row">
         <div class="form-actions">
-            <input type="submit" id="save-changes" class="btn btn-primary" value="Save changes" name="save-changes">&zwnj;
+            <button id="save-changes" class="btn">Save changes</button>
         </div>
-    </form>
+    </div>
 </div>
