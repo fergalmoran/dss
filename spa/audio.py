@@ -36,14 +36,6 @@ def start_streaming(request, mix_id):
         if mix is not None:
             filename = "%s/mixes/%s.mp3" % (here(settings.MEDIA_ROOT), mix.uid)# Select your file here.
             response = sendfile(request, filename)
-            """
-            #wrapper = FixedFileWrapper(open(filename, 'rb'))
-            response = HttpResponse(FileIterWrapper(open(filename)), content_type='audio/mpeg')
-            response['Content-Length'] = os.path.getsize(filename)
-            response['Content-Type'] = "audio/mpeg"
-            response['Content-Transfer-Encoding'] = "binary"
-            response['Cache-Control'] = "no-cache"
-            """
             return response
     except Exception, ex:
         print ex
