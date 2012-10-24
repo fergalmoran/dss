@@ -34,6 +34,10 @@ class UserProfile(_BaseModel):
     profile_slug = models.CharField(max_length=35, blank=True, null=True, default=None)
     activity_sharing = models.IntegerField(default=0)
     activity_sharing_networks = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return "%s - %s" % (self.display_name, self.profile_slug)
+
     def save(self, size=(260, 180)):
         """
         Save Photo after ensuring it is not blank.  Resize as needed.
