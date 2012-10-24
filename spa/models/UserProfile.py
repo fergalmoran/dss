@@ -36,7 +36,7 @@ class UserProfile(_BaseModel):
     activity_sharing_networks = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return "%s - %s" % (self.display_name, self.profile_slug)
+        return "%s - %s" % (self.user.get_full_name(), self.profile_slug)
 
     def save(self, size=(260, 180)):
         """
