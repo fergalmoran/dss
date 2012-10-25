@@ -150,15 +150,17 @@ com.podnoms.player = {
             });
             if (ref.currentSound) {
                 ref.play();
-                options.success();
+                if (options.success)
+                    options.success();
             }
             else {
                 com.podnoms.utils.showError('Oooopsies', 'Error playing sound..');
-                options.failure();
+                if (options.error)
+                    options.error();
             }
         });
     },
-    stopPlaying: function(){
+    stopPlaying:function () {
         this._destroyCurrent();
     },
     playLive:function () {

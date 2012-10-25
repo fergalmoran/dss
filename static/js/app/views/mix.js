@@ -209,7 +209,7 @@ window.MixCreateView = DSSEditableView.extend({
         if (this.model.id == undefined) {
             $('#mix-upload', this.el).uploadifive({
                 'uploadScript':'/ajax/upload_mix_file_handler/',
-                'buttonText':"Select audio file (mp3 for now please)",
+                buttonText:"Select audio file (mp3 for now please)",
                 'formData':{
                     'upload-hash':this.guid,
                     'sessionid':$.cookie('sessionid')
@@ -233,7 +233,7 @@ window.MixCreateView = DSSEditableView.extend({
             $('.fileupload', this.el).fileupload({
                 'uploadtype':'image'
             });
-            //$('#mix-details', this.el).hide();
+            $('#mix-details', this.el).hide();
             $('.upload-hash', this.el).val(this.guid);
         } else {
             $('#div-upload-mix', this.el).hide();
@@ -253,13 +253,6 @@ window.MixCreateView = DSSEditableView.extend({
             placeholder:"Start typing and choose or press enter",
             minimumInputLength:1,
             multiple:true,
-            initSelection:function (element, callback) {
-                var result = [];
-                $.each(parent.model.get('genre-list'), function(data){
-                    result.push({id:this.id, text:this.text});
-                });
-                callback(result);
-            },
             ajax:{ // instead of writing the function to execute the request we use Select2's convenient helper
                 url:"/ajax/lookup/genre/",
                 dataType:'json',
@@ -272,13 +265,15 @@ window.MixCreateView = DSSEditableView.extend({
                     // since we are using custom formatting functions we do not need to alter remote JSON data
                     return {results:data};
                 }
-            },
-            createSearchChoice:function (term, data) {
-                if ($(data).filter(function () {
-                    return this.text.localeCompare(term) === 0;
-                }).length === 0) {
-                    return {id:term, text:term};
+            }, initSelection:function (element, callback) {
+                var result = [];
+                var genres = parent.model.get('genre-list');
+                if (genres != undefined) {
+                    $.each(genres, function (data) {
+                        result.push({id:this.id, text:this.text});
+                    });
                 }
+                callback(result);
             }
         });
         return this;
