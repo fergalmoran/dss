@@ -28,11 +28,16 @@ LOGGING = {
             },
         },
     'loggers': {
-        'django': {
+        'spa': {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
             },
-        }
+        },
+        'core': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+            },
     }
 

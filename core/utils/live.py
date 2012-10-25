@@ -6,7 +6,7 @@ def _parseItem(soup, param):
     try:
         return soup.find(text=param).findNext('td').contents[0]
     except Exception, ex:
-        logging.getLogger(__name__).exception("Error parsing ice stream details: " + ex.message)
+        logging.getLogger('core').exception("Error parsing ice stream details: " + ex.message)
         return "Unknown"
 
 

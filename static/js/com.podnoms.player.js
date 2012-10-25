@@ -12,7 +12,7 @@ if (!com.podnoms) com.podnoms = {};
 
 soundManager.setup({
     url:'/static/bin/sm/',
-    debugMode:false,
+    debugMode:true,
     wmode:'transparent'
 });
 
@@ -21,6 +21,8 @@ soundManager.useWaveformData = false;
 soundManager.useEQData = false;
 soundManager.fillGraph = false;
 soundManager.useThrottling = true;
+soundManager.flashVersion = 9;
+soundManager.useFlashBlock = false;
 
 com.podnoms.player = {
     /*Members*/

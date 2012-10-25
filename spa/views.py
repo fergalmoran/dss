@@ -1,17 +1,16 @@
-from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.template.context import RequestContext
 from core.utils.string import lreplace, rreplace
 from spa.social import social_redirect
 
 import logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('spa')
 
 def _app(request):
     return social_redirect(request)
 
 def app(request):
-    logger.error("App request hit")
+    logger.debug("App request hit")
     if 'HTTP_USER_AGENT' in request.META:
         if request.META['HTTP_USER_AGENT'].startswith('facebookexternalhit'):
             logger.debug("Redirecting facebook hit")
