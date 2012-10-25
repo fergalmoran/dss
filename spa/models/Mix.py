@@ -74,12 +74,20 @@ class Mix(_BaseModel):
         ret = "%s/%s.%s" % (waveform_root, self.uid, "png")
         return url.urlclean(ret)
 
+    def _get_social_image(self):
+        if self.user:
+            return self.user.get_profile().get_avatar_image(150)
+        return None
+
     def get_image_url(self):
         try:
             ret =  get_thumbnail(self.mix_image, '120x120', crop='center')
             return "%s/%s" % (settings.MEDIA_URL, ret.name)
         except ThumbnailError:
-            return "%s/%s" % (settings.STATIC_URL, 'img/default-track.png')
+            social_image = self._get_social_image()
+            if social_image:
+                return social_image
+
         return super(Mix, self).get_image_url(self.mix_image, settings.STATIC_URL + 'img/default-track.png')
 
     def get_stream_path(self):
