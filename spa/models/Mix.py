@@ -76,7 +76,7 @@ class Mix(_BaseModel):
 
     def _get_social_image(self):
         if self.user:
-            return self.user.get_profile().get_avatar_image(150)
+            return self.user.get_avatar_image(150)
         return None
 
     def get_image_url(self):
