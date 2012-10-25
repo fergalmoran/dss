@@ -2,6 +2,7 @@ from django.contrib.sites.models import Site
 import os
 import rfc822
 from sorl.thumbnail import get_thumbnail
+from sorl.thumbnail.helpers import ThumbnailError
 from core.utils import url
 from datetime import datetime
 from django.db import models
@@ -74,8 +75,11 @@ class Mix(_BaseModel):
         return url.urlclean(ret)
 
     def get_image_url(self):
-        ret =  get_thumbnail(self.mix_image, '120x120', crop='center')
-        return "%s/%s" % (settings.MEDIA_URL, ret.name)
+        try:
+            ret =  get_thumbnail(self.mix_image, '120x120', crop='center')
+            return "%s/%s" % (settings.MEDIA_URL, ret.name)
+        except ThumbnailError:
+            return "%s/%s" % (settings.STATIC_URL, 'img/default-track.png')
         #return super(Mix, self).get_image_url(self.mix_image, settings.STATIC_URL + 'img/default-track.png')
 
     def get_stream_path(self):

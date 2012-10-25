@@ -233,7 +233,7 @@ window.MixCreateView = DSSEditableView.extend({
             $('.fileupload', this.el).fileupload({
                 'uploadtype':'image'
             });
-            $('#mix-details', this.el).hide();
+            //$('#mix-details', this.el).hide();
             $('.upload-hash', this.el).val(this.guid);
         } else {
             $('#div-upload-mix', this.el).hide();
@@ -274,6 +274,13 @@ window.MixCreateView = DSSEditableView.extend({
                     });
                 }
                 callback(result);
+            },
+            createSearchChoice:function (term, data) {
+                if ($(data).filter(function () {
+                    return this.text.localeCompare(term) === 0;
+                }).length === 0) {
+                    return {id:term, text:term};
+                }
             }
         });
         return this;
