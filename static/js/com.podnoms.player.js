@@ -23,6 +23,7 @@ soundManager.fillGraph = false;
 soundManager.useThrottling = true;
 soundManager.flashVersion = 9;
 soundManager.useFlashBlock = false;
+soundManager.useHTML5Audio = true;
 
 com.podnoms.player = {
     /*Members*/

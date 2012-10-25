@@ -80,7 +80,7 @@ class Mix(_BaseModel):
             return "%s/%s" % (settings.MEDIA_URL, ret.name)
         except ThumbnailError:
             return "%s/%s" % (settings.STATIC_URL, 'img/default-track.png')
-        #return super(Mix, self).get_image_url(self.mix_image, settings.STATIC_URL + 'img/default-track.png')
+        return super(Mix, self).get_image_url(self.mix_image, settings.STATIC_URL + 'img/default-track.png')
 
     def get_stream_path(self):
         #return 'media/%s/' % self.local_file.name
