@@ -132,14 +132,8 @@ div.player-body ul.player-controls a {
 }
 
 .mix-image-image {
-    height: 100%;
-    width: 100%;
-    /*
-    width: 220px;
-    height: 120px;
-    */
-    position: relative;
-    display: block;
+    display:block;
+    margin:auto;
 }
 
 .audio-listing-item {
