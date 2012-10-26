@@ -131,9 +131,11 @@ div.player-body ul.player-controls a {
     margin: 0;
 }
 
-.mix-image-image {
-    display:block;
-    margin:auto;
+img.mix-listing-image {
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
+    -moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4);
+    -webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
 }
 
 .audio-listing-item {
@@ -158,10 +160,12 @@ div.player-body ul.player-controls a {
     background: url(../img/play.png) no-repeat;
     cursor: pointer;
 }
+
 .play-button-small-loading {
     background: url(../img/mix-loader.gif) no-repeat;
     cursor: wait;
 }
+
 .play-button-small-pause {
     background: url(../img/pause.png) no-repeat;
     cursor: pointer;

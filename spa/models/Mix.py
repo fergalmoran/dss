@@ -81,7 +81,7 @@ class Mix(_BaseModel):
 
     def get_image_url(self):
         try:
-            ret =  get_thumbnail(self.mix_image, '120x120', crop='center')
+            ret =  get_thumbnail(self.mix_image, '160x160', crop='center')
             return "%s/%s" % (settings.MEDIA_URL, ret.name)
         except ThumbnailError:
             social_image = self._get_social_image()
