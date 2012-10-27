@@ -1,14 +1,15 @@
-from django.contrib.sites.models import Site
 import os
 import rfc822
-from sorl.thumbnail import get_thumbnail
-from sorl.thumbnail.helpers import ThumbnailError
 from core.utils import url
 from datetime import datetime
+from sorl.thumbnail import get_thumbnail
+from django.contrib.sites.models import Site
+from sorl.thumbnail.helpers import ThumbnailError
 from django.db import models
 from django.db.models import Count
 from spa.models.Genre import Genre
 from spa.models.MixPlay import MixPlay
+from spa.models.MixDownload import MixDownload
 from dss import settings, localsettings
 from spa.models.UserProfile import UserProfile
 from spa.models._BaseModel import _BaseModel
@@ -20,6 +21,7 @@ def mix_file_name(instance, filename):
 def mix_image_name(instance, filename):
     ret =  generate_save_file_name(instance.uid, 'mix-images', filename)
     return ret
+
 
 class Mix(_BaseModel):
     class Meta:
@@ -143,6 +145,12 @@ class Mix(_BaseModel):
             "heading": "No mixes found for this user",
             "latest_mix_list": None,
             }
+
+    def add_download(self, user):
+        try:
+            self.downloads.add(MixDownload(user = user if user.is_authenticated() else None))
+        except Exception, e:
+            self.logger.exception("Error adding mix download")
 
     def add_play(self, user):
         try:

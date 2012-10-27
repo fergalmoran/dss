@@ -69,18 +69,18 @@
     </div>
 </div>
 <script src="/js/settings/"></script>
-<script src="{{ STATIC_URL }}js/libs/jquery.js"></script>
-<script src="http://fergalmoran.github.com/cdn/js/jquery.form.min.js"></script>
+<script src="{{ STATIC_URL }}js/libs/jquery.js"></SCRIPt>
+<script src="{{ STATIC_URL }}js/libs/jquery.form.js"></SCRIPt>
 <script src="{{ STATIC_URL }}js/libs/jquery.cookie.js"></script>
-<script src="{{ STATIC_URL }}js/app/chat.js"></script>
-<script src="{{ STATIC_URL }}js/libs/jasny/jasny-bootstrap.js"></script>
+<script src="{{ STATIC_URL }}js/libs/jasny/jasny-bootstrap.min.js"></script>
+<script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-fileupload.js"></script>
+<script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-rowlink.js"></script>
 <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-timepicker.js"></script>
 <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-datepicker.js"></script>
 <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap.min.js"></script>
-<script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-fileupload.js"></script>
-<script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-rowlink.js"></script>
-<script src="{{ STATIC_URL }}js/libs/sm/soundmanager2-nodebug-jsmin.js"></script>
 {% compress js %}
+<script src="{{ STATIC_URL }}js/libs/sm/soundmanager2-nodebug-jsmin.js"></script>
+<script src="{{ STATIC_URL }}js/app/chat.js"></script>
 <script src="{{ STATIC_URL }}js/app/site.js"></script>
 <script src="{{ STATIC_URL }}js/libs/ajaxfileupload.js"></script>
 <script src="{{ STATIC_URL }}js/libs/uploadify/jquery.uploadifive.js"></script>
@@ -121,10 +121,5 @@
 {% endcompress %}
 {% block footerscripts %}
 {% endblock %}
-<script type="text/javascript">
-    $(document).ready(function () {
-        com.podnoms.utils.indeterminateProgress($('#progress-bar'));
-    });
-</script>
 </body>
 </html>

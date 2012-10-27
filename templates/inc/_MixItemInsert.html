@@ -2,7 +2,7 @@
 <div class="row well">
     <div class="span2" id="image-span">
         <div id="image">
-            <img style="width: 160px; height: 160px" alt="mix-logo" class="mix-listing-image" src="<%= item.mix_image %>"/>
+            <img alt="mix-logo" class="mix-image-image" src="<%= item.mix_image %>"/>
         </div>
     </div>
     <div class="span10" style="padding-left: 32px">
@@ -50,18 +50,18 @@
                 </div>
                 {% if user.is_authenticated %}
                     <div class="like-button footer-button">
-                        <a class="btn" id="like-<%= item.id %>" data-mode="<%= item.mode %>" data-id="<%= item.id %>">
+                        <a class="btn btn-small" id="like-<%= item.id %>" data-mode="<%= item.mode %>" data-id="<%= item.id %>">
                             <i class="icon-heart"></i> Like</a>
                     </div>
                     <div class="favourite-button footer-button">
-                        <a class="btn" id="favourite-<%= item.id %>" data-mode="<%= item.mode %>"
+                        <a class="btn btn-small" id="favourite-<%= item.id %>" data-mode="<%= item.mode %>"
                            data-id="<%= item.id %>"><i
                                 class="icon-star-empty"></i> Favourite</a>
                     </div>
                 {% endif %}
                 <div class="footer-button">
                     <div class="btn-group" id="share-dropdown-<%= item.id %>">
-                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#share-dropdown-<%= item.id %>">
+                        <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#share-dropdown-<%= item.id %>">
                             <i class="icon-share"/>Share
                             <span class="caret"></span>
                         </a>
@@ -77,7 +77,7 @@
                 {% if user.is_authenticated %}
                     <% if (item.download_allowed) { %>
                     <div class="download-button footer-button">
-                        <a class="btn" data-mode="<%= item.mode %>" data-id="<%= item.id %>">
+                        <a class="btn btn-small" data-mode="<%= item.mode %>" data-id="<%= item.id %>">
                             <i class="icon-download"></i> Download</a>
                     </div>
                     <% } %>
@@ -86,6 +86,9 @@
                     <ul class="list-nostyle list-horiz">
                         <li title="<%= item.play_count %> Plays" class="stats-item bordered-right">
                             <span class="icon-play stats">Plays:</span> <%= item.play_count %>
+                        </li>
+                        <li title="<%= item.download_count %> Downloads" class="stats-item bordered-right">
+                            <span class="icon-download-alt stats">Downloads:</span> <%= item.download_count %>
                         </li>
                         <li title="<%= item.comment_count %> Comments" class="stats-item bordered-right">
                             <span class="icon-pencil stats">Comments:</span> <%= item.comment_count %>
@@ -97,7 +100,7 @@
                 </div>
                 {% if user.is_staff %}
                     <div class="edit-button footer-button-right">
-                        <a href="/mix/edit/<%= item.id %>" class="btn" data-mode="<%= item.mode %>"
+                        <a href="/mix/edit/<%= item.id %>" class="btn btn-small" data-mode="<%= item.mode %>"
                            data-id="<%= item.id %>"><i
                                 class="icon-edit"></i>Edit</a>
                     </div>

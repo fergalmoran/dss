@@ -24,6 +24,7 @@ def download(request, mix_id):
         mix = Mix.objects.get(pk=mix_id)
         if mix is not None:
             if mix.download_allowed:
+                mix.add_download(request.user)
                 filename = mix.local_file.path   # Select your file here.
                 file, ext = os.path.splitext(filename)
                 response = sendfile(request, filename, attachment=True, attachment_filename="%s.%s" % (mix.title, ext))
@@ -38,6 +39,7 @@ def start_streaming(request, mix_id):
     try:
         mix = Mix.objects.get(pk=mix_id)
         if mix is not None:
+            mix.add_play(request.user)
             #logger.debug('Found the mix (old method): %s' % mix.uid)
             #filename = mix.local_file.path
             logger.debug('Found the mix (new method) %s' % mix.uid)

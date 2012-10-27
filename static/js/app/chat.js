@@ -117,7 +117,7 @@ function startChat(content, input, status, user) {
      */
     function addMessage(author, message, color, dt) {
         content.append(
-            '<tr><td style="color:' + color + '">' + author + '</td> <td>@ ' + +(dt.getHours() < 10 ? '0' + dt.getHours() : dt.getHours()) + ':'
+            '<tr><td style="color:' + color + '">' + author + '</td> <td>@ ' + (dt.getHours() < 10 ? '0' + dt.getHours() : dt.getHours()) + ':'
                 + (dt.getMinutes() < 10 ? '0' + dt.getMinutes() : dt.getMinutes()) + "</td></tr>"
                 + '<tr><td colspan="2">' + message + '</td></tr>');
     }

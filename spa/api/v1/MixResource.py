@@ -74,6 +74,7 @@ class MixResource(BackboneCompatibleResource):
         bundle.data['item_url'] = 'mix/%s' % bundle.obj.id
 
         bundle.data['play_count'] = bundle.obj.plays.count()
+        bundle.data['download_count'] = bundle.obj.downloadS.COUNT()
         bundle.data['like_count'] = bundle.obj.likes.count()
         bundle.data['mode'] = 'mix'
         bundle.data['tooltip'] = render_to_string('inc/player_tooltip.html', {'item': bundle.obj})

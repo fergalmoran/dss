@@ -72,7 +72,6 @@ def header(request):
 def get_mix_stream_url(request, mix_id):
     try:
         mix = Mix.objects.get(pk=mix_id)
-        mix.add_play(request.user)
         data = {
             'stream_url': mix.get_stream_path(),
             'description': mix.description,

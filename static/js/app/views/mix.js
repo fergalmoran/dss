@@ -65,7 +65,6 @@ window.MixListItemView = Backbone.View.extend({
         return false;
     },
     mixLink:function (e) {
-        $(e.currentTarget).popover('hide');
     },
     likeMix:function (e) {
         var parent = this;
