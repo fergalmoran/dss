@@ -2,12 +2,15 @@ import urlparse
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
+from django.core.exceptions import SuspiciousOperation
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django_gravatar.helpers import has_gravatar, get_gravatar_url
 import os
+from sorl.thumbnail import get_thumbnail
 from core.utils.file import generate_save_file_name
+from core.utils.url import unique_slugify
 from dss import settings
 from spa.models._BaseModel import _BaseModel
 def avatar_name(instance, filename):
@@ -31,12 +34,12 @@ class UserProfile(_BaseModel):
     display_name = models.CharField(blank=True, max_length=35)
     description = models.CharField(blank=True, max_length=2048)
 
-    profile_slug = models.CharField(max_length=35, blank=True, null=True, default=None)
+    slug = models.CharField(max_length=35, blank=True, null=True, default=None)
     activity_sharing = models.IntegerField(default=0)
     activity_sharing_networks = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return "%s - %s" % (self.user.get_full_name(), self.profile_slug)
+        return "%s - %s" % (self.user.get_full_name(), self.slug)
 
     def save(self, size=(260, 180)):
         """
@@ -46,8 +49,8 @@ class UserProfile(_BaseModel):
         if not self.id and not self.source:
             return
 
-        if self.profile_slug == '':
-            self.profile_slug = None
+        if self.slug == '':
+            self.slug = None
 
         super(UserProfile, self).save()
 
@@ -78,11 +81,28 @@ class UserProfile(_BaseModel):
         return self.user.last_name
     last_name = property(get_last_name)
 
+    def __create_slug(self):
+        try:
+            unique_slugify(self, self.get_username() or self.user.get_full_name(), slug_separator='_')
+            self.save()
+        except Exception, e:
+            self.logger.error("Unable to create profile slug: %s", e.message)
+
     def get_absolute_url(self):
-        return reverse('user_details', kwargs={'user_name': self.user.username})
+        if self.slug is None and len(self.slug) == 0:
+            self.__create_slug()
+
+        return "user/%s" % self.slug
 
     def nice_name(self):
         return self.display_name or self.first_name + ' ' + self.last_name
+
+    def get_small_profile_image(self):
+        try:
+            image = self.get_avatar_image()
+            return "%s/%s" % (settings.MEDIA_URL, get_thumbnail(image, "32x32").name)
+        except SuspiciousOperation, ex:
+            self.logger.warn("Error getting small profile image: %s", ex.message)
 
     def get_avatar_image(self, size=150):
         avatar_type = self.avatar_type
@@ -104,7 +124,7 @@ class UserProfile(_BaseModel):
         return urlparse.urljoin(settings.STATIC_URL, "img/default-avatar-32.png")
 
     def get_profile_url(self):
-        return 'http://%s/user/%s' % (Site.objects.get_current().domain, self.profile_slug)
+        return 'http://%s/user/%s' % (Site.objects.get_current().domain, self.slug)
 
     def save(self, force_insert=False, force_update=False, using=None):
         return super(UserProfile, self).save(force_insert, force_update, using)

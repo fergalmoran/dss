@@ -102,7 +102,7 @@ class Mix(_BaseModel):
     @classmethod
     def get_for_username(cls, user):
         queryset = Mix.objects\
-            .filter(user__profile_slug__exact=user)\
+            .filter(user__slug__exact=user)\
             .filter(waveform_generated=True)\
             .order_by( '-id')
         return queryset

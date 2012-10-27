@@ -1,9 +1,12 @@
 {% load thumbnail %}
 <div class="row well">
     <div class="span2" id="image-span">
-            <div id="image">
-                <img alt="mix-logo" class="mix-image-image" src="<%= item.mix_image %>"/>
-            </div>
+        <div id="image">
+            <img alt="mix-logo" class="mix-image-image" src="<%= item.mix_image %>"/>
+        </div>
+        <div class="mix-profile-insert">
+            <h6><a href="<%= item.user_profile_url %>"><i class="icon-user"></i><%= item.user_name %></a></h6>
+        </div>
     </div>
     <div class="span10" style="padding-left: 32px">
         <div class="row">
@@ -50,7 +53,8 @@
                 </div>
                 {% if user.is_authenticated %}
                     <div class="like-button footer-button">
-                        <a class="btn btn-small" id="like-<%= item.id %>" data-mode="<%= item.mode %>" data-id="<%= item.id %>">
+                        <a class="btn btn-small" id="like-<%= item.id %>" data-mode="<%= item.mode %>"
+                           data-id="<%= item.id %>">
                             <i class="icon-heart"></i> Like</a>
                     </div>
                     <div class="favourite-button footer-button">
@@ -61,7 +65,8 @@
                 {% endif %}
                 <div class="footer-button">
                     <div class="btn-group" id="share-dropdown-<%= item.id %>">
-                        <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#share-dropdown-<%= item.id %>">
+                        <a class="btn btn-small dropdown-toggle" data-toggle="dropdown"
+                           href="#share-dropdown-<%= item.id %>">
                             <i class="icon-share"/>Share
                             <span class="caret"></span>
                         </a>

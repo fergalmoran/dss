@@ -43,8 +43,8 @@ class UserResource(BackboneCompatibleResource):
         if request.user is not None:
             return object_list.filter(user=request.user)
 
-    def hydrate_profile_slug(self, bundle):
-        if bundle.data['profile_slug'] == '':
-            bundle.data['profile_slug'] = None
+    def hydrate_slug(self, bundle):
+        if bundle.data['slug'] == '':
+            bundle.data['slug'] = None
         return bundle
 

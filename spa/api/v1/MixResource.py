@@ -71,6 +71,8 @@ class MixResource(BackboneCompatibleResource):
     def dehydrate(self, bundle):
         bundle.data['waveform_url'] = bundle.obj.get_waveform_url()
         bundle.data['user_name'] = bundle.obj.user.nice_name()
+        bundle.data['user_profile_url'] = bundle.obj.user.get_absolute_url()
+        bundle.data['user_profile_image'] = bundle.obj.user.get_small_profile_image()
         bundle.data['item_url'] = 'mix/%s' % bundle.obj.id
 
         bundle.data['play_count'] = bundle.obj.plays.count()

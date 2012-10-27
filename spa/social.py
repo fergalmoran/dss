@@ -79,7 +79,7 @@ def mix(request, args):
 
 def user(request, args):
     try:
-        user = UserProfile.objects.get(profile_slug=args['user_id'])
+        user = UserProfile.objects.get(slug=args['user_id'])
     except UserProfile.DoesNotExist:
         raise Http404
 
