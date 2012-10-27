@@ -89,7 +89,7 @@ class UserProfile(_BaseModel):
             self.logger.error("Unable to create profile slug: %s", e.message)
 
     def get_absolute_url(self):
-        if self.slug is None and len(self.slug) == 0:
+        if self.slug is None or len(self.slug) == 0:
             self.__create_slug()
 
         return "user/%s" % self.slug
