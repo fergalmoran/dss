@@ -1,4 +1,5 @@
 import os
+
 if os.name == 'posix':
     LOG_FILE = '/tmp/dss.log'
 else:
@@ -19,25 +20,25 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
-            },
+        },
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': LOG_FILE,
             'formatter': 'simple'
-            },
         },
+    },
     'loggers': {
         'spa': {
-            'handlers': ['file'],
+            'handlers': ['file', 'console'],
             'level': 'DEBUG',
             'propagate': True,
-            },
         },
         'core': {
-            'handlers': ['file'],
+            'handlers': ['file', 'console'],
             'level': 'DEBUG',
             'propagate': True,
-            },
+        },
     }
+}
 

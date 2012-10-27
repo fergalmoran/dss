@@ -4,11 +4,13 @@ from bs4 import BeautifulSoup
 
 def _parseItem(soup, param):
     try:
-        return soup.find(text=param).findNext('td').contents[0]
+        match = soup.find(text=param)
+        if match is not None:
+            return match.findNext('td').contents[0]
     except Exception, ex:
         logging.getLogger('core').exception("Error parsing ice stream details: " + ex.message)
-        return "Unknown"
 
+    return "Some lovely musicd"
 
 
 def get_server_details(server, port, mount):
