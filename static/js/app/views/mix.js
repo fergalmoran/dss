@@ -140,7 +140,7 @@ window.MixListView = Backbone.View.extend({
     initialize:function () {
         _.bindAll(this, "render");
         this.render();
-        this.infiniScroll = new Backbone.InfiniScroll(this.collection);
+        /*this.infiniScroll = new Backbone.InfiniScroll(this.collection);*/
     },
     render:function () {
         var mixes = this.collection;

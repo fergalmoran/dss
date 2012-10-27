@@ -44,7 +44,7 @@ var AppRouter = Backbone.Router.extend({
     defaultRoute:function (path) {
         if (path == undefined || path == "" || path == "/")
             this.mixList('latest');
-        else{
+        else {
             $.get('/tpl/404/', function (data) {
                 $('#content').html(_.template(data));
             });
@@ -52,22 +52,12 @@ var AppRouter = Backbone.Router.extend({
         }
     },
     user:function (user) {
-        var mixList = new MixCollection();
-        mixList.fetch({
-            data:{ "user":user },
-            success:function () {
-                var mixes = new MixListView({
-                    collection:mixList
-                });
-                var content = mixes.el;
-                $('#content').html(content);
-                if (mixes.itemPlaying != null) {
-                    com.podnoms.settings.setupPlayer(mixes.itemPlaying.toJSON(), mixes.itemPlaying.get('id'));
-                }
-            }
-        })
+        this._renderMixList('latest', { "user":user });
     },
     mixList:function (type) {
+        this._renderMixList(type);
+    },
+    _renderMixList:function (type, data) {
         var mixList = new MixCollection();
         mixList.type = type || 'latest';
         $('#site-content-fill').html('');
@@ -79,12 +69,9 @@ var AppRouter = Backbone.Router.extend({
             $('#status', this.sidebarView.el),
             $('#header-profile-edit').text());
 
-        var data = type != undefined ? $.param({
-            type:type
-        }) : null;
-
+        var payload = $.extend(type != undefined ? {type:type} : null, data);
         mixList.fetch({
-            data:data,
+            data:payload,
             success:function () {
                 var mixes = new MixListView({
                     collection:mixList
