@@ -89,6 +89,8 @@ class Mix(_BaseModel):
             social_image = self._get_social_image()
             if social_image:
                 return social_image
+        except Exception:
+            self.logger.error("Error getting thumbmail")
 
         return super(Mix, self).get_image_url(self.mix_image, settings.STATIC_URL + 'img/default-track.png')
 
