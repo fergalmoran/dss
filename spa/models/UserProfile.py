@@ -94,8 +94,9 @@ class UserProfile(_BaseModel):
     def get_small_profile_image(self):
         try:
             image = self.get_avatar_image()
-            ret = "%s%s" % (settings.MEDIA_URL, get_thumbnail(image, "32x32", crop='center').name)
-            return ret
+            if self.avatar_type == 'custom':
+                image = "%s%s" % (settings.MEDIA_URL, get_thumbnail(image, "32x32", crop='center').name)
+            return image
         except SuspiciousOperation, ex:
             self.logger.warn("Error getting small profile image: %s", ex.message)
         except IOError, ex:
