@@ -30,7 +30,7 @@ class CommentResource(BackboneCompatibleResource):
             return humanize.naturalday(bundle.obj.date_created)
 
     def dehydrate(self, bundle):
-        bundle.data['avatar_image'] = bundle.obj.user.get_profile().get_avatar_image(150)
+        bundle.data['avatar_image'] = bundle.obj.user.get_profile().get_small_profile_image()
         bundle.data['user_url'] = bundle.obj.user.get_absolute_url()
         bundle.data['user_name'] = bundle.obj.user.get_profile().nice_name() or bundle.obj.user.get_profile().display_name
         return bundle

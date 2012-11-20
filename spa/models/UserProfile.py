@@ -41,7 +41,7 @@ class UserProfile(_BaseModel):
     def __unicode__(self):
         return "%s - %s" % (self.user.get_full_name(), self.slug)
 
-    def save(self, size=(260, 180)):
+    def save(self, force_insert=False, force_update=False, using=None):
         """
         Save Photo after ensuring it is not blank.  Resize as needed.
         """
@@ -52,13 +52,7 @@ class UserProfile(_BaseModel):
         if self.slug == '':
             self.slug = None
 
-        super(UserProfile, self).save()
-
-        filename = self.get_source_filename()
-        image = Image.open(filename)
-
-        image.thumbnail(size, Image.ANTIALIAS)
-        image.save(filename)
+        return super(UserProfile, self).save(force_insert, force_update, using)
 
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
@@ -100,9 +94,13 @@ class UserProfile(_BaseModel):
     def get_small_profile_image(self):
         try:
             image = self.get_avatar_image()
-            return "%s/%s" % (settings.MEDIA_URL, get_thumbnail(image, "32x32").name)
+            ret = "%s%s" % (settings.MEDIA_URL, get_thumbnail(image, "32x32", crop='center').name)
+            return ret
         except SuspiciousOperation, ex:
             self.logger.warn("Error getting small profile image: %s", ex.message)
+        except IOError, ex:
+            self.logger.warn("Error getting small profile image: %s", ex.message)
+
 
     def get_avatar_image(self, size=150):
         avatar_type = self.avatar_type
@@ -119,13 +117,12 @@ class UserProfile(_BaseModel):
             except:
                 pass
         elif avatar_type == 'custom' or avatar_type:
-            return self.avatar_image.url
+            return self.avatar_image.name
 
         return urlparse.urljoin(settings.STATIC_URL, "img/default-avatar-32.png")
 
     def get_profile_url(self):
         return 'http://%s/user/%s' % (Site.objects.get_current().domain, self.slug)
 
-    def save(self, force_insert=False, force_update=False, using=None):
-        return super(UserProfile, self).save(force_insert, force_update, using)
+
 
