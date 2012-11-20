@@ -78,19 +78,17 @@ class Mix(_BaseModel):
 
     def _get_social_image(self):
         if self.user:
-            return self.user.get_avatar_image(150)
+            return self.user.get_medium_profile_image()
         return None
 
     def get_image_url(self):
         try:
-            ret =  get_thumbnail(self.mix_image, '160x160', crop='center')
+            ret = get_thumbnail(self.mix_image, '160x160', crop='center')
             return "%s/%s" % (settings.MEDIA_URL, ret.name)
-        except ThumbnailError:
+        except Exception:
             social_image = self._get_social_image()
             if social_image:
                 return social_image
-        except Exception:
-            self.logger.error("Error getting thumbmail")
 
         return super(Mix, self).get_image_url(self.mix_image, settings.STATIC_URL + 'img/default-track.png')
 
