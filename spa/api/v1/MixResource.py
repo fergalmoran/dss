@@ -12,9 +12,6 @@ from spa.models.Mix import Mix
 class MixResource(BackboneCompatibleResource):
     comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', 'mix', null=True)
 
-    def prepend_urls(self):
-        urls = []
-
     class Meta:
         queryset = Mix.objects.filter(is_active=True)
         excludes = ['download_url', 'is_active', 'local_file', 'upload_date']
