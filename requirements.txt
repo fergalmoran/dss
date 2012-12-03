@@ -21,3 +21,8 @@ django-grappelli
 humanize
 django-debug-toolbar
 sorl-thumbnail
+django_extensions
+requests
+django-compressor
+django-sendfile
+polymodels
