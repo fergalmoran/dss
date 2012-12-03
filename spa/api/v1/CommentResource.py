@@ -14,10 +14,13 @@ class CommentResource(BackboneCompatibleResource):
         resource_name = 'comments'
         filtering = {
             "mix": ('exact',),
-            }
+        }
         authorization = Authorization()
         authentication = Authentication()
         always_return_data = True
+
+    def prepend_urls(self):
+        urls = []
 
     def obj_create(self, bundle, request=None, **kwargs):
         bundle.data['user'] = {'pk': request.user.pk}

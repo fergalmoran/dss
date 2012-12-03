@@ -1,12 +1,17 @@
 import logging
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models import ForeignKey
 from django.utils import simplejson
 import os
+from polymodels.models import BasePolymorphicModel
 from core.utils import url
 from dss import localsettings, settings
 
-class _BaseModel(models.Model):
+class _BaseModel(BasePolymorphicModel):
     logger = logging.getLogger(__name__)
+    content_type = ForeignKey(ContentType, null=True)
+    CONTENT_TYPE_FIELD = 'content_type'
 
     class Meta:
         abstract = True
@@ -21,7 +26,7 @@ class _BaseModel(models.Model):
             filter_dict = {'%s__startswith' % filter_field: filter}
             return cls.objects.all().filter(filter_dict).extra(select=transform)
         else:
-            return cls.objects.all()#.extra(transform)
+            return cls.objects.all()
 
     def get_image_url(self, image, default):
         try:
@@ -29,6 +34,7 @@ class _BaseModel(models.Model):
                 images_root = localsettings.IMAGE_URL if hasattr(localsettings, 'IMAGE_URL') else "%s" % settings.MEDIA_URL
                 ret = "%s/%s" % (images_root, image)
                 return url.urlclean(ret)
+
         except Exception, ex:
             pass
 
@@ -36,7 +42,7 @@ class _BaseModel(models.Model):
 
     @classmethod
     def get_lookup_filter_field(cls):
-        field_list = cls._meta.get_all_field_names();
+        field_list = cls._meta.get_all_field_names()
         for field in field_list:
             if field.endswith("name") or field.endswith("description"):
                 return field

@@ -9,6 +9,7 @@ from spa.api.v1.MixResource import MixResource
 from spa.api.v1.ReleaseAudioResource import ReleaseAudioResource
 from spa.api.v1.ReleaseResource import ReleaseResource
 from spa.api.v1.UserResource import UserResource
+from spa.api.v1.ActivityResource import ActivityResource
 from spa.social import SocialHandler
 
 v1_api = Api(api_name='v1')
@@ -18,7 +19,7 @@ v1_api.register(ReleaseResource())
 v1_api.register(ReleaseAudioResource())
 v1_api.register(EventResource())
 v1_api.register(UserResource())
-
+v1_api.register(ActivityResource())
 ajax = AjaxHandler()
 audio = AudioHandler()
 social = SocialHandler()

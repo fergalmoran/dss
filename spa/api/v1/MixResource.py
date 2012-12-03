@@ -12,6 +12,9 @@ from spa.models.Mix import Mix
 class MixResource(BackboneCompatibleResource):
     comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', 'mix', null=True)
 
+    def prepend_urls(self):
+        urls = []
+
     class Meta:
         queryset = Mix.objects.filter(is_active=True)
         excludes = ['download_url', 'is_active', 'local_file', 'upload_date']
@@ -25,7 +28,7 @@ class MixResource(BackboneCompatibleResource):
         ret = []
         for genre in genres:
             if genre['id'] == genre['text']:
-                new_item = Genre(description = genre['text'])
+                new_item = Genre(description=genre['text'])
                 new_item.save()
                 ret.append(new_item)
             else:
@@ -45,7 +48,8 @@ class MixResource(BackboneCompatibleResource):
             bundle.data['is_featured'] = False
 
         bundle.data['user'] = request.user.get_profile()
-        ret = super(MixResource, self).obj_create(bundle, request, user=request.user.get_profile(), local_file=file_name, uid=uid)
+        ret = super(MixResource, self).obj_create(bundle, request, user=request.user.get_profile(),
+            local_file=file_name, uid=uid)
         self._unpackGenreList(ret, bundle.data['genre-list'])
         #if ret is hunky dory
         return ret

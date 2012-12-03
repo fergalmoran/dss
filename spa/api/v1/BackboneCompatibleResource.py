@@ -1,14 +1,12 @@
 from django.conf.urls import url
-from tastypie import   fields
+from tastypie import fields
 from tastypie.resources import ModelResource
 
 __author__ = 'fergalm'
 
 class BackboneCompatibleResource(ModelResource):
-
     def override_urls(self):
         urls = []
-
         for name, field in self.fields.items():
             if isinstance(field, fields.ToManyField):
                 resource = r"^(?P<resource_name>{resource_name})/(?P<{related_name}>.+)/{related_resource}/$".format(
