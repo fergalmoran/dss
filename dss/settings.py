@@ -143,7 +143,6 @@ INSTALLED_APPS = (
     'django_extensions',
     'compressor',
     'djcelery',
-    'crispy_forms',
     'sorl.thumbnail',
     'south', # the only requirement for SCT
     'avatar',

@@ -1,10 +1,7 @@
-from crispy_forms.bootstrap import FormActions
-from crispy_forms.layout import  Submit, Fieldset, Layout
 from django import forms
 from django.contrib.auth.models import User
 
 from django.forms.models import ModelForm
-from crispy_forms.helper import FormHelper
 from spa.models.UserProfile import UserProfile
 
 class UserForm(ModelForm):
