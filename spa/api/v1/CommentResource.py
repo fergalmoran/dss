@@ -20,9 +20,6 @@ class CommentResource(ModelResource):
         authentication = Authentication()
         always_return_data = True
 
-    def prepend_urls(self):
-        urls = []
-
     def obj_create(self, bundle, request=None, **kwargs):
         bundle.data['user'] = {'pk': request.user.pk}
         return super(CommentResource, self).obj_create(bundle, request, user=request.user)
