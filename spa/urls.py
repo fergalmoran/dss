@@ -20,6 +20,7 @@ v1_api.register(ReleaseAudioResource())
 v1_api.register(EventResource())
 v1_api.register(UserResource())
 v1_api.register(ActivityResource())
+
 ajax = AjaxHandler()
 audio = AudioHandler()
 social = SocialHandler()

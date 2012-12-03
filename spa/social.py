@@ -13,6 +13,9 @@ from allauth.socialaccount.models import SocialToken
 import logging
 logger = logging.getLogger(__name__)
 
+"""
+    Handles callbacks from facebook and twitter
+"""
 class SocialHandler(object):
 
     def __init__(self, api_name="v1"):
