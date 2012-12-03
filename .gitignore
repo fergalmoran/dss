@@ -3,7 +3,11 @@ tags
 .idea
 *.pyc
 *.swp
+dss.sql
+.tags
+.tags_sorted_by_file
 static/CACHE
+_working/*
 media
 media/*
 media/avatars/*

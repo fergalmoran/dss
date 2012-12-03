@@ -25,4 +25,4 @@ django_extensions
 requests
 django-compressor
 django-sendfile
-polymodels
+django-polymodels
