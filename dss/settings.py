@@ -4,9 +4,8 @@ from django.core.urlresolvers import reverse_lazy
 import djcelery
 import os
 import warnings
-from dss import localsettings, warning_settings
+from dss import localsettings
 from dss import logsettings
-import dss.warning_settings
 from utils import here
 from django.conf import global_settings
 
@@ -168,7 +167,6 @@ LOGIN_REDIRECT_URL = reverse_lazy('home')
 LOGOUT_URL = reverse_lazy('home')
 
 LOGGING = logsettings.LOGGING
-#warnings.filterwarnings.append(warning_settings.FILTER_WARNINGS)
 
 """
 if DEBUG:
