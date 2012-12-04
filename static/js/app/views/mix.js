@@ -170,6 +170,12 @@ window.MixView = Backbone.View.extend({
         $('.mix-listing', this.el).append(item.el);
         $('#mix-description', this.el).html(this.model.get("description"));
 
+        /*
+         var comments = this.model.get("comments");
+        var content = new CommentListView({collection:comments}).render();
+        $('#mix-comments', el).html(content.el);
+         */
+
         var comments = new CommentCollection();
         comments.url = com.podnoms.settings.urlRoot + this.model.get("item_url") + "/comments/";
         comments.mix_id = this.model.id;

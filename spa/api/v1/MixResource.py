@@ -1,16 +1,20 @@
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.template.loader import render_to_string
 from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL_WITH_RELATIONS
+from tastypie.http import HttpMultipleChoices, HttpGone
 from core.serialisers import json
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.api.v1.CommentResource import CommentResource
 from spa.models import Genre
 
 from spa.models.Mix import Mix
 
 
 class MixResource(BackboneCompatibleResource):
-    comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', 'mix', null=True, full=True)
+    #comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', 'mix', null=True, full=True)
+    comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', 'mix', null=True)
 
     class Meta:
         queryset = Mix.objects.filter(is_active=True)
@@ -32,6 +36,17 @@ class MixResource(BackboneCompatibleResource):
                 ret.append(Genre.objects.get(pk=genre['id']))
 
         return ret
+
+    def get_children(self, request, **kwargs):
+        try:
+            obj = self.cached_obj_get(request=request, **self.remove_api_resource_names(kwargs))
+        except ObjectDoesNotExist:
+            return HttpGone()
+        except MultipleObjectsReturned:
+            return HttpMultipleChoices("More than one resource is found at this URI.")
+
+        child_resource = CommentResource()
+        return child_resource.get_detail(request, parent_id=obj.pk)
 
     def _unpackGenreList(self, bundle, genres):
         genre_list = self._parseGenreList(genres)
