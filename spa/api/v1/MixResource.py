@@ -10,7 +10,7 @@ from spa.models.Mix import Mix
 
 
 class MixResource(BackboneCompatibleResource):
-    comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', 'mix', null=True)
+    comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', 'mix', null=True, full=True)
 
     class Meta:
         queryset = Mix.objects.filter(is_active=True)
