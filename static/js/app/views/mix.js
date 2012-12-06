@@ -177,7 +177,7 @@ window.MixView = Backbone.View.extend({
          */
 
         var comments = new CommentCollection();
-        comments.url = com.podnoms.settings.urlRoot + this.model.get("item_url") + "/comments/";
+        comments.url = com.podnoms.settings.urlRoot + this.model.get("item_url") + "/children/";
         comments.mix_id = this.model.id;
         comments.mix = this.model.get("resource_uri");
         comments.fetch({success:function (data) {

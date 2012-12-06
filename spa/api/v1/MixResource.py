@@ -1,3 +1,4 @@
+from django.conf.urls import url
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.template.loader import render_to_string
 from tastypie import fields
@@ -8,6 +9,7 @@ from core.serialisers import json
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.api.v1.CommentResource import CommentResource
 from spa.models import Genre
+from tastypie.utils import trailing_slash
 
 from spa.models.Mix import Mix
 
@@ -37,16 +39,20 @@ class MixResource(BackboneCompatibleResource):
 
         return ret
 
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/children%s$" %
+                (self._meta.resource_name, trailing_slash()), self.wrap_view('get_children'), name="api_get_children"),
+            ]
+
     def get_children(self, request, **kwargs):
         try:
             obj = self.cached_obj_get(request=request, **self.remove_api_resource_names(kwargs))
         except ObjectDoesNotExist:
             return HttpGone()
-        except MultipleObjectsReturned:
-            return HttpMultipleChoices("More than one resource is found at this URI.")
 
         child_resource = CommentResource()
-        return child_resource.get_detail(request, parent_id=obj.pk)
+        return child_resource.get_list(request, mix=obj)
 
     def _unpackGenreList(self, bundle, genres):
         genre_list = self._parseGenreList(genres)
