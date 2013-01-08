@@ -1,0 +1,15 @@
+<div class="activity-block">
+    <a href="">
+        <img class="image-avatar-small" src="<%= item.avatar_image %>" alt="">
+    </a>
+
+    <div class="activity-details">
+        <a class="activity-user" href="<%= item.user_url %>">
+            <%= item.user_name %>
+        </a>
+        <blockquote class="pull-right">
+            <p><%= item.activity %></p>
+            <small><%= item.date_created %></small>
+        </blockquote>
+    </div>
+</div>

@@ -6,3 +6,9 @@ class MixLike(_Activity):
 
     def __unicode__(self):
         return "%s on %s" % (self.user.get_full_name(), self.mix.title)
+
+    def get_verb_passed(self):
+        return "liked"
+
+    def get_object_singular(self):
+        return "mix"

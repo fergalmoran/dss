@@ -61,13 +61,6 @@ var AppRouter = Backbone.Router.extend({
         var mixList = new MixCollection();
         mixList.type = type || 'latest';
         $('#site-content-fill').html('');
-        this.sidebarView = new SidebarView();
-        $('#sidebar').html(this.sidebarView.el);
-        startChat(
-            $('#chat-messages-body', this.sidebarView.el),
-            $('#input', this.sidebarView.el),
-            $('#status', this.sidebarView.el),
-            $('#header-profile-edit').text());
 
         var payload = $.extend(type != undefined ? {type:type} : null, data);
         mixList.fetch({
@@ -83,6 +76,13 @@ var AppRouter = Backbone.Router.extend({
                 }
             }
         });
+        this.sidebarView = new SidebarView();
+        $('#sidebar').html(this.sidebarView.el);
+        startChat(
+            $('#chat-messages-body', this.sidebarView.el),
+            $('#input', this.sidebarView.el),
+            $('#status', this.sidebarView.el),
+            $('#header-profile-edit').text());
     },
     mixDetails:function (id) {
         var mix = new Mix({
@@ -239,7 +239,7 @@ var AppRouter = Backbone.Router.extend({
     }
 });
 
-com.podnoms.utils.loadTemplate(['HeaderView', 'SidebarView', 'UserView', 'MixListView', 'MixListItemView', 'MixView', 'MixCreateView', 'CommentListView', 'CommentListItemView', 'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseCreateView', 'ReleaseAudioListView', 'ReleaseAudioItemView', 'EventCreateView', 'EventListView', 'EventListItemView', 'EventView', 'EventItemView'], function () {
+com.podnoms.utils.loadTemplate(['HeaderView', 'SidebarView', 'UserView', 'MixListView', 'MixListItemView', 'MixView', 'MixCreateView', 'CommentListView', 'CommentListItemView', 'ActivityListView', 'ActivityListItemView', 'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseCreateView', 'ReleaseAudioListView', 'ReleaseAudioItemView', 'EventCreateView', 'EventListView', 'EventListItemView', 'EventView', 'EventItemView'], function () {
     window.app = new AppRouter();
     $(document).on('click', 'a:internal:not(.no-click)', function (event) {
         Backbone.history.navigate($(this).attr('href'), {

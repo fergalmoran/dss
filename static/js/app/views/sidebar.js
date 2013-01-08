@@ -8,11 +8,11 @@
  */
 
 window.SidebarView = Backbone.View.extend({
-    events:{
-        "click #sidebar-play-pause-button-small":"togglePlayState",
-        "click #sidebar-listen-live":"playLive"
+    events: {
+        "click #sidebar-play-pause-button-small": "togglePlayState",
+        "click #sidebar-listen-live": "playLive"
     },
-    initialize:function () {
+    initialize: function () {
         this.render();
         _.bindAll(this, "trackChanged");
         _.bindAll(this, "trackPlaying");
@@ -26,27 +26,36 @@ window.SidebarView = Backbone.View.extend({
                 $("#live-now-playing", this.el).text(data.title);
             });
     },
-    render:function () {
+    render: function () {
         $(this.el).html(this.template());
+        var activity = new ActivityCollection();
+        activity.fetch({
+            success: function () {
+                var content = new ActivityListView({
+                    collection: activity
+                }).el;
+                $('.sidebar-content-activity', this.el).html(content.el);
+            }
+        });
         return this;
     },
-    togglePlayState:function () {
+    togglePlayState: function () {
 
     },
-    trackChanged:function (data) {
+    trackChanged: function (data) {
         $(this.el).find('#now-playing').text(data.title);
         if (data.item_url != undefined)
             $(this.el).find('#now-playing').attr("href", "#" + data.item_url);
     },
-    trackPlaying:function (data) {
+    trackPlaying: function (data) {
         $(this.el).find('#header-play-button-icon').removeClass('icon-play');
         $(this.el).find('#header-play-button-icon').addClass('icon-pause');
     },
-    trackPaused:function (data) {
+    trackPaused: function (data) {
         $(this.el).find('#header-play-button-icon').removeClass('icon-pause');
         $(this.el).find('#header-play-button-icon').addClass('icon-play');
     },
-    playLive:function () {
+    playLive: function () {
         var liveButton = $(this.el).find('#sidebar-listen-live');
         if ((liveButton).hasClass('btn-danger')) {
             com.podnoms.player.stopPlaying();
@@ -55,7 +64,7 @@ window.SidebarView = Backbone.View.extend({
         } else {
             liveButton.button('loading');
             com.podnoms.player.playLive({
-                success:function () {
+                success: function () {
                     $.getJSON(
                         'ajax/live_now_playing/',
                         function (data) {
@@ -66,7 +75,7 @@ window.SidebarView = Backbone.View.extend({
                             liveButton.removeClass('btn-success').addClass('btn-danger').text('Stop listening');
                         }
                     );
-               }
+                }
             });
         }
         _eventAggregator.trigger("track_playing")

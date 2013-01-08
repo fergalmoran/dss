@@ -6,6 +6,7 @@ from tastypie.authorization import Authorization
 from tastypie.constants import ALL_WITH_RELATIONS
 from tastypie.http import HttpMultipleChoices, HttpGone
 from core.serialisers import json
+from spa.api.v1.ActivityResource import ActivityResource
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.api.v1.CommentResource import CommentResource
 from spa.models import Genre
@@ -15,8 +16,8 @@ from spa.models.Mix import Mix
 
 
 class MixResource(BackboneCompatibleResource):
-    #comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', 'mix', null=True, full=True)
     comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', 'mix', null=True)
+    activity = fields.ToManyField('spa.api.v1.ActivityResource.ActivityResource', 'activity', 'mix', null=True)
 
     class Meta:
         queryset = Mix.objects.filter(is_active=True)
@@ -39,13 +40,20 @@ class MixResource(BackboneCompatibleResource):
 
         return ret
 
+    def _unpackGenreList(self, bundle, genres):
+        genre_list = self._parseGenreList(genres)
+        bundle.obj.genres = genre_list
+        bundle.obj.save()
+
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/children%s$" %
-                (self._meta.resource_name, trailing_slash()), self.wrap_view('get_children'), name="api_get_children"),
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/comments%s$" %
+                (self._meta.resource_name, trailing_slash()), self.wrap_view('get_comments'), name="api_get_comments"),
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/activity%s$" %
+                (self._meta.resource_name, trailing_slash()), self.wrap_view('get_activity'), name="api_get_activity"),
             ]
 
-    def get_children(self, request, **kwargs):
+    def get_comments(self, request, **kwargs):
         try:
             obj = self.cached_obj_get(request=request, **self.remove_api_resource_names(kwargs))
         except ObjectDoesNotExist:
@@ -54,10 +62,14 @@ class MixResource(BackboneCompatibleResource):
         child_resource = CommentResource()
         return child_resource.get_list(request, mix=obj)
 
-    def _unpackGenreList(self, bundle, genres):
-        genre_list = self._parseGenreList(genres)
-        bundle.obj.genres = genre_list
-        bundle.obj.save()
+    def get_activity(self, request, **kwargs):
+        try:
+            obj = self.cached_obj_get(request=request, **self.remove_api_resource_names(kwargs))
+        except ObjectDoesNotExist:
+            return HttpGone()
+
+        child_resource = ActivityResource()
+        return child_resource.get_list(request, mix=obj)
 
     def obj_create(self, bundle, request=None, **kwargs):
         file_name = "mixes/%s.%s" % (bundle.data['upload-hash'], bundle.data['upload-extension'])

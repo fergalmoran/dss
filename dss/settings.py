@@ -142,6 +142,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'compressor',
     'djcelery',
+    'polymodels',
     'sorl.thumbnail',
     'south', # the only requirement for SCT
     'avatar',

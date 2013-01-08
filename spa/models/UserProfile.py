@@ -99,9 +99,9 @@ class UserProfile(_BaseModel):
                 image = "%s%s" % (settings.MEDIA_URL, get_thumbnail(image, "170x170", crop='center').name)
             return image
         except SuspiciousOperation, ex:
-            self.logger.warn("Error getting small profile image: %s", ex.message)
+            self.logger.warn("Error getting medium profile image: %s", ex.message)
         except IOError, ex:
-            self.logger.warn("Error getting small profile image: %s", ex.message)
+            self.logger.warn("Error getting medium profile image: %s", ex.message)
 
     def get_small_profile_image(self):
         try:
@@ -113,7 +113,6 @@ class UserProfile(_BaseModel):
             self.logger.warn("Error getting small profile image: %s", ex.message)
         except IOError, ex:
             self.logger.warn("Error getting small profile image: %s", ex.message)
-
 
     def get_avatar_image(self, size=150):
         avatar_type = self.avatar_type

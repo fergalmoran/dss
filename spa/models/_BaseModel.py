@@ -1,17 +1,12 @@
 import logging
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.db.models import ForeignKey
 from django.utils import simplejson
 import os
-from polymodels.models import BasePolymorphicModel
 from core.utils import url
 from dss import localsettings, settings
 
-class _BaseModel(BasePolymorphicModel):
+class _BaseModel(models.Model):
     logger = logging.getLogger(__name__)
-    content_type = ForeignKey(ContentType, null=True)
-    CONTENT_TYPE_FIELD = 'content_type'
 
     class Meta:
         abstract = True

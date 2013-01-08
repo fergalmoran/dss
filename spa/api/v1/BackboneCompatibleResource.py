@@ -1,3 +1,4 @@
+import logging
 from django.conf.urls import url
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from tastypie import fields
@@ -7,4 +8,5 @@ from tastypie.utils import trailing_slash
 
 
 class BackboneCompatibleResource(ModelResource):
+    logger = logging.getLogger(__name__)
     pass
