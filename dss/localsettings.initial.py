@@ -10,7 +10,7 @@ else:
     DSS_WAVE_PATH = "d:\\Apps\\waveformgen.exe"
 
 DATABASE_NAME = 'deepsouthsounds'
-DATABASE_USER = 'root'
+DATABASE_USER = 'deepsouthsounds'
 DATABASE_PASSWORD = ''
 #DATABASE_HOST  = ''
 
