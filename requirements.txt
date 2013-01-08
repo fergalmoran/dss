@@ -25,3 +25,4 @@ requests
 django-compressor
 django-sendfile
 django-polymodels
+mysql-python
