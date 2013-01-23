@@ -84,7 +84,7 @@ class Mix(_BaseModel):
     def get_image_url(self):
         try:
             ret = get_thumbnail(self.mix_image, '160x160', crop='center')
-            return "%s/%s" % (settings.MEDIA_URL, ret.name)
+            return "%s/%s/%s" % (settings.STATIC_URL, settings.MEDIA_URL, ret.name)
         except Exception:
             social_image = self._get_social_image()
             if social_image:
