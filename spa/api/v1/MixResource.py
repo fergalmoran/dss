@@ -78,8 +78,7 @@ class MixResource(BackboneCompatibleResource):
             bundle.data['is_featured'] = False
 
         bundle.data['user'] = request.user.get_profile()
-        ret = super(MixResource, self).obj_create(bundle, request, user=request.user.get_profile(),
-            local_file=file_name, uid=uid)
+        ret = super(MixResource, self).obj_create(bundle, request, user=request.user.get_profile(), local_file=file_name, uid=uid)
         self._unpackGenreList(ret, bundle.data['genre-list'])
         #if ret is hunky dory
         return ret
