@@ -1,23 +1,23 @@
 from django.conf.urls import url
-from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string
 from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL_WITH_RELATIONS
-from tastypie.http import HttpMultipleChoices, HttpGone
+from tastypie.http import HttpGone
+from tastypie.utils import trailing_slash
+
 from core.serialisers import json
 from spa.api.v1.ActivityResource import ActivityResource
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.api.v1.CommentResource import CommentResource
 from spa.models import Genre
-from tastypie.utils import trailing_slash
-
 from spa.models.Mix import Mix
 
 
 class MixResource(BackboneCompatibleResource):
     comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', 'mix', null=True)
-    activity = fields.ToManyField('spa.api.v1.ActivityResource.ActivityResource', 'activity', 'mix', null=True)
+    #activity = fields.ToManyField('spa.api.v1.ActivityResource.ActivityResource', 'activity', 'mix', null=True)
 
     class Meta:
         queryset = Mix.objects.filter(is_active=True)
@@ -51,7 +51,7 @@ class MixResource(BackboneCompatibleResource):
                 (self._meta.resource_name, trailing_slash()), self.wrap_view('get_comments'), name="api_get_comments"),
             url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/activity%s$" %
                 (self._meta.resource_name, trailing_slash()), self.wrap_view('get_activity'), name="api_get_activity"),
-            ]
+        ]
 
     def get_comments(self, request, **kwargs):
         try:

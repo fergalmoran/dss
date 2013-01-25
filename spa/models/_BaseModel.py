@@ -27,7 +27,7 @@ class _BaseModel(models.Model):
         try:
             if os.path.isfile(image.path):
                 images_root = localsettings.IMAGE_URL if hasattr(localsettings, 'IMAGE_URL') else "%s" % settings.MEDIA_URL
-                ret = "%s/%s" % (images_root, image)
+                ret = "%s/%s/%s" % (settings.STATIC_URL, images_root, image)
                 return url.urlclean(ret)
 
         except Exception, ex:
