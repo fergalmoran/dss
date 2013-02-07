@@ -1,6 +1,7 @@
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.models import UserProfile
 from  spa.models._Activity import _Activity
 
 
@@ -18,13 +19,22 @@ class ActivityResource(BackboneCompatibleResource):
 
     def dehydrate(self, bundle):
         try:
+            if bundle.obj.user is not None:
+                user_name = bundle.obj.user.get_full_name()
+                user_image = bundle.obj.user.get_profile().get_small_profile_image()
+                user_profile = bundle.obj.user.get_profile().get_profile_url()
+            else:
+                user_name = "Anonymous user"
+                user_image = ""
+                user_profile = UserProfile.get_default_avatar_image()
+
             bundle.data["verb"] = bundle.obj.get_verb_passed(),
             bundle.data["object"] = bundle.obj.get_object_singular(),
             bundle.data["item_name"] = bundle.obj.get_object_name(),
             bundle.data["item_url"] = bundle.obj.get_object_url(),
-            bundle.data["user_name"] = bundle.obj.user.get_full_name(),
-            bundle.data["user_profile"] = bundle.obj.user.get_profile().get_profile_url(),
-            bundle.data["user_image"] = bundle.obj.user.get_profile().get_small_profile_image()
+            bundle.data["user_name"] = user_name,
+            bundle.data["user_profile"] = user_profile,
+            bundle.data["user_image"] = user_image
             return bundle
 
         except AttributeError, ae:
@@ -35,8 +45,10 @@ class ActivityResource(BackboneCompatibleResource):
             self.logger.debug("Exception: Error dehydrating activity, %s" % ee.message)
         return None
 
+    """"
     def alter_list_data_to_serialize(self, request, data):
         return [i for i in data['objects'] if i is not None and i.obj.user is not None and i.obj.get_object_name is not None and i.obj.get_object_url is not None]
-
+    """
+    
     def dehydrate_date(self, bundle):
         return self.humanize_date(bundle.obj.date)
