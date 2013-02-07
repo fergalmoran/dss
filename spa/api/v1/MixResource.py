@@ -16,7 +16,7 @@ from spa.models.Mix import Mix
 
 
 class MixResource(BackboneCompatibleResource):
-    comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', 'mix', null=True)
+    comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments')
     #activity = fields.ToManyField('spa.api.v1.ActivityResource.ActivityResource', 'activity', 'mix', null=True)
 
     class Meta:
@@ -45,12 +45,10 @@ class MixResource(BackboneCompatibleResource):
         bundle.obj.genres = genre_list
         bundle.obj.save()
 
-    def prepend_urls(self):
+    def override_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/comments%s$" %
-                (self._meta.resource_name, trailing_slash()), self.wrap_view('get_comments'), name="api_get_comments"),
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/activity%s$" %
-                (self._meta.resource_name, trailing_slash()), self.wrap_view('get_activity'), name="api_get_activity"),
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/comments%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_comments'), name="api_get_comments"),
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/activity%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_activity'), name="api_get_activity"),
         ]
 
     def get_comments(self, request, **kwargs):

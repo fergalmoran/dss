@@ -1,13 +1,15 @@
 ## Django settings for dss project.
 from datetime import timedelta
+import os
+
 from django.core.urlresolvers import reverse_lazy
 import djcelery
-import os
-import warnings
+
 from dss import localsettings
 from dss import logsettings
 from utils import here
 from django.conf import global_settings
+
 
 DEBUG = localsettings.DEBUG
 DEVELOPMENT = localsettings.DEBUG
@@ -16,7 +18,7 @@ TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     ('Fergal Moran', 'fergal.moran@gmail.com'),
-    )
+)
 
 MANAGERS = ADMINS
 AUTH_PROFILE_MODULE = 'spa.UserProfile'
@@ -29,7 +31,7 @@ DATABASES = {
         'PASSWORD': localsettings.DATABASE_PASSWORD if hasattr(localsettings, 'DATABASE_PASSWORD') else '',
         'HOST': localsettings.DATABASE_HOST if hasattr(localsettings, 'DATABASE_HOST') else '',
         'PORT': '',
-        }
+    }
 }
 ROOT_URLCONF = 'dss.urls'
 TIME_ZONE = 'Europe/Dublin'
@@ -48,7 +50,8 @@ STATIC_ROOT = here('static') #localsettings.STATIC_ROOT if hasattr(localsettings
 if DEBUG:
     STATIC_URL = '/static/'
 else:
-    STATIC_URL = localsettings.STATIC_URL if hasattr(localsettings, 'STATIC_URL') else 'http://static.deepsouthsounds.com/'
+    STATIC_URL = localsettings.STATIC_URL if hasattr(localsettings,
+                                                     'STATIC_URL') else 'http://static.deepsouthsounds.com/'
 
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 
@@ -83,14 +86,14 @@ TINYMCE_DEFAULT_CONFIG = {
 TINYMCE_SPELLCHECKER = True
 
 STATICFILES_DIRS = (
-    #here('static'),
+#here('static'),
 )
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
-    )
+)
 
 SECRET_KEY = '8*&amp;j)j4lnq*ft*=jhajvc7&amp;upaifb2f2s5(v6i($$+3p(4^bvd'
 
@@ -99,7 +102,7 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
     'django.template.loaders.eggs.Loader',
     #'django.template.loaders.app_directories.load_template_source',
-    )
+)
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django_facebook.context_processors.facebook',
     'django.core.context_processors.request',
@@ -112,7 +115,7 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
 )
 AUTHENTICATION_BACKENDS = global_settings.AUTHENTICATION_BACKENDS + (
     "allauth.account.auth_backends.AuthenticationBackend",
-    )
+)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -124,7 +127,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
     'spa.middleware.uploadify.SWFUploadMiddleware',
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
-    )
+)
 
 WSGI_APPLICATION = 'dss.wsgi.application'
 TEMPLATE_DIRS = (here('templates'),)
@@ -188,20 +191,20 @@ CELERYBEAT_SCHEDULE = {
     "runs-every-30-seconds": {
         "task": "dss.generate_missing_waveforms_task",
         "schedule": timedelta(seconds=30),
-        },
-    }
+    },
+}
 djcelery.setup_loader()
 
 SOCIALACCOUNT_AVATAR_SUPPORT = True
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'SCOPE': ['email', 'publish_stream', 'publish_actions'],
-        'METHOD': 'oauth2' ,
+        'METHOD': 'oauth2',
         'LOCALE_FUNC': 'path.to.callable'
     }
 }
-ACCOUNT_EMAIL_REQUIRED=True
-SOCIALACCOUNT_QUERY_EMAIL=True
+ACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_QUERY_EMAIL = True
 EMAIL_CONFIRMATION_DAYS = 7
 SOCIALACCOUNT_AUTO_SIGNUP = True
 AVATAR_STORAGE_DIR = MEDIA_ROOT + '/avatars/'
@@ -216,13 +219,13 @@ PIPELINE_CSS = {
     'defaults': {
         'source_filenames': (
             'static/css/*.css',
-            ),
+        ),
         'output_filename': 'css/dss.css',
         'extra_context': {
             'media': 'screen,projection',
-            },
         },
-    }
+    },
+}
 INTERNAL_IPS = ('127.0.0.1', '86.44.166.21')
 GOOGLE_ANALYTICS_CODE = localsettings.GOOGLE_ANALYTICS_CODE
 
@@ -234,15 +237,16 @@ PIPELINE_CSS = {
     'site_css': {
         'source_filenames': (
             'static/css/*.css'
-            ),
+        ),
         'output_filename': 'static/css/dss_min.css',
         'extra_context': {
             'media': 'screen,projection',
-            },
         },
-    }
+    },
+}
 COMPRESS_CSS_FILTERS = [
     'compressor.filters.css_default.CssAbsoluteFilter',
 ]
 import mimetypes
+
 mimetypes.add_type("text/xml", ".plist", False)

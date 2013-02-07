@@ -126,7 +126,7 @@ window.MixListItemView = Backbone.View.extend({
                         _eventAggregator.trigger("track_changed", data);
                     },
                     error:function () {
-                        alert("Error playing mix. Do please try again.");
+                        alert("Error playing mix. If you have a flash blocker, please disable it for this site. Othewise, do please try again.");
                     }
                 });
                 com.podnoms.storage.setItem('now_playing', id);
@@ -177,7 +177,7 @@ window.MixView = Backbone.View.extend({
          */
 
         var comments = new CommentCollection();
-        comments.url = com.podnoms.settings.urlRoot + this.model.get("item_url") + "/children/";
+        comments.url = com.podnoms.settings.urlRoot + this.model.get("item_url") + "/comments/";
         comments.mix_id = this.model.id;
         comments.mix = this.model.get("resource_uri");
         comments.fetch({success:function (data) {
