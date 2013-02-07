@@ -12,3 +12,9 @@ class MixLike(_Activity):
 
     def get_object_singular(self):
         return "mix"
+
+    def get_object_name(self):
+        return self.mix.title
+
+    def get_object_url(self):
+        return self.mix.get_absolute_url()
