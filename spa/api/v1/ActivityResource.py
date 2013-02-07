@@ -25,8 +25,8 @@ class ActivityResource(BackboneCompatibleResource):
                 user_profile = bundle.obj.user.get_profile().get_profile_url()
             else:
                 user_name = "Anonymous user"
-                user_image = ""
-                user_profile = UserProfile.get_default_avatar_image()
+                user_image = UserProfile.get_default_avatar_image()
+                user_profile = ""
 
             bundle.data["verb"] = bundle.obj.get_verb_passed(),
             bundle.data["object"] = bundle.obj.get_object_singular(),
@@ -49,6 +49,6 @@ class ActivityResource(BackboneCompatibleResource):
     def alter_list_data_to_serialize(self, request, data):
         return [i for i in data['objects'] if i is not None and i.obj.user is not None and i.obj.get_object_name is not None and i.obj.get_object_url is not None]
     """
-    
+
     def dehydrate_date(self, bundle):
         return self.humanize_date(bundle.obj.date)

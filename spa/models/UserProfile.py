@@ -134,7 +134,7 @@ class UserProfile(_BaseModel):
                 if social_account:
                     provider = social_account.get_provider_account()
                     return provider.get_avatar_url()
-            except:
+            except Exception, ex:
                 pass
         elif avatar_type == 'custom' or avatar_type:
             return self.avatar_image.name

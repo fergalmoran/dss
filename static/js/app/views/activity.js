@@ -10,7 +10,7 @@ window.ActivityListItemView = Backbone.View.extend({
     tagName:"li",
     initialize:function () {
         $(this.el).data("id", this.model.get("id"));
-        $(this.el).addClass("activity-entry");
+        $(this.el).addClass("media");
     },
     render:function () {
         $(this.el).html(this.template({"item":this.model.toJSON()}));
@@ -24,7 +24,7 @@ window.ActivityListView = Backbone.View.extend({
         this.render();
     },
     render:function () {
-        $(this.el).html(this.template()).append('<ul class="activity-listing list-nostyle"></ul>');
+        $(this.el).html(this.template()).append('<ul class="activity-listing media-list"></ul>');
         this.collection.each(function (item) {
             $('.activity-listing', this.el).append(new ActivityListItemView({model:item}).render().el);
         }, this);
