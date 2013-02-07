@@ -12,7 +12,7 @@ if (!com.podnoms) com.podnoms = {};
 
 com.podnoms.utils = {
     // Asynchronously load templates located in separate .html files
-    loadTemplate:function (views, callback) {
+    loadTemplate: function (views, callback) {
         var deferreds = [];
         $.each(views, function (index, view) {
             if (window[view]) {
@@ -25,11 +25,11 @@ com.podnoms.utils = {
         });
         $.when.apply(null, deferreds).done(callback);
     },
-    trackPageView:function (url) {
+    trackPageView: function (url) {
         if (!(typeof(_gag) == "undefined"))
             _gaq.push(['_trackPageview', "/" + url]);
     },
-    displayValidationErrors:function (messages) {
+    displayValidationErrors: function (messages) {
         for (var key in messages) {
             if (messages.hasOwnProperty(key)) {
                 this.addValidationError(key, messages[key]);
@@ -37,20 +37,20 @@ com.podnoms.utils = {
         }
         this.showAlert('Warning!', 'Fix validation errors and try again', 'alert-warning');
     },
-    addValidationError:function (field, message) {
+    addValidationError: function (field, message) {
         var controlGroup = $('#' + field).parent().parent();
         controlGroup.addClass('error');
         $('.help-inline', controlGroup).html(message);
     },
-    removeValidationError:function (field) {
+    removeValidationError: function (field) {
         var controlGroup = $('#' + field).parent().parent();
         controlGroup.removeClass('error');
         $('.help-inline', controlGroup).html('');
     },
-    showError:function (title, message) {
+    showError: function (title, message) {
         this.showAlert(title, message, 'alert-error', true);
     },
-    showAlert:function (title, text, klass, fade) {
+    showAlert: function (title, text, klass, fade) {
         $('.alert').removeClass("alert-error alert-warning alert-success alert-info");
         $('.alert').addClass(klass);
         $('.alert').html('<strong>' + title + '</strong> ' + text);
@@ -63,33 +63,37 @@ com.podnoms.utils = {
             this.hideAlert();
         });
     },
-    hideAlert:function () {
+    hideAlert: function () {
         $('.alert').fadeOut('slow', function () {
         });
     },
-    pad2:function (number) {
+    pad2: function (number) {
         return (number < 10 ? '0' : '') + number;
     },
-    getDateAsToday:function () {
+    getDateAsToday: function () {
         var currentTime = new Date();
         var day = currentTime.getDate();
         var month = currentTime.getMonth() + 1;
         var year = currentTime.getFullYear();
         return (com.podnoms.utils.pad2(day) + "/" + com.podnoms.utils.pad2(month) + "/" + year);
     },
-    isEmpty:function (val) {
+    formatJSONDate: function (jsonDate) {
+        var date = new Date(parseInt(jsonDate.substr(6)));
+        return date;
+    },
+    isEmpty: function (val) {
         return (val === undefined || val == null || val.length <= 0) ? true : false;
     },
-    setHashbangHeader:function (xhr) {
+    setHashbangHeader: function (xhr) {
         xhr.setRequestHeader('X-FB-Nonsense', 'Argle-Bargle');
     },
-    generateGuid:function () {
+    generateGuid: function () {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
             var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
     },
-    downloadURL:function downloadURL(url) {
+    downloadURL: function downloadURL(url) {
         var iframe;
         iframe = document.getElementById("hiddenDownloader");
         if (iframe === null) {
@@ -103,7 +107,7 @@ com.podnoms.utils = {
 };
 
 jQuery.extend({
-    handleError:function (s, xhr, status, e) {
+    handleError: function (s, xhr, status, e) {
         // If a local callback was specified, fire it
         if (s.error) {
             s.error.call(s.context || window, xhr, status, e);

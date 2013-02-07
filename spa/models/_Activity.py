@@ -26,3 +26,11 @@ class _Activity(_BaseModel):
     @abc.abstractmethod
     def get_object_plural(self):
         return
+
+    @abc.abstractmethod
+    def get_object_name(self):
+        return
+
+    @abc.abstractmethod
+    def get_object_url(self):
+        return

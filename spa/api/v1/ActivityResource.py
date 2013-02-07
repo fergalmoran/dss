@@ -5,9 +5,9 @@ from  spa.models._Activity import _Activity
 
 
 class ActivityResource(BackboneCompatibleResource):
-
     class Meta:
-        queryset = _Activity.objects.all()
+        #queryset = _Activity.objects.filter(pk=3442).order_by('-date')
+        queryset = _Activity.objects.all().order_by('-date')
         resource_name = 'activity'
         authorization = Authorization()
         authentication = Authentication()
@@ -18,13 +18,14 @@ class ActivityResource(BackboneCompatibleResource):
 
     def dehydrate(self, bundle):
         try:
-            if bundle.obj.user is not None:
-                bundle.data["message"] = "%s %s a %s on %s" %\
-                    (bundle.obj.user.get_full_name(),
-                     bundle.obj.get_verb_passed(),
-                     bundle.obj.get_object_singular(),
-                     bundle.obj.date)
-                return bundle
+            bundle.data["verb"] = bundle.obj.get_verb_passed(),
+            bundle.data["object"] = bundle.obj.get_object_singular(),
+            bundle.data["item_name"] = bundle.obj.get_object_name(),
+            bundle.data["item_url"] = bundle.obj.get_object_url(),
+            bundle.data["user_name"] = bundle.obj.user.get_full_name(),
+            bundle.data["user_profile"] = bundle.obj.user.get_profile().get_profile_url(),
+            bundle.data["user_image"] = bundle.obj.user.get_profile().get_small_profile_image()
+            return bundle
 
         except AttributeError, ae:
             self.logger.debug("AttributeError: Error dehydrating activity, %s" % ae.message)
@@ -32,3 +33,10 @@ class ActivityResource(BackboneCompatibleResource):
             self.logger.debug("TypeError: Error dehydrating activity, %s" % te.message)
         except Exception, ee:
             self.logger.debug("Exception: Error dehydrating activity, %s" % ee.message)
+        return None
+
+    def alter_list_data_to_serialize(self, request, data):
+        return [i for i in data['objects'] if i is not None and i.obj.user is not None and i.obj.get_object_name is not None and i.obj.get_object_url is not None]
+
+    def dehydrate_date(self, bundle):
+        return self.humanize_date(bundle.obj.date)

@@ -34,7 +34,7 @@ window.SidebarView = Backbone.View.extend({
                 var content = new ActivityListView({
                     collection: activity
                 }).el;
-                $('.sidebar-content-activity', this.el).html(content.el);
+                $('#sidebar-content-activity', this.el).html(content);
             }
         });
         return this;

@@ -38,6 +38,9 @@ img.event-content {
 .bordered {
     border-bottom: 3px solid #CEC3B3;
 }
+.bordered-faint {
+    border-bottom: 1px solid #CEC3B3;
+}
 
 .page-header {
     -moz-border-bottom-colors: none;
@@ -583,4 +586,9 @@ div.event-content td {
 
 .mix-profile-insert {
 
+}
+
+.activity-list-item{
+    margin-bottom: 5px;
+    margin-left: 5px;
 }

@@ -1,12 +1,15 @@
 import logging
-from django.conf.urls import url
-from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
-from tastypie import fields
-from tastypie.http import HttpGone, HttpMultipleChoices
+import datetime
+import humanize
 from tastypie.resources import ModelResource
-from tastypie.utils import trailing_slash
 
 
 class BackboneCompatibleResource(ModelResource):
     logger = logging.getLogger(__name__)
     pass
+
+    def humanize_date(self, date):
+        if (datetime.datetime.now() - date) <= datetime.timedelta(days=1):
+            return humanize.naturaltime(date)
+        else:
+            return humanize.naturalday(date)

@@ -1,17 +1,17 @@
 {% load account_tags %}
-
-<div class="activity-block">
-    <a href="">
-        <img class="image-avatar-small" src="<%= item.avatar_image %>" alt="">
+<div class="media bordered-faint activity-list-item">
+    <a class="pull-left" href="#">
+        <img class="media-object" data-src="holder.js/64x64">
+        <img class="media-object " src="<%= item.user_image %>" alt="">
     </a>
-
-    <div class="activity-details">
-        <a class="activity-user" href="<%= item.user_url %>">
-            <%= item.user_name %>
-        </a>
-        <blockquote class="pull-right">
-            <p><%= item.activity %></p>
-            <small><%= item.date_created %></small>
-        </blockquote>
+    <div class="media-body">
+        <div class="media">
+            <a class="activity-user" href="<%= item.user_profile %>">
+                <%= item.user_name %>
+            </a>
+            <%= item.verb %> <a href="<%= item.item_url %>"><%= item.item_name %></a>
+            <blockquote class="pull-right"><%= item.date %></blockquote>
+        </div>
     </div>
 </div>
+

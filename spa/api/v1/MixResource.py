@@ -17,7 +17,7 @@ from spa.models.Mix import Mix
 
 class MixResource(BackboneCompatibleResource):
     comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments')
-    #activity = fields.ToManyField('spa.api.v1.ActivityResource.ActivityResource', 'activity', 'mix', null=True)
+    #downloads = fields.ToManyField('spa.api.v1.ActivityResource.ActivityResource', 'downloads')
 
     class Meta:
         queryset = Mix.objects.filter(is_active=True)
