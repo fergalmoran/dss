@@ -43,15 +43,18 @@ USE_TZ = False
 
 SITE_ROOT = here('')
 MEDIA_ROOT = here('media')
-CACHE_ROOT = here('media/cache')
-MEDIA_URL = '/media/'
-
 STATIC_ROOT = here('static') #localsettings.STATIC_ROOT if hasattr(localsettings, 'STATIC_ROOT') else ''
+CACHE_ROOT = here('media/cache')
+
 if DEBUG:
     STATIC_URL = '/static/'
 else:
-    STATIC_URL = localsettings.STATIC_URL if hasattr(localsettings,
-                                                     'STATIC_URL') else 'http://static.deepsouthsounds.com/'
+    STATIC_URL = localsettings.STATIC_URL if hasattr(localsettings, 'STATIC_URL') else 'http://static.deepsouthsounds.com/'
+
+if DEBUG:
+    MEDIA_URL = '/media/'
+else:
+    MEDIA_URL = localsettings.MEDIA_URL if hasattr(localsettings, 'MEDIA_URL') else 'http://media.deepsouthsounds.com/'
 
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 
