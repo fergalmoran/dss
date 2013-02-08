@@ -166,7 +166,8 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.openid',
     'allauth.socialaccount.providers.twitter',
     'backbone_tastypie',
-    'polymodels'
+    'polymodels',
+    'realtime'
 )
 
 # where to redirect users to after logging in

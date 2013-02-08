@@ -22,6 +22,7 @@ var AppRouter = Backbone.Router.extend({
         "event/:id":"eventDetails",
         "accounts/social/connections/":"connectAccounts",
         "accounts/facebook/login":"loginRedirect",
+        "accounts/twitter/login":"loginRedirect",
         "accounts/login/":"login",
         "accounts/logout/":"logout",
         "user/:id":"user",
