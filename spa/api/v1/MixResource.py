@@ -16,7 +16,7 @@ from spa.models.Mix import Mix
 
 
 class MixResource(BackboneCompatibleResource):
-    comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments')
+    comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', null=True)
     #downloads = fields.ToManyField('spa.api.v1.ActivityResource.ActivityResource', 'downloads')
 
     class Meta:
