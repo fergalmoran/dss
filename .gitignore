@@ -1,5 +1,10 @@
 .gitignore~
 tags
+.tags
 .idea
-bin
-gen
+*.pyc
+media/*
+build/*
+_working/*
+static/CACHE/*
+dss/localsettings.py
