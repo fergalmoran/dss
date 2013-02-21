@@ -150,7 +150,7 @@ INSTALLED_APPS = (
     'djcelery',
     'polymodels',
     'sorl.thumbnail',
-    'south', # the only requirement for SCT
+    'south',
     'avatar',
     'notification',
     'spa',
