@@ -1,6 +1,5 @@
 from _BaseModel import _BaseModel
 from UserProfile import UserProfile
-from _Activity import _Activity
 from ChatMessage import ChatMessage
 from Recurrence import Recurrence
 from Comment import Comment
@@ -8,6 +7,7 @@ from Venue import Venue
 from Event import Event
 from Label import Label
 from Mix import Mix
+from _Activity import _Activity
 from MixLike import MixLike
 from MixPlay import MixPlay
 from MixFavourite import MixFavourite

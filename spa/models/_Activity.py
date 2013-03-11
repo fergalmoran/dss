@@ -1,15 +1,24 @@
-from django.contrib.auth.models import User
-from django.contrib.contenttypes.models import ContentType
-from django.db import models
 import abc
+
+from django.contrib.auth.models import User
+from django.db import models
+
 from model_utils.managers import InheritanceManager
+
 from spa.models._BaseModel import _BaseModel
+from spa.models.managers.QueuedActivityModelManager import QueuedActivityModelManager
+
 
 class _Activity(_BaseModel):
     user = models.ForeignKey(User, null=True)
     uid = models.CharField(max_length=50, blank=True, null=True)
     date = models.DateTimeField(auto_now=True)
     objects = InheritanceManager()
+
+    message_manager = QueuedActivityModelManager()
+
+    class Meta:
+        app_label = 'spa'
 
     @abc.abstractmethod
     def get_verb_passed(self):
@@ -34,3 +43,4 @@ class _Activity(_BaseModel):
     @abc.abstractmethod
     def get_object_url(self):
         return
+
