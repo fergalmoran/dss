@@ -22,7 +22,7 @@ LOGGING = {
             'formatter': 'simple'
         },
         'file': {
-            'level': 'DEBUG',
+            'level': 'ERROR',
             'class': 'logging.FileHandler',
             'filename': LOG_FILE,
             'formatter': 'simple'
@@ -36,7 +36,7 @@ LOGGING = {
         },
         'core': {
             'handlers': ['file', 'console'],
-            'level': 'DEBUG',
+            'level': 'ERROR',
             'propagate': True,
         },
     }
