@@ -5,6 +5,12 @@ from spa.models._Activity import _Activity
 class MixPlay(_Activity):
     mix = models.ForeignKey('spa.Mix', related_name='plays')
 
+    def __unicode__(self):
+        if self.user is None:
+            return "%s %s %s %s" % ("Anonymous", self.get_verb_passed(), self.get_object_name(), self.date)
+        else:
+            return "%s %s %s %s" % (self.user.get_full_name, self.get_verb_passed(), self.get_object_name(), self.date)
+
     def get_verb_passed(self):
         return "played"
 
