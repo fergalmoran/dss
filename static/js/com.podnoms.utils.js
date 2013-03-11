@@ -113,8 +113,7 @@ com.podnoms.utils = {
         }
     },
     downloadURL: function downloadURL(url) {
-        var iframe;
-        iframe = document.getElementById("hiddenDownloader");
+        var iframe = document.getElementById("hiddenDownloader");
         if (iframe === null) {
             iframe = document.createElement('iframe');
             iframe.id = "hiddenDownloader";
