@@ -18,6 +18,8 @@ class DefaultAdmin(admin.ModelAdmin):
 
 admin.site.register(Mix)
 admin.site.register(MixLike)
+admin.site.register(MixPlay)
+admin.site.register(MixFavourite)
 admin.site.register(Genre)
 admin.site.register(Label)
 admin.site.register(Release, DefaultAdmin)
