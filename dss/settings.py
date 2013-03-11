@@ -33,6 +33,7 @@ DATABASES = {
         'PORT': '',
     }
 }
+
 ROOT_URLCONF = 'dss.urls'
 TIME_ZONE = 'Europe/Dublin'
 LANGUAGE_CODE = 'en-ie'
