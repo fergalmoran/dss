@@ -101,7 +101,7 @@ com.podnoms.utils = {
     checkPlayCount: function(){
         if (document.cookie.indexOf('sessionId')){
             $.getJSON('/ajax/session_play_count', function (data) {
-                if ((data.play_count % 5) == 0){
+                if ((data.play_count != 0) && (data.play_count % 5) == 0){
                     com.podnoms.utils.showAlertModal(
                         "Hey There!",
                         "We've noticed you've been playing a few mixes now.<br />" +
