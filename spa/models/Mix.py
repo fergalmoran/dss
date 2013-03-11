@@ -1,12 +1,13 @@
 import os
 import rfc822
-from core.utils import url
 from datetime import datetime
+
 from sorl.thumbnail import get_thumbnail
 from django.contrib.sites.models import Site
-from sorl.thumbnail.helpers import ThumbnailError
 from django.db import models
 from django.db.models import Count
+
+from core.utils import url
 from spa.models.Genre import Genre
 from spa.models.MixPlay import MixPlay
 from spa.models.MixDownload import MixDownload
@@ -15,11 +16,13 @@ from spa.models.UserProfile import UserProfile
 from spa.models._BaseModel import _BaseModel
 from core.utils.file import generate_save_file_name
 
+
 def mix_file_name(instance, filename):
     return generate_save_file_name(instance.uid, 'mixes', filename)
 
+
 def mix_image_name(instance, filename):
-    ret =  generate_save_file_name(instance.uid, 'mix-images', filename)
+    ret = generate_save_file_name(instance.uid, 'mix-images', filename)
     return ret
 
 
@@ -72,7 +75,8 @@ class Mix(_BaseModel):
         return os.path.join(settings.MEDIA_ROOT, "waveforms/", "%s.%s" % (self.uid, "png"))
 
     def get_waveform_url(self):
-        waveform_root = localsettings.WAVEFORM_URL if hasattr(localsettings, 'WAVEFORM_URL') else "%s/waveforms/" % settings.MEDIA_URL
+        waveform_root = localsettings.WAVEFORM_URL if hasattr(localsettings,
+                                                              'WAVEFORM_URL') else "%s/waveforms/" % settings.MEDIA_URL
         ret = "%s/%s.%s" % (waveform_root, self.uid, "png")
         return url.urlclean(ret)
 
@@ -97,25 +101,26 @@ class Mix(_BaseModel):
         return '/audio/stream/%d' % self.id
 
     def get_date_as_rfc822(self):
-        return rfc822.formatdate(rfc822.mktime_tz(rfc822.parsedate_tz(self.upload_date.strftime("%a, %d %b %Y %H:%M:%S"))))
+        return rfc822.formatdate(
+            rfc822.mktime_tz(rfc822.parsedate_tz(self.upload_date.strftime("%a, %d %b %Y %H:%M:%S"))))
 
     @classmethod
     def get_for_username(cls, user):
-        queryset = Mix.objects\
-            .filter(user__slug__exact=user)\
-            .filter(waveform_generated=True)\
-            .order_by( '-id')
+        queryset = Mix.objects \
+            .filter(user__slug__exact=user) \
+            .filter(waveform_generated=True) \
+            .order_by('-id')
         return queryset
 
     @classmethod
     def get_listing(cls, listing_type, user=None):
         queryset = None
-        candidates = Mix.objects\
-            .filter(waveform_generated=True)\
+        candidates = Mix.objects \
+            .filter(waveform_generated=True) \
             .filter(is_featured=True)
 
         if listing_type == 'latest':
-            queryset = candidates.order_by( '-id')
+            queryset = candidates.order_by('-id')
         elif listing_type == 'toprated':
             queryset = candidates.annotate(karma=Count('likes')).order_by('-karma')
         elif listing_type == 'mostactive':
@@ -123,12 +128,12 @@ class Mix(_BaseModel):
         elif listing_type == 'mostplayed':
             queryset = candidates.annotate(karma=Count('plays')).order_by('-karma')
         elif listing_type == 'recommended':
-            queryset = candidates.order_by( '-id')
+            queryset = candidates.order_by('-id')
         elif listing_type == 'favourites':
             queryset = candidates.filter(favourites__user=user).order_by('favourites__date')
         else:
             #check if we have a valid genre
-            queryset = candidates.filter(genres__slug__exact = listing_type)
+            queryset = candidates.filter(genres__slug__exact=listing_type)
         return queryset
 
     @classmethod
@@ -139,30 +144,30 @@ class Mix(_BaseModel):
                 "inline_play": False,
                 "heading": "Some mixes from " + mixes[0].user.user.get_full_name() or mixes[0].user.user.username,
                 "latest_mix_list": mixes,
-                }
+            }
 
         return {
             "heading": "No mixes found for this user",
             "latest_mix_list": None,
-            }
+        }
 
     def add_download(self, user):
         try:
-            self.downloads.add(MixDownload(user = user if user.is_authenticated() else None))
+            self.downloads.add(MixDownload(user=user if user.is_authenticated() else None))
         except Exception, e:
             self.logger.exception("Error adding mix download")
 
     def add_play(self, user):
         try:
-            self.plays.add(MixPlay(user = user if user.is_authenticated() else None))
+            self.plays.add(MixPlay(user=user if user.is_authenticated() else None))
         except Exception, e:
-            self.logger.exception("Error getting mix stream url")
+            self.logger.exception("Unable to add mix play")
 
     def is_liked(self, user):
         if user is None:
             return False
         if user.is_authenticated():
-            return self.likes.filter(user=user).count() <> 0
+            return self.likes.filter(user=user).count() != 0
 
         return False
 
@@ -170,6 +175,6 @@ class Mix(_BaseModel):
         if user is None:
             return False
         if user.is_authenticated():
-            return self.favourites.filter(user=user).count() <> 0
+            return self.favourites.filter(user=user).count() != 0
         else:
             return False

@@ -1,3 +1,6 @@
+import os
+import logging
+
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from django.db.models import get_model
@@ -6,7 +9,7 @@ from annoying.decorators import render_to
 from django.shortcuts import render_to_response
 from django.utils import simplejson
 from django.views.decorators.csrf import csrf_exempt
-import os
+
 from core.utils import live
 from dss import localsettings, settings
 from spa import social
@@ -16,8 +19,10 @@ from spa.models.Comment import Comment
 from spa.models.MixLike import MixLike
 from core.serialisers import json
 from core.tasks import create_waveform_task
-import logging
+
+
 logger = logging.getLogger(__name__)
+
 
 class AjaxHandler(object):
     # Get an instance of a logger
@@ -32,14 +37,17 @@ class AjaxHandler(object):
             url(r'^mix/add_comment/$', 'spa.ajax.mix_add_comment', name='mix_add_comment'),
             url(r'^mix/comments/(?P<mix_id>\d+)/$', 'spa.ajax.mix_comments', name='ajax_mix_comments'),
             url(r'^header/$', 'spa.ajax.header', name='header'),
+            url(r'^session_play_count/$', 'spa.ajax.session_play_count'),
             url(r'^mix_stream_url/(?P<mix_id>\d+)/$', 'spa.ajax.get_mix_stream_url'),
             url(r'^release_player/(?P<release_id>\d+)/$', 'spa.ajax.release_player'),
             url(r'^live_now_playing/$', 'spa.ajax.live_now_playing'),
             url(r'^like/$', 'spa.ajax.like', name='ajax_mix_like'),
             url(r'^favourite/$', 'spa.ajax.favourite', name='ajax_mix_favourite'),
-            url(r'^facebook_post_likes_allowed/$', 'spa.ajax.facebook_post_likes_allowed', name='ajax_facebook_post_likes_allowed'),
+            url(r'^facebook_post_likes_allowed/$', 'spa.ajax.facebook_post_likes_allowed',
+                name='ajax_facebook_post_likes_allowed'),
             url(r'^upload_image/(?P<mix_id>\d+)/$', 'spa.ajax.upload_image', name='ajax_upload_image'),
-            url(r'^upload_release_image/(?P<release_id>\d+)/$', 'spa.ajax.upload_release_image', name='ajax_upload_release_image'),
+            url(r'^upload_release_image/(?P<release_id>\d+)/$', 'spa.ajax.upload_release_image',
+                name='ajax_upload_release_image'),
             url(r'^upload_avatar_image/$', 'spa.ajax.upload_avatar_image', name='ajax_upload_avatar_image'),
             url(r'^upload_mix_file_handler/$', 'spa.ajax.upload_mix_file_handler', name='ajax_upload_mix_file_handler'),
             url(r'^lookup/(?P<source>\w+)/$', 'spa.ajax.lookup', name='ajax_lookup'),
@@ -69,8 +77,26 @@ def header(request):
     return HttpResponse(render_to_response('inc/header.html'))
 
 
+def session_play_count(request):
+    if 'play_count' in request.session:
+        result = simplejson.dumps({
+            'play_count': request.session['play_count']
+        })
+    else:
+        result = simplejson.dumps({
+            'play_count': '0'
+        })
+    return HttpResponse(result, mimetype='application/json')
+
+
 def get_mix_stream_url(request, mix_id):
     try:
+        if not request.user.is_authenticated():
+            if 'play_count' in request.session:
+                request.session['play_count'] += 1
+            else:
+                request.session['play_count'] = 1
+
         mix = Mix.objects.get(pk=mix_id)
         data = {
             'stream_url': mix.get_stream_path(),
@@ -94,9 +120,11 @@ def live_now_playing(request):
                 localsettings.JS_SETTINGS['LIVE_STREAM_MOUNT'])
         }), mimetype="application/json")
 
+
 @render_to('inc/release_player.html')
 def release_player(request, release_id):
     return HttpResponse('Hello Sailor')
+
 
 def mix_add_comment(request):
     if request.POST:
@@ -111,11 +139,13 @@ def mix_add_comment(request):
     else:
         return HttpResponse(_get_json('Error posting', 'description'))
 
+
 @render_to('inc/comment_list.html')
 def mix_comments(request, mix_id):
     return {
         "results": Comment.objects.filter(mix_id=mix_id),
-        }
+    }
+
 
 @login_required()
 def like(request):
@@ -139,6 +169,7 @@ def like(request):
                     mix.save()
                     return HttpResponse(response)
 
+
 @login_required()
 def favourite(request):
     if request.is_ajax():
@@ -155,6 +186,7 @@ def favourite(request):
                     mix.save()
                     return HttpResponse(response)
 
+
 @login_required()
 def facebook_post_likes_allowed(request):
     profile = request.user.get_profile();
@@ -165,6 +197,7 @@ def facebook_post_likes_allowed(request):
         return HttpResponse(_get_json(bool(likes_allowed & facebook_allowed)), mimetype="application/json")
 
     return HttpResponse(_get_json(False), mimetype="application/json")
+
 
 @csrf_exempt
 def upload_release_image(request, release_id):
@@ -179,6 +212,7 @@ def upload_release_image(request, release_id):
         logger.exception("Error uploading avatar")
     return HttpResponse(_get_json("Failed"))
 
+
 @csrf_exempt
 def upload_image(request, mix_id):
     try:
@@ -192,6 +226,7 @@ def upload_image(request, mix_id):
         logger.exception("Error uploading avatar")
     return HttpResponse(_get_json("Failed"))
 
+
 @csrf_exempt
 def upload_avatar_image(request):
     try:
@@ -204,6 +239,7 @@ def upload_avatar_image(request):
     except Exception, ex:
         logger.exception("Error uploading avatar")
     return HttpResponse(_get_json("Failed"))
+
 
 @csrf_exempt
 def upload_mix_file_handler(request):
@@ -224,6 +260,7 @@ def upload_mix_file_handler(request):
     except Exception, ex:
         logger.exception("Error uploading mix")
     return HttpResponse(_get_json("Failed"), mimetype='application/json')
+
 
 @csrf_exempt
 def lookup(request, source):

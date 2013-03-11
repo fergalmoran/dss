@@ -7,7 +7,6 @@ from  spa.models._Activity import _Activity
 
 class ActivityResource(BackboneCompatibleResource):
     class Meta:
-        #queryset = _Activity.objects.filter(pk=3442).order_by('-date')
         queryset = _Activity.objects.all().order_by('-date')
         resource_name = 'activity'
         authorization = Authorization()

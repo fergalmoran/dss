@@ -63,6 +63,11 @@ com.podnoms.utils = {
             this.hideAlert();
         });
     },
+    showAlertModal: function(title, message){
+        $('#alert-proxy-title').text(title);
+        $('#alert-proxy-message').html(message);
+        $('#alert-proxy').modal();
+    },
     hideAlert: function () {
         $('.alert').fadeOut('slow', function () {
         });
@@ -92,6 +97,20 @@ com.podnoms.utils = {
             var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
+    },
+    checkPlayCount: function(){
+        if (document.cookie.indexOf('sessionId')){
+            $.getJSON('/ajax/session_play_count', function (data) {
+                if ((data.play_count % 5) == 0){
+                    com.podnoms.utils.showAlertModal(
+                        "Hey There!",
+                        "We've noticed you've been playing a few mixes now.<br />" +
+                        "This is cool and we're happy you're enjoying the site but we would love it " +
+                        "if you would consider logging in.<br />" +
+                        "This will let you comment on mixes and even download them.");
+                }
+            });
+        }
     },
     downloadURL: function downloadURL(url) {
         var iframe;

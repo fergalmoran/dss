@@ -152,7 +152,6 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'south',
     'avatar',
-    'notification',
     'spa',
     'spa.signals',
     'core',
@@ -185,11 +184,12 @@ if DEBUG:
 FACEBOOK_APP_ID = '154504534677009'
 FACEBOOK_APP_SECRET = localsettings.FACEBOOK_APP_SECRET
 
-BROKER_HOST = "127.0.0.1"
-BROKER_PORT = 5672
-BROKER_VHOST = "/"
-BROKER_USER = "guest"
-BROKER_PASSWORD = "guest"
+BROKER_HOST = localsettings.BROKER_HOST
+BROKER_PORT = localsettings.BROKER_PORT
+BROKER_VHOST = localsettings.BROKER_VHOST
+BROKER_USER = localsettings.BROKER_USER
+BROKER_PASSWORD = localsettings.BROKER_PASSWORD
+
 CELERYBEAT_SCHEDULE = {
     "runs-every-30-seconds": {
         "task": "dss.generate_missing_waveforms_task",

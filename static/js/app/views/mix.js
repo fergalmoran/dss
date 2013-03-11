@@ -124,6 +124,7 @@ window.MixListItemView = Backbone.View.extend({
                     success:function () {
                         _eventAggregator.trigger("track_playing");
                         _eventAggregator.trigger("track_changed", data);
+                        com.podnoms.utils.checkPlayCount();
                     },
                     error:function () {
                         alert("Error playing mix. If you have a flash blocker, please disable it for this site. Othewise, do please try again.");

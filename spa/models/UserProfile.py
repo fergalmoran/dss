@@ -49,7 +49,7 @@ class UserProfile(_BaseModel):
         Save Photo after ensuring it is not blank.  Resize as needed.
         """
 
-        if not self.id and not self.source:
+        if not self.id:
             return
 
         if self.slug == '':
@@ -147,5 +147,3 @@ class UserProfile(_BaseModel):
     @classmethod
     def get_default_avatar_image(cls):
         return urlparse.urljoin(settings.STATIC_URL, "img/default-avatar-32.png")
-
-

@@ -1,6 +1,7 @@
 from django.db import models
 from spa.models._Activity import _Activity
 
+
 class MixPlay(_Activity):
     mix = models.ForeignKey('spa.Mix', related_name='plays')
 
@@ -15,3 +16,4 @@ class MixPlay(_Activity):
 
     def get_object_url(self):
         return self.mix.get_absolute_url()
+
