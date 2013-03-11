@@ -29,10 +29,10 @@ socket.on('reconnecting', function () {
 });
 
 socket.on('error', function (e) {
-    message('System', e ? e : 'A unknown error occurred');
+    message('System', e ? e : 'An unknown error occurred');
 });
 
 function message (from, msg) {
-    alert(msg);
+    console.log(msg);
     $('#lines').append($('<p>').append($('<b>').text(from), msg));
 }
