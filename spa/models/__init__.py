@@ -16,3 +16,4 @@ from Genre import Genre
 from Tracklist import Tracklist
 from PurchaseLink import PurchaseLink
 from Release import Release
+from UserFollows import UserFollows
