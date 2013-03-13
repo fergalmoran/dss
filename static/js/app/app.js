@@ -219,6 +219,7 @@ var AppRouter = Backbone.Router.extend({
                 });
             }
         })
+
     },
     logout:function () {
         com.podnoms.utils.showAlert("Success", "You are now logged out", "alert-success", true);

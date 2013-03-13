@@ -7,24 +7,27 @@
 
  */
 window.MixListItemView = Backbone.View.extend({
-    tagName:"li",
-    events:{
-        "click .play-button-small-start":"startMix",
-        "click .play-button-small-resume":"resume",
-        "click .play-button-small-pause":"pauseMix",
-        "click .mix-link":"mixLink",
-        "click .like-button a":"likeMix",
-        "click .favourite-button a":"favouriteMix",
-        "click .share-button":"shareLink",
-        "click .download-button a":"downloadMix"
+    tagName: "li",
+    events: {
+        "click .play-button-small-start": "startMix",
+        "click .play-button-small-resume": "resume",
+        "click .play-button-small-pause": "pauseMix",
+        "click .mix-link": "mixLink",
+        "click .like-button a": "likeMix",
+        "click .favourite-button a": "favouriteMix",
+        "click .share-button": "shareLink",
+        "click .download-button a": "downloadMix",
+
+        "mouseover .mix-profile-insert": "mouseOverProfile"
     },
-    initialize:function () {
+    initialize: function () {
         $(this.el).attr("id", "mixitem-" + this.model.get("id"));
         $(this.el).addClass("audio-listing-item");
         $(this.el).data("id", this.model.get("id"));
+
     },
-    render:function () {
-        $(this.el).html(this.template({"item":this.model.toJSON()}));
+    render: function () {
+        $(this.el).html(this.template({"item": this.model.toJSON()}));
         var id = this.model.get("id");
         var parent = this;
         this.setLikeButton(id, this.model.get('liked'));
@@ -35,7 +38,13 @@ window.MixListItemView = Backbone.View.extend({
 
         return this;
     },
-    setLikeButton:function (id, liked) {
+    mouseOverProfile: function () {
+        var e = $(this.el);
+        $.get(e.data('poload'), function (d) {
+            e.popover({content: d}).popover('show');
+        });
+    },
+    setLikeButton: function (id, liked) {
         if (liked) {
             $('#like-' + id, this.el).html('<i class="icon-heart"></i> Unlike');
             $('#like-' + id, this.el).data('loading-text', 'Unliking');
@@ -44,13 +53,13 @@ window.MixListItemView = Backbone.View.extend({
             $('#like-' + id, this.el).data('loading-text', 'Liking');
         }
     },
-    setFavouriteButton:function (id, liked) {
+    setFavouriteButton: function (id, liked) {
         if (liked) {
             $('#favourite-' + id, this.el).html('<i class="icon-star-empty"></i> Unfavourite');
         } else
             $('#favourite-' + id, this.el).html('<i class="icon-star"></i> Favourite');
     },
-    shareLink:function (e) {
+    shareLink: function (e) {
         var id = $(e.currentTarget).data("id");
         var mode = $(e.currentTarget).data("mode");
         if (mode == "facebook")
@@ -58,15 +67,15 @@ window.MixListItemView = Backbone.View.extend({
         else if (mode == "twitter")
             sharePageToTwitter(this.model);
     },
-    downloadMix:function (e) {
+    downloadMix: function (e) {
         var id = $(e.currentTarget).data("id");
         var mode = $(e.currentTarget).data("mode");
         com.podnoms.utils.downloadURL("/audio/download/" + id);
         return false;
     },
-    mixLink:function (e) {
+    mixLink: function (e) {
     },
-    likeMix:function (e) {
+    likeMix: function (e) {
         var parent = this;
         var button = $(e.currentTarget);
         var id = button.data("id");
@@ -75,7 +84,7 @@ window.MixListItemView = Backbone.View.extend({
         button.button('loading');
         $.post(
             "/ajax/like/",
-            { dataId:id, dataMode:mode },
+            { dataId: id, dataMode: mode },
             function (data) {
                 button.button('reset');
                 var result = JSON.parse(data);
@@ -89,13 +98,13 @@ window.MixListItemView = Backbone.View.extend({
             }
         );
     },
-    favouriteMix:function (e) {
+    favouriteMix: function (e) {
         var id = $(e.currentTarget).data("id");
         var mode = $(e.currentTarget).data("mode");
         var self = this;
         $.post(
             "/ajax/favourite/",
-            { dataId:id, dataMode:mode },
+            { dataId: id, dataMode: mode },
             function (data) {
                 var result = $.parseJSON(data);
                 self.setFavouriteButton(id, result.value == 'Favourited');
@@ -104,15 +113,15 @@ window.MixListItemView = Backbone.View.extend({
             }
         );
     },
-    pauseMix:function () {
+    pauseMix: function () {
         com.podnoms.player.pause();
         _eventAggregator.trigger("track_paused");
     },
-    resume:function () {
+    resume: function () {
         _eventAggregator.trigger("track_playing");
         com.podnoms.player.resume();
     },
-    startMix:function () {
+    startMix: function () {
         var id = $(this.el).data("id");
         var mode = "play";
         var ref = this;
@@ -121,12 +130,12 @@ window.MixListItemView = Backbone.View.extend({
             function (data) {
                 com.podnoms.settings.setupPlayer(data, id);
                 com.podnoms.player.startPlaying({
-                    success:function () {
+                    success: function () {
                         _eventAggregator.trigger("track_playing");
                         _eventAggregator.trigger("track_changed", data);
                         com.podnoms.utils.checkPlayCount();
                     },
-                    error:function () {
+                    error: function () {
                         alert("Error playing mix. If you have a flash blocker, please disable it for this site. Othewise, do please try again.");
                     }
                 });
@@ -134,55 +143,62 @@ window.MixListItemView = Backbone.View.extend({
             }
         );
     }
-});
+})
+;
 
 window.MixListView = Backbone.View.extend({
-    itemPlaying:null,
-    initialize:function () {
+    itemPlaying: null,
+    initialize: function () {
         _.bindAll(this, "render");
         this.render();
         /*this.infiniScroll = new Backbone.InfiniScroll(this.collection);*/
     },
-    render:function () {
+    render: function () {
         var mixes = this.collection;
         var el = this.el;
         var ref = this;
         $(this.el).html(this.template()).append('<ul class="mix-listing audio-listing"></ul>');
         this.collection.each(function (item) {
-            $('.mix-listing', el).append(new MixListItemView({model:item}).render().el);
+            $('.mix-listing', el).append(new MixListItemView({model: item}).render().el);
             if (com.podnoms.player.isPlayingId(item.get('id'))) {
                 ref.itemPlaying = item;
             }
         });
         var type = this.collection.type;
         $('#' + type, this.el).parent().addClass('active');
+
+        $('a[data-toggle=popover]', el)
+            .popover({'trigger': 'manual'})
+            .click(function (e) {
+                e.preventDefault()
+            });
         return this;
     }
 });
 
 window.MixView = Backbone.View.extend({
-    initialize:function () {
+    initialize: function () {
         this.render();
     },
-    render:function () {
+    render: function () {
         var el = this.el;
         $(this.el).html(this.template());
-        var item = new MixListItemView({model:this.model}).render();
+        var item = new MixListItemView({model: this.model}).render();
         $('.mix-listing', this.el).append(item.el);
         $('#mix-description', this.el).html(this.model.get("description"));
 
         /*
          var comments = this.model.get("comments");
-        var content = new CommentListView({collection:comments}).render();
-        $('#mix-comments', el).html(content.el);
+         var content = new CommentListView({collection:comments}).render();
+         $('#mix-comments', el).html(content.el);
          */
 
         var comments = new CommentCollection();
         comments.url = com.podnoms.settings.urlRoot + this.model.get("item_url") + "/comments/";
         comments.mix_id = this.model.id;
         comments.mix = this.model.get("resource_uri");
-        comments.fetch({success:function (data) {
-            var content = new CommentListView({collection:comments}).render();
+        comments.fetch({success: function (data) {
+            var content = new CommentListView({collection: comments}).render();
             $('#mix-comments', el).html(content.el);
 
         }});
@@ -192,52 +208,52 @@ window.MixView = Backbone.View.extend({
 });
 
 window.MixCreateView = DSSEditableView.extend({
-    events:{
-        "click #save-changes":"saveChanges",
-        "change #mix_image":"imageChanged",
-        "change input":"changed",
-        "change textarea":"changed"
+    events: {
+        "click #save-changes": "saveChanges",
+        "change #mix_image": "imageChanged",
+        "change input": "changed",
+        "change textarea": "changed"
     },
-    checkRedirect:function () {
+    checkRedirect: function () {
         if (this.state == 2) {
-            Backbone.history.navigate('/mix/' + this.model.get('id'), {trigger:true});
+            Backbone.history.navigate('/mix/' + this.model.get('id'), {trigger: true});
         }
     },
-    initialize:function () {
+    initialize: function () {
         this.guid = com.podnoms.utils.generateGuid();
         this.state = 0;
         this.render();
     },
-    render:function () {
+    render: function () {
         this.sendImage = false;
-        $(this.el).html(this.template({"item":this.model.toJSON()}));
+        $(this.el).html(this.template({"item": this.model.toJSON()}));
         var parent = this;
         if (this.model.id == undefined) {
             $('#mix-upload', this.el).uploadifive({
-                'uploadScript':'/ajax/upload_mix_file_handler/',
-                buttonText:"Select audio file (mp3 for now please)",
-                'formData':{
-                    'upload-hash':this.guid,
-                    'sessionid':$.cookie('sessionid')
+                'uploadScript': '/ajax/upload_mix_file_handler/',
+                buttonText: "Select audio file (mp3 for now please)",
+                'formData': {
+                    'upload-hash': this.guid,
+                    'sessionid': $.cookie('sessionid')
                 },
-                'onUploadFile':function (file) {
+                'onUploadFile': function (file) {
                     $(window).on('beforeunload', function () {
                         alert('Go on outta that..');
                     });
                 },
-                'onAddQueueItem':function (file) {
+                'onAddQueueItem': function (file) {
                     $('#upload-extension', this.el).val(file.name.split('.').pop());
                     $('#mix-details', this.el).show();
                 },
-                'onProgress':function (file, e) {
+                'onProgress': function (file, e) {
                 },
-                'onUploadComplete':function (file, data) {
+                'onUploadComplete': function (file, data) {
                     parent.state++;
                     parent.checkRedirect();
                 }
             });
             $('.fileupload', this.el).fileupload({
-                'uploadtype':'image'
+                'uploadtype': 'image'
             });
             $('#mix-details', this.el).hide();
             $('.upload-hash', this.el).val(this.guid);
@@ -246,52 +262,52 @@ window.MixCreateView = DSSEditableView.extend({
             this.state = 1;
         }
         $('#image-form-proxy', this.el).ajaxForm({
-            beforeSubmit:function () {
+            beforeSubmit: function () {
                 $('#results').html('Submitting...');
             },
-            success:function (data) {
+            success: function (data) {
                 var $out = $('#results');
                 $out.html('Your results:');
                 $out.append('<div><pre>' + data + '</pre></div>');
             }
         });
         $("#genres", this.el).select2({
-            placeholder:"Start typing and choose or press enter",
-            minimumInputLength:1,
-            multiple:true,
-            ajax:{ // instead of writing the function to execute the request we use Select2's convenient helper
-                url:"/ajax/lookup/genre/",
-                dataType:'json',
-                data:function (term, page) {
+            placeholder: "Start typing and choose or press enter",
+            minimumInputLength: 1,
+            multiple: true,
+            ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
+                url: "/ajax/lookup/genre/",
+                dataType: 'json',
+                data: function (term, page) {
                     return {
-                        q:term
+                        q: term
                     };
                 },
-                results:function (data, page) { // parse the results into the format expected by Select2.
+                results: function (data, page) { // parse the results into the format expected by Select2.
                     // since we are using custom formatting functions we do not need to alter remote JSON data
-                    return {results:data};
+                    return {results: data};
                 }
-            }, initSelection:function (element, callback) {
+            }, initSelection: function (element, callback) {
                 var result = [];
                 var genres = parent.model.get('genre-list');
                 if (genres != undefined) {
                     $.each(genres, function (data) {
-                        result.push({id:this.id, text:this.text});
+                        result.push({id: this.id, text: this.text});
                     });
                 }
                 callback(result);
             },
-            createSearchChoice:function (term, data) {
+            createSearchChoice: function (term, data) {
                 if ($(data).filter(function () {
                     return this.text.localeCompare(term) === 0;
                 }).length === 0) {
-                    return {id:term, text:term};
+                    return {id: term, text: term};
                 }
             }
         });
         return this;
     },
-    saveChanges:function () {
+    saveChanges: function () {
         var model = this.model;
         var el = this.el;
         var parent = this;
@@ -303,13 +319,13 @@ window.MixCreateView = DSSEditableView.extend({
             this.model.set('mix_image', 'DONOTSEND');
 
         this._saveChanges({
-            success:function () {
+            success: function () {
                 if (parent.sendImage) {
                     $.ajaxFileUpload({
-                        url:'/ajax/upload_image/' + model.get('id') + '/',
-                        secureuri:false,
-                        fileElementId:'mix_image',
-                        success:function (data, status) {
+                        url: '/ajax/upload_image/' + model.get('id') + '/',
+                        secureuri: false,
+                        fileElementId: 'mix_image',
+                        success: function (data, status) {
                             if (typeof(data.error) != 'undefined') {
                                 if (data.error != '') {
                                     alert(data.error);
@@ -322,7 +338,7 @@ window.MixCreateView = DSSEditableView.extend({
                                 parent.checkRedirect();
                             }
                         },
-                        error:function (data, status, e) {
+                        error: function (data, status, e) {
                             alert(e);
                         }
                     });
@@ -332,13 +348,13 @@ window.MixCreateView = DSSEditableView.extend({
                     parent.checkRedirect();
                 }
             },
-            error:function () {
+            error: function () {
                 com.podnoms.utils.showAlert("Error", "Something went wrong", "alert-info", false);
             }
         });
         return false;
     },
-    imageChanged:function (evt) {
+    imageChanged: function (evt) {
         this.sendImage = true;
     }
 });

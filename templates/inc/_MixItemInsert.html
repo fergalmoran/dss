@@ -4,9 +4,12 @@
         <div id="image">
             <img alt="mix-logo" class="mix-image-image" src="<%= item.mix_image %>"/>
         </div>
-        <div class="mix-profile-insert">
-            <h6><a href="<%= item.user_profile_url %>"><i class="icon-user"></i><%= item.user_name %></a></h6>
-            <h6><a href="<%= item.user_profile_url %>"><i class="icon-headphones"></i><%= item.user_name %></a></h6>
+        <div class="mix-profile-insert" data-poload="www.google.com">
+            <h6>
+                <a href="<%= item.user_profile_url %>" id="<%= item.id %>" data-toggle="popover" data-placement="right" data-content="Hello Sailor" data-animation="true" data-trigger="manual">
+                    <i class="icon-user"></i><%= item.user_name %>
+                </a>
+            </h6>
         </div>
     </div>
     <div class="span10" style="padding-left: 32px">
@@ -39,7 +42,7 @@
                     <img id="waveform-image-<%= item.id %>" class="waveform_image"
                          alt="Audio waveform"
                          src="<%= item.waveform_url %>">
-
+                    .
                     <div class="download-progress-overlay" id="progress-player-<%= item.id %>"></div>
                     <div class="playhead" id="playhead-player-<%= item.id %>" style="width: 0px"></div>
                 </div>
@@ -72,12 +75,14 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a data-mode="facebook" data-id="<%= item.id %>" href="" class="share-button share-button-facebook">
+                                <a data-mode="facebook" data-id="<%= item.id %>" href=""
+                                   class="share-button share-button-facebook">
                                     Facebook
                                 </a>
                             </li>
                             <li>
-                                <a data-mode="twitter" data-id="<%= item.id %>" href="" class="share-button share-button-twitter">
+                                <a data-mode="twitter" data-id="<%= item.id %>" href=""
+                                   class="share-button share-button-twitter">
                                     Twitter
                                 </a>
                             </li>
