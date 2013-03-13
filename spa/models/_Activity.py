@@ -20,6 +20,9 @@ class _Activity(_BaseModel):
     class Meta:
         app_label = 'spa'
 
+    def __unicode__(self):
+        return "%s" % (self.date)
+
     @abc.abstractmethod
     def get_verb_passed(self):
         return

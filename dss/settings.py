@@ -136,7 +136,6 @@ MIDDLEWARE_CLASSES = (
 WSGI_APPLICATION = 'dss.wsgi.application'
 TEMPLATE_DIRS = (here('templates'),)
 INSTALLED_APPS = (
-    'grappelli',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -204,7 +203,7 @@ SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'SCOPE': ['email', 'publish_stream', 'publish_actions'],
         'METHOD': 'oauth2',
-        'LOCALE_FUNC': 'path.to.callable'
+        'LOCALE_FUNC': lambda request: 'en_IE'
     }
 }
 ACCOUNT_EMAIL_REQUIRED = True

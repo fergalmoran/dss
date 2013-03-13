@@ -7,6 +7,7 @@ from spa.models.Release import Release
 from spa.models.Event import Event
 from spa.models.Label import Label
 from spa.models.Mix import Mix
+from spa.models._Activity import _Activity
 from spa.models.MixLike import MixLike
 from spa.models.MixPlay import MixPlay
 from spa.models.MixFavourite import MixFavourite
@@ -21,6 +22,7 @@ class DefaultAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Mix)
+admin.site.register(_Activity)
 admin.site.register(MixLike)
 admin.site.register(MixPlay)
 admin.site.register(MixFavourite)
