@@ -1,7 +1,7 @@
 {% load thumbnail %}
 <div class="row well">
-    <div class="span2" id="image-span">
-        <div id="image">
+    <div class="span2 mix-profile-container">
+        <div class="mix-image-container">
             <img alt="mix-logo" class="mix-image-image" src="<%= item.mix_image %>"/>
         </div>
         <div class="mix-profile-insert">
@@ -12,19 +12,17 @@
             </h6>
         </div>
     </div>
-    <div class="span10" style="padding-left: 32px">
-        <div class="row">
-            <div class="title-bar">
-                <div class="pull-left">
-                    <a class="mix-link"
-                       id="mix-link-<%= item.id %>"
-                       href="<%= item.item_url %>"
-                       title="<%= item.title %>"><%= item.title %>
-                    </a>
-                </div>
-                <div class="pull-right">
-                    <div id="genre-list" class="btn-toolbar btn-group-horizontal pull-right">
-                    </div>
+    <div class="span10 mix-container">
+        <div class="row title-bar">
+            <div class="pull-left title-bar-item">
+                <a class="mix-link"
+                   id="mix-link-<%= item.id %>"
+                   href="<%= item.item_url %>"
+                   title="<%= item.title %>"><%= item.title %>
+                </a>
+            </div>
+            <div class="pull-right title-bar-item">
+                <div id="genre-list" class="btn-toolbar btn-group-horizontal pull-right">
                 </div>
             </div>
         </div>

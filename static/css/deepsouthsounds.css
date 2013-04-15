@@ -38,6 +38,7 @@ img.event-content {
 .bordered {
     border-bottom: 3px solid #CEC3B3;
 }
+
 .bordered-faint {
     border-bottom: 1px solid #CEC3B3;
 }
@@ -112,7 +113,7 @@ ul.comment-listing .comment-entry {
     float: left;
 }
 
-#social-login-buttons{
+#social-login-buttons {
     /*width: 340px;
     height: 32px;*/
 }
@@ -277,7 +278,7 @@ table .header:hover:after {
 
 table .headerSortDown:after, table .headerSortDown:hover:after {
     visibility: visible;
-    filter: alpha(opacity = 60);
+    filter: alpha(opacity=60);
     -moz-opacity: 0.6;
     opacity: 0.6;
 }
@@ -291,10 +292,11 @@ table .headerSortUp:after {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-    filter: alpha(opacity = 60);
+    filter: alpha(opacity=60);
     -moz-opacity: 0.6;
     opacity: 0.6;
 }
+
 /*
 input[type="checkbox"] {
     visibility: hidden;
@@ -381,7 +383,7 @@ input[type="checkbox"] {
     background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
     background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
     background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fcfff4', endColorstr = '#b3bead', GradientType = 0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcfff4', endColorstr='#b3bead', GradientType=0);
 }
 
 .slideThree input[type=checkbox]:checked + label {
@@ -584,7 +586,8 @@ div.event-content td {
     background: url(../img/whats-on.png) no-repeat left;
     margin: 0;
 }
-#embed-insert{
+
+#embed-insert {
     padding: 15px 15px 15px 70px;
 }
 
@@ -592,11 +595,13 @@ div.event-content td {
 
 }
 
-.activity-list-item{
+.activity-list-item {
     margin-bottom: 5px;
     margin-left: 5px;
 }
-
-#sidebar-content-activity{
+.mix-container{
+    padding-left: 16px;
+}
+#sidebar-content-activity {
     font-size: 85%;
 }
