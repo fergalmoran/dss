@@ -37,30 +37,7 @@ def async_send_activity_to_message_queue(instance):
 
 def send_activity_to_message_queue(sender, *args, **kwargs):
     try:
-
-        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-        channel = connection.channel()
-        channel.queue_bind(queue='activity', exchange='amq.topic')
-        channel.basic_publish(exchange='amq.topic',
-                              routing_key='hello',
-                              body='Hello World!')
-        connection.close()
-
-        """
-        activity_exchange = Exchange('activity', 'direct', durable=True)
-        broker = "amqp://%s:%s@%s:%s//" % (localsettings.BROKER_USER,
-                                          localsettings.BROKER_PASSWORD,
-                                          localsettings.BROKER_HOST,
-                                          localsettings.BROKER_PORT)
-        if issubclass(sender, _Activity):
-            with Connection(broker) as conn:
-                with conn.Producer(serializer='json') as producer:
-                    producer.publish(
-                        {'name': 'Hello', 'size': 1301013},
-                        exchange=activity_exchange, routing_key='video'
-                    )
-                    print "Message sent successfully"
-        """
+        pass
     except Exception, ex:
         print "Error reporting activity to message queue: %s" % ex.message
 

@@ -26,7 +26,6 @@ def app(request):
 
 
 def default(request):
-    logger.debug("Default request hit")
     if 'HTTP_USER_AGENT' in request.META:
         if request.META['HTTP_USER_AGENT'].startswith('facebookexternalhit'):
             logger.debug("Redirecting facebook hit")
