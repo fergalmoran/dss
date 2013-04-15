@@ -70,6 +70,7 @@
     </div>
 </div>
 <script src="/js/settings/"></script>
+{% compress js %}
 <script src="{{ STATIC_URL }}js/libs/jquery.js"></script>
 <script src="{{ STATIC_URL }}js/libs/jquery.form.js"></script>
 <script src="{{ STATIC_URL }}js/libs/jquery.cookie.js"></script>
@@ -78,7 +79,6 @@
 <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-timepicker.js"></script>
 <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-datepicker.js"></script>
 <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap.min.js"></script>
-{% compress js %}
     <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2-nodebug-jsmin.js"></script>
     <script src="{{ STATIC_URL }}js/app/chat.js"></script>
     <script src="{{ STATIC_URL }}js/app/site.js"></script>
