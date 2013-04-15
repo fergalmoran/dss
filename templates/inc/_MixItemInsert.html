@@ -4,9 +4,9 @@
         <div id="image">
             <img alt="mix-logo" class="mix-image-image" src="<%= item.mix_image %>"/>
         </div>
-        <div class="mix-profile-insert" data-poload="www.google.com">
+        <div class="mix-profile-insert">
             <h6>
-                <a href="<%= item.user_profile_url %>" id="<%= item.id %>" data-toggle="popover" data-placement="right" data-content="Hello Sailor" data-animation="true" data-trigger="manual">
+                <a href="<%= item.user_profile_url %>" id="<%= item.id %>">
                     <i class="icon-user"></i><%= item.user_name %>
                 </a>
             </h6>
@@ -16,16 +16,11 @@
         <div class="row">
             <div class="title-bar">
                 <div class="pull-left">
-                    <h4>
-                        <a class="mix-link"
-                           id="mix-link-<%= item.id %>"
-                           href="<%= item.item_url %>"
-                           data-placement="right"
-                           rel="tooltip"
-                           data-content="<%=item.tooltip%>"
-                           title="<%= item.title %>"><%= item.title %>
-                        </a>
-                    </h4>
+                    <a class="mix-link"
+                       id="mix-link-<%= item.id %>"
+                       href="<%= item.item_url %>"
+                       title="<%= item.title %>"><%= item.title %>
+                    </a>
                 </div>
                 <div class="pull-right">
                     <div id="genre-list" class="btn-toolbar btn-group-horizontal pull-right">
@@ -57,19 +52,19 @@
                 </div>
                 {% if user.is_authenticated %}
                     <div class="like-button footer-button">
-                        <a class="btn btn-small" id="like-<%= item.id %>" data-mode="<%= item.mode %>"
+                        <a class="btn btn-mini" id="like-<%= item.id %>" data-mode="<%= item.mode %>"
                            data-id="<%= item.id %>">
                             <i class="icon-heart"></i> Like</a>
                     </div>
                     <div class="favourite-button footer-button">
-                        <a class="btn btn-small" id="favourite-<%= item.id %>" data-mode="<%= item.mode %>"
+                        <a class="btn btn-mini" id="favourite-<%= item.id %>" data-mode="<%= item.mode %>"
                            data-id="<%= item.id %>"><i
                                 class="icon-star-empty"></i> Favourite</a>
                     </div>
                 {% endif %}
                 <div class="footer-button">
                     <div class="btn-group" id="share-dropdown-<%= item.id %>">
-                        <a class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+                        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
                             <i class="icon-share"/>Share
                             <span class="caret"></span>
                         </a>
@@ -92,7 +87,7 @@
                 {% if user.is_authenticated %}
                     <% if (item.download_allowed) { %>
                     <div class="download-button footer-button">
-                        <a class="btn btn-small" data-mode="<%= item.mode %>" data-id="<%= item.id %>">
+                        <a class="btn btn-mini" data-mode="<%= item.mode %>" data-id="<%= item.id %>">
                             <i class="icon-download"></i> Download</a>
                     </div>
                     <% } %>
@@ -115,7 +110,7 @@
                 </div>
                 {% if user.is_staff %}
                     <div class="edit-button footer-button-right">
-                        <a href="/mix/edit/<%= item.id %>" class="btn btn-small" data-mode="<%= item.mode %>"
+                        <a href="/mix/edit/<%= item.id %>" class="btn btn-mini" data-mode="<%= item.mode %>"
                            data-id="<%= item.id %>"><i
                                 class="icon-edit"></i>Edit</a>
                     </div>

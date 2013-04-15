@@ -16,9 +16,8 @@ window.MixListItemView = Backbone.View.extend({
         "click .like-button a": "likeMix",
         "click .favourite-button a": "favouriteMix",
         "click .share-button": "shareLink",
-        "click .download-button a": "downloadMix",
-
-        "mouseover .mix-profile-insert": "mouseOverProfile"
+        "click .download-button a": "downloadMix"
+        //"mouseover .mix-profile-insert": "mouseOverProfile"
     },
     initialize: function () {
         $(this.el).attr("id", "mixitem-" + this.model.get("id"));
