@@ -112,12 +112,21 @@ ul.comment-listing .comment-entry {
     float: left;
 }
 
+#social-login-buttons{
+    /*width: 340px;
+    height: 32px;*/
+}
+
 #twitter_button {
     background: transparent url(../img/signin_twitter.png) top left no-repeat;
 }
 
 #facebook_button {
     background: transparent url(../img/signin_facebook.png) top left no-repeat;
+}
+
+#google_button {
+    background: transparent url(../img/signin_google.png) top left no-repeat;
 }
 
 #twitter_button:hover, #facebook_button:hover {
@@ -577,11 +586,6 @@ div.event-content td {
 }
 #embed-insert{
     padding: 15px 15px 15px 70px;
-}
-
-#social-login-buttons{
-    width: 340px;
-    height: 32px;
 }
 
 .mix-profile-insert {

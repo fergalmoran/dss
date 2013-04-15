@@ -21,6 +21,7 @@ class MixResource(BackboneCompatibleResource):
 
     class Meta:
         queryset = Mix.objects.filter(is_active=True)
+        always_return_data = True
         excludes = ['download_url', 'is_active', 'local_file', 'upload_date']
         filtering = {
             'comments': ALL_WITH_RELATIONS
@@ -47,8 +48,10 @@ class MixResource(BackboneCompatibleResource):
 
     def override_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/comments%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_comments'), name="api_get_comments"),
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/activity%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_activity'), name="api_get_activity"),
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/comments%s$" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('get_comments'), name="api_get_comments"),
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/activity%s$" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('get_activity'), name="api_get_activity"),
         ]
 
     def get_comments(self, request, **kwargs):
@@ -69,32 +72,33 @@ class MixResource(BackboneCompatibleResource):
         child_resource = ActivityResource()
         return child_resource.get_list(request, mix=obj)
 
-    def obj_create(self, bundle, request=None, **kwargs):
+    def obj_create(self, bundle, **kwargs):
         file_name = "mixes/%s.%s" % (bundle.data['upload-hash'], bundle.data['upload-extension'])
         uid = bundle.data['upload-hash']
         if 'is_featured' not in bundle.data:
             bundle.data['is_featured'] = False
 
-        bundle.data['user'] = request.user.get_profile()
-        ret = super(MixResource, self).obj_create(bundle, request, user=request.user.get_profile(), local_file=file_name, uid=uid)
+        bundle.data['user'] = bundle.request.user.get_profile()
+        ret = super(MixResource, self).obj_create(bundle, user=bundle.request.user.get_profile(), local_file=file_name,
+                                                  uid=uid)
         self._unpackGenreList(ret, bundle.data['genre-list'])
         #if ret is hunky dory
         return ret
 
-    def obj_update(self, bundle, request=None, **kwargs):
-        ret = super(MixResource, self).obj_update(bundle, request)
+    def obj_update(self, bundle, **kwargs):
+        ret = super(MixResource, self).obj_update(bundle, bundle.request)
         self._unpackGenreList(ret, bundle.data['genre-list'])
         return ret
 
-    def obj_get_list(self, request=None, **kwargs):
-        if 'user' in request.GET and request.GET['user']:
-            user = request.GET['user']
+    def obj_get_list(self, bundle, **kwargs):
+        if 'user' in bundle.request.GET and bundle.request.GET['user']:
+            user = bundle.request.GET['user']
             return Mix.get_for_username(user)
-        elif 'type' in request.GET and request.GET['type']:
-            type = request.GET['type']
-            return Mix.get_listing(type, request.user)
+        elif 'type' in bundle.request.GET and bundle.request.GET['type']:
+            type = bundle.request.GET['type']
+            return Mix.get_listing(type, bundle.request.user)
 
-        return Mix.get_listing('latest', request.user)
+        return Mix.get_listing('latest', bundle.request.user)
 
     def dehydrate_mix_image(self, bundle):
         return bundle.obj.get_image_url()

@@ -348,8 +348,8 @@ window.MixCreateView = DSSEditableView.extend({
                     parent.checkRedirect();
                 }
             },
-            error: function () {
-                com.podnoms.utils.showAlert("Error", "Something went wrong", "alert-info", false);
+            error: function (model, response) {
+                com.podnoms.utils.showAlert("Error", "Something went wrong<br />Nerd stuff is: " + response, "alert-info", false);
             }
         });
         return false;

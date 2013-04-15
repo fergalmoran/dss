@@ -49,7 +49,7 @@ class UserProfile(_BaseModel):
         Save Photo after ensuring it is not blank.  Resize as needed.
         """
 
-        if not self.id:
+        if not force_insert and not self.id:
             return
 
         if self.slug == '':

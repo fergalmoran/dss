@@ -146,6 +146,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django_facebook',
     'django_extensions',
+    'django_gravatar',
     'compressor',
     'djcelery',
     'polymodels',
@@ -159,8 +160,7 @@ INSTALLED_APPS = (
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
-    'backbone_tastypie',
-    'polymodels',
+    #'backbone_tastypie',
 )
 
 # where to redirect users to after logging in
@@ -168,13 +168,6 @@ LOGIN_REDIRECT_URL = reverse_lazy('home')
 LOGOUT_URL = reverse_lazy('home')
 
 LOGGING = logsettings.LOGGING
-
-"""
-if DEBUG:
-    # make all loggers use the console.
-    for logger in LOGGING['loggers']:
-        LOGGING['loggers'][logger]['handlers'] = ['console']
-"""
 
 FACEBOOK_APP_ID = '154504534677009'
 FACEBOOK_APP_SECRET = localsettings.FACEBOOK_APP_SECRET
