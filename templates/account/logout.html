@@ -4,6 +4,7 @@
 {% block content %}
     <h1>{% trans "Signed Out" %}</h1>
     <p>{% trans "You have signed out." %}</p>
+
     {% if user.is_authenticated %}
         <h1>Authenticated</h1>
     {% else %}
@@ -12,11 +13,9 @@
 
 {% endblock %}
 {% block footerscripts %}
-    <!--
     <script type="text/javascript">
     $(document).ready(function () {
-        //window.location.href="/";
+        window.location.href="/";
     });
-    -->
     </script>
 {% endblock %}

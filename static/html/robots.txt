@@ -1,4 +1,0 @@
-User-agent: *
-Disallow:
-Disallow: /media/
-Disallow: /ajax/
