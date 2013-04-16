@@ -131,6 +131,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'spa.middleware.uploadify.SWFUploadMiddleware',
+    'spa.middleware.sqlprinter.SqlPrintingMiddleware',
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 

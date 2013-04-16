@@ -21,7 +21,7 @@ class _Activity(_BaseModel):
         app_label = 'spa'
 
     def __unicode__(self):
-        return "%s" % (self.date)
+        return "%s" % self.date
 
     @abc.abstractmethod
     def get_verb_passed(self):
