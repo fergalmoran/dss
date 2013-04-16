@@ -136,13 +136,14 @@ MIDDLEWARE_CLASSES = (
 WSGI_APPLICATION = 'dss.wsgi.application'
 TEMPLATE_DIRS = (here('templates'),)
 INSTALLED_APPS = (
+    'grappelli',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.admin',
     'django.contrib.admindocs',
     'django_facebook',
     'django_extensions',
