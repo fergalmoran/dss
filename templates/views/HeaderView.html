@@ -4,19 +4,27 @@
     <div class="navbar-inner">
         <div class="container">
             <a href="/" class="brand">
-                <img src="{{STATIC_URL }}img/site-logo-gr.png"/>
+                <img src="{{ STATIC_URL }}img/site-logo-gr.png"/>
                 Deep|South|Sounds</a>
+
             <div class="nav-collapse">
                 <ul class="nav">
                     <li><a href="/mixes">Mixes</a></li>
                     <li><a href="/releases">Releases</a></li>
                     <li><a href="/events">Events</a></li>
                     {% if user.is_authenticated %}
-                    <li><a class="no-click" href="{% url "account_logout" %}" id="logout">Logout&nbsp;<i class="icon-eject icon-black"></i></a>
-                    </li>
+                        <li>
+                            <form id="logout-form" method="post" action="{% url "account_logout" %}" style="display: none">
+                                {% csrf_token %}
+                            </form>
+                            <a class="no-click" style="cursor: hand; cursor: pointer;" id="logout" onclick="document.getElementById('logout-form').submit();">Logout&nbsp;<i class="icon-eject icon-black"></i>
+                            </a>
+                        </li>
                     {% else %}
-                    <li><a href="{% url "account_login" %}" class="no-click" id="login">Login/Signup&nbsp;<i
-                            class="icon-music icon-black"></i></a></li>
+                        <li>
+                            <a href="{% url "account_login" %}" class="no-click" id="login">Login/Signup&nbsp;<i
+                                    class="icon-music icon-black"></i></a>
+                        </li>
                     {% endif %}
                 </ul>
                 <ul class="nav pull-right">
