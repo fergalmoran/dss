@@ -56,7 +56,8 @@ class MixResource(BackboneCompatibleResource):
 
     def get_comments(self, request, **kwargs):
         try:
-            obj = self.cached_obj_get(request=request, **self.remove_api_resource_names(kwargs))
+            basic_bundle = self.build_bundle(request=request)
+            obj = self.cached_obj_get(bundle=basic_bundle, **self.remove_api_resource_names(kwargs))
         except ObjectDoesNotExist:
             return HttpGone()
 
