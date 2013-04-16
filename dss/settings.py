@@ -4,11 +4,11 @@ import os
 
 from django.core.urlresolvers import reverse_lazy
 import djcelery
+from django.conf import global_settings
 
 from dss import localsettings
 from dss import logsettings
 from utils import here
-from django.conf import global_settings
 
 
 DEBUG = localsettings.DEBUG
@@ -50,7 +50,8 @@ CACHE_ROOT = here('media/cache')
 if DEBUG:
     STATIC_URL = '/static/'
 else:
-    STATIC_URL = localsettings.STATIC_URL if hasattr(localsettings, 'STATIC_URL') else 'http://static.deepsouthsounds.com/'
+    STATIC_URL = localsettings.STATIC_URL if hasattr(localsettings,
+                                                     'STATIC_URL') else 'http://static.deepsouthsounds.com/'
 
 if DEBUG:
     MEDIA_URL = '/media/'
@@ -195,13 +196,20 @@ SOCIALACCOUNT_PROVIDERS = {
         'SCOPE': ['email', 'publish_stream', 'publish_actions'],
         'METHOD': 'oauth2',
         'LOCALE_FUNC': lambda request: 'en_IE'
+    },
+    'google': {
+        'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile'],
+        'AUTH_PARAMS': {'access_type': 'online'}
     }
 }
 ACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_QUERY_EMAIL = False
-#EMAIL_CONFIRMATION_DAYS = 7
+EMAIL_CONFIRMATION_DAYS = 7
 SOCIALACCOUNT_AUTO_SIGNUP = True
 AVATAR_STORAGE_DIR = MEDIA_ROOT + '/avatars/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+
 
 DSS_TEMP_PATH = localsettings.DSS_TEMP_PATH
 DSS_LAME_PATH = localsettings.DSS_LAME_PATH
