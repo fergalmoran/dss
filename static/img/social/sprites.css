@@ -1,0 +1,40 @@
+.facebook_active, .facebook_dark, .google_active, .google_dark, .twitter_active, .twitter_dark{
+	background: url(sprites.png) no-repeat;
+}
+
+.facebook_active{
+	background-position: 0 0;
+	width: 64px;
+	height: 64px;
+}
+
+.facebook_dark{
+	background-position: -64px 0;
+	width: 64px;
+	height: 64px;
+}
+
+.google_active{
+	background-position: -128px 0;
+	width: 64px;
+	height: 64px;
+}
+
+.google_dark{
+	background-position: -192px 0;
+	width: 64px;
+	height: 64px;
+}
+
+.twitter_active{
+	background-position: -256px 0;
+	width: 64px;
+	height: 64px;
+}
+
+.twitter_dark{
+	background-position: -320px 0;
+	width: 64px;
+	height: 64px;
+}
+

@@ -13,14 +13,22 @@
         <h3>Login to Deep South Sounds</h3>
 
         <div>
-            <div id="social-login-buttons" class="row-fluid">
-                <ul class="social_login_providers">
-                    <li>
-                        <a href="/accounts/facebook/login/?method=oauth2" id="facebook_button"
-                           class="no-click signin_button">Facebook
-                        </a>
-                    </li>
-                </ul>
+            <div id="social-login-buttons" class="social_login_providers row-fluid">
+                <div class="social_login_provider">
+                    <a href="/accounts/facebook/login/?method=oauth2" id="facebook_button"
+                       class="no-click social_login_provider_button">Facebook
+                    </a>
+                </div>
+                <div class="social_login_provider">
+                    <a href="/accounts/twitter/login/" id="twitter_button"
+                       class="no-click social_login_provider_button">Twitter
+                    </a>
+                </div>
+                <div class="social_login_provider">
+                    <a href="/accounts/google/login/?method=oauth2" id="google_button"
+                       class="no-click social_login_provider_button">Google
+                    </a>
+                </div>
             </div>
             <div id="social-login-disclaimer" class="row-fluid">
                 <h5>Please note that using a social account does not give us access to your private information</h5>
