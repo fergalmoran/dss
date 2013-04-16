@@ -127,7 +127,6 @@ ul.comment-listing .comment-entry {
 }
 
 #twitter_button {
-    display: none;
     background-position: -320px 0;
 }
 
@@ -136,7 +135,6 @@ ul.comment-listing .comment-entry {
 }
 
 #google_button {
-    display: none;
     background-position: -192px 0;
 }
 
