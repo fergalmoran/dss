@@ -1,26 +1,30 @@
 {% load account %}
 {% load socialaccount %}
-
-<div class="well">
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3>Login to Deep South Sounds</h3>
-    <div>
-        <div id="social-login-buttons">
-            <ul class="social_login_providers">
-                <li>
-                    <a class='no-click signin_button' href='{% provider_login_url "twitter" %}' id='twitter_button'>Twitter
-                    </a>
-                </li>
-                <li>
-                    <a class='no-click signin_button' id='facebook_button'
-                       href="{% provider_login_url "facebook" method="oauth2" %}">Facebook
-                    </a>
-                </li>
-            </ul>
+</div>
+<div class="modal-body">
+    <div id="social-login-buttons" class="social_login_providers row-fluid">
+        <div class="social_login_provider">
+            <a href="/accounts/facebook/login/?method=oauth2" id="facebook_button"
+               data-bypass="true" class="no-click social_login_provider_button">Facebook
+            </a>
         </div>
-        <br />
-        <div id="social-login-disclaimer">
-            Please note that using a social account<br/>
-            does not give us access to your private information
+        <div class="social_login_provider">
+            <a href="/accounts/twitter/login/" id="twitter_button"
+               data-bypass="true" class="no-click social_login_provider_button">Twitter
+            </a>
+        </div>
+        <div class="social_login_provider">
+            <a href="/accounts/google/login/?method=oauth2" id="google_button"
+               data-bypass="true" class="no-click social_login_provider_button">Google
+            </a>
         </div>
     </div>
+    <div id="social-login-disclaimer" class="row-fluid">
+        <h5>Please note that using a social account<br/> does not give us access to your private information</h5>
+    </div>
 </div>
+
+

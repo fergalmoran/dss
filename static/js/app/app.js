@@ -7,42 +7,42 @@
 
  */
 var AppRouter = Backbone.Router.extend({
-    routes:{
-        "mixes":"mixList",
-        "mixes/:type":"mixList",
-        "mix/upload":"mixUpload",
-        "mix/:id":"mixDetails",
-        "mix/edit/:id":"mixEdit",
-        "releases":"releaseList",
-        "release/add":"releaseAdd",
-        "release/edit/:id":"releaseEdit",
-        "release/:id":"releaseDetails",
-        "events":"eventList",
-        "event/add":"eventAdd",
-        "event/:id":"eventDetails",
-        "accounts/social/connections/":"connectAccounts",
-        "accounts/facebook/login":"loginRedirect",
-        "accounts/twitter/login":"loginRedirect",
-        "accounts/login/":"login",
-        "accounts/logout/":"logout",
-        "user/:id":"user",
-        "upload/":"defaultRoute",
-        "me":"userDetails",
-        "*path":"defaultRoute"
+    root: '/',
+    routes: {
+        "mixes": "mixList",
+        "mixes/:type": "mixList",
+        "mix/upload": "mixUpload",
+        "mix/:id": "mixDetails",
+        "mix/edit/:id": "mixEdit",
+        "releases": "releaseList",
+        "release/add": "releaseAdd",
+        "release/edit/:id": "releaseEdit",
+        "release/:id": "releaseDetails",
+        "events": "eventList",
+        "event/add": "eventAdd",
+        "event/:id": "eventDetails",
+        //"accounts/social/connections/": "connectAccounts",
+        //"accounts/facebook/login": "loginRedirect",
+        //"accounts/twitter/login": "loginRedirect",
+        //"accounts/login/": "login",
+        //"accounts/logout/": "logout",
+        "user/:id": "user",
+        "upload/": "defaultRoute",
+        "me": "userDetails",
+        "*path": "defaultRoute"
     },
-    initialize:function () {
+    initialize: function () {
         this.headerView = new HeaderView();
         $('#header').html(this.headerView.el);
         $('#site-content-fill').html('');
         this.bind('all', this.trackPageView);
-
     },
-    trackPageView:function () {
+    trackPageView: function () {
         var url;
         url = Backbone.history.getFragment();
         return com.podnoms.utils.trackPageView(url);
     },
-    defaultRoute:function (path) {
+    defaultRoute: function (path) {
         if (path == undefined || path == "" || path == "/")
             this.mixList('latest');
         else {
@@ -52,23 +52,23 @@ var AppRouter = Backbone.Router.extend({
 
         }
     },
-    user:function (user) {
-        this._renderMixList('latest', { "user":user });
+    user: function (user) {
+        this._renderMixList('latest', { "user": user });
     },
-    mixList:function (type) {
+    mixList: function (type) {
         this._renderMixList(type);
     },
-    _renderMixList:function (type, data) {
+    _renderMixList: function (type, data) {
         var mixList = new MixCollection();
         mixList.type = type || 'latest';
         $('#site-content-fill').html('');
 
-        var payload = $.extend(type != undefined ? {type:type} : null, data);
+        var payload = $.extend(type != undefined ? {type: type} : null, data);
         mixList.fetch({
-            data:payload,
-            success:function () {
+            data: payload,
+            success: function () {
                 var mixes = new MixListView({
-                    collection:mixList
+                    collection: mixList
                 });
                 var content = mixes.el;
                 $('#content').html(content);
@@ -85,14 +85,14 @@ var AppRouter = Backbone.Router.extend({
             $('#status', this.sidebarView.el),
             $('#header-profile-edit').text());
     },
-    mixDetails:function (id) {
+    mixDetails: function (id) {
         var mix = new Mix({
-            id:id
+            id: id
         });
         mix.fetch({
-            success:function () {
+            success: function () {
                 var html = new MixView({
-                    model:mix
+                    model: mix
                 });
                 $('#content').html(html.el);
                 $('#site-content-fill').html('');
@@ -103,137 +103,123 @@ var AppRouter = Backbone.Router.extend({
             }
         });
     },
-    mixUpload:function () {
+    mixUpload: function () {
         var html = new MixCreateView({
-            model:new Mix()
+            model: new Mix()
         });
         $('#content').html(html.el);
         $('#site-content-fill').html('');
     },
-    mixEdit:function (id) {
+    mixEdit: function (id) {
         var mix = new Mix({
-            id:id
+            id: id
         });
         mix.fetch({
-            success:function () {
+            success: function () {
                 var html = new MixCreateView({
-                    model:mix
+                    model: mix
                 });
                 $('#content').html(html.el);
                 $('#site-content-fill').html('');
             }
         });
     },
-    releaseList:function (page) {
+    releaseList: function (page) {
         var releaseList = new ReleaseCollection();
         releaseList.fetch({
-            success:function () {
+            success: function () {
                 var content = new ReleaseListView({
-                    collection:releaseList
+                    collection: releaseList
                 }).el;
                 $('#content').html(content);
             }
         });
     },
-    releaseDetails:function (id) {
+    releaseDetails: function (id) {
         var release = new Release({
-            id:id
+            id: id
         });
         $('#site-content-fill').html('');
         release.fetch({
-            success:function () {
+            success: function () {
                 var content = new ReleaseView({
-                    model:release
+                    model: release
                 }).el;
                 $('#content').html(content);
             }
         });
     },
-    releaseAdd:function () {
+    releaseAdd: function () {
         var html = new ReleaseCreateView({
-            model:new Release({
-                release_date:com.podnoms.utils.getDateAsToday()
+            model: new Release({
+                release_date: com.podnoms.utils.getDateAsToday()
             })
         });
         $('#content').html(html.el);
         $('#site-content-fill').html('');
     },
-    releaseEdit:function (id) {
+    releaseEdit: function (id) {
         var release = new Release({
-            id:id
+            id: id
         });
         release.fetch({
-            success:function () {
+            success: function () {
                 var html = new ReleaseCreateView({
-                    model:release
+                    model: release
                 });
                 $('#content').html(html.el);
                 $('#site-content-fill').html('');
             }
         });
     },
-    eventList:function (page) {
+    eventList: function (page) {
         var eventList = new EventCollection();
         eventList.fetch({
-            success:function () {
+            success: function () {
                 var content = new EventListView({
-                    collection:eventList
+                    collection: eventList
                 }).el;
                 $('#content').html(content);
             }
         });
     },
-    eventDetails:function (id) {
+    eventDetails: function (id) {
         var event = new Event({
-            id:id
+            id: id
         });
         $('#site-content-fill').html('');
         event.fetch({
-            success:function () {
+            success: function () {
                 var content = new EventView({
-                    model:event
+                    model: event
                 }).el;
                 $('#content').html(content);
             }
         });
     },
-    eventAdd:function () {
+    eventAdd: function () {
         var html = new EventCreateView({
-            model:new Event({
-                event_date:com.podnoms.utils.getDateAsToday()
+            model: new Event({
+                event_date: com.podnoms.utils.getDateAsToday()
             })
         });
         $('#content').html(html.el);
         $('#site-content-fill').html('');
     },
-    loginRedirect:function () {
+    loginRedirect: function () {
         com.podnoms.utils.showAlert("Success", "Thank you for logging in.", "alert-success", true);
         this.defaultRoute();
     },
-    login:function () {
-        $.colorbox({
-            href:"/tpl/LoginView/",
-            onClosed:function () {
-                Backbone.history.navigate('/', {
-                    trigger:true
-                });
-            }
-        })
-
-    },
-    logout:function () {
-        com.podnoms.utils.showAlert("Success", "You are now logged out", "alert-success", true);
-    },
-    connectAccounts:function () {
+    connectAccounts: function () {
         alert("Connecting accounts");
     },
-    userDetails:function () {
+    userDetails: function () {
         var user = new User();
         $('#site-content-fill').html('');
         user.fetch({
-            success:function () {
+            success: function () {
                 var content = new UserView({
-                    model:user
+                    model: user
                 }).el;
                 $('#content').html(content);
             }
@@ -243,15 +229,33 @@ var AppRouter = Backbone.Router.extend({
 
 com.podnoms.utils.loadTemplate(['HeaderView', 'SidebarView', 'UserView', 'MixListView', 'MixListItemView', 'MixView', 'MixCreateView', 'CommentListView', 'CommentListItemView', 'ActivityListView', 'ActivityListItemView', 'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseCreateView', 'ReleaseAudioListView', 'ReleaseAudioItemView', 'EventCreateView', 'EventListView', 'EventListItemView', 'EventView', 'EventItemView'], function () {
     window.app = new AppRouter();
-    $(document).on('click', 'a:internal:not(.no-click)', function (event) {
-        Backbone.history.navigate($(this).attr('href'), {
-            trigger:true
-        });
-        return false;
-    });
-    Backbone.history = Backbone.history || new Backbone.History({});
-    Backbone.history.start({
-        pushState:true
+    // Trigger the initial route and enable HTML5 History API support, set the
+    // root folder to '/' by default.  Change in app.js.
+    var enablePushState = true;
+    // Disable for older browsers
+    var pushState = !!(enablePushState && window.history && window.history.pushState);
+    Backbone.history.start({ pushState: pushState, root: app.root, hashChange: true });
+
+    // All navigation that is relative should be passed through the navigate
+    // method, to be processed by the router. If the link has a `data-bypass`
+    // attribute, bypass the delegation completely.
+    $(document).on("click", "a[href]:not([data-bypass])", function (evt) {
+        // Get the absolute anchor href.
+        var href = { prop: $(this).prop("href"), attr: $(this).attr("href") };
+        // Get the absolute root.
+        var root = location.protocol + "//" + location.host + app.root;
+
+        // Ensure the root is part of the anchor href, meaning it's relative.
+        if (href.prop.slice(0, root.length) === root) {
+            // Stop the default event to ensure the link will not cause a page
+            // refresh.
+            evt.preventDefault();
+
+            // `Backbone.history.navigate` is sufficient for all Routers and will
+            // trigger the correct events. The Router's internal `navigate` method
+            // calls this anyways.  The fragment is sliced from the root.
+            Backbone.history.navigate(href.attr, true);
+        }
     });
 });
 var _eventAggregator = _.extend({}, Backbone.Events);

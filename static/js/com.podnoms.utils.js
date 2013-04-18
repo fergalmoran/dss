@@ -47,6 +47,22 @@ com.podnoms.utils = {
         controlGroup.removeClass('error');
         $('.help-inline', controlGroup).html('');
     },
+    modal: function (url) {
+        if (url.indexOf("#") == 0) {
+            $(url).modal('open');
+        } else {
+            $.get(url,function (data) {
+                $('<div class="modal hide fade">' + data + '</div>')
+                    .modal()
+                    .on('hidden', function () {
+                        $(this).remove();
+                    }
+                );
+            }).success(function () {
+                $('input:text:visible:first').focus();
+            });
+        }
+    },
     showError: function (title, message) {
         this.showAlert(title, message, 'alert-error', true);
     },
@@ -63,7 +79,7 @@ com.podnoms.utils = {
             this.hideAlert();
         });
     },
-    showAlertModal: function(title, message){
+    showAlertModal: function (title, message) {
         $('#alert-proxy-title').text(title);
         $('#alert-proxy-message').html(message);
         $('#alert-proxy').modal();
@@ -98,16 +114,16 @@ com.podnoms.utils = {
             return v.toString(16);
         });
     },
-    checkPlayCount: function(){
-        if (document.cookie.indexOf('sessionId')){
+    checkPlayCount: function () {
+        if (document.cookie.indexOf('sessionId')) {
             $.getJSON('/ajax/session_play_count', function (data) {
-                if ((data.play_count != 0) && (data.play_count % 5) == 0){
+                if ((data.play_count != 0) && (data.play_count % 5) == 0) {
                     com.podnoms.utils.showAlertModal(
                         "Hey There!",
                         "We've noticed you've been playing a few mixes now.<br />" +
-                        "This is cool and we're happy you're enjoying the site but we would love it " +
-                        "if you would consider logging in.<br />" +
-                        "This will let you comment on mixes and even download them.");
+                            "This is cool and we're happy you're enjoying the site but we would love it " +
+                            "if you would consider logging in.<br />" +
+                            "This will let you comment on mixes and even download them.");
                 }
             });
         }

@@ -1,17 +1,9 @@
 {% extends "account/base.html" %}
-
-{% load i18n %}
 {% load account_tags %}
-{% load url from future %}
-
-{% block head_title %}{% trans "Sign In" %}{% endblock %}
-
-
+{% block head_title %}"Sign In"{% endblock %}
 {% block content %}
-
     <div class="well">
         <h3>Login to Deep South Sounds</h3>
-
         <div>
             <div id="social-login-buttons" class="social_login_providers row-fluid">
                 <div class="social_login_provider">
@@ -35,5 +27,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}

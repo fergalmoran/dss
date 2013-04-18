@@ -17,13 +17,12 @@
                             <form id="logout-form" method="post" action="{% url "account_logout" %}" style="display: none">
                                 {% csrf_token %}
                             </form>
-                            <a class="no-click" style="cursor: hand; cursor: pointer;" id="logout" onclick="document.getElementById('logout-form').submit();">Logout&nbsp;<i class="icon-eject icon-black"></i>
+                            <a class="no-click" style="cursor: hand; cursor: pointer;" id="header-logout-button" onclick="document.getElementById('logout-form').submit();">Logout&nbsp;<i class="icon-eject icon-black"></i>
                             </a>
                         </li>
                     {% else %}
                         <li>
-                            <a href="{% url "account_login" %}" class="no-click" id="login">Login/Signup&nbsp;<i
-                                    class="icon-music icon-black"></i></a>
+                            <a data-bypass="true" class="no-click" id="header-login-button">Login/Signup&nbsp;<i class="icon-music icon-black"></i></a>
                         </li>
                     {% endif %}
                 </ul>

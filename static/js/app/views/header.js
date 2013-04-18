@@ -9,6 +9,7 @@
 window.HeaderView = Backbone.View.extend({
     events:{
         "click #header-play-pause-button":"togglePlayState",
+        "click #header-login-button":"login",
         "click #header-live-button":"playLive"
     },
     initialize:function () {
@@ -19,6 +20,21 @@ window.HeaderView = Backbone.View.extend({
         _eventAggregator.bind("track_changed", this.trackChanged);
         _eventAggregator.bind("track_playing", this.trackPlaying);
         _eventAggregator.bind("track_paused", this.trackPaused);
+    },
+    login: function () {
+        com.podnoms.utils.modal('tpl/LoginView');
+        return;
+        $.colorbox({
+            href: "/tpl/LoginView/",
+            onClosed: function () {
+                Backbone.history.navigate('/', {
+                    trigger: true
+                });
+            }
+        });
+    },
+    logout: function () {
+        com.podnoms.utils.showAlert("Success", "You are now logged out", "alert-success", true);
     },
     trackChanged:function (data) {
         $(this.el).find('#track-description').text(data.title);
