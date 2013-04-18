@@ -152,7 +152,6 @@ INSTALLED_APPS = (
     'django_gravatar',
     'compressor',
     'djcelery',
-    'polymodels',
     'sorl.thumbnail',
     'south',
     'avatar',
