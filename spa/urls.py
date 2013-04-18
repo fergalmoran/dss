@@ -39,5 +39,5 @@ urlpatterns = django.conf.urls.patterns(
     url(r'^audio/', include(audio.urls)),
     url(r'^api/', include(v1_api.urls)),
     url(r'^comments/', include('django.contrib.comments.urls')),
-    (r'^.*/$', 'spa.views.app')
+    (r'^.*/$', 'spa.views.default')
 )
