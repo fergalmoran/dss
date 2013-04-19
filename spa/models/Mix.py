@@ -44,6 +44,7 @@ class Mix(_BaseModel):
     waveform_generated = models.BooleanField(default=False)
     uid = models.CharField(max_length=38, blank=True, unique=True)
     download_allowed = models.BooleanField(default=False)
+    duration = models.IntegerField(null=True, blank=True)
 
     genres = models.ManyToManyField(Genre)
 
