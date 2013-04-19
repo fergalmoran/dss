@@ -10,8 +10,6 @@ var User = DSSModel.extend({
     urlRoot:com.podnoms.settings.urlRoot + "user/",
     isValid:function () {
         this.errors = {};
-
         return "";
     }
-
 });

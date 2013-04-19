@@ -19,6 +19,7 @@
                             </form>
                             <a  data-bypass="true" style="cursor: hand; cursor: pointer;" id="header-logout-button" onclick="document.getElementById('logout-form').submit();">Logout&nbsp;<i class="icon-eject icon-black"></i>
                             </a>
+                            <input type="hidden" name="user_id" value="{{ user.id }}" />
                         </li>
                     {% else %}
                         <li>

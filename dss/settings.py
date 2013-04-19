@@ -22,6 +22,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 AUTH_PROFILE_MODULE = 'spa.UserProfile'
+
 ALLOWED_HOSTS = localsettings.ALLOWED_HOSTS if hasattr(localsettings, 'ALLOWED_HOSTS') else []
 DATABASES = {
     'default': {

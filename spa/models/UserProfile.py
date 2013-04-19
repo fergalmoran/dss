@@ -57,11 +57,13 @@ class UserProfile(_BaseModel):
 
         return super(UserProfile, self).save(force_insert, force_update, using)
 
+    """
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
             UserProfile.objects.create(user=instance)
 
     post_save.connect(create_user_profile, sender=User)
+    """
 
     def get_username(self):
         return self.user.username

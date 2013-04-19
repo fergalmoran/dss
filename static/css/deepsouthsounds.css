@@ -354,6 +354,7 @@ div.event-content td {
 #sidebar-content-activity {
     font-size: 85%;
 }
-.no-click{
-    cursor: pointer;
+[data-bypass="true"] {
+    /* Styles */
+   cursor: pointer;
 }
