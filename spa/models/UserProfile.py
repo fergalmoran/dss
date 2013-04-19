@@ -132,7 +132,7 @@ class UserProfile(_BaseModel):
                 return get_gravatar_url(self.email, size)
         elif avatar_type == 'social' or avatar_type == '':
             try:
-                social_account = SocialAccount.objects.filter(user=self)[0]
+                social_account = SocialAccount.objects.filter(user=self.user)[0]
                 if social_account:
                     provider = social_account.get_provider_account()
                     return provider.get_avatar_url()
