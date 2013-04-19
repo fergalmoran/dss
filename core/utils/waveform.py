@@ -14,8 +14,9 @@ def generate_waveform(input_file, output_file):
             print "Finished decode"
             if os.path.exists(working_file):
                 print "Starting waveform generation"
-                print "%s -m -l -i %s -o -b 000000 %s" % (settings.DSS_WAVE_PATH, working_file, output_file)
-                subprocess.call([settings.DSS_WAVE_PATH, "-t", "-m", "-l", "-i", working_file, "-o", output_file])
+                #print "%s -m -l -i %s -o -b 000000 %s" % (settings.DSS_WAVE_PATH, working_file, output_file)
+                #subprocess.call([settings.DSS_WAVE_PATH, "-t", "-m", "-l", "-i", working_file, "-o", output_file])
+                subprocess.call([settings.DSS_WAVE_PATH, "-w 800", "-h 120", "-o %s" % output_file, working_file])
 
                 if os.path.isfile(output_file):
                     os.remove(working_file)
