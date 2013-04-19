@@ -1,5 +1,5 @@
 import os
-
+import localsettings
 if os.name == 'posix':
     LOG_FILE = '/tmp/dss.log'
 else:
@@ -38,6 +38,10 @@ LOGGING = {
             'handlers': ['file', 'console'],
             'level': 'ERROR',
             'propagate': True,
+        },
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handers': ['console'],
         },
     }
 }

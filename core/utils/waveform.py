@@ -16,14 +16,14 @@ def generate_waveform(input_file, output_file):
                 print "Starting waveform generation"
                 #print "%s -m -l -i %s -o -b 000000 %s" % (settings.DSS_WAVE_PATH, working_file, output_file)
                 #subprocess.call([settings.DSS_WAVE_PATH, "-t", "-m", "-l", "-i", working_file, "-o", output_file])
-                subprocess.call([settings.DSS_WAVE_PATH, "-w 800", "-h 120", "-o %s" % output_file, working_file])
-
+                ret = subprocess.call(["/usr/local/bin/wav2png", "-w", "800", "-h", "120", "-o", output_file, working_file], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
                 if os.path.isfile(output_file):
                     os.remove(working_file)
                     print "Generated waveform"
                     return output_file
                 else:
                     print "Failed generating waveform: %s" % output_file
+                    print "Subprocess returned: %s" % ret
             else:
                 print "Unable to find working file, did LAME succeed?"
                 return ""
