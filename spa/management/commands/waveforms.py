@@ -20,7 +20,7 @@ class Command(NoArgsCommand):
             if os.path.isfile(in_file):
                 create_waveform_task.delay(in_file=in_file, mix_uid=mix.uid)
             else:
-                print "File %s not fou  nd" % in_file
+                print "File %s not found" % in_file
 
         except Exception, ex:
             print "Error generating waveform: %s" % ex.message
