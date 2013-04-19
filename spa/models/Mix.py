@@ -1,6 +1,7 @@
 import os
 import rfc822
 from datetime import datetime
+import urlparse
 
 from sorl.thumbnail import get_thumbnail
 from django.contrib.sites.models import Site
@@ -75,10 +76,14 @@ class Mix(_BaseModel):
         return os.path.join(settings.MEDIA_ROOT, "waveforms/", "%s.%s" % (self.uid, "png"))
 
     def get_waveform_url(self):
-        waveform_root = localsettings.WAVEFORM_URL if hasattr(localsettings,
-                                                              'WAVEFORM_URL') else "%s/waveforms/" % settings.MEDIA_URL
-        ret = "%s/%s.%s" % (waveform_root, self.uid, "png")
-        return url.urlclean(ret)
+        if self.waveform_generated:
+            waveform_root = localsettings.WAVEFORM_URL if hasattr(localsettings,
+                                                                  'WAVEFORM_URL') else "%swaveforms" % settings.MEDIA_URL
+            ret = "%s/%s.%s" % (waveform_root, self.uid, "png")
+            return url.urlclean(ret)
+
+        else:
+            return urlparse.urljoin(settings.STATIC_URL, "img/waveform-processing.gif")
 
     def _get_social_image(self):
         if self.user:

@@ -20,9 +20,11 @@ class Command(NoArgsCommand):
                 generate_waveform(local_file, file)
 
     def handle(self, *args, **options):
-        unprocessed = Mix.objects.filter(waveform_generated=False)
-        for mix in unprocessed:
-            self._generateWaveform(mix.uid)
+        pass
 
     def handle_noargs(self, **options):
-        pass
+        print "Scanning for missing waveforms"
+        unprocessed = Mix.objects.filter(waveform_generated=False)
+        for mix in unprocessed:
+            print "Generating waveform for mix %d" % mix.id
+            self._generateWaveform(mix.uid)
