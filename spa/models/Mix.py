@@ -64,11 +64,11 @@ class Mix(_BaseModel):
         self.clean_image('mix_image', Mix)
         super(Mix, self).save(force_insert, force_update, using)
 
-    def get_absolute_path(self):
+    def get_absolute_path(self, prefix=""):
         fileName, extension = os.path.splitext(self.local_file.name)
         if extension == "" or extension == ".":
             extension = ".mp3"
-        return '%s/mixes/%s%s' % (settings.MEDIA_ROOT, self.uid, extension)
+        return '%s/mixes/%s%s%s' % (settings.MEDIA_ROOT, prefix, self.uid, extension)
 
     def get_absolute_url(self):
         return '/mix/%i' % self.id
