@@ -5,7 +5,7 @@ from core.utils.waveform import generate_waveform
 from dss import settings
 from spa.signals import waveform_generated
 
-@task()
+@task(time_limit=3600)
 def create_waveform_task(in_file, mix_uid):
     out_file = os.path.join(settings.MEDIA_ROOT, 'waveforms/%s.png' % mix_uid)
     print "Creating waveform \n\tIn: %s\n\tOut: %s" % (in_file, out_file)
