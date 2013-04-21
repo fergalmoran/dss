@@ -7,4 +7,4 @@ class Command(NoArgsCommand):
         candidates = Mix.objects.filter(waveform_generated=False)
         for mix in candidates:
             print "Deleting: %s" % mix.title
-            #candidates.delete()
+            mix.delete()
