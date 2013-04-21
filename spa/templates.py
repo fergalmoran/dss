@@ -1,12 +1,13 @@
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from htmlmin.decorators import not_minified_response
 from dss import localsettings
 from spa.forms import UserForm
 from spa.models import UserProfile
 
 __author__ = 'fergalm'
 
-
+@not_minified_response
 def get_template(request, template_name):
     #Temporary hack here to create user profiles for zombie users
     if request.user.is_authenticated():
@@ -19,6 +20,7 @@ def get_template(request, template_name):
         context_instance=RequestContext(request))
 
 
+@not_minified_response
 def get_template_ex(request, template_name):
     html = render_to_response(
         'views/%s.html' % template_name,

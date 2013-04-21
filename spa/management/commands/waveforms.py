@@ -12,10 +12,7 @@ class Command(NoArgsCommand):
     help = "Generate all outstanding waveforms"
 
     def _generateWaveform(self, mix):
-        fileName, extension = os.path.splitext(mix.local_file.name)
-        if extension == "" or extension == ".":
-            extension = ".mp3"
-        in_file = '%s/%s%s' % (settings.CACHE_ROOT, mix.uid, extension)
+        in_file = mix.get_absolute_path()
         try:
             if os.path.isfile(in_file):
                 create_waveform_task.delay(in_file=in_file, mix_uid=mix.uid)

@@ -1,10 +1,8 @@
-import os
-from dss import settings
-from core.utils.waveform import generate_waveform
+from django.core.management.base import NoArgsCommand
+
 from spa.models import Tracklist
 from spa.models.Mix import Mix
-from spa.models.Release import ReleaseAudio
-from django.core.management.base import NoArgsCommand
+
 
 class Command(NoArgsCommand):
     help = "Create tracklists for all mixes"

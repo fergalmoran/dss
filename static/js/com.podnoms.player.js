@@ -11,9 +11,9 @@ if (!com) var com = {};
 if (!com.podnoms) com.podnoms = {};
 
 soundManager.setup({
-    url:'/static/bin/sm/',
-    debugMode:true,
-    wmode:'transparent'
+    url: '/static/bin/sm/',
+    debugMode: true,
+    wmode: 'transparent'
 });
 
 soundManager.usePeakData = false;
@@ -27,34 +27,35 @@ soundManager.useHTML5Audio = true;
 
 com.podnoms.player = {
     /*Members*/
-    currentId:-1,
-    currentPath:'',
-    currentSound:null,
-    waveFormEl:null,
-    playHeadEl:null,
-    loadingEl:null,
-    seekHeadEl:null,
-    waveFormRect:[-1, -1, -1, -1],
-    trackLoaded:false,
-    waveFormTop:-1,
-    waveFormLeft:-1,
-    waveFormWidth:-1,
-    totalLength:-1,
-    currentPosition:-1,
+    currentId: -1,
+    currentPath: '',
+    currentSound: null,
+    waveFormEl: null,
+    playHeadEl: null,
+    timeLineEl: null,
+    loadingEl: null,
+    seekHeadEl: null,
+    waveFormRect: [-1, -1, -1, -1],
+    trackLoaded: false,
+    waveFormTop: -1,
+    waveFormLeft: -1,
+    waveFormWidth: -1,
+    totalLength: -1,
+    currentPosition: -1,
     /*Privates */
-    _getDurationEstimate:function (oSound) {
+    _getDurationEstimate: function (oSound) {
         if (oSound.instanceOptions.isMovieStar) {
             return (oSound.duration);
         } else {
             return (!oSound._data.metadata || !oSound._data.metadata.data.givenDuration ? (oSound.durationEstimate || 0) : oSound._data.metadata.data.givenDuration);
         }
     },
-    _whileLoading:function () {
+    _whileLoading: function () {
         var percentageFinished = (this.currentSound.bytesLoaded / this.currentSound.bytesTotal) * 100;
         var percentageWidth = (this.waveFormWidth / 100) * percentageFinished;
         this.loadingEl.css('width', percentageWidth);
     },
-    _whilePlaying:function () {
+    _whilePlaying: function () {
         if (!this.trackLoaded) {
             this.playButtonEl
                 .removeClass('play-button-small-loading')
@@ -67,7 +68,7 @@ com.podnoms.player = {
         var percentageWidth = (this.waveFormWidth / 100) * percentageFinished;
         this.playHeadEl.css('width', percentageWidth);
     },
-    _mouseDown:function (event) {
+    _mouseDown: function (event) {
         console.log("Got mousedown: " + event.pageX);
         if (this.currentSound != null) {
             this.currentSound.setPosition(
@@ -75,14 +76,14 @@ com.podnoms.player = {
         }
         $(event.currentTarget).mouseup($.proxy(this._mouseDown, this));
     },
-    _mouseMove:function (event) {
+    _mouseMove: function (event) {
         this.seekHeadEl.show();
         this.seekHeadEl.css('left', (event.pageX) + 'px').fadeIn('fast');
     },
-    _mouseLeave:function (event) {
+    _mouseLeave: function (event) {
         this.seekHeadEl.hide();
     },
-    _destroyCurrent:function (success) {
+    _destroyCurrent: function (success) {
         if (this.currentSound != null) {
             soundManager.destroySound(this.currentSound.sID);
         }
@@ -97,16 +98,17 @@ com.podnoms.player = {
         if (success != undefined)
             success();
     },
-    _parseOptions:function (options) {
+    _parseOptions: function (options) {
         this.currentId = options.id;
         this.waveFormEl = options.waveFormEl;
         this.seekHeadEl = options.seekHeadEl;
         this.playHeadEl = options.playHeadEl;
         this.loadingEl = options.loadingEl;
+        this.timeLineEl = options.timeLineEl;
         this.playButtonEl = options.playButtonEl;
         this.currentPath = options.url;
     },
-    _setupParams:function () {
+    _setupParams: function () {
         this.waveFormTop = this.waveFormEl.position().top;
         this.waveFormLeft = this.waveFormEl.offset().left;
         this.waveFormWidth = this.waveFormEl.width();
@@ -119,14 +121,29 @@ com.podnoms.player = {
         this.waveFormEl.mouseout($.proxy(this._mouseLeave, this));
     },
     /*Methods*/
-    isPlaying:function () {
+    isPlaying: function () {
         if (this.currentSound != null)
             return this.currentSound.playState == 1;
     },
-    isPlayingId:function (id) {
+    isPlayingId: function (id) {
         return this.isPlaying() && this.currentSound.sID == "com.podnoms.player-" + id;
     },
-    setupPlayer:function (options) {
+    drawTimeline: function (el, duration) {
+        /*
+            Assume 10 markers
+        */
+        var markerDuration = duration / 10;
+        var item = $(document.createElement("li"));
+        for (var i = 0; i < 10; i++){
+            var duration = moment.duration(markerDuration * (i+1), "seconds");
+            var text = duration.hours() != 0 ?
+                    moment(duration).format("HH:mm") :
+                    moment(duration).format("mm:ss");
+            el.append(item.clone().text(text).css('width', '10%'));
+
+        }
+    },
+    setupPlayer: function (options) {
         this._parseOptions(options);
         this._setupParams();
         if (this.isPlayingId(options.id)) {
@@ -136,18 +153,18 @@ com.podnoms.player = {
                 .addClass('play-button-small-pause');
         }
     },
-    startPlaying:function (options) {
+    startPlaying: function (options) {
         var ref = this;
         var currId = this.currentId;
         this._destroyCurrent(function () {
             ref.currentSound = soundManager.createSound({
-                url:ref.currentPath,
-                id:"com.podnoms.player-" + currId.toString(),
-                volume:com.podnoms.settings.volume,
-                whileloading:function () {
+                url: ref.currentPath,
+                id: "com.podnoms.player-" + currId.toString(),
+                volume: com.podnoms.settings.volume,
+                whileloading: function () {
                     ref._whileLoading();
                 },
-                whileplaying:function () {
+                whileplaying: function () {
                     ref._whilePlaying();
                 }
             });
@@ -163,19 +180,19 @@ com.podnoms.player = {
             }
         });
     },
-    stopPlaying:function () {
+    stopPlaying: function () {
         this._destroyCurrent();
     },
-    playLive:function () {
+    playLive: function () {
         var ref = this;
         var args = arguments;
         this._destroyCurrent(function () {
             ref.currentSound = soundManager.createSound({
-                id:'com.podnoms.player-live',
-                url:com.podnoms.settings.liveStreamRoot,
-                volume:50,
-                stream:true,
-                useMovieStar:true
+                id: 'com.podnoms.player-live',
+                url: com.podnoms.settings.liveStreamRoot,
+                volume: 50,
+                stream: true,
+                useMovieStar: true
             });
             if (ref.currentSound) {
                 ref.currentSound.play();
@@ -187,34 +204,41 @@ com.podnoms.player = {
         });
     },
 
-    play:function () {
+    play: function () {
         this.currentSound.play();
         this.playButtonEl
             .removeClass('play-button-small-start')
             .addClass('play-button-small-loading');
     },
-    pause:function () {
+    pause: function () {
         this.currentSound.pause();
         this.playButtonEl
             .removeClass('play-button-small-pause')
             .addClass('play-button-small-resume');
     },
-    resume:function () {
+    resume: function () {
         this.currentSound.resume();
         this.playButtonEl
             .removeClass('play-button-small-resume')
             .addClass('play-button-small-pause');
     },
-    forward:function (increment) {
+    forward: function (increment) {
 
     },
-    back:function (increment) {
+    back: function (increment) {
 
     },
-    setPosition:function (position) {
+    setPosition: function (position) {
 
     },
-    updateWaveform:function (position) {
+    updateWaveform: function (position) {
+
+    }
+}
+;
+
+com.podnoms.player.timeline = {
+    setupTimeline: function (options) {
 
     }
 };

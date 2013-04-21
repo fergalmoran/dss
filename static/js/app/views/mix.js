@@ -34,7 +34,9 @@ window.MixListItemView = Backbone.View.extend({
         $.each(this.model.get("genre-list"), function (data) {
             $('#genre-list', parent.el).append('<a href="/mixes/' + this.slug + '" class="btn btn-mini btn-warning"><i class="icon-tags"></i>&nbsp;' + this.text + '</a>');
         });
-
+        com.podnoms.player.drawTimeline(
+            $('#player-timeline-' + id, this.el),
+            this.model.get('duration'));
         return this;
     },
     mouseOverProfile: function () {

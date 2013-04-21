@@ -99,7 +99,7 @@ div.player-body ul.player-controls a {
 }
 
 .waveform img {
-    width: 793px;
+    width: 100%;
     height: 90px;
 }
 
@@ -178,4 +178,40 @@ img.mix-listing-image {
 
 .footer-button-right {
     float: right;
+}
+
+.audio-timeline-ruler {
+    background: lightYellow;
+    box-shadow: 0 -1px 1em hsl(60, 60%, 84%) inset;
+    border-radius: 2px;
+    border: 1px solid #ccc;
+    font-size: 9px;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    padding-right: 1cm;
+    white-space: nowrap;
+}
+.audio-timeline-ruler, .audio-timeline-ruler li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+}
+/* IE6-7 Fix */
+.audio-timeline-ruler, .audio-timeline-ruler li {
+    *display: inline;
+}
+
+.audio-timeline-ruler li {
+    /*width: 2em;*/
+    text-align: center;
+    position: relative;
+    text-shadow: 1px 1px hsl(60, 60%, 84%);
+}
+.audio-timeline-ruler li:before {
+    content: '';
+    position: absolute;
+    border-left: 1px solid #ccc;
+    height: .64em;
 }

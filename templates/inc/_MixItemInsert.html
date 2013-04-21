@@ -35,10 +35,14 @@
                     <img id="waveform-image-<%= item.id %>" class="waveform_image"
                          alt="Audio waveform"
                          src="<%= item.waveform_url %>">
-                    .
                     <div class="download-progress-overlay" id="progress-player-<%= item.id %>"></div>
                     <div class="playhead" id="playhead-player-<%= item.id %>" style="width: 0px"></div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="player-timeline"  style="height: 12px; border: 1px solid #aaa">
+                <ul class="audio-timeline-ruler" id="player-timeline-<%= item.id %>"></ul>
             </div>
         </div>
         <div class="row">
