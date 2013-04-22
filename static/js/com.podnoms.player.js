@@ -118,9 +118,9 @@ com.podnoms.player = {
         this.waveFormTop = this.waveFormEl.position().top;
         this.waveFormLeft = this.waveFormEl.offset().left;
         this.waveFormWidth = this.waveFormEl.width();
-        this.playHeadEl.css('top', this.waveFormTop);
-        this.loadingEl.css('top', this.waveFormTop);
-        this.seekHeadEl.css('top', this.waveFormTop);
+        this.playHeadEl.css('top', 0);
+        this.loadingEl.css('top', 0);
+        this.seekHeadEl.css('top', this.waveFormEl.position().top);
         /*this.waveFormEl.mousedown($.proxy(this._mouseDown, this));*/
         this.waveFormEl.mouseup($.proxy(this._mouseDown, this));
         this.waveFormEl.mousemove($.proxy(this._mouseMove, this));
@@ -181,11 +181,11 @@ com.podnoms.player = {
                 if (options.success)
                     options.success();
                 //create the floating time display label
-                this.timeDisplayLabel = $('<label>').text('00:00');
-                this.timeDisplayLabel.css('left', -100);
-                this.timeDisplayLabel.addClass('dss-time-display-label')
-                this.boundingEl.append(this.timeDisplayLabel);
-                this.timeDisplayLabel.animate({ top: this.playHeadEl.position().top, left: this.playHeadEl.position().left });
+                ref.timeDisplayLabel = $('<label>').text('00:00');
+                ref.timeDisplayLabel.css('left', -100);
+                ref.timeDisplayLabel.addClass('dss-time-display-label')
+                ref.waveFormEl.append(ref.timeDisplayLabel);
+                ref.timeDisplayLabel.animate({ top: 0, left: ref.playHeadEl.position().left });
             }
             else {
                 if (options.error)
