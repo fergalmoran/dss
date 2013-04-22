@@ -81,7 +81,7 @@ com.podnoms.player = {
     _mouseDown: function (event) {
         if (this.currentSound != null) {
             this.currentSound.setPosition(
-                (this.currentSound.duration / 100) * ((event.pageX - this.waveFormLeft) / this.waveFormWidth) * 100);
+                (this._getDurationEstimate(this.currentSound) / 100) * ((event.pageX - this.waveFormLeft) / this.waveFormWidth) * 100);
         }
         $(event.currentTarget).mouseup($.proxy(this._mouseDown, this));
     },
