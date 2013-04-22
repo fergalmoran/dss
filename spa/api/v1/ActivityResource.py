@@ -2,8 +2,7 @@ from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.models import UserProfile
-from  spa.models._Activity import _Activity
-import pdb
+from spa.models._Activity import _Activity
 
 
 class ActivityResource(BackboneCompatibleResource):
@@ -19,7 +18,6 @@ class ActivityResource(BackboneCompatibleResource):
 
     def dehydrate(self, bundle):
         try:
-            pdb.set_trace()
             if bundle.obj.user is not None and bundle.obj.user.get_profile() is not None:
                 user_name = bundle.obj.user.get_profile().get_nice_name()
                 user_image = bundle.obj.user.get_profile().get_small_profile_image()

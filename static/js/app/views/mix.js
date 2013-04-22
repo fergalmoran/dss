@@ -36,9 +36,13 @@ window.MixListItemView = Backbone.View.extend({
                 '<a href="/mixes/' + this.slug + '" class="dss-tag-button">' + this.text + '</a>');
         });
 
-        com.podnoms.player.drawTimeline(
-            $('#player-timeline-' + id, this.el),
-            this.model.get('duration'));
+        if (com.podnoms.settings.drawTimelineOnMix) {
+            com.podnoms.player.drawTimeline(
+                $('#player-timeline-' + id, this.el),
+                this.model.get('duration'));
+        } else {
+            $('#player-timeline-' + id, this.el).hide();
+        }
 
         var totalDuration = moment.duration(this.model.get('duration'), "seconds");
         var totalDurationText = totalDuration.hours() != 0 ?
@@ -162,7 +166,11 @@ window.MixListView = Backbone.View.extend({
     initialize: function () {
         _.bindAll(this, "render");
         this.render();
-        /*this.infiniScroll = new Backbone.InfiniScroll(this.collection);*/
+        this.infiniScroll = new Backbone.InfiniScroll(this.collection, {success: this.appendRender});
+    },
+    remove: function () {
+        this.infiniScroll.destroy();
+        return Backbone.View.prototype.remove.call(this);
     },
     render: function () {
         var mixes = this.collection;

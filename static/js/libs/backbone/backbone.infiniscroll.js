@@ -1,6 +1,6 @@
 // Created by Jonathan Eatherly, (https://github.com/joneath)
 // MIT license
-// Version 0.1
+// Version 0.3
 
 (function () {
     Backbone.InfiniScroll = function (collection, options) {
@@ -17,22 +17,22 @@
 
         self.collection = collection;
         self.options = _.defaults(options, {
-            success:function () {
+            success: function () {
             },
-            error:function () {
+            error: function () {
             },
-            onFetch:function () {
+            onFetch: function () {
             },
-            target:$(window),
-            param:"until",
-            extraParams:{},
-            pageSizeParam:"page_size",
-            untilAttr:"id",
-            pageSize:pageSize,
-            scrollOffset:100,
-            add:true,
-            strict:false,
-            includePage:false
+            target: $(window),
+            param: "until",
+            extraParams: {},
+            pageSizeParam: "page_size",
+            untilAttr: "id",
+            pageSize: pageSize,
+            scrollOffset: 100,
+            remove: false,
+            strict: false,
+            includePage: false
         });
 
         var initialize = function () {
@@ -93,10 +93,10 @@
                 self.onFetch();
                 self.disableFetch();
                 self.collection.fetch({
-                    success:self.fetchSuccess,
-                    error:self.fetchError,
-                    add:self.options.add,
-                    data:$.extend(buildQueryParams(lastModel), self.options.extraParams)
+                    success: self.fetchSuccess,
+                    error: self.fetchError,
+                    remove: self.options.remove,
+                    data: $.extend(buildQueryParams(lastModel), self.options.extraParams)
                 });
             }
             prevScrollY = scrollY;
