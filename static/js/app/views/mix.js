@@ -38,7 +38,6 @@ window.MixListItemView = Backbone.View.extend({
 
         com.podnoms.player.drawTimeline(
             $('#player-timeline-' + id, this.el),
-            $('#mix-container-' + id, this.el),
             this.model.get('duration'));
 
         var totalDuration = moment.duration(this.model.get('duration'), "seconds");

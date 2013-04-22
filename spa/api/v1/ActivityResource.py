@@ -18,7 +18,7 @@ class ActivityResource(BackboneCompatibleResource):
 
     def dehydrate(self, bundle):
         try:
-            if bundle.obj.user is not None:
+            if bundle.obj.user is not None and bundle.obj.user.get_profile() is not None:
                 user_name = bundle.obj.user.get_profile().nice_name()
                 user_image = bundle.obj.user.get_profile().get_small_profile_image()
                 user_profile = bundle.obj.user.get_profile().get_profile_url()
