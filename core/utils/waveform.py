@@ -16,7 +16,8 @@ def generate_waveform(input_file, output_file):
                 print "Starting waveform generation"
                 #print "%s -m -l -i %s -o -b 000000 %s" % (settings.DSS_WAVE_PATH, working_file, output_file)
                 #subprocess.call([settings.DSS_WAVE_PATH, "-t", "-m", "-l", "-i", working_file, "-o", output_file])
-                ret = subprocess.call(["/usr/local/bin/wav2png", "--foreground-color", "00000000", "--background-color", "2e4562ff", "-w", "800", "-h", "120", "-o", output_file, working_file], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+                #ret = subprocess.call(["/usr/local/bin/wav2png", "--foreground-color", "00000000", "--background-color", "2e4562ff", "-w", "800", "-h", "120", "-o", output_file, working_file], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+                ret = subprocess.call(["/usr/local/bin/wav2png", "-w", "800", "-h", "120", "-o", output_file, working_file], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
                 if os.path.isfile(output_file):
                     os.remove(working_file)
                     print "Generated waveform"

@@ -84,7 +84,7 @@ class Mix(_BaseModel):
 
     def get_waveform_url(self):
 
-        if self.waveform_generated and os.file.exists(self.get_waveform_path()):
+        if self.waveform_generated and os.path.exists(self.get_waveform_path()):
 
             waveform_root = localsettings.WAVEFORM_URL if hasattr(localsettings,
                                                                   'WAVEFORM_URL') else "%swaveforms" % settings.MEDIA_URL
