@@ -99,7 +99,8 @@ div.player-body ul.player-controls a {
 }
 
 .waveform {
-    background-color: #404040
+    background-color: #404040;
+    position: relative;
 }
 
 .waveform img {
@@ -226,4 +227,9 @@ img.mix-listing-image {
     color: #FFFFFF;
     font-size: 72%;
     text-align: center;
+}
+
+.dss-time-display-label-total {
+    right: 0;
+    width: 46px;
 }

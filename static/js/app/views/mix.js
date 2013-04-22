@@ -38,7 +38,15 @@ window.MixListItemView = Backbone.View.extend({
 
         com.podnoms.player.drawTimeline(
             $('#player-timeline-' + id, this.el),
+            $('#mix-container-' + id, this.el),
             this.model.get('duration'));
+
+        var totalDuration = moment.duration(this.model.get('duration'), "seconds");
+        var totalDurationText = totalDuration.hours() != 0 ?
+            moment(totalDuration).format("HH:mm:ss") :
+            moment(totalDuration).format("mm:ss");
+
+        $('#player-duration-' + id, this.el).text(totalDurationText);
         return this;
     },
     mouseOverProfile: function () {
@@ -148,8 +156,7 @@ window.MixListItemView = Backbone.View.extend({
             }
         );
     }
-})
-;
+});
 
 window.MixListView = Backbone.View.extend({
     itemPlaying: null,

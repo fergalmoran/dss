@@ -32,6 +32,7 @@
             </div>
             <div class="player-progress">
                 <div class="waveform" id="waveform-<%= item.id %>">
+                    <label class="dss-time-display-label dss-time-display-label-total" id="player-duration-<%= item.id %>">00:00:00</label>
                     <img id="waveform-image-<%= item.id %>" class="waveform_image"
                          alt="Audio waveform"
                          src="<%= item.waveform_url %>">

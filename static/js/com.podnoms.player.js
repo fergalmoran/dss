@@ -134,7 +134,7 @@ com.podnoms.player = {
     isPlayingId: function (id) {
         return this.isPlaying() && this.currentSound.sID == "com.podnoms.player-" + id;
     },
-    drawTimeline: function (el, duration) {
+    drawTimeline: function (el, boundingEl, duration) {
         /*
          Assume 10 markers
          */
@@ -142,12 +142,13 @@ com.podnoms.player = {
         var item = $(document.createElement("li"));
         this.soundDuration = duration * 1000; //convert to milliseconds
         for (var i = 0; i < 10; i++) {
-            var duration = moment.duration(markerDuration * (i + 1), "seconds");
-            var text = duration.hours() != 0 ?
-                moment(duration).format("HH:mm") :
-                moment(duration).format("mm:ss");
+            var sliceDuration = moment.duration(markerDuration * (i + 1), "seconds");
+            var text = sliceDuration.hours() != 0 ?
+                moment(sliceDuration).format("HH:mm") :
+                moment(sliceDuration).format("mm:ss");
             el.append(item.clone().text(text).css('width', '10%'));
         }
+
     },
     setupPlayer: function (options) {
         this._parseOptions(options);
@@ -179,21 +180,20 @@ com.podnoms.player = {
                 ref.play();
                 if (options.success)
                     options.success();
+                //create the floating time display label
+                this.timeDisplayLabel = $('<label>').text('00:00');
+                this.timeDisplayLabel.css('left', -100);
+                this.timeDisplayLabel.addClass('dss-time-display-label')
+                this.boundingEl.append(this.timeDisplayLabel);
+                this.timeDisplayLabel.animate({ top: this.playHeadEl.position().top, left: this.playHeadEl.position().left });
             }
             else {
                 if (options.error)
                     options.error();
                 else
                     com.podnoms.utils.showError('Oooopsies', 'Error playing sound..');
-
             }
         });
-        //create the floating time display label
-        this.timeDisplayLabel = $('<label>').text('00:00');
-        this.timeDisplayLabel.css('left', -100);
-        this.timeDisplayLabel.addClass('dss-time-display-label')
-        this.boundingEl.append(this.timeDisplayLabel);
-        this.timeDisplayLabel.animate({ top: this.playHeadEl.position().top, left: this.playHeadEl.position().left });
     },
     stopPlaying: function () {
         this._destroyCurrent();
