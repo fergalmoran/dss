@@ -98,7 +98,7 @@ class UserProfile(_BaseModel):
 
         return "user/%s" % self.slug
 
-    def nice_name(self):
+    def get_nice_name(self):
         return self.display_name or self.first_name + ' ' + self.last_name
 
     #TODO Refactor the below into something sane
@@ -144,7 +144,7 @@ class UserProfile(_BaseModel):
         return UserProfile.get_default_avatar_image()
 
     def get_profile_url(self):
-        return 'http://%s/user/%s' % (Site.objects.get_current().domain, self.slug)
+        return 'user/%s' % (self.slug)
 
     @classmethod
     def get_default_avatar_image(cls):
