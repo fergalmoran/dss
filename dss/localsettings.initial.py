@@ -1,4 +1,6 @@
 import os
+from dss import settings
+
 DEBUG = True
 if os.name == 'posix':
     DSS_TEMP_PATH = "/tmp/"
@@ -23,8 +25,8 @@ JS_SETTINGS = {
     'LIVE_STREAM_URL'       : "radio.deepsouthsounds.com",
     'LIVE_STREAM_PORT'      : "8000",
     'LIVE_STREAM_MOUNT'     : "mp3",
-    'DEFAULT_AUDIO_VOLUME'  : "1",
-    'SM_DEBUG_MODE'         : False,
+    'DEFAULT_AUDIO_VOLUME'  : "50",
+    'SM_DEBUG_MODE'         : settings.DEBUG,
     'LIVE_STREAM_INFO_URL'  : "radio.deepsouthsounds.com:8000/mp3"
 }
 """

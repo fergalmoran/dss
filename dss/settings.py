@@ -118,6 +118,7 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.contrib.auth.context_processors.auth',
     "allauth.socialaccount.context_processors.socialaccount",
     "allauth.account.context_processors.account",
+    "spa.context_processors.debug"
 )
 AUTHENTICATION_BACKENDS = global_settings.AUTHENTICATION_BACKENDS + (
     "allauth.account.auth_backends.AuthenticationBackend",
@@ -253,4 +254,4 @@ import mimetypes
 
 mimetypes.add_type("text/xml", ".plist", False)
 
-HTML_MINIFY = localsettings.HTML_MINIFY
+#HTML_MINIFY = not localsettings.DEBUG

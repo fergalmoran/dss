@@ -6,6 +6,15 @@
  Code provided under the BSD License:
 
  */
+$(document).ready(function () {
+    if (window.location.hash == '#_=_') {
+        window.location.hash = "";
+    }
+    if (window.location.hash == 'upload#') {
+        Backbone.history.navigate("/");
+    }
+});
+
 $(document).ajaxSend(function (event, xhr, settings) {
     function getCookie(name) {
         var cookieValue = null;

@@ -73,9 +73,7 @@ com.podnoms.utils = {
         toastr.success(message, title);
     },
     showAlertModal: function (title, message) {
-        $('#alert-proxy-title').text(title);
-        $('#alert-proxy-message').html(message);
-        $('#alert-proxy').modal();
+
     },
     hideAlert: function () {
         $('.alert').fadeOut('slow', function () {
@@ -111,12 +109,7 @@ com.podnoms.utils = {
         if (document.cookie.indexOf('sessionId')) {
             $.getJSON('/ajax/session_play_count', function (data) {
                 if ((data.play_count != 0) && (data.play_count % 5) == 0) {
-                    com.podnoms.utils.showAlertModal(
-                        "Hey There!",
-                        "We've noticed you've been playing a few mixes now.<br />" +
-                            "This is cool and we're happy you're enjoying the site but we would love it " +
-                            "if you would consider logging in.<br />" +
-                            "This will let you comment on mixes and even download them.");
+                    com.podnoms.utils.modal('tpl/PlayCountLoginAlert');
                 }
             });
         }
@@ -139,20 +132,9 @@ jQuery.extend({
         if (s.error) {
             s.error.call(s.context || window, xhr, status, e);
         }
-
         // Fire the global callback
         if (s.global) {
             (s.context ? jQuery(s.context) : jQuery.event).trigger("ajaxError", [xhr, s, e]);
         }
     }
 });
-(function () {
-    var proxied = window.alert;
-    /*
-     window.alert = function () {
-     $('#alert-proxy-message').text(arguments[0]);
-     $('#alert-proxy').modal();
-     };
-     */
-})();
-

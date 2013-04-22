@@ -30,24 +30,6 @@
 {% include 'inc/ancient_browser.html' %}
 <div id="header"></div>
 <div class="container-fluid">
-    <div id="alert-proxy" class="modal hide fade">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3 id="alert-proxy-title"></h3>
-        </div>
-        <div class="modal-body">
-            <p id="alert-proxy-message"></p>
-        </div>
-        <div class="modal-footer">
-            <a class="btn" data-dismiss="modal">Ok</a>
-        </div>
-    </div>
-    <div class="row status-bar">
-        <div class="span12">
-            <div class="alert alert-success" style="display: none">
-            </div>
-        </div>
-    </div>
     <div class="row-fluid">
         <div class="span9" id="content">
             {% block content %}
@@ -55,7 +37,6 @@
         </div>
         <div class="span3" style="float: right" id="side-content">
             {% block sidecontent %}
-
             {% endblock %}
             <div id="sidebar"></div>
             <div id="site-content-fill"></div>
@@ -64,15 +45,19 @@
 </div>
 <script src="/js/settings/"></script>
 {% compress js %}
-<script src="{{ STATIC_URL }}js/libs/jquery.js"></script>
-<script src="{{ STATIC_URL }}js/libs/jquery.form.js"></script>
-<script src="{{ STATIC_URL }}js/libs/jquery.cookie.js"></script>
-<script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-fileupload.js"></script>
-<script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-rowlink.js"></script>
-<script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-timepicker.js"></script>
-<script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-datepicker.js"></script>
-<script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap.min.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2-nodebug-jsmin.js"></script>
+    {% if DEBUG %}
+        <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2.js"></script>
+    {% else %}
+        <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2-nodebug.js"></script>
+    {% endif %}
+    <script src="{{ STATIC_URL }}js/libs/jquery.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/jquery.form.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/jquery.cookie.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-fileupload.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-rowlink.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-timepicker.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-datepicker.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap.min.js"></script>
     <script src="{{ STATIC_URL }}js/app/chat.js"></script>
     <script src="{{ STATIC_URL }}js/app/site.js"></script>
     <script src="{{ STATIC_URL }}js/libs/ajaxfileupload.js"></script>
@@ -117,14 +102,5 @@
 {% endcompress %}
 {% block footerscripts %}
 {% endblock %}
-    <script type="text/javascript">
-        if (window.location.hash == '#_=_') {
-            window.location.hash = '';
-        }
-        if (window.location.hash == 'upload#') {
-            Backbone.history.navigate("/");
-        }
-    </script>
-<div id="proxy"></div>
 </body>
 </html>

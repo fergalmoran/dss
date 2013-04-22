@@ -9,7 +9,7 @@ com.podnoms.settings = {
     liveStreamRoot:'http://{{ LIVE_STREAM_URL }}:{{ LIVE_STREAM_PORT }}/{{ LIVE_STREAM_MOUNT }}',
     streamInfoUrl:'http://{{ LIVE_STREAM_INFO_URL }}',
     volume:'{{ DEFAULT_AUDIO_VOLUME }}',
-    smDebugMode: false,
+    smDebugMode: '{{ SM_DEBUG_MODE }}',
 
     /** simple helper to take an api JSON object and initialise a player item */
     setupPlayer:function (data, id) {

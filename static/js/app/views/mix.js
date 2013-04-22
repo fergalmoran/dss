@@ -139,7 +139,9 @@ window.MixListItemView = Backbone.View.extend({
                         com.podnoms.utils.checkPlayCount();
                     },
                     error: function () {
-                        alert("Error playing mix. If you have a flash blocker, please disable it for this site. Othewise, do please try again.");
+                        com.podnoms.utils.showWarning(
+                            "Ooops",
+                            "Error playing mix. If you have a flash blocker, please disable it for this site. Otherwise, do please try again.");
                     }
                 });
                 com.podnoms.storage.setItem('now_playing', id);
