@@ -32,8 +32,10 @@ window.MixListItemView = Backbone.View.extend({
         this.setLikeButton(id, this.model.get('liked'));
         this.setFavouriteButton(id, this.model.get('favourited'));
         $.each(this.model.get("genre-list"), function (data) {
-            $('#genre-list', parent.el).append('<a href="/mixes/' + this.slug + '" class="btn btn-mini btn-warning"><i class="icon-tags"></i>&nbsp;' + this.text + '</a>');
+            $('#genre-list', parent.el).append(
+                '<a href="/mixes/' + this.slug + '" class="dss-tag-button">' + this.text + '</a>');
         });
+
         com.podnoms.player.drawTimeline(
             $('#player-timeline-' + id, this.el),
             this.model.get('duration'));
