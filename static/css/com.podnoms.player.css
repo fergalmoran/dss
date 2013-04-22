@@ -98,8 +98,8 @@ div.player-body ul.player-controls a {
     z-index: 9999;
 }
 
-.waveform{
-  background-color: #404040
+.waveform {
+    background-color: #404040
 }
 
 .waveform img {
@@ -139,7 +139,7 @@ div.player-body ul.player-controls a {
 img.mix-listing-image {
     background-color: white;
     box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
-    -moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4);
+    -moz-box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
     -webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
 }
 
@@ -197,12 +197,14 @@ img.mix-listing-image {
     padding-right: 1cm;
     white-space: nowrap;
 }
+
 .audio-timeline-ruler, .audio-timeline-ruler li {
     margin: 0;
     padding: 0;
     list-style: none;
     display: inline-block;
 }
+
 /* IE6-7 Fix */
 .audio-timeline-ruler, .audio-timeline-ruler li {
     *display: inline;
@@ -214,6 +216,7 @@ img.mix-listing-image {
     position: relative;
     text-shadow: 1px 1px hsl(60, 60%, 84%);
 }
+
 .audio-timeline-ruler li:before {
     content: '';
     position: absolute;
@@ -221,6 +224,11 @@ img.mix-listing-image {
     height: .64em;
 }
 
-.dss-time-display-label{
+.dss-time-display-label {
     background-color: #408140;
+    width: 32px;
+    position: absolute;
+    color: #FFFFFF;
+    font-size: 72%;
+    text-align: center;
 }

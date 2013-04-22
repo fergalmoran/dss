@@ -44,12 +44,14 @@ com.podnoms.player = {
     waveFormWidth: -1,
     totalLength: -1,
     currentPosition: -1,
+    soundDuration: 0,
+
     /*Privates */
     _getDurationEstimate: function (oSound) {
         if (oSound.instanceOptions.isMovieStar) {
             return (oSound.duration);
         } else {
-            return (!oSound._data.metadata || !oSound._data.metadata.data.givenDuration ? (oSound.durationEstimate || 0) : oSound._data.metadata.data.givenDuration);
+            return this.soundDuration;
         }
     },
     _whileLoading: function () {
@@ -65,11 +67,16 @@ com.podnoms.player = {
             this.trackLoaded = true;
         }
         this.currentPosition = this.currentSound.position;
-        var duration = this.currentSound.durationEstimate;
+        var duration = this._getDurationEstimate(this.currentSound);
         var percentageFinished = (this.currentSound.position / duration) * 100;
         var percentageWidth = (this.waveFormWidth / 100) * percentageFinished;
         this.playHeadEl.css('width', percentageWidth);
-        this.timeDisplayLabel.css('left', percentageWidth);
+        var elapsed = moment.duration(this.currentSound.position, "milliseconds");
+        var text = elapsed.hours() != 0 ?
+            moment(elapsed).format("HH:mm") :
+            moment(elapsed).format("mm:ss");
+        this.timeDisplayLabel.text(text);
+        el.append(item.clone().text(text).css('width', '10%'));
     },
     _mouseDown: function (event) {
         if (this.currentSound != null) {
@@ -133,15 +140,16 @@ com.podnoms.player = {
     },
     drawTimeline: function (el, duration) {
         /*
-            Assume 10 markers
-        */
+         Assume 10 markers
+         */
         var markerDuration = duration / 10;
         var item = $(document.createElement("li"));
-        for (var i = 0; i < 10; i++){
-            var duration = moment.duration(markerDuration * (i+1), "seconds");
+        this.soundDuration = duration * 1000; //convert to milliseconds
+        for (var i = 0; i < 10; i++) {
+            var duration = moment.duration(markerDuration * (i + 1), "seconds");
             var text = duration.hours() != 0 ?
-                    moment(duration).format("HH:mm") :
-                    moment(duration).format("mm:ss");
+                moment(duration).format("HH:mm") :
+                moment(duration).format("mm:ss");
             el.append(item.clone().text(text).css('width', '10%'));
         }
     },
@@ -184,9 +192,10 @@ com.podnoms.player = {
         });
         //create the floating time display label
         this.timeDisplayLabel = $('<label>').text('00:00');
+        this.timeDisplayLabel.css('left', -100);
         this.timeDisplayLabel.addClass('dss-time-display-label')
         this.boundingEl.append(this.timeDisplayLabel);
-
+        this.timeDisplayLabel.animate({ top: this.playHeadEl.position().top, left: this.playHeadEl.position().left });
     },
     stopPlaying: function () {
         this._destroyCurrent();
