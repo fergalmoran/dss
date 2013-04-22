@@ -15,6 +15,7 @@ com.podnoms.settings = {
     setupPlayer:function (data, id) {
         com.podnoms.player.setupPlayer({
             id:id,
+            boundingEl:$('#mix-container-'+ id),
             waveFormEl:$('#waveform-' + id),
             playHeadEl:$('#playhead-player-' + id),
             loadingEl:$('#progress-player-' + id),

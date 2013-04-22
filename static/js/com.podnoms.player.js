@@ -30,6 +30,8 @@ com.podnoms.player = {
     currentId: -1,
     currentPath: '',
     currentSound: null,
+    boundingEl: null,
+    timeDisplayLabel: null,
     waveFormEl: null,
     playHeadEl: null,
     timeLineEl: null,
@@ -67,9 +69,9 @@ com.podnoms.player = {
         var percentageFinished = (this.currentSound.position / duration) * 100;
         var percentageWidth = (this.waveFormWidth / 100) * percentageFinished;
         this.playHeadEl.css('width', percentageWidth);
+        this.timeDisplayLabel.css('left', percentageWidth);
     },
     _mouseDown: function (event) {
-        console.log("Got mousedown: " + event.pageX);
         if (this.currentSound != null) {
             this.currentSound.setPosition(
                 (this.currentSound.duration / 100) * ((event.pageX - this.waveFormLeft) / this.waveFormWidth) * 100);
@@ -100,6 +102,7 @@ com.podnoms.player = {
     },
     _parseOptions: function (options) {
         this.currentId = options.id;
+        this.boundingEl = options.boundingEl;
         this.waveFormEl = options.waveFormEl;
         this.seekHeadEl = options.seekHeadEl;
         this.playHeadEl = options.playHeadEl;
@@ -140,7 +143,6 @@ com.podnoms.player = {
                     moment(duration).format("HH:mm") :
                     moment(duration).format("mm:ss");
             el.append(item.clone().text(text).css('width', '10%'));
-
         }
     },
     setupPlayer: function (options) {
@@ -152,6 +154,7 @@ com.podnoms.player = {
                 .removeClass('play-button-small-loading')
                 .addClass('play-button-small-pause');
         }
+
     },
     startPlaying: function (options) {
         var ref = this;
@@ -179,6 +182,11 @@ com.podnoms.player = {
                     options.error();
             }
         });
+        //create the floating time display label
+        this.timeDisplayLabel = $('<label>').text('00:00');
+        this.timeDisplayLabel.addClass('dss-time-display-label')
+        this.boundingEl.append(this.timeDisplayLabel);
+
     },
     stopPlaying: function () {
         this._destroyCurrent();
