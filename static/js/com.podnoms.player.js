@@ -10,7 +10,7 @@
 if (!com) var com = {};
 if (!com.podnoms) com.podnoms = {};
 
-soundManager.url: '/static/bin/sm/',
+soundManager.url = '/static/bin/sm/';
 soundManager.usePeakData = false;
 soundManager.useWaveformData = false;
 soundManager.useEQData = false;
@@ -181,9 +181,11 @@ com.podnoms.player = {
                     options.success();
             }
             else {
-                com.podnoms.utils.showError('Oooopsies', 'Error playing sound..');
                 if (options.error)
                     options.error();
+                else
+                    com.podnoms.utils.showError('Oooopsies', 'Error playing sound..');
+
             }
         });
         //create the floating time display label
