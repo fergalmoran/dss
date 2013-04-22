@@ -24,10 +24,6 @@ soundManager.useThrottling = true;
 soundManager.flashVersion = 9;
 soundManager.useFlashBlock = false;
 soundManager.useHTML5Audio = true;
-soundManager.preferFlash = false;
-soundManager.debugMode = com.podnoms.settings.smDebugMode;
-soundManager.debugFlash = com.podnoms.settings.smDebugMode;
-soundManager.useFlashBlock = !com.podnoms.settings.smDebugMode;
 
 com.podnoms.player = {
     /*Members*/
@@ -80,7 +76,6 @@ com.podnoms.player = {
             moment(elapsed).format("HH:mm") :
             moment(elapsed).format("mm:ss");
         this.timeDisplayLabel.text(text);
-        el.append(item.clone().text(text).css('width', '10%'));
     },
     _mouseDown: function (event) {
         if (this.currentSound != null) {
@@ -189,10 +184,9 @@ com.podnoms.player = {
                     options.success();
             }
             else {
+                com.podnoms.utils.showError('Oooopsies', 'Error playing sound..');
                 if (options.error)
                     options.error();
-                else
-                    com.podnoms.utils.showError('Oooopsies', 'Error playing sound..');
             }
         });
         //create the floating time display label

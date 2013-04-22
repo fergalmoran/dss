@@ -9,3 +9,8 @@ build/*
 _working/*
 static/CACHE/*
 dss/localsettings.py
+dss.conf
+dss/debugsettings.py
+mysql
+test.py
+
