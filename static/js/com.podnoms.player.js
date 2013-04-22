@@ -64,7 +64,7 @@ com.podnoms.player = {
             this.playButtonEl
                 .removeClass('play-button-small-loading')
                 .addClass('play-button-small-pause');
-            this.trackLoaded = true;
+            this.trackLoaded = true;r r sharing
         }
         this.currentPosition = this.currentSound.position;
         var duration = this._getDurationEstimate(this.currentSound);
