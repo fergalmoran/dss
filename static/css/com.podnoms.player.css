@@ -186,10 +186,6 @@ img.mix-listing-image {
 }
 
 .audio-timeline-ruler {
-    background: lightYellow;
-    box-shadow: 0 -1px 1em hsl(60, 60%, 84%) inset;
-    border-radius: 2px;
-    border: 1px solid #ccc;
     font-size: 9px;
     margin: 0;
     height: 100%;
@@ -214,7 +210,6 @@ img.mix-listing-image {
     /*width: 2em;*/
     text-align: center;
     position: relative;
-    text-shadow: 1px 1px hsl(60, 60%, 84%);
 }
 
 .audio-timeline-ruler li:before {
