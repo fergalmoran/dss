@@ -50,11 +50,11 @@ window.UserView = DSSEditableView.extend({
         var model = this.model;
         this._saveChanges({
             success:function () {
-                com.podnoms.utils.showAlert("Success", "Successfully updated yourself", "alert-info", true);
+                com.podnoms.utils.showAlert("Success", "Successfully updated yourself");
                 Backbone.history.navigate('/me', {trigger:true});
             },
             error:function () {
-                com.podnoms.utils.showAlert("Success", "Successfully updated yourself", "alert-info", false);
+                com.podnoms.utils.showAlert("Success", "Successfully updated yourself");
                 alert("Error");
             }
         });

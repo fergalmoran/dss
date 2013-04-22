@@ -106,7 +106,7 @@ var ReleaseCreateView = DSSEditableView.extend({
 
         this._saveChanges({
             success:function () {
-                com.podnoms.utils.showAlert("Success", "Release successfully added", "alert-info", true);
+                com.podnoms.utils.showAlert("Success", "Release successfully added");
                 Backbone.history.navigate('/release/' + model.get('id'), {trigger:true});
             }
         });

@@ -207,7 +207,7 @@ var AppRouter = Backbone.Router.extend({
         $('#site-content-fill').html('');
     },
     loginRedirect: function () {
-        com.podnoms.utils.showAlert("Success", "Thank you for logging in.", "alert-success", true);
+        com.podnoms.utils.showAlert("Success", "Thank you for logging in.");
         this.defaultRoute();
     },
     connectAccounts: function () {

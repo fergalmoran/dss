@@ -89,7 +89,7 @@ var EventCreateView = DSSEditableView.extend({
         this.model.set('event_date', $('#event_date', this.el).val());
         this._saveChanges({
             success:function () {
-                com.podnoms.utils.showAlert("Success", "Event successfully added", "alert-info", true);
+                com.podnoms.utils.showAlert("Success", "Event successfully added");
                 Backbone.router.navigate('/event/' + model.get('id'));
             }
         });

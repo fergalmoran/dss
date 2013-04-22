@@ -34,7 +34,7 @@ window.HeaderView = Backbone.View.extend({
         });
     },
     logout: function () {
-        com.podnoms.utils.showAlert("Success", "You are now logged out", "alert-success", true);
+        com.podnoms.utils.showAlert("Success", "You are now logged out");
     },
     trackChanged:function (data) {
         $(this.el).find('#track-description').text(data.title);

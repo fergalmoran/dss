@@ -11,23 +11,7 @@ postFacebookLike = function (mixId) {
     $.getJSON(
         'social/like/' + mixId + '/',
         function (data) {
-            com.podnoms.utils.showAlert("Posted your like to facebook, you can stop this in your settings page.", "Cheers feen", "alert-success", true);
-            /*
-             if (data.value) {
-             FB.api(
-             '/me/deepsouthsounds:like',
-             'post',
-             { mix:'http://' + window.location.host + '/social/redirect/mix/' + mixId},
-             function (response) {
-             if (!response || response.error) {
-             com.podnoms.utils.showAlert(response.error.message, 'Error occurred: ', "alert-error", true);
-             } else {
-             com.podnoms.utils.showAlert("Posted your like to facebook, you can stop this in your settings page.", "Cheers feen", "alert-success", true);
-             }
-             }
-             );
-             }
-             */
+            com.podnoms.utils.showAlert("Posted your like to facebook, you can stop this in your settings page.", "Cheers feen");
         }
     );
 };
@@ -54,19 +38,19 @@ sharePageToTwitter = function (model) {
 };
 sharePageToFacebook = function (model) {
     FB.ui({
-            method:'feed',
-            name:'Check out this mix on Deep South Sounds',
-            display:'popup',
-            link:'http://' + window.location.host + "/" + model.get('item_url'),
-            picture:model.get('mix_image'),
-            caption:model.get('title'),
-            description:model.get('description')
+            method: 'feed',
+            name: 'Check out this mix on Deep South Sounds',
+            display: 'popup',
+            link: 'http://' + window.location.host + "/" + model.get('item_url'),
+            picture: model.get('mix_image'),
+            caption: model.get('title'),
+            description: model.get('description')
         },
         function (response) {
             if (response && response.post_id) {
-                com.podnoms.utils.showAlert("Success", "Post shared to facebook", "alert-success", true);
+                com.podnoms.utils.showAlert("Success", "Post shared to facebook");
             } else {
-                com.podnoms.utils.showAlert("Error", "Failure sharing post", "alert-error", true);
+                com.podnoms.utils.showError("Error", "Failure sharing post");
             }
         }
     );

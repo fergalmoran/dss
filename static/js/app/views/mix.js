@@ -93,10 +93,10 @@ window.MixListItemView = Backbone.View.extend({
                 var result = JSON.parse(data);
                 if (result.value == "Liked") {
                     parent.setLikeButton(id, true);
-                    com.podnoms.utils.showAlert("Success", "Thanks for liking!!", "alert-success", true);
+                    com.podnoms.utils.showAlert("Success", "Thanks for liking!!");
                 } else if (result.value == "Unliked") {
                     parent.setLikeButton(id, false);
-                    com.podnoms.utils.showAlert("Success", "Mix unliked!!", "alert-success", true);
+                    com.podnoms.utils.showAlert("Success", "Mix unliked!!");
                 }
             }
         );
@@ -352,7 +352,7 @@ window.MixCreateView = DSSEditableView.extend({
                 }
             },
             error: function (model, response) {
-                com.podnoms.utils.showAlert("Error", "Something went wrong<br />Nerd stuff is: " + response, "alert-info", false);
+                com.podnoms.utils.showError("Error", "Something went wrong<br />Nerd stuff is: " + response);
             }
         });
         return false;

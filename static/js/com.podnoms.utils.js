@@ -35,7 +35,7 @@ com.podnoms.utils = {
                 this.addValidationError(key, messages[key]);
             }
         }
-        this.showAlert('Warning!', 'Fix validation errors and try again', 'alert-warning');
+        this.showWarning('Warning!', 'Fix validation errors and try again');
     },
     addValidationError: function (field, message) {
         var controlGroup = $('#' + field).parent().parent();
@@ -64,20 +64,13 @@ com.podnoms.utils = {
         }
     },
     showError: function (title, message) {
-        this.showAlert(title, message, 'alert-error', true);
+        toastr.error(message, title);
     },
-    showAlert: function (title, text, klass, fade) {
-        $('.alert').removeClass("alert-error alert-warning alert-success alert-info");
-        $('.alert').addClass(klass);
-        $('.alert').html('<strong>' + title + '</strong> ' + text);
-        $('.alert').show();
-        if (fade) {
-            $('.alert').fadeOut(5000, function () {
-            });
-        }
-        $('.alert').click(function () {
-            this.hideAlert();
-        });
+    showWarning: function(title, message){
+        toastr.warning(message, title);
+    },
+    showAlert: function (title, message) {
+        toastr.success(message, title);
     },
     showAlertModal: function (title, message) {
         $('#alert-proxy-title').text(title);
