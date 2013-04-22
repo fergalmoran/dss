@@ -10,19 +10,16 @@
 if (!com) var com = {};
 if (!com.podnoms) com.podnoms = {};
 
-soundManager.setup({
-    url: '/static/bin/sm/',
-    debugMode: true,
-    wmode: 'transparent'
-});
-
+soundManager.url: '/static/bin/sm/',
 soundManager.usePeakData = false;
 soundManager.useWaveformData = false;
 soundManager.useEQData = false;
 soundManager.fillGraph = false;
 soundManager.useThrottling = true;
 soundManager.flashVersion = 9;
-soundManager.useFlashBlock = false;
+soundManager.useFlashBlock = com.podnoms.settings.smDebugMode;
+soundManager.debugMode = com.podnoms.settings.smDebugMode;
+soundManager.debugFlash = com.podnoms.settings.smDebugMode;
 soundManager.useHTML5Audio = true;
 
 com.podnoms.player = {
