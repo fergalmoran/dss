@@ -10,7 +10,6 @@ from spa.api.v1.ReleaseAudioResource import ReleaseAudioResource
 from spa.api.v1.ReleaseResource import ReleaseResource
 from spa.api.v1.UserResource import UserResource
 from spa.api.v1.ActivityResource import ActivityResource
-from spa.social import SocialHandler
 
 v1_api = Api(api_name='v1')
 v1_api.register(CommentResource())
@@ -23,9 +22,8 @@ v1_api.register(ActivityResource())
 
 ajax = AjaxHandler()
 audio = AudioHandler()
-social = SocialHandler()
 
-urlpatterns = django.conf.urls.patterns(
+urlpatterns = patterns(
     '',
     url(r'^$', 'spa.views.app', name='home'),
     url(r'^tpl/(?P<template_name>\w+)/$', 'spa.templates.get_template'),
@@ -34,7 +32,7 @@ urlpatterns = django.conf.urls.patterns(
     url(r'^podcast\.xml', 'spa.podcast.get_default_podcast'),
     url(r'^podcast', 'spa.podcast.get_default_podcast'),
     url(r'^podcasts', 'spa.podcast.get_default_podcast'),
-    url(r'^social/', include(social.urls)),
+    url(r'^social/', include('spa.social.urls')),
     url(r'^ajax/', include(ajax.urls)),
     url(r'^audio/', include(audio.urls)),
     url(r'^api/', include(v1_api.urls)),

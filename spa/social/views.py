@@ -1,52 +1,25 @@
 import urllib2
+import logging
+
 from django.conf.urls import url
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import resolve
-from django.http import  Http404
+from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 import requests
-from dss import  settings
+from allauth.socialaccount.models import SocialToken
+
+from dss import settings
 from spa.models.Mix import Mix
 from spa.models.UserProfile import UserProfile
-from allauth.socialaccount.models import SocialToken
-import logging
+
+
 logger = logging.getLogger(__name__)
 
 """
     Handles callbacks from facebook and twitter
 """
-class SocialHandler(object):
-
-    def __init__(self, api_name="v1"):
-        self.api_name = api_name
-
-    @property
-    def urls(self):
-        pattern_list = [
-            url(
-                r'^redirect/mix/(?P<mix_id>\d+)/$',
-                'spa.social.mix',
-                name='social_redirect'),
-            url(
-                r'^mix/(?P<mix_id>\d+)/$',
-                'spa.social.mix',
-                name='social_mix'),
-            url(
-                r'^user/(?P<user_id>\w+)/$',
-                'spa.social.user',
-                name='social_user'),
-            url(
-                r'^like/(?P<mix_id>\d+)/$',
-                'spa.social.post_like',
-                name='social_like'),
-            url(
-                r'^$',
-                'spa.social.index',
-                name='social_index'),
-        ]
-        return pattern_list
-
 
 def _getPayload(request):
     return {
@@ -58,7 +31,10 @@ def _getPayload(request):
 
 def mix(request, args):
     try:
-        mix = Mix.objects.get(pk=args['mix_id'])
+        if 'mix_id' in args:
+            mix = Mix.objects.get(pk=args['mix_id'])
+        else:
+            mix = Mix.objects.get(slug=args['slug'])
     except Mix.DoesNotExist:
         raise Http404
 
@@ -79,6 +55,7 @@ def mix(request, args):
         context_instance=RequestContext(request)
     )
     return response
+
 
 def user(request, args):
     try:
@@ -103,7 +80,6 @@ def user(request, args):
     return response
 
 
-
 def index(request):
     response = render_to_response(
         "inc/facebook/index.html",
@@ -116,7 +92,7 @@ def social_redirect(request):
     try:
         resolver = resolve('/social' + request.path)
         if resolver is not None:
-            logger.debug("Resolver succesfully resolved")
+            logger.debug("Resolver successfully resolved")
             return resolver.func(request, resolver.kwargs)
         else:
             logger.debug("No resolver found for: $%s" % request.path)
@@ -126,6 +102,7 @@ def social_redirect(request):
     except Exception, ex:
         logger.debug("Unhandled exception in social_redirect: $%s" % ex)
         return index(request)
+
 
 def post_like(request, mix):
     try:

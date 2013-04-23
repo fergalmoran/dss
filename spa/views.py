@@ -1,10 +1,8 @@
 import logging
-
 from django.shortcuts import render_to_response, redirect
 from django.template.context import RequestContext
-
 from core.utils.string import lreplace, rreplace
-from spa.social import social_redirect
+from spa.social.views import social_redirect
 
 
 logger = logging.getLogger('spa')

@@ -1,13 +1,17 @@
+import os
+import logging
+
 from django.conf.urls import url
 from django.http import Http404
-import os
 from sendfile import sendfile
+
 from dss import settings
 from spa.models.Mix import Mix
 from utils import here
-import logging
+
 
 logger = logging.getLogger('spa')
+
 
 class AudioHandler(object):
     @property
@@ -18,6 +22,7 @@ class AudioHandler(object):
         ]
 
         return pattern_list
+
 
 def download(request, mix_id):
     try:
@@ -33,6 +38,7 @@ def download(request, mix_id):
         print ex
 
     raise Http404("Mix not found")
+
 
 def start_streaming(request, mix_id):
     logger.debug('Start streaming called: %s' % mix_id)
