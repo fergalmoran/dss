@@ -52,7 +52,7 @@ class UserProfile(_BaseModel):
             return
 
         if self.slug == '':
-            self.slug = None
+            self.slug = unique_slugify(self, self.get_username())
 
         return super(UserProfile, self).save(force_insert, force_update, using)
 
