@@ -28,6 +28,11 @@ class MixResource(BackboneCompatibleResource):
         }
         authorization = Authorization()
 
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_.-]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
+        ]
+
     def _parseGenreList(self, genres):
         #for magic..
         ret = []
@@ -113,7 +118,7 @@ class MixResource(BackboneCompatibleResource):
         bundle.data['user_name'] = bundle.obj.user.get_nice_name()
         bundle.data['user_profile_url'] = bundle.obj.user.get_absolute_url()
         bundle.data['user_profile_image'] = bundle.obj.user.get_small_profile_image()
-        bundle.data['item_url'] = 'mix/%s' % bundle.obj.id
+        bundle.data['item_url'] = 'mix/%s' % bundle.obj.slug
 
         bundle.data['play_count'] = bundle.obj.plays.count()
         bundle.data['download_count'] = bundle.obj.downloads.count()

@@ -1,8 +1,7 @@
-import os
 from django.core.management.base import NoArgsCommand, CommandError
+from django.template.defaultfilters import slugify
 from core.utils.audio import Mp3FileNotFoundException
 from core.utils.audio.mp3 import mp3_length
-from dss import settings
 from spa.models import Mix
 
 
@@ -11,13 +10,18 @@ class Command(NoArgsCommand):
 
     def handle(self, *args, **options):
         try:
-            candidates = Mix.objects.filter(duration__isnull=True)
+            candidates = Mix.objects.all()
             for mix in candidates:
                 try:
-                    print "Finding duration for: %s" % mix.title
-                    length = mp3_length(mix.get_absolute_path())
-                    print "\tLength: %d" % length
-                    mix.duration = length
+                    if mix.duration is None:
+                        print "Finding duration for: %s" % mix.title
+                        length = mp3_length(mix.get_absolute_path())
+                        print "\tLength: %d" % length
+                        mix.duration = length
+                    if mix.slug == 'Invalid':
+                        print "Slugifying mix: %s" % mix.title
+                        mix.slug = slugify(mix.title)
+                        print "\tNew title: %s" % mix.slug
                     mix.save()
                 except Mp3FileNotFoundException, me:
                     mix.delete()

@@ -54,9 +54,23 @@ var AppRouter = Backbone.Router.extend({
     },
     user: function (user) {
         this._renderMixList('latest', { "user": user });
+        var model = new User({
+            id: user
+        });
+        this.sidebarView = new SidebarViewUser({
+            model: model
+        });
+        $('#sidebar').html(this.sidebarView.el);
     },
     mixList: function (type) {
         this._renderMixList(type);
+        this.sidebarView = new SidebarView();
+        $('#sidebar').html(this.sidebarView.el);
+        startChat(
+            $('#chat-messages-body', this.sidebarView.el),
+            $('#input', this.sidebarView.el),
+            $('#status', this.sidebarView.el),
+            $('#header-profile-edit').text());
     },
     _renderMixList: function (type, data) {
         var mixList = new MixCollection();
@@ -77,13 +91,6 @@ var AppRouter = Backbone.Router.extend({
                 }
             }
         });
-        this.sidebarView = new SidebarView();
-        $('#sidebar').html(this.sidebarView.el);
-        startChat(
-            $('#chat-messages-body', this.sidebarView.el),
-            $('#input', this.sidebarView.el),
-            $('#status', this.sidebarView.el),
-            $('#header-profile-edit').text());
     },
     mixDetails: function (id) {
         var mix = new Mix({
@@ -227,7 +234,7 @@ var AppRouter = Backbone.Router.extend({
     }
 });
 
-com.podnoms.utils.loadTemplate(['HeaderView', 'SidebarView', 'UserView', 'MixListView', 'MixListItemView', 'MixView', 'MixCreateView', 'CommentListView', 'CommentListItemView', 'ActivityListView', 'ActivityListItemView', 'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseCreateView', 'ReleaseAudioListView', 'ReleaseAudioItemView', 'EventCreateView', 'EventListView', 'EventListItemView', 'EventView', 'EventItemView'], function () {
+com.podnoms.utils.loadTemplate(['HeaderView', 'SidebarView', 'SidebarViewUser', 'UserView', 'MixListView', 'MixListItemView', 'MixView', 'MixCreateView', 'CommentListView', 'CommentListItemView', 'ActivityListView', 'ActivityListItemView', 'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseCreateView', 'ReleaseAudioListView', 'ReleaseAudioItemView', 'EventCreateView', 'EventListView', 'EventListItemView', 'EventView', 'EventItemView'], function () {
     window.app = new AppRouter();
     // Trigger the initial route and enable HTML5 History API support, set the
     // root folder to '/' by default.  Change in app.js.

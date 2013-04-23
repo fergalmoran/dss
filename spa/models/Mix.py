@@ -2,6 +2,7 @@ import os
 import rfc822
 from datetime import datetime
 import urlparse
+from django.template.defaultfilters import slugify
 
 from sorl.thumbnail import get_thumbnail
 from django.contrib.sites.models import Site
@@ -45,6 +46,7 @@ class Mix(_BaseModel):
     uid = models.CharField(max_length=38, blank=True, unique=True)
     download_allowed = models.BooleanField(default=False)
     duration = models.IntegerField(null=True, blank=True)
+    slug = models.SlugField()
 
     genres = models.ManyToManyField(Genre)
 
@@ -52,6 +54,10 @@ class Mix(_BaseModel):
         return self.title
 
     def save(self, force_insert=False, force_update=False, using=None):
+        if not self.id:
+            self.slug = slugify(self.title)
+
+        #TODO
         #turn away now - horrid hack to strip media root url
         #from image - will sort when I've figured backbone out better
         if self.mix_image.name.startswith(settings.MEDIA_URL):
@@ -71,7 +77,7 @@ class Mix(_BaseModel):
         return '%s/mixes/%s%s%s' % (settings.MEDIA_ROOT, prefix, self.uid, extension)
 
     def get_absolute_url(self):
-        return '/mix/%i' % self.id
+        return '/mix/%s' % self.slug
 
     def get_full_url(self):
         return 'http://%s%s' % (Site.objects.get_current().domain, self.get_absolute_url())

@@ -37,7 +37,7 @@ class UserProfile(_BaseModel):
     display_name = models.CharField(blank=True, max_length=35)
     description = models.CharField(blank=True, max_length=2048)
 
-    slug = models.CharField(max_length=35, blank=True, null=True, default=None)
+    slug = models.SlugField(max_length=50, blank=True, null=True, default=None)
     activity_sharing = models.IntegerField(default=0)
     activity_sharing_networks = models.IntegerField(default=0)
 
