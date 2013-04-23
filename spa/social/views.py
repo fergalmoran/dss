@@ -43,7 +43,8 @@ def mix(request, args):
     mix_url = mix.get_absolute_url()
     default = _getPayload(request)
     extras = {
-        "description": mix.title,
+        "description": mix.description.replace('<br />', '\n'),
+        "title": mix.title,
         "image_url": image,
         "audio_url": 'http://%s%s' % (Site.objects.get_current().domain, audio_url),
         "mix_url": 'http://%s%s' % (Site.objects.get_current().domain, mix_url)

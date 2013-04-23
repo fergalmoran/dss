@@ -51,8 +51,9 @@ class UserProfile(_BaseModel):
         if not force_insert and not self.id:
             return
 
-        if self.slug == '':
+        if self.slug is None or self.slug == '':
             self.slug = unique_slugify(self, self.get_username())
+            print "Slugified: %s" % self.slug
 
         return super(UserProfile, self).save(force_insert, force_update, using)
 

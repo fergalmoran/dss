@@ -16,6 +16,7 @@ class Command(NoArgsCommand):
                 except ObjectDoesNotExist, ce:
                     print "Creating profile for %s" % user.get_username()
                     UserProfile.objects.create(user=user)
-                    user.save()
+                finally:
+                  user.save()
         except Exception, ex:
             raise CommandError(ex.message)
