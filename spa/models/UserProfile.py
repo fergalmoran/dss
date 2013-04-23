@@ -1,7 +1,6 @@
 import urlparse
 
 from django.contrib.auth.models import User
-from django.contrib.sites.models import Site
 from django.core.exceptions import SuspiciousOperation
 from django.db import models
 from django.db.models.signals import post_save
@@ -56,14 +55,6 @@ class UserProfile(_BaseModel):
             self.slug = None
 
         return super(UserProfile, self).save(force_insert, force_update, using)
-
-    """
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            UserProfile.objects.create(user=instance)
-
-    post_save.connect(create_user_profile, sender=User)
-    """
 
     def get_username(self):
         return self.user.username
@@ -149,3 +140,12 @@ class UserProfile(_BaseModel):
     @classmethod
     def get_default_avatar_image(cls):
         return urlparse.urljoin(settings.STATIC_URL, "img/default-avatar-32.png")
+
+
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+
+post_save.connect(create_user_profile, sender=User)
+

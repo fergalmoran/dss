@@ -24,10 +24,8 @@ def app(request):
 
 
 def default(request):
-    if 'HTTP_USER_AGENT' in request.META:
-        if request.META['HTTP_USER_AGENT'].startswith('facebookexternalhit'):
-            logger.debug("Redirecting facebook hit")
-            return social_redirect(request)
+    if 'HTTP_USER_AGENT' in request.META and request.META['HTTP_USER_AGENT'].startswith('facebookexternalhit'):
+        return social_redirect(request)
 
     backbone_url = "http://%s/#%s" % (request.get_host(), rreplace(lreplace(request.path, '/', ''), '/', ''))
     return redirect(backbone_url)

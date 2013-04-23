@@ -10,6 +10,7 @@ from django.db import models
 from django.db.models import Count
 
 from core.utils import url
+from core.utils.url import unique_slugify
 from spa.models.Genre import Genre
 from spa.models.MixPlay import MixPlay
 from spa.models.MixDownload import MixDownload
@@ -55,7 +56,7 @@ class Mix(_BaseModel):
 
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.id:
-            self.slug = slugify(self.title)
+            self.slug = unique_slugify(self, self.title)
 
         #TODO
         #turn away now - horrid hack to strip media root url

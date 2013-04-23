@@ -49,7 +49,7 @@ def unique_slugify(instance, value, slug_field_name='slug', queryset=None, slug_
         slug = '%s%s' % (slug, end)
         next += 1
 
-    setattr(instance, slug_field.attname, slug)
+    return slug
 
 
 def _slug_strip(value, separator='-'):

@@ -11,7 +11,7 @@ class Genre(_BaseModel):
 
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.slug:
-            unique_slugify(self, self.description, slug_separator='_')
+            self.description = unique_slugify(self, self.description, slug_separator='_')
 
         super(Genre, self).save(force_insert, force_update, using)
 

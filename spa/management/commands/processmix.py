@@ -2,6 +2,7 @@ from django.core.management.base import NoArgsCommand, CommandError
 from django.template.defaultfilters import slugify
 from core.utils.audio import Mp3FileNotFoundException
 from core.utils.audio.mp3 import mp3_length
+from core.utils.url import unique_slugify
 from spa.models import Mix
 
 
@@ -20,7 +21,7 @@ class Command(NoArgsCommand):
                         mix.duration = length
                     if mix.slug == 'Invalid':
                         print "Slugifying mix: %s" % mix.title
-                        mix.slug = slugify(mix.title)
+                        mix.slug = unique_slugify(mix, mix.title)
                         print "\tNew title: %s" % mix.slug
                     mix.save()
                 except Mp3FileNotFoundException, me:

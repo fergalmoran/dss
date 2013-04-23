@@ -133,8 +133,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'spa.middleware.uploadify.SWFUploadMiddleware',
-    #'spa.middleware.sqlprinter.SqlPrintingMiddleware',
-    #'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'spa.middleware.sqlprinter.SqlPrintingMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 WSGI_APPLICATION = 'dss.wsgi.application'
@@ -166,6 +166,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
     'allauth.socialaccount.providers.google',
+    'debug_toolbar'
     #'backbone_tastypie',
 )
 
@@ -226,9 +227,9 @@ PIPELINE_CSS = {
         },
     },
 }
-INTERNAL_IPS = ('127.0.0.1', '86.44.166.21')
+INTERNAL_IPS = ('127.0.0.1', '86.44.166.21', '192.168.1.111')
+
 GOOGLE_ANALYTICS_CODE = localsettings.GOOGLE_ANALYTICS_CODE
-#TASTYPIE_DATETIME_FORMATTING = 'iso-8601'
 TASTYPIE_DATETIME_FORMATTING = 'rfc-2822'
 
 SENDFILE_BACKEND = localsettings.SENDFILE_BACKEND
@@ -256,4 +257,4 @@ import mimetypes
 
 mimetypes.add_type("text/xml", ".plist", False)
 
-#HTML_MINIFY = not localsettings.DEBUG
+HTML_MINIFY = not localsettings.DEBUG

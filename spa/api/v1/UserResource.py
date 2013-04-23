@@ -33,7 +33,7 @@ class UserResource(BackboneCompatibleResource):
     def dehydrate(self, bundle):
 
         #set the "me" user only properties
-        if bundle.obj.id == bundle.request.user.id:
+        if bundle.obj.user.id == bundle.request.user.id:
             bundle.data['email'] = bundle.obj.email
             if bundle.obj.activity_sharing is not None:
                 bundle.data['activity_share_likes'] = \

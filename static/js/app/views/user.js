@@ -51,11 +51,10 @@ window.UserView = DSSEditableView.extend({
         this._saveChanges({
             success:function () {
                 com.podnoms.utils.showAlert("Success", "Successfully updated yourself");
-                Backbone.history.navigate('/me', {trigger:true});
+                Backbone.history.navigate('/', {trigger:true});
             },
             error:function () {
-                com.podnoms.utils.showAlert("Success", "Successfully updated yourself");
-                alert("Error");
+                com.podnoms.utils.showError("Error", "There was an error updating your info. Please try again later.");
             }
         });
         return false;
