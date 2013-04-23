@@ -10,7 +10,7 @@ __author__ = 'fergalm'
 @not_minified_response
 def get_template(request, template_name):
     #Temporary hack here to create user profiles for zombie users
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and request.user.get_profile() is None:
         zm, created = UserProfile.objects.get_or_create(user=request.user)
         zm.save()
         print "Created user %s" % zm

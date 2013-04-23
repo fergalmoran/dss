@@ -22,16 +22,12 @@ class MixResource(BackboneCompatibleResource):
     class Meta:
         queryset = Mix.objects.filter(is_active=True)
         always_return_data = True
+        detail_uri_name = 'slug'
         excludes = ['download_url', 'is_active', 'local_file', 'upload_date']
         filtering = {
             'comments': ALL_WITH_RELATIONS
         }
         authorization = Authorization()
-
-    def prepend_urls(self):
-        return [
-            url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_.-]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
-        ]
 
     def _parseGenreList(self, genres):
         #for magic..
@@ -51,12 +47,11 @@ class MixResource(BackboneCompatibleResource):
         bundle.obj.genres = genre_list
         bundle.obj.save()
 
-    def override_urls(self):
+    def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/comments%s$" % (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('get_comments'), name="api_get_comments"),
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/activity%s$" % (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('get_activity'), name="api_get_activity"),
+            url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_.-]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
+            url(r"^(?P<resource_name>%s)/(?P<slug>\w[\w/-]*)/comments%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_comments'), name="api_get_comments"),
+            url(r"^(?P<resource_name>%s)/(?P<slug>\w[\w/-]*)/activity%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_activity'), name="api_get_activity"),
         ]
 
     def get_comments(self, request, **kwargs):
@@ -71,7 +66,8 @@ class MixResource(BackboneCompatibleResource):
 
     def get_activity(self, request, **kwargs):
         try:
-            obj = self.cached_obj_get(request=request, **self.remove_api_resource_names(kwargs))
+            basic_bundle = self.build_bundle(request=request)
+            obj = self.cached_obj_get(bundle=basic_bundle, **self.remove_api_resource_names(kwargs))
         except ObjectDoesNotExist:
             return HttpGone()
 
