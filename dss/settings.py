@@ -250,6 +250,9 @@ PIPELINE_CSS = {
 COMPRESS_CSS_FILTERS = [
     'compressor.filters.css_default.CssAbsoluteFilter',
 ]
+COMPRESS_JS = [
+    'compressor.filters.closure.ClosureCompilerFilter',
+]
 import mimetypes
 
 mimetypes.add_type("text/xml", ".plist", False)

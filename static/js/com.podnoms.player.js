@@ -48,7 +48,7 @@ com.podnoms.player = {
         if (oSound.instanceOptions.isMovieStar) {
             return (oSound.duration);
         } else {
-            return this.soundDuration;
+           return oSound.durationEstimate;
         }
     },
     _whileLoading: function () {
@@ -140,7 +140,6 @@ com.podnoms.player = {
          */
         var markerDuration = duration / 10;
         var item = $(document.createElement("li"));
-        this.soundDuration = duration * 1000; //convert to milliseconds
         for (var i = 0; i < 10; i++) {
             var sliceDuration = moment.duration(markerDuration * (i + 1), "seconds");
             var text = sliceDuration.hours() != 0 ?
