@@ -33,7 +33,7 @@ class Mix(_BaseModel):
     class Meta:
         app_label = 'spa'
 
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=150)
     description = models.TextField()
     upload_date = models.DateTimeField(default=datetime.now())
     mix_image = models.ImageField(blank=True, upload_to=mix_image_name)
