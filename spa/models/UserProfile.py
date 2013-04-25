@@ -143,10 +143,4 @@ class UserProfile(_BaseModel):
         return urlparse.urljoin(settings.STATIC_URL, "img/default-avatar-32.png")
 
 
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-
-
-post_save.connect(create_user_profile, sender=User)
 

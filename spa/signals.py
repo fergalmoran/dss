@@ -4,9 +4,11 @@ from django.db.models.signals import post_save
 from django.dispatch import Signal
 from kombu import Connection
 from kombu.entity import Exchange
+from django.contrib.auth.models import User
 
 from dss import localsettings
 from spa.models import _Activity
+from spa.models import UserProfile
 from spa.models.Mix import Mix
 import pika
 
@@ -43,3 +45,11 @@ def send_activity_to_message_queue(sender, *args, **kwargs):
 
 
 post_save.connect(send_activity_to_message_queue, sender=None)
+
+
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+
+post_save.connect(create_user_profile, sender=User, dispatch_uid="users-profilecreation")
