@@ -1,4 +1,4 @@
-## Django settings for dss project.
+#e Django settings for dss project.
 from datetime import timedelta
 import os
 
@@ -44,9 +44,9 @@ USE_L10N = True
 USE_TZ = True
 
 SITE_ROOT = here('')
-MEDIA_ROOT = here('media')
+MEDIA_ROOT = here('../media')
 STATIC_ROOT = here('static') #localsettings.STATIC_ROOT if hasattr(localsettings, 'STATIC_ROOT') else ''
-CACHE_ROOT = here('media/cache')
+CACHE_ROOT = here('../media/cache')
 
 if DEBUG:
     STATIC_URL = '/static/'
@@ -133,8 +133,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'spa.middleware.uploadify.SWFUploadMiddleware',
-    'spa.middleware.sqlprinter.SqlPrintingMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'spa.middleware.sqlprinter.SqlPrintingMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 WSGI_APPLICATION = 'dss.wsgi.application'

@@ -23,15 +23,6 @@ window.HeaderView = Backbone.View.extend({
     },
     login: function () {
         com.podnoms.utils.modal('tpl/LoginView');
-        return;
-        $.colorbox({
-            href: "/tpl/LoginView/",
-            onClosed: function () {
-                Backbone.history.navigate('/', {
-                    trigger: true
-                });
-            }
-        });
     },
     logout: function () {
         com.podnoms.utils.showAlert("Success", "You are now logged out");

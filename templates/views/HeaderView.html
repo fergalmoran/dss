@@ -2,9 +2,9 @@
 {% load spa_extras %}
 <div class="navbar navbar-fixed-top navbar-inverse" xmlns="http://www.w3.org/1999/html">
     <div class="navbar-inner">
-        <div class="container">
+        <div class="container-fluid">
             <a href="/" class="brand">
-                <img src="{{ STATIC_URL }}img/site-logo-gr.png"/>
+                <img id="ajax-request" class="pull-left" src="{{ STATIC_URL }}img/toolbar-loader.gif"/>
                 Deep|South|Sounds</a>
 
             <div class="nav-collapse">
@@ -14,16 +14,20 @@
                     <li><a href="/events">Events</a></li>
                     {% if user.is_authenticated %}
                         <li>
-                            <form id="logout-form" method="post" action="{% url "account_logout" %}" style="display: none">
+                            <form id="logout-form" method="post" action="{% url "account_logout" %}"
+                                  style="display: none">
                                 {% csrf_token %}
                             </form>
-                            <a  data-bypass="true" style="cursor: hand; cursor: pointer;" id="header-logout-button" onclick="document.getElementById('logout-form').submit();">Logout&nbsp;<i class="icon-eject icon-white"></i>
+                            <a data-bypass="true" style="cursor: hand; cursor: pointer;" id="header-logout-button"
+                               onclick="document.getElementById('logout-form').submit();">Logout&nbsp;<i
+                                    class="icon-eject icon-white"></i>
                             </a>
-                            <input type="hidden" name="user_id" value="{{ user.id }}" />
+                            <input type="hidden" name="user_id" value="{{ user.id }}"/>
                         </li>
                     {% else %}
                         <li>
-                            <a data-bypass="true" id="header-login-button">Login/Signup&nbsp;<i class="icon-music icon-white"></i></a>
+                            <a data-bypass="true" id="header-login-button">Login/Signup&nbsp;<i
+                                    class="icon-music icon-white"></i></a>
                         </li>
                     {% endif %}
                 </ul>

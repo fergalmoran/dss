@@ -12,8 +12,6 @@ UserView = DSSEditableView.extend({
         "click #save-changes": "saveChanges",
         "change input[type=radio]": "selectAvatar"
     },
-    initialize: function () {
-    },
     render: function () {
         ich.addTemplate('user', this.template());
         var renderedTemplate = ich.user(this.model.toJSON());

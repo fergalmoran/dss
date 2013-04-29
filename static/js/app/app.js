@@ -9,6 +9,7 @@
 var AppRouter = Backbone.Router.extend({
     root: '/',
     routes: {
+        "debug": "debug",
         "mixes": "mixList",
         "mixes/:type": "mixList",
         "mix/upload": "mixUpload",
@@ -52,15 +53,46 @@ var AppRouter = Backbone.Router.extend({
 
         }
     },
+    debug: function () {
+        var model = new User({
+            id: 'fergal'
+        });
+        model.fetch({
+            success: function(){
+                var content= new SidebarViewUser({
+                    model: model
+                });
+                $('#content').html(content.render().el);
+            }
+        });
+    },
     user: function (user) {
         this._renderMixList('latest', { "user": user });
         var model = new User({
             id: user
         });
-        this.sidebarView = new SidebarViewUser({
-            model: model
+        model.fetch({
+            success: function(){
+                var content= new SidebarViewUser({
+                    model: model
+                });
+                $('#sidebar').html(content.render().el);
+            }
         });
-        $('#sidebar').html(this.sidebarView.el);
+    },
+    userDetails: function () {
+        var user = new User({
+            id: com.podnoms.settings.currentUser
+        });
+        $('#site-content-fill').html('');
+        user.fetch({
+            success: function () {
+                var content = new UserView({
+                    model: user
+                });
+                $('#content').html(content.render().el);
+            }
+        });
     },
     mixList: function (type) {
         this._renderMixList(type);
@@ -84,8 +116,7 @@ var AppRouter = Backbone.Router.extend({
                 var mixes = new MixListView({
                     collection: mixList
                 });
-                var content = mixes.el;
-                $('#content').html(content);
+                $('#content').html(mixes.el);
                 if (mixes.itemPlaying != null) {
                     com.podnoms.settings.setupPlayer(mixes.itemPlaying.toJSON(), mixes.itemPlaying.get('id'));
                 }
@@ -119,7 +150,7 @@ var AppRouter = Backbone.Router.extend({
     },
     mixEdit: function (id) {
         var mix = new Mix({
-            id: id
+            slug: id
         });
         mix.fetch({
             success: function () {
@@ -219,20 +250,6 @@ var AppRouter = Backbone.Router.extend({
     },
     connectAccounts: function () {
         alert("Connecting accounts");
-    },
-    userDetails: function () {
-        var user = new User({
-            id: com.podnoms.settings.currentUser
-        });
-        $('#site-content-fill').html('');
-        user.fetch({
-            success: function () {
-                var content = new UserView({
-                    model: user
-                });
-                $('#content').html(content.render().el);
-            }
-        });
     }
 });
 

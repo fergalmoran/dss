@@ -10,11 +10,10 @@
 window.SidebarViewUser = Backbone.View.extend({
     events: {
     },
-    initialize: function () {
-        this.render();
-    },
     render: function () {
-        $(this.el).html(this.template({"item":this.model.toJSON()}));
+        ich.addTemplate('sidebaruser', this.template());
+        var rendered = ich.sidebaruser(this.model.toJSON());
+        $(this.el).html(rendered);
         return this;
     }
 });

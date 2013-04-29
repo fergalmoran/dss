@@ -7,6 +7,7 @@
 
  */
 $(document).ready(function () {
+    $('#ajax-request').hide();
     if (window.location.hash == '#_=_') {
         window.location.hash = "";
     }
@@ -14,7 +15,14 @@ $(document).ready(function () {
         Backbone.history.navigate("/");
     }
 });
-
+$(document).on({
+    ajaxStart: function () {
+        $('#ajax-request').show();
+    },
+    ajaxStop: function () {
+        $('#ajax-request').hide();
+    }
+});
 $(document).ajaxSend(function (event, xhr, settings) {
     function getCookie(name) {
         var cookieValue = null;

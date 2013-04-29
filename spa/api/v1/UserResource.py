@@ -4,6 +4,7 @@ from tastypie.authentication import Authentication
 from tastypie.authorization import DjangoAuthorization
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.models import UserProfile
+from django.conf.urls import url
 
 
 class UserProfileResource(BackboneCompatibleResource):
@@ -18,7 +19,6 @@ class UserProfileResource(BackboneCompatibleResource):
 
     def _hydrateBitmapOption(self, source, comparator):
         return "checked" if (source & comparator) != 0 else ""
-
 
     def hydrate(self, bundle):
         if 'activity_sharing_likes' in bundle.data:
@@ -55,6 +55,8 @@ class UserProfileResource(BackboneCompatibleResource):
     def dehydrate(self, bundle):
         del bundle.data['activity_sharing']
         del bundle.data['activity_sharing_networks']
+        bundle.data['display_name'] = bundle.obj.get_nice_name()
+        bundle.data['avatar_image'] = bundle.obj.get_avatar_image()
         if bundle.obj.user.id == bundle.request.user.id:
             bundle.data['activity_sharing_likes'] = \
                 self._hydrateBitmapOption(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_LIKES)
@@ -79,6 +81,12 @@ class UserResource(BackboneCompatibleResource):
         excludes = ['is_active', 'is_staff', 'is_superuser', 'password']
         authorization = DjangoAuthorization()
         authentication = Authentication()
+
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/(?P<pk>\d+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
+            url(r"^(?P<resource_name>%s)/(?P<userprofile__slug>[\w\d_.-]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
+        ]
 
     def dehydrate(self, bundle):
         if bundle.obj.id != bundle.request.user.id:
