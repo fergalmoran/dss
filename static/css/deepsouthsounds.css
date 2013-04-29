@@ -402,3 +402,7 @@ div.event-content td {
 #div_avatar_image{
     display: inline-block;
 }
+.mix-image-container img{
+    height: 120px;
+    width: 180px;
+}

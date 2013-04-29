@@ -44,9 +44,9 @@ USE_L10N = True
 USE_TZ = True
 
 SITE_ROOT = here('')
-MEDIA_ROOT = here('../media')
+MEDIA_ROOT = localsettings.MEDIA_ROOT
 STATIC_ROOT = here('static') #localsettings.STATIC_ROOT if hasattr(localsettings, 'STATIC_ROOT') else ''
-CACHE_ROOT = here('../media/cache')
+CACHE_ROOT = localsettings.CACHE_ROOT
 
 if DEBUG:
     STATIC_URL = '/static/'
