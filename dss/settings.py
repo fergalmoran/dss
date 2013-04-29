@@ -41,7 +41,7 @@ LANGUAGE_CODE = 'en-ie'
 SITE_ID = 1
 USE_I18N = False
 USE_L10N = True
-USE_TZ = False
+USE_TZ = True
 
 SITE_ROOT = here('')
 MEDIA_ROOT = here('media')

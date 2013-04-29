@@ -21,6 +21,7 @@ soundManager.useFlashBlock = com.podnoms.settings.smDebugMode;
 soundManager.debugMode = com.podnoms.settings.smDebugMode;
 soundManager.debugFlash = com.podnoms.settings.smDebugMode;
 soundManager.useHTML5Audio = true;
+soundManager.preferFlash = true;
 
 com.podnoms.player = {
     /*Members*/
