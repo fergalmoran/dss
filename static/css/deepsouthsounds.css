@@ -391,3 +391,14 @@ div.event-content td {
     position: relative;
     top: 1px;
 }
+.dss-option-table td{
+    text-align: center;
+    vertical-align: middle;
+}
+#div_avatar_image_upload{
+    width: 100%;
+    text-align: center;
+}
+#div_avatar_image{
+    display: inline-block;
+}

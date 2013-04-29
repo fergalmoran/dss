@@ -22,8 +22,10 @@ class CommentResource(BackboneCompatibleResource):
         bundle.data['user'] = {'pk': request.user.pk}
         return super(CommentResource, self).obj_create(bundle, request, user=request.user)
 
+    """
     def dehydrate_date_created(self, bundle):
         return self.humanize_date(bundle.obj.date_created)
+    """
 
     def dehydrate(self, bundle):
         bundle.data['avatar_image'] = bundle.obj.user.get_profile().get_small_profile_image()

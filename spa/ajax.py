@@ -209,7 +209,7 @@ def upload_release_image(request, release_id):
                 release.save()
                 return HttpResponse(_get_json("Success"))
     except Exception, ex:
-        logger.exception("Error uploading avatar")
+        logger.exception("Error uploading release image")
     return HttpResponse(_get_json("Failed"))
 
 
@@ -223,17 +223,17 @@ def upload_image(request, mix_id):
                 mix.save()
                 return HttpResponse(_get_json("Success"))
     except Exception, ex:
-        logger.exception("Error uploading avatar")
+        logger.exception("Error uploading image")
     return HttpResponse(_get_json("Failed"))
 
 
 @csrf_exempt
 def upload_avatar_image(request):
     try:
-        if 'Filedata' in request.FILES:
+        if 'avatar_image' in request.FILES:
             profile = request.user.get_profile()
             if profile:
-                profile.avatar_image = request.FILES['Filedata']
+                profile.avatar_image = request.FILES['avatar_image']
                 profile.save()
                 return HttpResponse(_get_json("Success"))
     except Exception, ex:

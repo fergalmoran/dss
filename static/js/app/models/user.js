@@ -8,8 +8,17 @@
  */
 var User = DSSModel.extend({
     urlRoot:com.podnoms.settings.urlRoot + "user/",
-    isValid:function () {
+    isValid: function () {
         this.errors = {};
         return "";
+    },
+    avatarGravatar: function(){
+        return this.get('profile').avatar_type == 'gravatar';
+    },
+    avatarSocial: function(){
+        return this.get('profile').avatar_type == 'social';
+    },
+    avatarCustom: function(){
+        return this.get('profile').avatar_type == 'custom';
     }
 });

@@ -56,7 +56,7 @@ window.DSSModel = window.TastypieModel.extend({
     }
 });
 
-window.DSSEditableView = Backbone.View.extend({
+window.DSSEditableView = Backbone.Marionette.ItemView.extend({
     events: {
         "change input": "changed",
         "change textarea": "changed"
@@ -71,6 +71,9 @@ window.DSSEditableView = Backbone.View.extend({
         }
     },
     changed: function (evt) {
+        //change handler for the form to update the model
+        //with the new values
+        return;
         var changed = evt.currentTarget;
         //$("#" + changed.id)
         if (!com.podnoms.utils.isEmpty(changed.id)) {
