@@ -49,5 +49,7 @@ class ActivityResource(BackboneCompatibleResource):
         return [i for i in data['objects'] if i is not None and i.obj.user is not None and i.obj.get_object_name is not None and i.obj.get_object_url is not None]
     """
 
+    """
     def dehydrate_date(self, bundle):
         return self.humanize_date(bundle.obj.date)
+    """

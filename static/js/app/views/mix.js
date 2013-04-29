@@ -235,7 +235,7 @@ window.MixCreateView = DSSEditableView.extend({
     },
     checkRedirect: function () {
         if (this.state == 2) {
-            Backbone.history.navigate('/mix/' + this.model.get('id'), {trigger: true});
+            Backbone.history.navigate('/mix/' + this.model.get('slug'), {trigger: true});
         }
     },
     initialize: function () {

@@ -30,7 +30,7 @@ class UserProfile(_BaseModel):
     ACTIVITY_SHARE_NETWORK_TWITTER = 2
 
     # This field is required.
-    user = models.ForeignKey(User, unique=True)
+    user = models.OneToOneField(User, unique=True, related_name='userprofile')
     avatar_type = models.CharField(max_length=15, default='social')
     avatar_image = models.ImageField(blank=True, upload_to=avatar_name)
     display_name = models.CharField(blank=True, max_length=35)
@@ -43,19 +43,15 @@ class UserProfile(_BaseModel):
     def __unicode__(self):
         return "%s - %s" % (self.user.get_full_name(), self.slug)
 
-    def save(self, force_insert=False, force_update=False, using=None):
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         """
         Save Photo after ensuring it is not blank.  Resize as needed.
         """
-
-        if not force_insert and not self.id:
-            return
-
         if self.slug is None or self.slug == '':
             self.slug = unique_slugify(self, self.get_username())
             print "Slugified: %s" % self.slug
 
-        return super(UserProfile, self).save(force_insert, force_update, using)
+        return super(UserProfile, self).save(force_insert, force_update, using, update_fields)
 
     def get_username(self):
         return self.user.username

@@ -11,6 +11,7 @@ com.podnoms.settings = {
     volume: '{{ DEFAULT_AUDIO_VOLUME }}',
     smDebugMode: '{{ SM_DEBUG_MODE }}',
     drawTimelineOnMix: false,
+    currentUser: {{ CURRENT_USER_ID }},
     /** simple helper to take an api JSON object and initialise a player item */
     setupPlayer: function (data, id) {
         com.podnoms.player.setupPlayer({

@@ -221,14 +221,16 @@ var AppRouter = Backbone.Router.extend({
         alert("Connecting accounts");
     },
     userDetails: function () {
-        var user = new User();
+        var user = new User({
+            id: com.podnoms.settings.currentUser
+        });
         $('#site-content-fill').html('');
         user.fetch({
             success: function () {
                 var content = new UserView({
                     model: user
-                }).el;
-                $('#content').html(content);
+                });
+                $('#content').html(content.render().el);
             }
         });
     }

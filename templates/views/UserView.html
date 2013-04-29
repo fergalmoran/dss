@@ -1,33 +1,34 @@
+{% verbatim %}
 <div id="title-area">
     <p class="page-header">User details</p>
 </div>
 <div id="layout-area" class="hero-well">
     <div class="row">
         <form enctype="multipart/form-data" method="post" class="form-horizontal" id="id-new-user-form">
-            {% csrf_token %}
+            <input type="hidden" name="profile[id]" value="{{ profile.id }}"/>
             <fieldset>
                 <div class="span6">
                     <div class="clearfix control-group" id="div_display_name">
                         <label class="control-label" for="display_name">Display name</label>
                         <div class="controls">
-                            <input type="text" maxlength="75" name="email" class="textinput textInput" id="display_name"
-                                   value="<%= item.display_name %>">
+                            <input type="text" maxlength="75" name="profile[display_name]" class="textinput textInput"
+                                   id="profile[display_name]"
+                                   value="{{ profile.display_name }}">
                         </div>
                     </div>
                     <div class="clearfix control-group" id="div_slug">
                         <label class="control-label" for="slug">Profile Slug</label>
-
                         <div class="controls">
-                            <input type="text" maxlength="75" name="email" class="textinput textInput" id="slug"
-                                   value="<%= item.slug %>">
+                            <input type="text" maxlength="75" name="profile[slug]" class="textinput textInput"
+                                   id="profile[slug]"
+                                   value="{{ profile.slug }}">
                         </div>
                     </div>
                     <div class="clearfix control-group" id="div_email">
                         <label class="control-label" for="email">E-mail address</label>
-
                         <div class="controls">
                             <input type="text" maxlength="75" name="email" class="textinput textInput" id="email"
-                                   value="{{ user.email }}">
+                                   value="{{ email }}">
                         </div>
                     </div>
                     <div class="clearfix control-group" id="div_first_name">
@@ -35,85 +36,108 @@
                         <div class="controls">
                             <input type="text" maxlength="30" name="first_name" class="textinput textInput"
                                    id="first_name"
-                                   value="{{ user.first_name }}">
+                                   value="{{ first_name }}">
                         </div>
                     </div>
                     <div class="clearfix control-group" id="div_last_name">
                         <label class="control-label " for="last_name">Last name</label>
-
                         <div class="controls">
                             <input type="text" maxlength="30" name="last_name" class="textinput textInput"
                                    id="last_name"
-                                   value="{{ user.last_name }}">
+                                   value="{{ last_name }}">
                         </div>
                     </div>
                     <div class="clearfix control-group" id="div_avatar_image_select">
                         <label class="control-label requiredField" for="avatar_image_select_0">Avatar Image<span
                                 class="asteriskField">*</span></label>
-
                         <div class="controls">
-                            <label class="radio">
-                                Use gravatar image.
-                                <input type="radio" value="gravatar" id="gravatar" name="avatar_type">
-                            </label>
-                            <label class="radio">
-                                Use Twitter/Facebook image.
-                                <input type="radio" value="social" id="social" name="avatar_type">
-                            </label>
-                            <label class="radio">
-                                Use custom image (upload below).
-                                <input type="radio" value="custom" id="custom" name="avatar_type">
-                            </label>
+                                <label class="radio">Use gravatar image.<input type="radio" id='avatar_gravatar' value='gravatar' name="profile[avatar_type]" /></label>
+                                <label class="radio">Use Twitter/Facebook image.<input type="radio" id='avatar_social' value='social' name="profile[avatar_type]" /></label>
+                                <label class="radio">Use custom image.<input type="radio" id='avatar_custom' value='custom' name="profile[avatar_type]" /></label>
                         </div>
                     </div>
-                    <div class="clearfix control-group" id="div_avatar_image">
-                        <div class="controls">
-                            <form action="/ajax/file-upload">
-                                {% csrf_token %}
-                                <input id="file_upload" type="file" name="file_upload"/>
-                            </form>
+                    <div class="clearfix control-group" id="div_avatar_image_upload">
+                        <label class="control-label requiredField" for="fileupload-new">Upload image<span
+                                class="asteriskField">*</span></label>
+                        <div class="fileupload fileupload-new pull-left" data-provides="fileupload"
+                             id="div_avatar_image">
+                            <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                <img src="{{ profile[avatar_image]  }}"/>
+                            </div>
+                            <div class="fileupload-preview fileupload-exists thumbnail"
+                                 style="max-width: 200px; max-height: 150px; line-height: 20px;">
+                            </div>
+                            <div>
+                        <span class="btn btn-file">
+                            <span class="fileupload-new">
+                                Select image
+                            </span>
+                        <span class="fileupload-exists">
+                            Change
+                        </span>
+                            <input id="avatar_image" type="file" size="45" name="avatar_image" class="input">
+                        </span>
+                                <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="span6">
                     <div class="row">
-                        <textarea style="width: 92%" id="description" rows="5">{{ user.description }}</textarea>
-                        <span class="help-block">Tell us a bit about yourself.</span>
+                        <p>
+                            <h5>Tell us a bit about yourself.</h5>
+                        </p>
+                        <textarea style="width: 100%" name="profile[description]" id="profile[description]" rows="5">{{profile.description}}</textarea>
                     </div>
                     <div class="row">
-                        <h5>Share this activity</h5>
-                        <ul class="list-horiz">
-                            <li>
-                                <h5>Likes</h5>
-                                <input type="checkbox" name="switch" value="" id="activity_share_likes"
-                                       class="switch" data-coalesce="activity_sharing" data-bitflag="1">
-                            </li>
-                            <li>
-                                <h5>Favourites</h5>
-                                <input type="checkbox" name="switch" value="" id="activity_share_favourites"
-                                       class="switch" data-coalesce="activity_sharing" data-bitflag="2">
-                            </li>
-                            <li>
-                                <h5>Comments</h5>
-                                <input type="checkbox" name="switch" value="" id="activity_share_comments"
-                                       class="switch" data-coalesce="activity_sharing" data-bitflag="4">
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="row">
-                        <h5>On these networks</h5>
-                        <ul class="list-horiz">
-                            <li>
-                                <h5>Facebook</h5>
-                                <input type="checkbox" name="switch" value="" id="activity_share_networks_facebook"
-                                       class="switch" data-coalesce="activity_sharing_networks" data-bitflag="1">
-                            </li>
-                            <li>
-                                <h5>Twitter</h5>
-                                <input type="checkbox" name="switch" value="" id="activity_share_networks_twitter"
-                                       class="switch" data-coalesce="activity_sharing_networks" data-bitflag="2">
-                            </li>
-                        </ul>
+                        <p>
+                        <h5>What can we share about you?</h5>
+                        </p>
+                        <div class="span5 pull-left">
+                            <h5>Share this activity</h5>
+                            <table class="table dss-option-table table-condensed table-bordered">
+                                <tbody>
+                                <tr class="info">
+                                    <td>Likes</td>
+                                    <td>Favourites</td>
+                                    <td>Comments</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="profile[activity_sharing_likes]"
+                                               id="activity_sharing_likes" {{ profile.activity_sharing_likes }}>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="profile[activity_sharing_favourites]"
+                                               id="activity_sharing_favourites" {{ profile.activity_sharing_favourites }}>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="profile[activity_sharing_comments]"
+                                               id="activity_sharing_comments" {{ profile.activity_sharing_comments }}>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="span5 pull-right">
+                            <h5>On these networks</h5>
+                            <table class="table dss-option-table table-condensed table-bordered">
+                                <tbody>
+                                <tr class="info">
+                                    <td>Facebook</td>
+                                    <td>Twitter</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;  vertical-align: middle">
+                                        <input type="checkbox" name="profile[activity_sharing_networks_facebook]" {{ profile.activity_sharing_networks_facebook }}>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="profile[activity_sharing_networks_twitter]" {{ profile.activity_sharing_networks_twitter }}>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </fieldset>
@@ -125,3 +149,4 @@
         </div>
     </div>
 </div>
+{% endverbatim %}
