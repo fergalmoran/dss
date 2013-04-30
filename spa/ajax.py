@@ -3,6 +3,7 @@ import logging
 
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.db.models import get_model
 from django.http import HttpResponse
 from annoying.decorators import render_to
@@ -13,7 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from core.utils import live
 from dss import localsettings, settings
 from spa import social
-from spa.models import UserProfile, MixFavourite, Release
+from spa.models import UserProfile, MixFavourite, Release, UserFollows
 from spa.models.Mix import Mix
 from spa.models.Comment import Comment
 from spa.models.MixLike import MixLike
@@ -43,6 +44,7 @@ class AjaxHandler(object):
             url(r'^live_now_playing/$', 'spa.ajax.live_now_playing'),
             url(r'^like/$', 'spa.ajax.like', name='ajax_mix_like'),
             url(r'^favourite/$', 'spa.ajax.favourite', name='ajax_mix_favourite'),
+            url(r'^toggle_follow/$', 'spa.ajax.toggle_follow', name='ajax_toggle_follow'),
             url(r'^facebook_post_likes_allowed/$', 'spa.ajax.facebook_post_likes_allowed',
                 name='ajax_facebook_post_likes_allowed'),
             url(r'^upload_image/(?P<mix_id>\d+)/$', 'spa.ajax.upload_image', name='ajax_upload_image'),
@@ -169,6 +171,25 @@ def like(request):
                     mix.save()
                     return HttpResponse(response)
 
+
+@login_required()
+def toggle_follow(request):
+    if request.is_ajax() and request.method == 'POST' and 'userId' in request.POST:
+        follower = request.user
+        following = User.objects.get(pk=request.POST['userId'])
+        if follower is not None and following is not None:
+            try:
+                user_follow = UserFollows.objects.get(follower=follower, following=following)
+                user_follow.delete()
+                response = _get_json('Unfollowed')
+            except UserFollows.DoesNotExist:
+                user_follow = UserFollows(follower=follower.get_profile(), following=following.get_profile())
+                user_follow.save()
+                response = _get_json('Followed')
+        else:
+            response = _get_json('Invalid')
+
+        return HttpResponse(response)
 
 @login_required()
 def favourite(request):

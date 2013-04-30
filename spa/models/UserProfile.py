@@ -1,3 +1,4 @@
+from logging import log
 import urlparse
 
 from django.contrib.auth.models import User
@@ -79,6 +80,17 @@ class UserProfile(_BaseModel):
             self.save()
         except Exception, e:
             self.logger.error("Unable to create profile slug: %s", e.message)
+
+    def is_follower(self, user):
+        try:
+            if user in self.followers.objects:
+                return True
+            else:
+                return False
+        except Exception, ex:
+            log.debug(ex.message)
+
+        return False
 
     def get_absolute_url(self):
         if self.slug is None or len(self.slug) == 0:

@@ -1,7 +1,30 @@
 {% verbatim %}
-    <div>
-        <h5>{{ profile.display_name }}</h5>
-        <img src="{{ profile.avatar_image }}" class="img-polaroid">
-        <p>{{ profile.description }}</p>
-    </div>
+<div>
+
+    <ul class="inline">
+        <li><h5>{{ profile.display_name }}</h5></li>
+        <li>
+            <p>
+                <button href="#"
+                   id="follow-button"
+                   class="btn btn-mini">
+                   <i id="follow-icon" class="icon-eye-close"></i>Following
+                </button>
+            </p>
+        </li>
+    </ul>
+    <img src="{{ profile.avatar_image }}" class="img-polaroid">
+
+    <p>{{ profile.description }}</p>
+    <dl class="dl-horizontal">
+        <dt>Last Seen</dt>
+        <dd>{{last_login}}</dd>
+        <dt>Mixes Uploaded</dt>
+        <dd>{{ profile.mix_count }}</dd>
+        <dt>Followers</dt>
+        <dd>{{ profile.follower_count }}</dd>
+        <dt>Following</dt>
+        <dd>{{ profile.following_count }}</dd>
+    </dl>
+</div>
 {% endverbatim %}

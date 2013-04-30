@@ -10,6 +10,7 @@ com.podnoms.settings = {
     streamInfoUrl: 'http://{{ LIVE_STREAM_INFO_URL }}',
     volume: '{{ DEFAULT_AUDIO_VOLUME }}',
     smDebugMode: '{{ SM_DEBUG_MODE }}',
+    isDebug: '{{ IS_DEBUG }}',
     drawTimelineOnMix: false,
     currentUser: {{ CURRENT_USER_ID }},
     /** simple helper to take an api JSON object and initialise a player item */

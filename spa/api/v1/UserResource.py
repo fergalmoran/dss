@@ -2,9 +2,10 @@ from django.contrib.auth.models import User
 from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import DjangoAuthorization
+from django.conf.urls import url
+
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.models import UserProfile
-from django.conf.urls import url
 
 
 class UserProfileResource(BackboneCompatibleResource):
@@ -31,8 +32,10 @@ class UserProfileResource(BackboneCompatibleResource):
             del bundle.data['activity_sharing_comments']
 
         if 'activity_sharing_networks_facebook' in bundle.data:
-            facebook = UserProfile.ACTIVITY_SHARE_NETWORK_FACEBOOK if bundle.data['activity_sharing_networks_facebook'] else 0
-            twitter = UserProfile.ACTIVITY_SHARE_NETWORK_TWITTER if bundle.data['activity_sharing_networks_twitter'] else 0
+            facebook = UserProfile.ACTIVITY_SHARE_NETWORK_FACEBOOK if bundle.data[
+                'activity_sharing_networks_facebook'] else 0
+            twitter = UserProfile.ACTIVITY_SHARE_NETWORK_TWITTER if bundle.data[
+                'activity_sharing_networks_twitter'] else 0
             bundle.data['activity_sharing_networks'] = (facebook | twitter)
             del bundle.data['activity_sharing_networks_facebook']
             del bundle.data['activity_sharing_networks_twitter']
@@ -66,11 +69,18 @@ class UserProfileResource(BackboneCompatibleResource):
                 self._hydrateBitmapOption(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_COMMENTS)
 
             bundle.data['activity_sharing_networks_facebook'] = \
-                self._hydrateBitmapOption(bundle.obj.activity_sharing_networks, UserProfile.ACTIVITY_SHARE_NETWORK_FACEBOOK)
+                self._hydrateBitmapOption(bundle.obj.activity_sharing_networks,
+                                          UserProfile.ACTIVITY_SHARE_NETWORK_FACEBOOK)
             bundle.data['activity_sharing_networks_twitter'] = \
-                self._hydrateBitmapOption(bundle.obj.activity_sharing_networks, UserProfile.ACTIVITY_SHARE_NETWORK_TWITTER)
+                self._hydrateBitmapOption(bundle.obj.activity_sharing_networks,
+                                          UserProfile.ACTIVITY_SHARE_NETWORK_TWITTER)
 
+        bundle.data['mix_count'] = 4
+        bundle.data['follower_count'] = 4
+        bundle.data['following_count'] = 8
+        bundle.data['following'] = bundle.obj.is_follower(bundle.request.user)
         return bundle
+
 
 class UserResource(BackboneCompatibleResource):
     profile = fields.ToOneField(UserProfileResource, attribute='userprofile', related_name='user', full=True)
@@ -84,8 +94,10 @@ class UserResource(BackboneCompatibleResource):
 
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<pk>\d+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
-            url(r"^(?P<resource_name>%s)/(?P<userprofile__slug>[\w\d_.-]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
+            url(r"^(?P<resource_name>%s)/(?P<pk>\d+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'),
+                name="api_dispatch_detail"),
+            url(r"^(?P<resource_name>%s)/(?P<userprofile__slug>[\w\d_.-]+)/$" % self._meta.resource_name,
+                self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
         ]
 
     def dehydrate(self, bundle):

@@ -5,5 +5,5 @@ from spa.models._BaseModel import _BaseModel
 
 
 class UserFollows(_BaseModel):
-    user_from = models.OneToOneField(UserProfile, related_name='followers')
-    user_to = models.OneToOneField(UserProfile, related_name='following')
+    follower = models.ManyToManyField(UserProfile, related_name='followers')
+    following = models.ManyToManyField(UserProfile, related_name='following')

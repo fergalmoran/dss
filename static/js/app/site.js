@@ -15,14 +15,18 @@ $(document).ready(function () {
         Backbone.history.navigate("/");
     }
 });
-$(document).on({
-    ajaxStart: function () {
-        $('#ajax-request').show();
-    },
-    ajaxStop: function () {
-        $('#ajax-request').hide();
-    }
-});
+
+if (com.podnoms.settings.isDebug) {
+    $(document).on({
+        ajaxStart: function () {
+            $('#ajax-request').show();
+        },
+        ajaxStop: function () {
+            $('#ajax-request').hide();
+        }
+    });
+}
+
 $(document).ajaxSend(function (event, xhr, settings) {
     function getCookie(name) {
         var cookieValue = null;
