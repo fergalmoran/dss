@@ -1,10 +1,10 @@
 from logging import log
+import logging
 import urlparse
 
 from django.contrib.auth.models import User
 from django.core.exceptions import SuspiciousOperation
 from django.db import models
-from django.db.models.signals import post_save
 from django_gravatar.helpers import has_gravatar, get_gravatar_url
 from sorl.thumbnail import get_thumbnail
 
@@ -12,8 +12,9 @@ from allauth.socialaccount.models import SocialAccount
 from core.utils.file import generate_save_file_name
 from core.utils.url import unique_slugify
 from dss import settings
-from spa.models._BaseModel import _BaseModel
+from spa.models._basemodel import _BaseModel
 
+logger = logging.getLogger(__name__)
 
 def avatar_name(instance, filename):
     return generate_save_file_name(str(instance.id), 'avatars', filename)
@@ -40,6 +41,7 @@ class UserProfile(_BaseModel):
     slug = models.SlugField(max_length=50, blank=True, null=True, default=None)
     activity_sharing = models.IntegerField(default=0)
     activity_sharing_networks = models.IntegerField(default=0)
+
 
     def __unicode__(self):
         return "%s - %s" % (self.user.get_full_name(), self.slug)
@@ -83,12 +85,9 @@ class UserProfile(_BaseModel):
 
     def is_follower(self, user):
         try:
-            if user in self.followers.objects:
-                return True
-            else:
-                return False
+            return user in self.followers
         except Exception, ex:
-            log.debug(ex.message)
+            logger.error(ex.message)
 
         return False
 

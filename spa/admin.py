@@ -1,18 +1,18 @@
 from django.contrib import admin
-from spa.models.Genre import Genre
-from spa.models.UserProfile import UserProfile
-from spa.models.ChatMessage import ChatMessage
-from spa.models.Recurrence import Recurrence
-from spa.models.Release import Release
-from spa.models.Event import Event
-from spa.models.Label import Label
-from spa.models.Mix import Mix
-from spa.models._Activity import _Activity
-from spa.models.MixLike import MixLike
-from spa.models.MixPlay import MixPlay
-from spa.models.MixFavourite import MixFavourite
-from spa.models.Release import ReleaseAudio
-from spa.models.Venue import Venue
+from spa.models.genre import Genre
+from spa.models.userprofile import UserProfile
+from spa.models.chatmessage import ChatMessage
+from spa.models.recurrence import Recurrence
+from spa.models.release import Release
+from spa.models.event import Event
+from spa.models.label import Label
+from spa.models.mix import Mix
+from spa.models.activity import _Activity
+from spa.models.mixlike import MixLike
+from spa.models.mixplay import MixPlay
+from spa.models.mixfavourite import MixFavourite
+from spa.models.release import ReleaseAudio
+from spa.models.venue import Venue
 
 
 class DefaultAdmin(admin.ModelAdmin):

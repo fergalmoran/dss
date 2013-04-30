@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from dss import localsettings
 from spa.models import _Activity
 from spa.models import UserProfile
-from spa.models.Mix import Mix
+from spa.models.mix import Mix
 import pika
 
 waveform_generated = Signal()

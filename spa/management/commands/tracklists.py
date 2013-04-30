@@ -1,7 +1,7 @@
 from django.core.management.base import NoArgsCommand
 
 from spa.models import Tracklist
-from spa.models.Mix import Mix
+from spa.models.mix import Mix
 
 
 class Command(NoArgsCommand):

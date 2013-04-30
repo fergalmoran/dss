@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models.loading import get_model
-from _BaseModel import _BaseModel
+from _basemodel import _BaseModel
 
 class _Lookup(_BaseModel):
     description = models.CharField(max_length=100)

@@ -1,5 +1,5 @@
 from django.db import models
-from spa.models._Activity import _Activity
+from spa.models.activity import _Activity
 
 
 class MixPlay(_Activity):

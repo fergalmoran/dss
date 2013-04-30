@@ -6,7 +6,7 @@ from django.http import Http404
 from sendfile import sendfile
 
 from dss import settings
-from spa.models.Mix import Mix
+from spa.models.mix import Mix
 from utils import here
 
 

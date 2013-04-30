@@ -1,7 +1,7 @@
 import os
 from django.core.management.base import NoArgsCommand
 
-from spa.models.Mix import Mix
+from spa.models.mix import Mix
 from core.tasks import create_waveform_task
 
 

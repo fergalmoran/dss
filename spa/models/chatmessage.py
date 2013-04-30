@@ -1,6 +1,6 @@
 from django.db import models
 from spa.models import _BaseModel
-from spa.models.UserProfile import UserProfile
+from spa.models.userprofile import UserProfile
 
 class ChatMessage(_BaseModel):
     message = models.TextField('Message')

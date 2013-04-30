@@ -1,9 +1,8 @@
 from django.db import models
 
-from spa.models.UserProfile import UserProfile
-from spa.models._BaseModel import _BaseModel
+from spa.models._basemodel import _BaseModel
 
 
-class UserFollows(_BaseModel):
-    follower = models.ManyToManyField(UserProfile, related_name='followers')
-    following = models.ManyToManyField(UserProfile, related_name='following')
+class __UserFollows(_BaseModel):
+    follower = models.OneToOneField('UserProfile', related_name='followers')
+    following = models.OneToOneField('UserProfile', related_name='following')

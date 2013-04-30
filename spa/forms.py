@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 
 from django.forms.models import ModelForm
-from spa.models.UserProfile import UserProfile
+from spa.models.userprofile import UserProfile
 
 class UserForm(ModelForm):
     avatar_image_select = forms.ChoiceField(

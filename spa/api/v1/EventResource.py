@@ -2,9 +2,9 @@ from django.core.exceptions import ObjectDoesNotExist
 import humanize
 from tastypie.authorization import Authorization
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
-from spa.models.Recurrence import Recurrence
-from spa.models.Venue import Venue
-from spa.models.Event import  Event
+from spa.models.recurrence import Recurrence
+from spa.models.venue import Venue
+from spa.models.event import  Event
 
 class EventResource(BackboneCompatibleResource):
     class Meta:

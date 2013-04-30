@@ -2,7 +2,7 @@ from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
-from spa.models.Comment import Comment
+from spa.models.comment import Comment
 
 
 class CommentResource(BackboneCompatibleResource):

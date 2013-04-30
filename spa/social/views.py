@@ -11,8 +11,8 @@ import requests
 from allauth.socialaccount.models import SocialToken
 
 from dss import settings
-from spa.models.Mix import Mix
-from spa.models.UserProfile import UserProfile
+from spa.models.mix import Mix
+from spa.models.userprofile import UserProfile
 
 
 logger = logging.getLogger(__name__)

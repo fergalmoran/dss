@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
-from spa.models._BaseModel import _BaseModel
-from spa.models.Mix import Mix
+from spa.models._basemodel import _BaseModel
+from spa.models.mix import Mix
 
 class Comment(_BaseModel):
     class Meta:

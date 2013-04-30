@@ -1,5 +1,5 @@
 from django.db import models
-from spa.models._BaseModel import _BaseModel
+from spa.models._basemodel import _BaseModel
 
 class Label(_BaseModel):
     class Meta:

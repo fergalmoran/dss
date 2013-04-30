@@ -8,46 +8,25 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Deleting model 'UserFollows'
+        db.delete_table(u'spa_userfollows')
+
 
         # Changing field 'Mix.title'
         db.alter_column(u'spa_mix', 'title', self.gf('django.db.models.fields.CharField')(max_length=150))
-        # Deleting field 'UserFollows.user_to'
-        db.delete_column(u'spa_userfollows', 'user_to_id')
-
-        # Deleting field 'UserFollows.user_from'
-        db.delete_column(u'spa_userfollows', 'user_from_id')
-
-        # Adding field 'UserFollows.follower'
-        db.add_column(u'spa_userfollows', 'follower',
-                      self.gf('django.db.models.fields.related.OneToOneField')(default=-1, related_name='followers', unique=True, to=orm['spa.UserProfile']),
-                      keep_default=False)
-
-        # Adding field 'UserFollows.following'
-        db.add_column(u'spa_userfollows', 'following',
-                      self.gf('django.db.models.fields.related.OneToOneField')(default=-1, related_name='following', unique=True, to=orm['spa.UserProfile']),
-                      keep_default=False)
-
 
     def backwards(self, orm):
+        # Adding model 'UserFollows'
+        db.create_table(u'spa_userfollows', (
+            ('user_to', self.gf('django.db.models.fields.related.OneToOneField')(related_name='following', unique=True, to=orm['spa.UserProfile'])),
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user_from', self.gf('django.db.models.fields.related.OneToOneField')(related_name='followers', unique=True, to=orm['spa.UserProfile'])),
+        ))
+        db.send_create_signal('spa', ['UserFollows'])
+
 
         # Changing field 'Mix.title'
         db.alter_column(u'spa_mix', 'title', self.gf('django.db.models.fields.CharField')(max_length=50))
-        # Adding field 'UserFollows.user_to'
-        db.add_column(u'spa_userfollows', 'user_to',
-                      self.gf('django.db.models.fields.related.OneToOneField')(default=-1, related_name='following', unique=True, to=orm['spa.UserProfile']),
-                      keep_default=False)
-
-        # Adding field 'UserFollows.user_from'
-        db.add_column(u'spa_userfollows', 'user_from',
-                      self.gf('django.db.models.fields.related.OneToOneField')(default=-1, related_name='followers', unique=True, to=orm['spa.UserProfile']),
-                      keep_default=False)
-
-        # Deleting field 'UserFollows.follower'
-        db.delete_column(u'spa_userfollows', 'follower_id')
-
-        # Deleting field 'UserFollows.following'
-        db.delete_column(u'spa_userfollows', 'following_id')
-
 
     models = {
         u'auth.group': {
@@ -219,12 +198,6 @@ class Migration(SchemaMigration):
             'remixer': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'timeindex': ('django.db.models.fields.TimeField', [], {'null': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
-        },
-        'spa.userfollows': {
-            'Meta': {'object_name': 'UserFollows'},
-            'follower': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'followers'", 'unique': 'True', 'to': "orm['spa.UserProfile']"}),
-            'following': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'following'", 'unique': 'True', 'to': "orm['spa.UserProfile']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
         'spa.userprofile': {
             'Meta': {'object_name': 'UserProfile'},

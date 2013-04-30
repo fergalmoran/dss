@@ -1,5 +1,5 @@
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
-from spa.models.ChatMessage import ChatMessage
+from spa.models.chatmessage import ChatMessage
 
 class CommentResource(BackboneCompatibleResource):
     class Meta:

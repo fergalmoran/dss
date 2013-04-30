@@ -14,10 +14,10 @@ from django.views.decorators.csrf import csrf_exempt
 from core.utils import live
 from dss import localsettings, settings
 from spa import social
-from spa.models import UserProfile, MixFavourite, Release, UserFollows
-from spa.models.Mix import Mix
-from spa.models.Comment import Comment
-from spa.models.MixLike import MixLike
+from spa.models import UserProfile, MixFavourite, Release
+from spa.models.mix import Mix
+from spa.models.comment import Comment
+from spa.models.mixlike import MixLike
 from core.serialisers import json
 from core.tasks import create_waveform_task
 
@@ -174,6 +174,8 @@ def like(request):
 
 @login_required()
 def toggle_follow(request):
+    pass
+    """
     if request.is_ajax() and request.method == 'POST' and 'userId' in request.POST:
         follower = request.user
         following = User.objects.get(pk=request.POST['userId'])
@@ -190,6 +192,7 @@ def toggle_follow(request):
             response = _get_json('Invalid')
 
         return HttpResponse(response)
+    """
 
 @login_required()
 def favourite(request):

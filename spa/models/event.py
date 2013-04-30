@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from tinymce import models as tinymce_models
 from spa.models import Recurrence
-from spa.models.Venue import Venue
+from spa.models.venue import Venue
 
 class Event(models.Model):
     class Meta:

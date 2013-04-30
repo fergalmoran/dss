@@ -12,7 +12,7 @@ from spa.api.v1.ActivityResource import ActivityResource
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.api.v1.CommentResource import CommentResource
 from spa.models import Genre
-from spa.models.Mix import Mix
+from spa.models.mix import Mix
 
 
 class MixResource(BackboneCompatibleResource):

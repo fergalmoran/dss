@@ -5,7 +5,7 @@ from django.db import models
 
 from model_utils.managers import InheritanceManager
 
-from spa.models._BaseModel import _BaseModel
+from spa.models._basemodel import _BaseModel
 from spa.models.managers.QueuedActivityModelManager import QueuedActivityModelManager
 
 

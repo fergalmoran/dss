@@ -2,9 +2,9 @@ from datetime import datetime
 from django.db import models
 from core.utils.file import generate_save_file_name
 from dss import settings
-from spa.models.Label import Label
-from spa.models.UserProfile import UserProfile
-from spa.models._BaseModel import _BaseModel
+from spa.models.label import Label
+from spa.models.userprofile import UserProfile
+from spa.models._basemodel import _BaseModel
 
 def release_image_name(instance, filename):
     return generate_save_file_name('release-images', filename)

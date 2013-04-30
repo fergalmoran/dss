@@ -11,12 +11,12 @@ from django.db.models import Count
 
 from core.utils import url
 from core.utils.url import unique_slugify
-from spa.models.Genre import Genre
-from spa.models.MixPlay import MixPlay
-from spa.models.MixDownload import MixDownload
+from spa.models.genre import Genre
+from spa.models.mixplay import MixPlay
+from spa.models.mixdownload import MixDownload
 from dss import settings, localsettings
-from spa.models.UserProfile import UserProfile
-from spa.models._BaseModel import _BaseModel
+from spa.models.userprofile import UserProfile
+from spa.models._basemodel import _BaseModel
 from core.utils.file import generate_save_file_name
 
 
