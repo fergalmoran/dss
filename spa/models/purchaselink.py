@@ -1,4 +1,6 @@
-from spa.models import _BaseModel, Tracklist
+from spa.models._basemodel import _BaseModel
+from spa.models.tracklist import Tracklist
+
 from django.db import models
 
 class PurchaseLink(_BaseModel):

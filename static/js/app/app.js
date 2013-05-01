@@ -55,7 +55,7 @@ var AppRouter = Backbone.Router.extend({
     },
     debug: function () {
         var model = new User({
-            id: 'fergal'
+            id: 'fergalmoran'
         });
         model.fetch({
             success: function(){

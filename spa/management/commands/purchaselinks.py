@@ -2,7 +2,7 @@ import logging
 import urllib
 from django.core.management.base import NoArgsCommand
 from django.utils import simplejson
-from spa.models import Tracklist
+from spa.models import tracklist
 
 class Command(NoArgsCommand):
 
@@ -22,7 +22,7 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
         try:
-            tracks = Tracklist.objects.all()
+            tracks = tracklist.objects.all()
             for track in tracks:
                 link = self.generate_purchase_link(track)
         except Exception, ex:

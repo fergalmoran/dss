@@ -7,7 +7,6 @@ from django_gravatar.helpers import has_gravatar, get_gravatar_url
 from core.analytics.google import ShowGoogleAnalyticsJS
 from core.utils.string import is_number, trunc_lines
 from dss import settings
-from spa.models import _BaseModel
 
 register = template.Library()
 

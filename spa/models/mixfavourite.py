@@ -1,4 +1,4 @@
-from spa.models import _BaseModel, UserProfile, Mix, _Activity
+from spa.models import _basemodel, UserProfile, Mix, _Activity
 from django.db import models
 
 class MixFavourite(_Activity):

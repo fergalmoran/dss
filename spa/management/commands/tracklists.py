@@ -1,6 +1,6 @@
 from django.core.management.base import NoArgsCommand
 
-from spa.models import Tracklist
+from spa.models import tracklist
 from spa.models.mix import Mix
 
 
@@ -13,7 +13,7 @@ class Command(NoArgsCommand):
             lines = mix.description.strip().split('\n')
             index = 0
             for line in lines:
-                mix.tracklist.add(Tracklist(index=index, description=line))
+                mix.tracklist.add(tracklist(index=index, description=line))
                 mix.save()
                 print "%d: %s" % (index, line)
                 index += 1

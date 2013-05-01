@@ -1,6 +1,7 @@
 from django.db import models
 from core.utils.url import unique_slugify
-from spa.models import _BaseModel
+from spa.models._basemodel import _BaseModel
+
 
 class Genre(_BaseModel):
     class Meta:

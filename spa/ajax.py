@@ -14,7 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from core.utils import live
 from dss import localsettings, settings
 from spa import social
-from spa.models import UserProfile, MixFavourite, Release
+from spa.models import UserProfile, mixfavourite, Release
 from spa.models.mix import Mix
 from spa.models.comment import Comment
 from spa.models.mixlike import MixLike
@@ -174,25 +174,26 @@ def like(request):
 
 @login_required()
 def toggle_follow(request):
-    pass
-    """
-    if request.is_ajax() and request.method == 'POST' and 'userId' in request.POST:
-        follower = request.user
-        following = User.objects.get(pk=request.POST['userId'])
-        if follower is not None and following is not None:
-            try:
-                user_follow = UserFollows.objects.get(follower=follower, following=following)
-                user_follow.delete()
-                response = _get_json('Unfollowed')
-            except UserFollows.DoesNotExist:
-                user_follow = UserFollows(follower=follower.get_profile(), following=following.get_profile())
-                user_follow.save()
-                response = _get_json('Followed')
+    response = _get_json('Invalid request')
+    try:
+        if request.is_ajax() and request.method == 'POST' and 'userId' in request.POST:
+            profile = request.user.get_profile()
+            following = UserProfile.objects.get(pk=request.POST['userId'])
+            if following is not None:
+                if profile.followers is None or (following not in profile.followers.all()):
+                    profile.followers.add(following)
+                    response = _get_json('Followed')
+                else:
+                    profile.followers.remove(following)
+                    response = _get_json('Unfollowed')
+                profile.save()
+    except Exception, ex:
+        if settings.DEBUG:
+            response = _get_json(ex.message)
         else:
-            response = _get_json('Invalid')
+            response = _get_json('Error')
 
-        return HttpResponse(response)
-    """
+    return HttpResponse(response)
 
 @login_required()
 def favourite(request):
@@ -202,7 +203,7 @@ def favourite(request):
                 mix = Mix.objects.get(pk=request.POST['dataId'])
                 if mix is not None:
                     if mix.favourites.count() == 0:
-                        mix.favourites.add(MixFavourite(mix=mix, user=request.user))
+                        mix.favourites.add(mixfavourite(mix=mix, user=request.user))
                         response = _get_json('Favourited')
                     else:
                         mix.favourites.all().delete()

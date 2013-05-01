@@ -1,4 +1,5 @@
-from spa.models import _BaseModel, Mix
+from spa.models.mix import Mix
+from spa.models._basemodel import _BaseModel
 from django.db import models
 
 class Tracklist(_BaseModel):

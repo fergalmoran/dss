@@ -37,7 +37,7 @@ window.SidebarViewUser = Backbone.View.extend({
         }
     },
     toggleFollow: function () {
-        var model = this.model;
+        var ref = this;
         $('#follow-button', this.el).addClass("loading");
         $.post(
             "/ajax/toggle_follow/",
@@ -45,10 +45,10 @@ window.SidebarViewUser = Backbone.View.extend({
             function (data) {
                 var result = $.parseJSON(data);
                 if (result.value == 'Followed')
-                    model.set('profile.following', true);
+                    ref.model.get('profile').following = true;
                 else
-                    model.set('profile.following', true);
-                this._renderFollowButton();
+                    ref.model.get('profile').following = false;
+                ref._renderFollowButton();
                 $('#follow-button', this.el).removeClass("loading");
             }
         );

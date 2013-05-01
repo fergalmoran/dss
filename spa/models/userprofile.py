@@ -42,6 +42,8 @@ class UserProfile(_BaseModel):
     activity_sharing = models.IntegerField(default=0)
     activity_sharing_networks = models.IntegerField(default=0)
 
+    followers = models.ManyToManyField('self', null=True, blank=True)
+    following = models.ManyToManyField('self', null=True, blank=True)
 
     def __unicode__(self):
         return "%s - %s" % (self.user.get_full_name(), self.slug)
@@ -85,7 +87,7 @@ class UserProfile(_BaseModel):
 
     def is_follower(self, user):
         try:
-            return user in self.followers
+            return user.get_profile() in self.followers.all()
         except Exception, ex:
             logger.error(ex.message)
 

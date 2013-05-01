@@ -1,9 +1,12 @@
 import logging
+import os
+
 from django.db import models
 from django.utils import simplejson
-import os
+
 from core.utils import url
 from dss import localsettings, settings
+
 
 class _BaseModel(models.Model):
     logger = logging.getLogger(__name__)
@@ -26,7 +29,8 @@ class _BaseModel(models.Model):
     def get_image_url(self, image, default):
         try:
             if os.path.isfile(image.path):
-                images_root = localsettings.IMAGE_URL if hasattr(localsettings, 'IMAGE_URL') else "%s" % settings.MEDIA_URL
+                images_root = localsettings.IMAGE_URL if hasattr(localsettings,
+                                                                 'IMAGE_URL') else "%s" % settings.MEDIA_URL
                 ret = "%s/%s/%s" % (settings.STATIC_URL, images_root, image)
                 return url.urlclean(ret)
 
