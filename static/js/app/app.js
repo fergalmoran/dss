@@ -150,7 +150,7 @@ var AppRouter = Backbone.Router.extend({
     },
     mixEdit: function (id) {
         var mix = new Mix({
-            slug: id
+            id: id
         });
         mix.fetch({
             success: function () {

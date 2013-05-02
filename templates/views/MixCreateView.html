@@ -1,24 +1,25 @@
+{% verbatim %}
 <div class="clearfix control-group" id="div-upload-mix">
     <div class="controls">
-        <form action="/ajax/file-upload">
-            {% csrf_token %}
-            <input type="hidden" class="upload-hash" id="upload-hash-mix">
-            <input id="mix-upload" type="file" multiple="false" name="mix-upload"/>
-            <h5>MP3 only for now please..</h5>
-        </form>
+        <input type="hidden" class="upload-hash" id="upload-hash-mix">
+        <input id="mix-upload" type="file" multiple="false" name="mix-upload"/>
+        <h5>MP3 only for now please..</h5>
     </div>
 </div>
 <div class="well" id="mix-details">
     <form class="form-horizontal">
+{% endverbatim %}
         {% csrf_token %}
+{% verbatim %}
         <input type="hidden" class="upload-hash" id="upload-hash-details">
         <input type="hidden" id="upload-extension">
         <legend>Mix details</legend>
         <div class="row">
-            <div class="control-group">
+            <div class="control-group" id="group-title">
                 <label class="control-label">Title</label>
+
                 <div class="controls">
-                    <input style="width: 98%" id="title" type="text" value="<%= item.title %>"
+                    <input style="width: 98%" id="title" type="text" name="title" value="{{ title }}"
                            placeholder="Brief title for your mix…">
                 </div>
             </div>
@@ -28,14 +29,14 @@
                 <div class="control-group">
                     <label class="control-label">Description</label>
                     <div class="controls">
-                        <textarea style="width: 98%" id="description" rows="12" placeholder="Tracklist would be nice…"><%= item.description %></textarea>
+                        <textarea style="width: 98%" id="description" name="description" rows="12" placeholder="Tracklist would be nice…">{{ description  }}</textarea>
                     </div>
                 </div>
             </div>
             <div class="span3">
                 <div class="fileupload fileupload-new" data-provides="fileupload">
                     <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                        <img src="<%= item.mix_image %>"/>
+                        <img src="{{ mix_image }}"/>
                     </div>
                     <div class="fileupload-preview fileupload-exists thumbnail"
                          style="max-width: 200px; max-height: 150px; line-height: 20px;">
@@ -53,22 +54,27 @@
                         <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
                     </div>
                 </div>
-                {%  if user.is_staff %}
-                <div>
-                <label class="checkbox">
-                    <input type="checkbox" id="is_featured" <% if (item.is_featured) { %>checked="checked"<% } %>">Is featured?</label>
-                </div>
+{% endverbatim  %}
+                {% if user.is_staff %}
+{% verbatim %}
+                    <div>
+                        <label class="checkbox">
+                            <input type="checkbox" id="is_featured" name="is_featured" {{#is_featured}}checked{{/is_featured}}>Is featured?</label>
+                    </div>
+{% endverbatim %}
                 {% endif %}
+{% verbatim %}
             </div>
         </div>
-    <div class="row">
-        <div class="control-group">
-            <label class="control-label">Genres</label>
-            <div class="controls">
-                <input type="hidden" value="__placeholder__" id="genres" style="width:98%"/>
+        <div class="row">
+            <div class="control-group">
+                <label class="control-label">Genres</label>
+
+                <div class="controls">
+                    <input type="hidden" value="__placeholder__" id="genres" style="width:98%"/>
+                </div>
             </div>
         </div>
-    </div>
         <div class="row">
             <div class="form-actions">
                 <button id="save-changes" class="btn">Submit</button>
@@ -76,3 +82,4 @@
         </div>
     </form>
 </div>
+{% endverbatim %}

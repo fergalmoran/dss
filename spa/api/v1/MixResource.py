@@ -11,7 +11,7 @@ from core.serialisers import json
 from spa.api.v1.ActivityResource import ActivityResource
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.api.v1.CommentResource import CommentResource
-from spa.models import genre
+from spa.models.genre import Genre
 from spa.models.mix import Mix
 
 
@@ -38,7 +38,7 @@ class MixResource(BackboneCompatibleResource):
                 new_item.save()
                 ret.append(new_item)
             else:
-                ret.append(genre.objects.get(pk=genre['id']))
+                ret.append(Genre.objects.get(pk=genre['id']))
 
         return ret
 

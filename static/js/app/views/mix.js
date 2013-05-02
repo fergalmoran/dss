@@ -6,7 +6,7 @@
  Code provided under the BSD License:
 
  */
-window.MixListItemView = Backbone.View.extend({
+window.MixListItemView = DSSEditableView.extend({
     tagName: "li",
     events: {
         "click .play-button-small-start": "startMix",
@@ -229,9 +229,7 @@ window.MixView = Backbone.View.extend({
 window.MixCreateView = DSSEditableView.extend({
     events: {
         "click #save-changes": "saveChanges",
-        "change #mix_image": "imageChanged",
-        "change input": "changed",
-        "change textarea": "changed"
+        "change #mix_image": "imageChanged"
     },
     checkRedirect: function () {
         if (this.state == 2) {
@@ -245,7 +243,10 @@ window.MixCreateView = DSSEditableView.extend({
     },
     render: function () {
         this.sendImage = false;
-        $(this.el).html(this.template({"item": this.model.toJSON()}));
+        if (!ich['mix'])
+            ich.addTemplate('mix', this.template());
+        var renderedTemplate = ich.mix(this.model.toJSON());
+        $(this.el).html(renderedTemplate);
         var parent = this;
         if (this.model.id == undefined) {
             $('#mix-upload', this.el).uploadifive({
@@ -327,21 +328,22 @@ window.MixCreateView = DSSEditableView.extend({
         return this;
     },
     saveChanges: function () {
-        var model = this.model;
-        var el = this.el;
-        var parent = this;
+        var ref = this;
+
+        var data = Backbone.Syphon.serialize(this);
+        this.model.set(data);
         this.model.set('upload-hash', this.guid);
         this.model.set('upload-extension', $('#upload-extension', this.el).val());
         this.model.set('genre-list', $('#genres', this.el).select2('data'));
 
-        if (!parent.sendImage)
+        if (!ref.sendImage)
             this.model.set('mix_image', 'DONOTSEND');
 
         this._saveChanges({
             success: function () {
-                if (parent.sendImage) {
+                if (ref.sendImage) {
                     $.ajaxFileUpload({
-                        url: '/ajax/upload_image/' + model.get('id') + '/',
+                        url: '/ajax/upload_image/' + ref.model.get('id') + '/',
                         secureuri: false,
                         fileElementId: 'mix_image',
                         success: function (data, status) {
@@ -353,8 +355,8 @@ window.MixCreateView = DSSEditableView.extend({
                                 }
                             } else {
                                 $('#mix-details', this.el).hide();
-                                parent.state++;
-                                parent.checkRedirect();
+                                ref.state++;
+                                ref.checkRedirect();
                             }
                         },
                         error: function (data, status, e) {
@@ -363,8 +365,8 @@ window.MixCreateView = DSSEditableView.extend({
                     });
                 } else {
                     $('#mix-details', this.el).hide();
-                    parent.state++;
-                    parent.checkRedirect();
+                    ref.state++;
+                    ref.checkRedirect();
                 }
             },
             error: function (model, response) {

@@ -273,7 +273,7 @@ def upload_mix_file_handler(request):
             f = request.FILES['Filedata']
             fileName, extension = os.path.splitext(f.name)
             uid = request.POST['upload-hash']
-            in_file = '%s/%s%s' % (settings.CACHE_ROOT, uid, extension)
+            in_file = os.path.join(settings.CACHE_ROOT, "mixes", "%s%s" % (uid, extension))
             with open(in_file, 'wb+') as destination:
                 for chunk in f.chunks():
                     destination.write(chunk)

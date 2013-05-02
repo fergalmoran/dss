@@ -141,7 +141,8 @@ class Mix(_BaseModel):
         queryset = None
         candidates = Mix.objects \
             .filter(waveform_generated=True) \
-            .filter(is_featured=True)
+            .filter(is_featured=True) \
+            .exclude(duration__isnull=True)
 
         if listing_type == 'latest':
             queryset = candidates.order_by('-id')
