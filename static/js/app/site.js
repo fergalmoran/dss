@@ -25,7 +25,10 @@ if (com.podnoms.settings.isDebug) {
             $('#ajax-request').hide();
         }
     });
+}else{
+    $('#ajax-request').hide();
 }
+
 
 $(document).ajaxSend(function (event, xhr, settings) {
     function getCookie(name) {
