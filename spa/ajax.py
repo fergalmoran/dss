@@ -181,7 +181,7 @@ def toggle_follow(request):
             following = UserProfile.objects.get(pk=request.POST['userId'])
             if following is not None:
                 if profile.followers is None or (following not in profile.followers.all()):
-                    profile.followers.add(following)
+                    profile.add_follower(following)
                     response = _get_json('Followed')
                 else:
                     profile.followers.remove(following)

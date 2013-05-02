@@ -5,8 +5,9 @@ from django.dispatch import Signal
 from kombu import Connection
 from kombu.entity import Exchange
 from django.contrib.auth.models import User
+from south import signals
 
-from dss import localsettings
+from dss import localsettings, settings
 from spa.models import _Activity
 from spa.models import UserProfile
 from spa.models.mix import Mix
@@ -53,3 +54,13 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 
 post_save.connect(create_user_profile, sender=User, dispatch_uid="users-profilecreation")
+
+if "notification" in settings.INSTALLED_APPS:
+    from notification import models as notification
+
+    def create_notice_types(app, created_models, verbosity, **kwargs):
+        notification.create_notice_type("new_follower", _("You have a new follower on deepsouthsounds.com"), _("You have a new follower."))
+
+    signals.post_migrate.connect(create_notice_types, sender=notification)
+else:
+    print "Skipping creation of NoticeTypes as notification app not found"

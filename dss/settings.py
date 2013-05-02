@@ -153,6 +153,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'django_gravatar',
     'compressor',
+    'notification',
     'djcelery',
     'sorl.thumbnail',
     'south',

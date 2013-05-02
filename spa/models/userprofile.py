@@ -1,6 +1,6 @@
-from logging import log
 import logging
 import urlparse
+from avatar.views import notification
 
 from django.contrib.auth.models import User
 from django.core.exceptions import SuspiciousOperation
@@ -15,6 +15,7 @@ from dss import settings
 from spa.models._basemodel import _BaseModel
 
 logger = logging.getLogger(__name__)
+
 
 def avatar_name(instance, filename):
     return generate_save_file_name(str(instance.id), 'avatars', filename)
@@ -84,6 +85,10 @@ class UserProfile(_BaseModel):
             self.save()
         except Exception, e:
             self.logger.error("Unable to create profile slug: %s", e.message)
+
+    def add_follower(self, user):
+        self.followers.add(user)
+        notification.send(self.user, "new_follower", {"from_user": "admin@deepsouthsounds.com"})
 
     def is_follower(self, user):
         try:
