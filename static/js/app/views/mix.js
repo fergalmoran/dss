@@ -35,21 +35,23 @@ window.MixListItemView = DSSEditableView.extend({
             $('#genre-list', parent.el).append(
                 '<a href="/mixes/' + this.slug + '" class="dss-tag-button">' + this.text + '</a>');
         });
+	
+	if (this.model.get('duration')){
+		if (com.podnoms.settings.drawTimelineOnMix) {
+		    com.podnoms.player.drawTimeline(
+			$('#player-timeline-' + id, this.el),
+			this.model.get('duration'));
+		} else {
+		    $('#player-timeline-' + id, this.el).hide();
+		}
 
-        if (com.podnoms.settings.drawTimelineOnMix) {
-            com.podnoms.player.drawTimeline(
-                $('#player-timeline-' + id, this.el),
-                this.model.get('duration'));
-        } else {
-            $('#player-timeline-' + id, this.el).hide();
-        }
+		var totalDuration = moment.duration(this.model.get('duration'), "seconds");
+		var totalDurationText = totalDuration.hours() != 0 ?
+		    moment(totalDuration).format("HH:mm:ss") :
+		    moment(totalDuration).format("mm:ss");
 
-        var totalDuration = moment.duration(this.model.get('duration'), "seconds");
-        var totalDurationText = totalDuration.hours() != 0 ?
-            moment(totalDuration).format("HH:mm:ss") :
-            moment(totalDuration).format("mm:ss");
-
-        $('#player-duration-' + id, this.el).text(totalDurationText);
+		$('#player-duration-' + id, this.el).text(totalDurationText);
+	}
         return this;
     },
     mouseOverProfile: function () {
