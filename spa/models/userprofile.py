@@ -92,6 +92,7 @@ class UserProfile(_BaseModel):
             notification.send([self.user], "new_follower", {"profile": user})
         except Exception, ex:
             self.logger.warning("Unable to send email for new follower")
+	    self.logger.warning("Exception: %s" % ex.message)
             self.logger.warning("Host: %s" % settings.EMAIL_HOST)
             self.logger.warning("Port: %s" % settings.EMAIL_PORT)
             self.logger.warning("Backend: %s" % settings.EMAIL_BACKEND)
