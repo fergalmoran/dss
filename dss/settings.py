@@ -264,7 +264,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = localsettings.EMAIL_HOST
 EMAIL_PORT = localsettings.EMAIL_PORT
-DEFAULT_FROM_EMAIL = 'chatbot@deepsouthsounds.com'
+DEFAULT_FROM_EMAIL = 'DSS ChatBot <chatbot@deepsouthsounds.com>'
+DEFAULT_HTTP_PROTOCOL = 'http'
 
 if DEBUG:
     import mimetypes
