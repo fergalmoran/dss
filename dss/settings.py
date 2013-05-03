@@ -261,8 +261,9 @@ mimetypes.add_type("text/xml", ".plist", False)
 HTML_MINIFY = not localsettings.DEBUG
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
+
+EMAIL_HOST = localsettings.EMAIL_HOST
+EMAIL_PORT = localsettings.EMAIL_PORT
 
 if DEBUG:
     import mimetypes

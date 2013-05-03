@@ -1,0 +1,7 @@
+{% load i18n %}
+{% url invitations as invitation_page %}
+{% url profile_detail username=invitation.from_user.username as user_url %}
+{% blocktrans with invitation.from_user as invitation_from_user %}
+    <a href="{{ user_url }}">{{ invitation_from_user }}</a> has started following you on Deep South Sounds
+    (see <a href="{{ invitation_page }}">followers</a>)
+{% endblocktrans %}

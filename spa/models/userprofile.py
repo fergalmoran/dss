@@ -89,7 +89,7 @@ class UserProfile(_BaseModel):
     def add_follower(self, user):
         self.followers.add(user)
         try:
-            notification.send([self.user], "new_follower", {"from_user": "admin@deepsouthsounds.com"})
+            notification.send([self.user], "new_follower", {"profile": user})
         except Exception, ex:
             self.logger.warning("Unable to send email for new follower")
             self.logger.warning("Host: %s" % settings.EMAIL_HOST)
