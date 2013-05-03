@@ -6,6 +6,7 @@ from kombu import Connection
 from kombu.entity import Exchange
 from django.contrib.auth.models import User
 from south import signals
+from core.utils.audio.mp3 import mp3_length
 
 from dss import localsettings, settings
 from spa.models import _Activity
@@ -24,6 +25,7 @@ def waveform_generated_callback(sender, **kwargs):
             mix = Mix.objects.get(uid=uid)
             if mix is not None:
                 mix.waveform_generated = True
+                mix.duration = mp3_length(mix.get_absolute_path())
                 mix.save()
     except ObjectDoesNotExist:
         pass

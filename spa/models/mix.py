@@ -2,7 +2,6 @@ import os
 import rfc822
 from datetime import datetime
 import urlparse
-from django.template.defaultfilters import slugify
 
 from sorl.thumbnail import get_thumbnail
 from django.contrib.sites.models import Site
@@ -10,7 +9,6 @@ from django.db import models
 from django.db.models import Count
 
 from core.utils import url
-from core.utils.audio.mp3 import mp3_length
 from core.utils.url import unique_slugify
 from spa.models.genre import Genre
 from spa.models.mixplay import MixPlay
@@ -68,8 +66,6 @@ class Mix(_BaseModel):
         #Check for the unlikely event that the waveform has been generated
         if os.path.isfile(self.get_waveform_path()):
             self.waveform_generated = True
-
-        self.duration = mp3_length(self.get_absolute_path())
 
         self.clean_image('mix_image', Mix)
         super(Mix, self).save(force_insert, force_update, using)

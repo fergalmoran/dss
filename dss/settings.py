@@ -259,3 +259,7 @@ import mimetypes
 mimetypes.add_type("text/xml", ".plist", False)
 
 HTML_MINIFY = not localsettings.DEBUG
+
+if DEBUG:
+    import mimetypes
+    mimetypes.add_type("image/png", ".png", True)
