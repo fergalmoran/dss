@@ -1,1 +1,1 @@
-{% load i18n %}{% blocktrans %}{{ notice }}{% endblocktrans %}
+You have a new follower

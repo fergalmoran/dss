@@ -1,6 +1,5 @@
 import logging
 import urlparse
-from notification import models as notification
 
 from django.contrib.auth.models import User
 from django.core.exceptions import SuspiciousOperation
@@ -9,6 +8,7 @@ from django_gravatar.helpers import has_gravatar, get_gravatar_url
 from sorl.thumbnail import get_thumbnail
 
 from allauth.socialaccount.models import SocialAccount
+from templated_emails.utils import send_templated_email
 from core.utils.file import generate_save_file_name
 from core.utils.url import unique_slugify
 from dss import settings
@@ -89,10 +89,10 @@ class UserProfile(_BaseModel):
     def add_follower(self, user):
         self.followers.add(user)
         try:
-            notification.send([self.user], "new_follower", {"profile": user})
+            send_templated_email([self.user], "notification/new_follower", {"profile": user})
         except Exception, ex:
             self.logger.warning("Unable to send email for new follower")
-	    self.logger.warning("Exception: %s" % ex.message)
+            self.logger.warning("Exception: %s" % ex.message)
             self.logger.warning("Host: %s" % settings.EMAIL_HOST)
             self.logger.warning("Port: %s" % settings.EMAIL_PORT)
             self.logger.warning("Backend: %s" % settings.EMAIL_BACKEND)
