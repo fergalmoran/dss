@@ -1,6 +1,6 @@
 import logging
 import urlparse
-from avatar.views import notification
+from notification import models as notification
 
 from django.contrib.auth.models import User
 from django.core.exceptions import SuspiciousOperation
@@ -88,7 +88,13 @@ class UserProfile(_BaseModel):
 
     def add_follower(self, user):
         self.followers.add(user)
-        notification.send(self.user, "new_follower", {"from_user": "admin@deepsouthsounds.com"})
+        try:
+            notification.send([self.user], "new_follower", {"from_user": "admin@deepsouthsounds.com"})
+        except Exception, ex:
+            self.logger.warning("Unable to send email for new follower")
+            self.logger.warning("Host: %s" % settings.EMAIL_HOST)
+            self.logger.warning("Port: %s" % settings.EMAIL_PORT)
+            self.logger.warning("Backend: %s" % settings.EMAIL_BACKEND)
 
     def is_follower(self, user):
         try:

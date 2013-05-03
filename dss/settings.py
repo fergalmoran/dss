@@ -260,6 +260,10 @@ mimetypes.add_type("text/xml", ".plist", False)
 
 HTML_MINIFY = not localsettings.DEBUG
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+
 if DEBUG:
     import mimetypes
     mimetypes.add_type("image/png", ".png", True)
