@@ -3,6 +3,8 @@
 
     <ul class="inline">
         <li><h5>{{ profile.display_name }}</h5></li>
+{% endverbatim %}
+        {% if user.is_authenticated %}
         <li>
             <p>
                 <button href="#"
@@ -12,6 +14,8 @@
                 </button>
             </p>
         </li>
+        {% endif %}
+{% verbatim %}
     </ul>
     <img src="{{ profile.avatar_image }}" class="img-polaroid">
 

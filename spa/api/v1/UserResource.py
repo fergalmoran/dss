@@ -5,7 +5,7 @@ from tastypie.authorization import DjangoAuthorization
 from django.conf.urls import url
 
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
-from spa.models import UserProfile
+from spa.models import UserProfile, Mix
 
 
 class UserProfileResource(BackboneCompatibleResource):
@@ -75,9 +75,9 @@ class UserProfileResource(BackboneCompatibleResource):
                 self._hydrateBitmapOption(bundle.obj.activity_sharing_networks,
                                           UserProfile.ACTIVITY_SHARE_NETWORK_TWITTER)
 
-        bundle.data['mix_count'] = 4
-        bundle.data['follower_count'] = 4
-        bundle.data['following_count'] = 8
+        bundle.data['mix_count'] = Mix.objects.filter(user=bundle.obj).count()
+        bundle.data['follower_count'] = bundle.obj.followers.count()
+        bundle.data['following_count'] = bundle.obj.following.count()
         bundle.data['following'] = bundle.obj.is_follower(bundle.request.user)
         return bundle
 

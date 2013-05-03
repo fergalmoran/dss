@@ -178,7 +178,7 @@ def toggle_follow(request):
     try:
         if request.is_ajax() and request.method == 'POST' and 'userId' in request.POST:
             profile = request.user.get_profile()
-            following = UserProfile.objects.get(pk=request.POST['userId'])
+            following = UserProfile.objects.get(user__id=request.POST['userId'])
             if following is not None:
                 if profile.followers is None or (following not in profile.followers.all()):
                     profile.add_follower(following)
