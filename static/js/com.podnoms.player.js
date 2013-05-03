@@ -19,7 +19,7 @@ soundManager.useThrottling = true;
 soundManager.flashVersion = 9;
 soundManager.useFlashBlock = com.podnoms.settings.smDebugMode;
 soundManager.debugMode = com.podnoms.settings.smDebugMode;
-soundManager.debugFlash = com.podnoms.settings.smDebugMode;
+soundManager.debugFlash = false;
 soundManager.useHTML5Audio = true;
 soundManager.preferFlash = true;
 
