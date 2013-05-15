@@ -14,7 +14,7 @@ def generate_waveform(input_file, output_file):
             print "Finished decode"
             if os.path.exists(working_file):
                 print "Starting waveform generation"
-                ret = subprocess.call(["/usr/local/bin/wav2png", "-w", "800", "-h", "120", "-o", output_file, working_file], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+                ret = subprocess.call([settings.DSS_WAVE_PATH, "-w", "800", "-h", "120", "-o", output_file, working_file], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
                 if os.path.isfile(output_file):
                     os.remove(working_file)
                     print "Generated waveform"

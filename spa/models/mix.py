@@ -9,6 +9,7 @@ from django.db import models
 from django.db.models import Count
 
 from core.utils import url
+from core.utils.audio.mp3 import mp3_length
 from core.utils.url import unique_slugify
 from spa.models.genre import Genre
 from spa.models.mixplay import MixPlay
@@ -17,6 +18,7 @@ from dss import settings, localsettings
 from spa.models.userprofile import UserProfile
 from spa.models._basemodel import _BaseModel
 from core.utils.file import generate_save_file_name
+from core.utils.audio.mp3 import mp3_length
 
 
 def mix_file_name(instance, filename):
@@ -66,6 +68,7 @@ class Mix(_BaseModel):
         #Check for the unlikely event that the waveform has been generated
         if os.path.isfile(self.get_waveform_path()):
             self.waveform_generated = True
+            self.duration = mp3_length(self.get_absolute_path())
 
         self.clean_image('mix_image', Mix)
         super(Mix, self).save(force_insert, force_update, using)

@@ -4,6 +4,7 @@ import logging
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import get_model
 from django.http import HttpResponse
 from annoying.decorators import render_to
@@ -20,6 +21,7 @@ from spa.models.comment import Comment
 from spa.models.mixlike import MixLike
 from core.serialisers import json
 from core.tasks import create_waveform_task
+from core.utils.audio.mp3 import mp3_length
 
 
 logger = logging.getLogger(__name__)
@@ -278,6 +280,14 @@ def upload_mix_file_handler(request):
                 for chunk in f.chunks():
                     destination.write(chunk)
             try:
+                #update mix with duration
+                try:
+                    mix = Mix.objects.get(uid=uid)
+                    mix.duration = mp3_length(mix.get_absolute_path())
+                    mix.save()
+                except ObjectDoesNotExist:
+                    pass
+
                 create_waveform_task.delay(in_file=in_file, mix_uid=uid)
             except Exception, ex:
                 logger.exception("Error starting waveform generation task: %s" % ex.message)
