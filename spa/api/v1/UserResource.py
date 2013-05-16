@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+import humanize
 from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import DjangoAuthorization
@@ -105,4 +106,5 @@ class UserResource(BackboneCompatibleResource):
             del bundle.data['email']
             del bundle.data['username']
 
+        bundle.data['human_last_login'] = humanize.naturaltime(bundle.obj.last_login.replace(tzinfo=None))
         return bundle

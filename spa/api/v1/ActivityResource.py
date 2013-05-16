@@ -1,3 +1,4 @@
+import humanize
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
@@ -27,6 +28,7 @@ class ActivityResource(BackboneCompatibleResource):
                 user_image = UserProfile.get_default_avatar_image()
                 user_profile = ""
 
+            bundle.data["human_date"] = humanize.naturaltime(bundle.obj.date.replace(tzinfo=None))
             bundle.data["verb"] = bundle.obj.get_verb_passed(),
             bundle.data["object"] = bundle.obj.get_object_singular(),
             bundle.data["item_name"] = bundle.obj.get_object_name(),

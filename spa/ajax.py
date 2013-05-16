@@ -197,6 +197,7 @@ def toggle_follow(request):
 
     return HttpResponse(response)
 
+
 @login_required()
 def favourite(request):
     if request.is_ajax():
@@ -300,7 +301,7 @@ def upload_mix_file_handler(request):
 @csrf_exempt
 def lookup(request, source):
     query = request.GET['query'] if 'query' in request.GET else request.GET['q'] if 'q' in request.GET else ''
-    if query <> '':
+    if query != '':
         model = get_model('spa', source)
         if model is not None:
             filter_field = model.get_lookup_filter_field()
