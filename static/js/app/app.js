@@ -83,8 +83,7 @@ var AppRouter = Backbone.Router.extend({
         });
     },
     users: function(){
-        alert('Argle');
-
+        console.log("Loading users");
     },
     editUser: function () {
         var user = new User({

@@ -12,6 +12,7 @@
                     <li><a href="/mixes">Mixes</a></li>
                     <li><a href="/releases">Releases</a></li>
                     <li><a href="/events">Events</a></li>
+                    <li><a href="/users">Users</a></li>
                     {% if user.is_authenticated %}
                         <li>
                             <form id="logout-form" method="post" action="{% url "account_logout" %}"
