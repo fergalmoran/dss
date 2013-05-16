@@ -28,8 +28,10 @@ var AppRouter = Backbone.Router.extend({
         //"accounts/login/": "login",
         //"accounts/logout/": "logout",
         "user/:id": "user",
+        "users": "users",
+        "user/:id/followers": "userFollowers",
         "upload/": "defaultRoute",
-        "me": "userDetails",
+        "me": "editUser",
         "*path": "defaultRoute"
     },
     initialize: function () {
@@ -80,14 +82,18 @@ var AppRouter = Backbone.Router.extend({
             }
         });
     },
-    userDetails: function () {
+    users: function(){
+        alert('Argle');
+
+    },
+    editUser: function () {
         var user = new User({
             id: com.podnoms.settings.currentUser
         });
         $('#site-content-fill').html('');
         user.fetch({
             success: function () {
-                var content = new UserView({
+                var content = new UserEditView({
                     model: user
                 });
                 $('#content').html(content.render().el);
@@ -253,7 +259,7 @@ var AppRouter = Backbone.Router.extend({
     }
 });
 
-com.podnoms.utils.loadTemplate(['HeaderView', 'SidebarView', 'SidebarViewUser', 'UserView', 'MixListView', 'MixListItemView', 'MixView', 'MixCreateView', 'CommentListView', 'CommentListItemView', 'ActivityListView', 'ActivityListItemView', 'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseCreateView', 'ReleaseAudioListView', 'ReleaseAudioItemView', 'EventCreateView', 'EventListView', 'EventListItemView', 'EventView', 'EventItemView'], function () {
+com.podnoms.utils.loadTemplate(['HeaderView', 'SidebarView', 'SidebarViewUser', 'UserEditView', 'MixListView', 'MixListItemView', 'MixView', 'MixCreateView', 'CommentListView', 'CommentListItemView', 'ActivityListView', 'ActivityListItemView', 'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseCreateView', 'ReleaseAudioListView', 'ReleaseAudioItemView', 'EventCreateView', 'EventListView', 'EventListItemView', 'EventView', 'EventItemView'], function () {
     window.app = new AppRouter();
     // Trigger the initial route and enable HTML5 History API support, set the
     // root folder to '/' by default.  Change in app.js.

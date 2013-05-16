@@ -22,3 +22,8 @@ var User = DSSModel.extend({
         return this.get('profile').avatar_type == 'custom';
     }
 });
+
+var UserCollection = TastypieCollection.extend({
+    model: User,
+    url:com.podnoms.settings.urlRoot + "users/"
+});

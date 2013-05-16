@@ -7,7 +7,7 @@
 
  */
 
-UserView = DSSEditableView.extend({
+UserEditView = DSSEditableView.extend({
     events: {
         "click #save-changes": "saveChanges",
         "change input[type=radio]": "selectAvatar"
