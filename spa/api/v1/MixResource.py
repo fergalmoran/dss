@@ -93,6 +93,9 @@ class MixResource(BackboneCompatibleResource):
         return ret
 
     def obj_update(self, bundle, **kwargs):
+        #don't sync the mix_image, this has to be handled separately
+        del bundle.data['mix_image']
+
         bundle.obj.update_favourite(bundle.request.user, bundle.data['favourited'])
         bundle.obj.update_liked(bundle.request.user, bundle.data['liked'])
         ret = super(MixResource, self).obj_update(bundle, bundle.request)

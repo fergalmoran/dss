@@ -54,6 +54,9 @@
           totalDurationText = totalDuration.hours() !== 0 ? moment(totalDuration).format("HH:mm:ss") : moment(totalDuration).format("mm:ss");
           $('#player-duration-' + id, this.el).text(totalDurationText);
         }
+        if (com.podnoms.player.isPlayingId(this.model.id)) {
+          com.podnoms.settings.setupPlayer(this.model.toJSON());
+        }
         this.renderGenres();
       };
 

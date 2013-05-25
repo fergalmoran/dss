@@ -10,7 +10,7 @@ window.MixListItemView = DSSEditableView.extend({
     tagName: "li",
     events: {
         "click .play-button-small-start": "startMix",
-        "click .play-button-small-resume": "resumeMix",
+        "click .play-button-small-resume": "resume",
         "click .play-button-small-pause": "pauseMix",
         "click .mix-link": "mixLink",
         "click .like-button a": "likeMix",
@@ -39,8 +39,8 @@ window.MixListItemView = DSSEditableView.extend({
 	if (this.model.get('duration')){
 		if (com.podnoms.settings.drawTimelineOnMix) {
 		    com.podnoms.player.drawTimeline(
-			$('#player-timeline-' + id, this.el),
-			this.model.get('duration'));
+			    $('#player-timeline-' + id, this.el),
+			    this.model.get('duration'));
 		} else {
 		    $('#player-timeline-' + id, this.el).hide();
 		}
@@ -130,12 +130,10 @@ window.MixListItemView = DSSEditableView.extend({
         );
     },
     pauseMix: function () {
-        console.log("MixItemView: pauseMix")
         com.podnoms.player.pause();
         _eventAggregator.trigger("track_paused");
     },
-    resumeMix: function () {
-        console.log("MixItemView: resumeMix")
+    resume: function () {
         _eventAggregator.trigger("track_playing");
         com.podnoms.player.resume();
     },

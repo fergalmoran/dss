@@ -29,6 +29,10 @@ define ['moment', 'app', 'marionette', 'models/comments/collection', 'views/comm
                 totalDurationText = if totalDuration.hours() != 0 then moment(totalDuration).format("HH:mm:ss") else moment(totalDuration).format("mm:ss");
                 $('#player-duration-' + id, this.el).text(totalDurationText)
 
+            #check if we're currently playing
+            if com.podnoms.player.isPlayingId @model.id
+                com.podnoms.settings.setupPlayer @model.toJSON()
+
             @renderGenres()
             return
 

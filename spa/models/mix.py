@@ -63,18 +63,11 @@ class Mix(_BaseModel):
         if not self.id:
             self.slug = unique_slugify(self, self.title)
 
-        #TODO
-        #turn away now - horrid hack to strip media root url
-        #from image - will sort when I've figured backbone out better
-        if self.mix_image.name.startswith(settings.MEDIA_URL):
-            self.mix_image.name = self.mix_image.name[len(settings.MEDIA_URL):len(self.mix_image.name)]
-
         #Check for the unlikely event that the waveform has been generated
         if os.path.isfile(self.get_waveform_path()):
             self.waveform_generated = True
             self.duration = mp3_length(self.get_absolute_path())
 
-        self.clean_image('mix_image', Mix)
         super(Mix, self).save(force_insert, force_update, using)
 
     def get_absolute_path(self, prefix=""):
@@ -116,7 +109,8 @@ class Mix(_BaseModel):
         try:
             ret = get_thumbnail(self.mix_image, '160x160', crop='center')
             return "%s/%s" % (settings.MEDIA_URL, ret.name)
-        except Exception:
+        except Exception, ex:
+            self.logger.error("Mix: error getting mix image %s" % ex.message)
             social_image = self._get_social_image()
             if social_image:
                 return social_image
