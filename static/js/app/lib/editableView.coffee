@@ -4,6 +4,9 @@ define ["marionette"],
         events:
             "change input": "changed"
             "change textarea": "changed"
+        templateHelpers:
+            renderCheckbox: (value) ->
+                return (if value then "checked" else "")
 
         changeSelect: (evt) ->
             changed = evt.currentTarget

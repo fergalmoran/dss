@@ -8,11 +8,12 @@ requirejs.config({
         underscore: 'libs/backbone/underscore',
         text: 'libs/text',
         templates: '/templates',
+        app: 'app/appv2',
         views: 'app/views',
         models: 'app/models',
-        app: 'app/appv2',
         'app.lib': 'app/lib',
-        moment: 'libs/moment'
+        moment: 'libs/moment',
+        toastr: 'libs/toastr'
     },
     shim: {
         backbone: {
@@ -25,11 +26,17 @@ requirejs.config({
         },
         underscore: {
             exports: '_'
-        }
+        },
+		'toastr': {
+			deps: ['jquery'],
+			exports: 'toastr'
+		}
     }
 });
 
-requirejs(['backbone', 'app'], function (Backbone, App) {
+requirejs(['toastr', 'underscore', 'backbone', 'app'], function (toastr, _, Backbone, App) {
+    "require strict"
+
     console.log("Dss.Bootstrapper: primed");
     App.start();
 });

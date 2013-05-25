@@ -70,4 +70,4 @@ define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'vi
     sidebarView = new SidebarView();
     App.sidebarRegion.show(sidebarView)
 
-    App;
+    return App;

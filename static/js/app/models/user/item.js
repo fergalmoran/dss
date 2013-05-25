@@ -3,21 +3,22 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app', 'marionette'], function(App, Marionette) {
-    var UserItemView;
-    return UserItemView = (function(_super) {
+  define(['app.lib/backbone.dss.model'], function(DssModel) {
+    var UserItem;
+    UserItem = (function(_super) {
 
-      __extends(UserItemView, _super);
+      __extends(UserItem, _super);
 
-      function UserItemView() {
-        return UserItemView.__super__.constructor.apply(this, arguments);
+      function UserItem() {
+        return UserItem.__super__.constructor.apply(this, arguments);
       }
 
-      UserItemView.prototype.itemView = UserItemView;
+      UserItem.prototype.urlRoot = com.podnoms.settings.urlRoot + "user/";
 
-      return UserItemView;
+      return UserItem;
 
-    })(Marionette.ItemView);
+    })(DssModel);
+    return UserItem;
   });
 
 }).call(this);

@@ -12,6 +12,7 @@ define ['marionette', 'app.lib/controller'],
             "mix/edit/:slug": "editMix",
 
             "user/:slug": "user"
+            "me": "editUser"
 
 
 

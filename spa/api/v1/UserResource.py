@@ -20,7 +20,7 @@ class UserProfileResource(BackboneCompatibleResource):
         authentication = Authentication()
 
     def _hydrateBitmapOption(self, source, comparator):
-        return "checked" if (source & comparator) != 0 else ""
+        return True if (source & comparator) != 0 else False
 
     def hydrate(self, bundle):
         if 'activity_sharing_likes' in bundle.data:
