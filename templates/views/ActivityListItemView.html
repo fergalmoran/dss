@@ -1,16 +1,15 @@
 {% load account_tags %}
 <div class="media bordered-faint activity-list-item">
     <a class="pull-left" href="#">
-        <img class="media-object image-avatar-small" src="<%= item.user_image %>" alt="">
+        <img class="media-object image-avatar-small" src="<%= user_image %>" alt="">
     </a>
-
     <div class="media-body">
         <div class="media">
-            <a class="activity-user" href="<%= item.user_profile %>">
-                <%= item.user_name %>
+            <a class="activity-user" href="/<%= user_profile %>">
+                <%= user_name %>
             </a>
-            <%= item.verb %> <a href="<%= item.item_url %>"><%= item.item_name %></a>
-            <blockquote class="pull-right"><%= item.human_date %></blockquote>
+            <%= verb %> <a href="<%= item_url %>"><%= item_name %></a>
+            <blockquote class="pull-right"><%= human_date %></blockquote>
         </div>
     </div>
 </div>

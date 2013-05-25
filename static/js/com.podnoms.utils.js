@@ -59,14 +59,14 @@ com.podnoms.utils = {
                     }
                 );
             }).success(function () {
-                $('input:text:visible:first').focus();
-            });
+                    $('input:text:visible:first').focus();
+                });
         }
     },
     showError: function (title, message) {
         toastr.error(message, title);
     },
-    showWarning: function(title, message){
+    showWarning: function (title, message) {
         toastr.warning(message, title);
     },
     showAlert: function (title, message) {
@@ -123,6 +123,34 @@ com.podnoms.utils = {
             document.body.appendChild(iframe);
         }
         iframe.src = url;
+    },
+    log: function () {
+        try {
+            // Modern browsers
+            if (typeof console != 'undefined' && typeof console.log == 'function') {
+                // Opera 11
+                if (window.opera) {
+                    var i = 0;
+                    while (i < arguments.length) {
+                        console.log('Item ' + (i + 1) + ': ' + arguments[i]);
+                        i++;
+                    }
+                }
+                // All other modern browsers
+                else if ((Array.prototype.slice.call(arguments)).length == 1 && typeof Array.prototype.slice.call(arguments)[0] == 'string') {
+                    console.log((Array.prototype.slice.call(arguments)).toString());
+                } else {
+                    console.log(Array.prototype.slice.call(arguments));
+                }
+            }
+            // IE8
+            else if ((!Function.prototype.bind || treatAsIE8) && typeof console != 'undefined' && typeof console.log == 'object') {
+                Function.prototype.call.call(console.log, console, Array.prototype.slice.call(arguments));
+            }
+
+            // IE7 and lower, and other old browsers
+        } catch (ignore) {
+        }
     }
 };
 

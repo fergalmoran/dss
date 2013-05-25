@@ -32,7 +32,6 @@ com.podnoms.player = {
     timeDisplayLabel: null,
     waveFormEl: null,
     playHeadEl: null,
-    timeLineEl: null,
     loadingEl: null,
     seekHeadEl: null,
     waveFormRect: [-1, -1, -1, -1],
@@ -98,7 +97,7 @@ com.podnoms.player = {
             this.playButtonEl
                 .removeClass('play-button-small-pause')
                 .removeClass('play-button-small-loading')
-                .addClass('play-button-smallstart');
+                .addClass('play-button-small-start');
 
         this.currentId = null;
         if (success != undefined)
@@ -111,7 +110,6 @@ com.podnoms.player = {
         this.seekHeadEl = options.seekHeadEl;
         this.playHeadEl = options.playHeadEl;
         this.loadingEl = options.loadingEl;
-        this.timeLineEl = options.timeLineEl;
         this.playButtonEl = options.playButtonEl;
         this.currentPath = options.url;
     },

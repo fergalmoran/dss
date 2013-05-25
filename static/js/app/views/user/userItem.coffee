@@ -1,2 +1,4 @@
-class UserItemView extends Marionette.ItemView ->
-    itemView: UserItemView
+define ['marionette'],
+(Marionette)->
+    class UserItemView extends Marionette.ItemView
+        itemView: UserItemView

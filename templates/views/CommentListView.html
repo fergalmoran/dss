@@ -1,12 +1,8 @@
-<div class="comment-submit-area well">
-    {% if request.user.is_authenticated %}
-    <div>
+{% if request.user.is_authenticated %}
+    <div class="comment-submit-area well">
         <textarea style="width: 85%" id="id-comment-text" cols="80" rows="3" name="new-comment"></textarea>
         <button class="btn btn-primary" id="id-btn-add-comment">Add comment (don't be a dick)</button>
     </div>
-    {% else %}
-    <h3>Please login to add comments</h3>
-    {% endif %}
-</div>
+{% endif %}
 <h3 class="bordered">Comments</h3>
 <div id="comment-list-container"></div>

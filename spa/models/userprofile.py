@@ -86,6 +86,17 @@ class UserProfile(_BaseModel):
         except Exception, e:
             self.logger.error("Unable to create profile slug: %s", e.message)
 
+    def toggle_favourite(self, mix, value):
+        try:
+            if value:
+                if self.activity.filter(mix=mix).count() == 0:
+                    self.activity.model.add(mix=mix, user=self)
+                    self.favourites.model.save()
+            else:
+                self.favourites.model.delete(mix=mix)
+        except Exception, ex:
+            self.logger.error("Exception updating favourite: %s" % ex.message)
+
     def add_follower(self, user):
         self.followers.add(user)
         try:

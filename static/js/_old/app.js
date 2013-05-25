@@ -6,7 +6,7 @@
  Code provided under the BSD License:
 
  */
-var AppRouter = Backbone.Router.extend({
+var AppRouter = Marionette.AppRouter.extend({
     root: '/',
     routes: {
         "debug": "debug",
@@ -39,6 +39,7 @@ var AppRouter = Backbone.Router.extend({
         $('#header').html(this.headerView.el);
         $('#site-content-fill').html('');
         this.bind('all', this.trackPageView);
+        console.log("App router intialized");
     },
     trackPageView: function () {
         var url;
@@ -46,6 +47,7 @@ var AppRouter = Backbone.Router.extend({
         return com.podnoms.utils.trackPageView(url);
     },
     defaultRoute: function (path) {
+        console.log("Default route");
         if (path == undefined || path == "" || path == "/")
             this.mixList('latest');
         else {
@@ -60,8 +62,8 @@ var AppRouter = Backbone.Router.extend({
             id: 'fergalmoran'
         });
         model.fetch({
-            success: function(){
-                var content= new SidebarViewUser({
+            success: function () {
+                var content = new SidebarViewUser({
                     model: model
                 });
                 $('#content').html(content.render().el);
@@ -74,15 +76,15 @@ var AppRouter = Backbone.Router.extend({
             id: user
         });
         model.fetch({
-            success: function(){
-                var content= new SidebarViewUser({
+            success: function () {
+                var content = new SidebarViewUser({
                     model: model
                 });
                 $('#sidebar').html(content.render().el);
             }
         });
     },
-    users: function(){
+    users: function () {
         console.log("Loading users");
     },
     editUser: function () {
@@ -100,6 +102,7 @@ var AppRouter = Backbone.Router.extend({
         });
     },
     mixList: function (type) {
+        console.log("Rendering mix list");
         this._renderMixList(type);
         this.sidebarView = new SidebarView();
         $('#sidebar').html(this.sidebarView.el);
@@ -257,16 +260,23 @@ var AppRouter = Backbone.Router.extend({
         alert("Connecting accounts");
     }
 });
-
+/*
 com.podnoms.utils.loadTemplate(['HeaderView', 'SidebarView', 'SidebarViewUser', 'UserEditView', 'MixListView', 'MixListItemView', 'MixView', 'MixCreateView', 'CommentListView', 'CommentListItemView', 'ActivityListView', 'ActivityListItemView', 'ReleaseListView', 'ReleaseListItemView', 'ReleaseItemView', 'ReleaseView', 'ReleaseCreateView', 'ReleaseAudioListView', 'ReleaseAudioItemView', 'EventCreateView', 'EventListView', 'EventListItemView', 'EventView', 'EventItemView'], function () {
-    window.app = new AppRouter();
-    // Trigger the initial route and enable HTML5 History API support, set the
-    // root folder to '/' by default.  Change in app.js.
-    var enablePushState = true;
-    // Disable for older browsers
-    var pushState = !!(enablePushState && window.history && window.history.pushState);
-    Backbone.history.start({ pushState: pushState, root: app.root, hashChange: true });
-
+    window.app = new Marionette.Application();
+    window.app.addInitializer(function (options) {
+        new AppRouter();
+        // Trigger the initial route and enable HTML5 History API support, set the
+        // root folder to '/' by default.  Change in app.js.
+        var enablePushState = true;
+        // Disable for older browsers
+        var pushState = !!(enablePushState && window.history && window.history.pushState);
+        Backbone.history.start({
+            pushState: pushState,
+            hashChange: true
+        });
+        console.log("Backbone history initialized");
+    });
+    window.app.start();
     // All navigation that is relative should be passed through the navigate
     // method, to be processed by the router. If the link has a `data-bypass`
     // attribute, bypass the delegation completely.
@@ -289,4 +299,4 @@ com.podnoms.utils.loadTemplate(['HeaderView', 'SidebarView', 'SidebarViewUser', 
         }
     });
 });
-var _eventAggregator = _.extend({}, Backbone.Events);
+*/

@@ -228,7 +228,11 @@
             var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
             listeners[id] = obj;
             if (typeof name === 'object') callback = this;
-            obj[implementation](name, callback, this);
+            try {
+                obj[implementation](name, callback, this);
+            } catch (err) {
+                debugger;
+            }
             return this;
         };
     });

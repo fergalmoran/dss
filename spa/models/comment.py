@@ -3,6 +3,7 @@ from django.db import models
 from spa.models._basemodel import _BaseModel
 from spa.models.mix import Mix
 
+
 class Comment(_BaseModel):
     class Meta:
         app_label = 'spa'
@@ -16,5 +17,3 @@ class Comment(_BaseModel):
     def get_absolute_url(self):
         return '/comment/%i' % self.id
 
-    def save(self, force_insert=False, force_update=False, using=None):
-        super(Comment, self).save(force_insert, force_update, using)

@@ -2,23 +2,23 @@
 <div class="row">
     <div class="span2 mix-profile-container">
         <div class="mix-image-container">
-            <img alt="mix-logo" class="mix-image-image img-rounded img-polaroid" src="<%= item.mix_image %>"/>
+            <img alt="mix-logo" class="mix-image-image img-rounded img-polaroid" src="<%= mix_image %>"/>
         </div>
         <div class="mix-profile-insert">
             <h6>
-                <a href="<%= item.user_profile_url %>" id="<%= item.id %>">
-                    <i class="icon-user"></i><%= item.user_name %>
+                <a href="/<%= user_profile_url %>" id="<%= id %>">
+                    <i class="icon-user"></i><%= user_name %>
                 </a>
             </h6>
         </div>
     </div>
-    <div class="span10 mix-container" id="mix-container-<%= item.id %>">
+    <div class="span10 mix-container" id="mix-container-<%= id %>">
         <div class="row title-bar">
             <div class="pull-left title-bar-item">
                 <a class="mix-link"
-                   id="mix-link-<%= item.id %>"
-                   href="<%= item.item_url %>"
-                   title="<%= item.title %>"><%= item.title %>
+                   id="mix-link-<%= id %>"
+                   href="<%= item_url %>"
+                   title="<%= title %>"><%= title %>
                 </a>
             </div>
             <div class="pull-right title-bar-item">
@@ -31,55 +31,50 @@
                 <span class="player-seekhead-time"></span>
             </div>
             <div class="player-progress">
-                <div class="waveform" id="waveform-<%= item.id %>">
-                    <label class="dss-time-display-label dss-time-display-label-total" id="player-duration-<%= item.id %>">00:00:00</label>
-                    <img id="waveform-image-<%= item.id %>" class="waveform_image"
+                <div class="waveform" id="waveform-<%= id %>">
+                    <label class="dss-time-display-label dss-time-display-label-total" id="player-duration-<%= id %>">00:00:00</label>
+                    <img id="waveform-image-<%= id %>" class="waveform_image"
                          alt="Audio waveform"
-                         src="<%= item.waveform_url %>">
-                    <div class="download-progress-overlay" id="progress-player-<%= item.id %>"></div>
-                    <div class="playhead" id="playhead-player-<%= item.id %>" style="width: 0px"></div>
+                         src="<%= waveform_url %>">
+                    <div class="download-progress-overlay" id="progress-player-<%= id %>"></div>
+                    <div class="playhead" id="playhead-player-<%= id %>" style="width: 0px"></div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="player-timeline">
-                <ul class="audio-timeline-ruler" id="player-timeline-<%= item.id %>"></ul>
             </div>
         </div>
         <div class="row">
             <div class="player-footer">
                 <div class="play-button footer-button">
                     <button class="play-button-small play-button-small-start" data-mode="play"
-                            id="play-pause-button-small-<%= item.id %>">
+                            id="play-pause-button-small-<%= id %>">
                     </button>
                 </div>
                 {% if user.is_authenticated %}
                     <div class="like-button footer-button">
-                        <a class="btn btn-mini" id="like-<%= item.id %>" data-mode="<%= item.mode %>"
-                           data-id="<%= item.id %>">
+                        <a class="btn btn-mini <% if (liked) { %> disabled <% } %>" id="like-<%= id %>"
+                           data-id="<%= id %>">
                             <i class="icon-heart"></i> Like</a>
                     </div>
                     <div class="favourite-button footer-button">
-                        <a class="btn btn-mini" id="favourite-<%= item.id %>" data-mode="<%= item.mode %>"
-                           data-id="<%= item.id %>"><i
+                        <a class="btn btn-mini <% if (favourited) { %> disabled <% } %> " id="favourite-<%= id %>"
+                           data-id="<%= id %>"><i
                                 class="icon-star-empty"></i> Favourite</a>
                     </div>
                 {% endif %}
                 <div class="footer-button">
-                    <div class="btn-group" id="share-dropdown-<%= item.id %>">
+                    <div class="btn-group" id="share-dropdown-<%= id %>">
                         <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
                             <i class="icon-share"/>Share
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a data-mode="facebook" data-id="<%= item.id %>" href=""
+                                <a data-mode="facebook"
                                    class="share-button share-button-facebook">
                                     Facebook
                                 </a>
                             </li>
                             <li>
-                                <a data-mode="twitter" data-id="<%= item.id %>" href=""
+                                <a data-mode="twitter"
                                    class="share-button share-button-twitter">
                                     Twitter
                                 </a>
@@ -88,33 +83,33 @@
                     </div>
                 </div>
                 {% if user.is_authenticated %}
-                    <% if (item.download_allowed) { %>
+                    <% if (download_allowed) { %>
                     <div class="download-button footer-button">
-                        <a class="btn btn-mini" data-mode="<%= item.mode %>" data-id="<%= item.id %>">
+                        <a class="btn btn-mini" data-id="<%= id %>">
                             <i class="icon-download"></i> Download</a>
                     </div>
                     <% } %>
                 {% endif %}
                 <div class="footer-button">
                     <ul class="list-nostyle list-horiz">
-                        <li title="<%= item.play_count %> Plays" class="stats-item bordered-right">
-                            <span class="icon-play stats">Plays:</span> <%= item.play_count %>
+                        <li title="<%= play_count %> Plays" class="stats-item bordered-right">
+                            <span class="icon-play stats">Plays:</span> <%= play_count %>
                         </li>
-                        <li title="<%= item.download_count %> Downloads" class="stats-item bordered-right">
-                            <span class="icon-download-alt stats">Downloads:</span> <%= item.download_count %>
+                        <li title="<%= download_count %> Downloads" class="stats-item bordered-right">
+                            <span class="icon-download-alt stats">Downloads:</span> <%= download_count %>
                         </li>
-                        <li title="<%= item.comment_count %> Comments" class="stats-item bordered-right">
-                            <span class="icon-pencil stats">Comments:</span> <%= item.comment_count %>
+                        <li title="<%= comment_count %> Comments" class="stats-item bordered-right">
+                            <span class="icon-pencil stats">Comments:</span> <%= comment_count %>
                         </li>
-                        <li title="<%= item.like_count %> Likes" class="stats-item bordered-right">
-                            <span class="icon-heart stats">Likes:</span> <%= item.like_count %>
+                        <li title="<%= like_count %> Likes" class="stats-item bordered-right">
+                            <span class="icon-heart stats">Likes:</span> <%= like_count %>
                         </li>
                     </ul>
                 </div>
                 {% if user.is_staff %}
                     <div class="edit-button footer-button-right">
-                        <a href="/mix/edit/<%= item.slug %>" class="btn btn-mini" data-mode="<%= item.mode %>"
-                           data-id="<%= item.id %>"><i
+                        <a href="/mix/edit/<%= slug %>" class="btn btn-mini"
+                           data-id="<%= id %>"><i
                                 class="icon-edit"></i>Edit</a>
                     </div>
                 {% endif %}

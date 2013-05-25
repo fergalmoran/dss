@@ -1,17 +1,10 @@
-from spa.models import _basemodel, UserProfile, Mix, _Activity
+from django.contrib.auth.models import User
+from spa.models._basemodel import _BaseModel
 from django.db import models
 
-class MixFavourite(_Activity):
-    mix = models.ForeignKey(Mix, related_name='favourites')
 
-    def get_verb_passed(self):
-        return "favourited"
+class MixFavourite(_BaseModel):
+    mix = models.ForeignKey('spa.Mix', related_name='favourites')
+    user = models.ForeignKey(User, related_name='favourites')
+    date = models.DateTimeField(auto_now=True)
 
-    def get_object_singular(self):
-        return "mix"
-
-    def get_object_name(self):
-        return self.mix.title
-
-    def get_object_url(self):
-        return self.mix.get_absolute_url()

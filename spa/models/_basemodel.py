@@ -7,8 +7,10 @@ from django.utils import simplejson
 from core.utils import url
 from dss import localsettings, settings
 
+from immutablefield.models import ImmutableModel
 
-class _BaseModel(models.Model):
+
+class _BaseModel(ImmutableModel):
     logger = logging.getLogger(__name__)
 
     class Meta:

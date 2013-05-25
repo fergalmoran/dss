@@ -1,0 +1,17 @@
+{% load account_tags %}
+
+<div class="comment-block">
+    <a href="">
+        <img class="image-avatar-small" src="<%= avatar_image %>" alt="">
+    </a>
+
+    <div class="comment-details">
+        <a class="comment-user" href="<%= user_url %>">
+            <%= user_name %>
+        </a>
+        <blockquote class="pull-right">
+            <p><%= comment %></p>
+            <small><%= date_created %></small>
+        </blockquote>
+    </div>
+</div>

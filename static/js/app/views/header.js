@@ -6,68 +6,72 @@
  Code provided under the BSD License:
 
  */
-window.HeaderView = Backbone.View.extend({
-    events:{
-        "click #header-play-pause-button":"togglePlayState",
-        "click #header-login-button":"login",
-        "click #header-live-button":"playLive"
-    },
-    initialize:function () {
-        this.render();
-        _.bindAll(this, "trackChanged");
-        _.bindAll(this, "trackPlaying");
-        _.bindAll(this, "trackPaused");
-        _eventAggregator.bind("track_changed", this.trackChanged);
-        _eventAggregator.bind("track_playing", this.trackPlaying);
-        _eventAggregator.bind("track_paused", this.trackPaused);
-    },
-    login: function () {
-        com.podnoms.utils.modal('tpl/LoginView');
-    },
-    logout: function () {
-        com.podnoms.utils.showAlert("Success", "You are now logged out");
-    },
-    trackChanged:function (data) {
-        $(this.el).find('#track-description').text(data.title);
-        $(this.el).find('#track-description').attr("href", "#" + data.item_url);
-    },
-    trackPlaying:function (data) {
-        $(this.el).find('#header-play-button-icon').removeClass('icon-play');
-        $(this.el).find('#header-play-button-icon').addClass('icon-pause');
+define(['underscore', 'backbone', 'text!/tpl/HeaderView'],
+    function (_, Backbone, Template) {
+        return Backbone.View.extend({
+            template: _.template(Template),
+            events: {
+                "click #header-play-pause-button": "togglePlayState",
+                "click #header-login-button": "login",
+                "click #header-live-button": "playLive"
+            },
+            initialize: function () {
+                this.render();
+                _.bindAll(this, "trackChanged");
+                _.bindAll(this, "trackPlaying");
+                _.bindAll(this, "trackPaused");
+                window._eventAggregator.bind("track_changed", this.trackChanged);
+                _eventAggregator.bind("track_playing", this.trackPlaying);
+                _eventAggregator.bind("track_paused", this.trackPaused);
+            },
+            login: function () {
+                com.podnoms.utils.modal('tpl/LoginView');
+            },
+            logout: function () {
+                com.podnoms.utils.showAlert("Success", "You are now logged out");
+            },
+            trackChanged: function (data) {
+                $(this.el).find('#track-description').text(data.title);
+                $(this.el).find('#track-description').attr("href", "#" + data.item_url);
+            },
+            trackPlaying: function (data) {
+                $(this.el).find('#header-play-button-icon').removeClass('icon-play');
+                $(this.el).find('#header-play-button-icon').addClass('icon-pause');
 
-    },
-    trackPaused:function (data) {
-        $(this.el).find('#header-play-button-icon').removeClass('icon-pause');
-        $(this.el).find('#header-play-button-icon').addClass('icon-play');
-    },
-    render:function () {
-        $(this.el).html(this.template());
-        return this;
-    },
-    playLive:function () {
-        var ref = this;
-        dssSoundHandler.playLive();
-        _eventAggregator.trigger("track_playing")
-        var button = $(this.el).find('#header-play-pause-button');
-        button.data("mode", "pause");
-        $.getJSON(
-            'ajax/live_now_playing/',
-            function (data) {
-                alert(data.title);
-                $(ref.el).find('#live-now-playing').text(data.title);
-            });
-    },
-    togglePlayState:function () {
-        var button = $(this.el).find('#header-play-pause-button');
-        var mode = button.data("mode");
-        if (mode == "play") {
-            dssSoundHandler.resumeSound();
-            _eventAggregator.trigger("track_playing");
-            button.data("mode", "pause");
-        } else {
-            dssSoundHandler.pauseSound();
-            _eventAggregator.trigger("track_paused");
-            button.data("mode", "play");
-        }
-    }
-});
+            },
+            trackPaused: function (data) {
+                $(this.el).find('#header-play-button-icon').removeClass('icon-pause');
+                $(this.el).find('#header-play-button-icon').addClass('icon-play');
+            },
+            render: function () {
+                $(this.el).html(this.template());
+                return this;
+            },
+            playLive: function () {
+                var ref = this;
+                dssSoundHandler.playLive();
+                _eventAggregator.trigger("track_playing")
+                var button = $(this.el).find('#header-play-pause-button');
+                button.data("mode", "pause");
+                $.getJSON(
+                    'ajax/live_now_playing/',
+                    function (data) {
+                        alert(data.title);
+                        $(ref.el).find('#live-now-playing').text(data.title);
+                    });
+            },
+            togglePlayState: function () {
+                var button = $(this.el).find('#header-play-pause-button');
+                var mode = button.data("mode");
+                if (mode == "play") {
+                    dssSoundHandler.resumeSound();
+                    _eventAggregator.trigger("track_playing");
+                    button.data("mode", "pause");
+                } else {
+                    dssSoundHandler.pauseSound();
+                    _eventAggregator.trigger("track_paused");
+                    button.data("mode", "play");
+                }
+            }
+        });
+    });

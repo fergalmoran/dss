@@ -134,7 +134,9 @@ div.player-body ul.player-controls a {
 /* Listing CSS */
 .audio-listing {
     list-style: none;
-    margin: 0;
+}
+.audio-listing-single{
+    margin-left: 32px;
 }
 
 img.mix-listing-image {

@@ -10,7 +10,7 @@ window.MixListItemView = DSSEditableView.extend({
     tagName: "li",
     events: {
         "click .play-button-small-start": "startMix",
-        "click .play-button-small-resume": "resume",
+        "click .play-button-small-resume": "resumeMix",
         "click .play-button-small-pause": "pauseMix",
         "click .mix-link": "mixLink",
         "click .like-button a": "likeMix",
@@ -130,10 +130,12 @@ window.MixListItemView = DSSEditableView.extend({
         );
     },
     pauseMix: function () {
+        console.log("MixItemView: pauseMix")
         com.podnoms.player.pause();
         _eventAggregator.trigger("track_paused");
     },
-    resume: function () {
+    resumeMix: function () {
+        console.log("MixItemView: resumeMix")
         _eventAggregator.trigger("track_playing");
         com.podnoms.player.resume();
     },

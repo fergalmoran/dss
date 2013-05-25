@@ -11,8 +11,8 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-responsive.min.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-datepicker.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-timepicker.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/jasny/jasny-bootstrap.min.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/jasny/jasny-bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/jasny/jasny-bootstrap.css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/jasny/jasny-bootstrap-responsive.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/select2.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/colorbox.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/deepsouthsounds.css">
@@ -25,6 +25,7 @@
     {% endblock %}
 </head>
 <body>
+{% include 'inc/facebook.html' %}
 {% include 'inc/analytics.html' %}
 {% include 'inc/ancient_browser.html' %}
 <div id="header"></div>
@@ -52,24 +53,32 @@
     {% endif %}
     <script src="{{ STATIC_URL }}js/libs/jquery.js"></script>
     <script src="{{ STATIC_URL }}js/libs/jquery.form.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/jquery.cookie.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap.js"></script>
     <script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-fileupload.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/modernizr.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/point.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/matrix.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/select2.js"></script>
+    <script src="{{ STATIC_URL }}js/libs/ajaxfileupload.js"></script>
+    <script src="{{ STATIC_URL }}js/app/social.js"></script>
+    <script src="{{ STATIC_URL }}js/com.podnoms.utils.js"></script>
+    <script src="{{ STATIC_URL }}js/com.podnoms.storage.js"></script>
+    <script src="{{ STATIC_URL }}js/com.podnoms.player.js"></script>
+{% endcompress %}
+{% comment %}
+    <script src="{{ STATIC_URL }}js/libs/jquery.cookie.js"></script>
     <script src="{{ STATIC_URL }}js/libs/jasny/bootstrap-rowlink.js"></script>
     <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-timepicker.js"></script>
     <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap-datepicker.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/bootstrap/bootstrap.min.js"></script>
     <script src="{{ STATIC_URL }}js/app/chat.js"></script>
     <script src="{{ STATIC_URL }}js/app/site.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/ajaxfileupload.js"></script>
     <script src="{{ STATIC_URL }}js/libs/uploadify/jquery.uploadifive.js"></script>
     <script src="{{ STATIC_URL }}js/libs/jquery.iphone-switch.js"></script>
     <script src="{{ STATIC_URL }}js/libs/jquery.tablesorter.js"></script>
     <script src="{{ STATIC_URL }}js/libs/tiny_mce/jquery.tinymce.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/modernizr.js"></script>
     <script src="{{ STATIC_URL }}js/libs/backbone/underscore.js"></script>
     <script src="{{ STATIC_URL }}js/libs/moment.js"></script>
     <script src="{{ STATIC_URL }}js/libs/ICanHaz.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/select2.js"></script>
     <script src="{{ STATIC_URL }}js/libs/backbone/backbone.js"></script>
     <script src="{{ STATIC_URL }}js/libs/backbone/backbone.marionette.js"></script>
     <script src="{{ STATIC_URL }}js/libs/backbone/backbone-tastypie.js"></script>
@@ -77,12 +86,7 @@
     <script src="{{ STATIC_URL }}js/libs/backbone/backbone.syphon.js"></script>
     <script src="{{ STATIC_URL }}js/libs/backbone/backbone.infiniscroll.js"></script>
     <script src="{{ STATIC_URL }}js/libs/globalize.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/toastr.js"></script>
     <script src="{{ STATIC_URL }}js/libs/jquery.colorbox.js"></script>
-    <script src="{{ STATIC_URL }}js/com.podnoms.utils.js"></script>
-    <script src="{{ STATIC_URL }}js/com.podnoms.storage.js"></script>
-    <script src="{{ STATIC_URL }}js/com.podnoms.player.js"></script>
-    <script src="{{ STATIC_URL }}js/app/social.js"></script>
     <script src="{{ STATIC_URL }}js/app/models/mix.js"></script>
     <script src="{{ STATIC_URL }}js/app/models/user.js"></script>
     <script src="{{ STATIC_URL }}js/app/models/activity.js"></script>
@@ -94,7 +98,10 @@
     <script src="{{ STATIC_URL }}js/app/views/sidebar.js"></script>
     <script src="{{ STATIC_URL }}js/app/views/sidebaruser.js"></script>
     <script src="{{ STATIC_URL }}js/app/views/mix.js"></script>
+
     <script src="{{ STATIC_URL }}js/app/views/userEdit.js"></script>
+    <script src="{{ STATIC_URL }}js/app/views/user/userList.js"></script>
+
     <script src="{{ STATIC_URL }}js/app/views/comment.js"></script>
     <script src="{{ STATIC_URL }}js/app/views/activity.js"></script>
     <script src="{{ STATIC_URL }}js/app/views/release.js"></script>
@@ -102,7 +109,7 @@
     <script src="{{ STATIC_URL }}js/app/views/event.js"></script>
     <script src="{{ STATIC_URL }}js/app/app.js"></script>
     <script src="{{ STATIC_URL }}js/app/social.js"></script>
-{% endcompress %}
+{% endcomment %}
 {% block footerscripts %}
 {% endblock %}
 </body>

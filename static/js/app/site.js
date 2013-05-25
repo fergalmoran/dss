@@ -7,7 +7,6 @@
 
  */
 $(document).ready(function () {
-    $('#ajax-request').hide();
     if (window.location.hash == '#_=_') {
         window.location.hash = "";
     }
@@ -15,20 +14,6 @@ $(document).ready(function () {
         Backbone.history.navigate("/");
     }
 });
-
-if (com.podnoms.settings.isDebug) {
-    $(document).on({
-        ajaxStart: function () {
-            $('#ajax-request').show();
-        },
-        ajaxStop: function () {
-            $('#ajax-request').hide();
-        }
-    });
-}else{
-    $('#ajax-request').hide();
-}
-
 
 $(document).ajaxSend(function (event, xhr, settings) {
     function getCookie(name) {
@@ -68,3 +53,15 @@ $(document).ajaxSend(function (event, xhr, settings) {
         xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
     }
 });
+
+
+if (com.podnoms.settings.isDebug) {
+    $(document).on({
+        ajaxStart: function () {
+            console.log("Site: ajax request starting");
+        },
+        ajaxStop: function () {
+            console.log("Site: ajax request finished");
+        }
+    });
+}

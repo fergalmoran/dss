@@ -11,15 +11,16 @@ from django.db.models import Count
 from core.utils import url
 from core.utils.audio.mp3 import mp3_length
 from core.utils.url import unique_slugify
+from spa.models.mixlike import MixLike
 from spa.models.genre import Genre
 from spa.models.mixplay import MixPlay
 from spa.models.mixdownload import MixDownload
 from dss import settings, localsettings
 from spa.models.userprofile import UserProfile
 from spa.models._basemodel import _BaseModel
+from spa.models.mixfavourite import MixFavourite
 from core.utils.file import generate_save_file_name
-from core.utils.audio.mp3 import mp3_length
-
+from immutablefield.models import ImmutableModel
 
 def mix_file_name(instance, filename):
     return generate_save_file_name(instance.uid, 'mixes', filename)
@@ -51,6 +52,9 @@ class Mix(_BaseModel):
     slug = models.SlugField()
 
     genres = models.ManyToManyField(Genre)
+
+    class ImmutableMeta:
+        immutable = ['user']
 
     def __unicode__(self):
         return self.title
@@ -194,6 +198,32 @@ class Mix(_BaseModel):
             return self.likes.filter(user=user).count() != 0
 
         return False
+
+    def update_favourite(self, user, value):
+        try:
+            if user is None:
+                return
+            if user.is_authenticated():
+                if value:
+                    if self.favourites.filter(user=user).count() == 0:
+                        self.favourites.add(MixFavourite(mix=self, user=user))
+                else:
+                    self.favourites.filter(user=user).delete()
+        except Exception, ex:
+            self.logger.error("Exception updating favourite: %s" % ex.message)
+
+    def update_liked(self, user, value):
+        try:
+            if user is None:
+                return
+            if user.is_authenticated():
+                if value:
+                    if self.likes.filter(user=user).count() == 0:
+                        self.likes.add(MixLike(mix=self, user=user))
+                else:
+                    self.likes.filter(user=user).delete()
+        except Exception, ex:
+            self.logger.error("Exception updating like: %s" % ex.message)
 
     def is_favourited(self, user):
         if user is None:

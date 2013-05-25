@@ -23,7 +23,7 @@ class MixResource(BackboneCompatibleResource):
         queryset = Mix.objects.filter(is_active=True)
         always_return_data = True
         detail_uri_name = 'slug'
-        excludes = ['download_url', 'is_active', 'local_file', 'upload_date']
+        excludes = ['download_url', 'is_active', 'local_file', 'upload_date', 'waveform-generated']
         filtering = {
             'comments': ALL_WITH_RELATIONS
         }
@@ -34,7 +34,7 @@ class MixResource(BackboneCompatibleResource):
         ret = []
         for genre in genres:
             if genre['id'] == genre['text']:
-                new_item = genre(description=genre['text'])
+                new_item = Genre(description=genre['text'])
                 new_item.save()
                 ret.append(new_item)
             else:
@@ -49,7 +49,8 @@ class MixResource(BackboneCompatibleResource):
 
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_.-]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
+            url(r"^(?P<resource_name>%s)/(?P<id>[\d]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
+            url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d-]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
             url(r"^(?P<resource_name>%s)/(?P<slug>\w[\w/-]*)/comments%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_comments'), name="api_get_comments"),
             url(r"^(?P<resource_name>%s)/(?P<slug>\w[\w/-]*)/activity%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_activity'), name="api_get_activity"),
         ]
@@ -92,6 +93,8 @@ class MixResource(BackboneCompatibleResource):
         return ret
 
     def obj_update(self, bundle, **kwargs):
+        bundle.obj.update_favourite(bundle.request.user, bundle.data['favourited'])
+        bundle.obj.update_liked(bundle.request.user, bundle.data['liked'])
         ret = super(MixResource, self).obj_update(bundle, bundle.request)
         self._unpackGenreList(ret, bundle.data['genre-list'])
         return ret
@@ -106,6 +109,9 @@ class MixResource(BackboneCompatibleResource):
 
         return Mix.get_listing('latest', bundle.request.user)
 
+    def hydrate_favourited(self, bundle):
+        return bundle
+
     def dehydrate_mix_image(self, bundle):
         return bundle.obj.get_image_url()
 
@@ -114,12 +120,11 @@ class MixResource(BackboneCompatibleResource):
         bundle.data['user_name'] = bundle.obj.user.get_nice_name()
         bundle.data['user_profile_url'] = bundle.obj.user.get_absolute_url()
         bundle.data['user_profile_image'] = bundle.obj.user.get_small_profile_image()
-        bundle.data['item_url'] = 'mix/%s' % bundle.obj.slug
+        bundle.data['item_url'] = '/mix/%s' % bundle.obj.slug
 
         bundle.data['play_count'] = bundle.obj.plays.count()
         bundle.data['download_count'] = bundle.obj.downloads.count()
         bundle.data['like_count'] = bundle.obj.likes.count()
-        bundle.data['mode'] = 'mix'
         bundle.data['tooltip'] = render_to_string('inc/player_tooltip.html', {'item': bundle.obj})
         bundle.data['comment_count'] = bundle.obj.comments.count()
 

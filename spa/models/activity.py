@@ -10,7 +10,7 @@ from spa.models.managers.QueuedActivityModelManager import QueuedActivityModelMa
 
 
 class _Activity(_BaseModel):
-    user = models.ForeignKey(User, null=True)
+    user = models.ForeignKey(User, null=True, related_name='activity')
     uid = models.CharField(max_length=50, blank=True, null=True)
     date = models.DateTimeField(auto_now=True)
     objects = InheritanceManager()

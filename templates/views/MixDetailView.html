@@ -1,0 +1,18 @@
+<section id="mix">
+    <ul id="mix-list-container-ul" class="mix-listing audio-listing"></ul>
+</section>
+<!-- Tab Stylee -->
+<section id="mix-detail-section">
+    <ul id="mix-tab" class="nav nav-tabs" data-tabs="tabs">
+        <li><a data-bypass="true" href="#description" data-toggle="tab">Description</a></li>
+        <li><a data-bypass="true" href="#comments" data-toggle="tab">Comments</a></li>
+    </ul>
+
+    <div id="mix-tabContent" class="tab-content">
+        <div class="tab-pane active in fade" id="description">
+            <pre id="mix-description"><%= description %></pre>
+        </div>
+        <div class="tab-pane fade" id="comments">
+        </div>
+    </div>
+</section>
