@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app.lib/backbone.dss.model'], function(DssModel) {
+  define(['backbone', 'app.lib/backbone.dss.model'], function(Backbone, DssModel) {
     var MixItem;
     MixItem = (function(_super) {
 
@@ -17,7 +17,7 @@
 
       return MixItem;
 
-    })(DssModel);
+    })(Backbone.Model);
     return MixItem;
   });
 

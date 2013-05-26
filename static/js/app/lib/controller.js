@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app', 'marionette', 'models/mix/item', 'views/mix/list', 'views/mix/detail', 'views/mix/edit', 'models/user/item', 'views/user/userEditView'], function(App, Marionette, MixItem, MixListView, MixDetailView, MixEditView, UserItem, UserEditView) {
+  define(['app', 'marionette', 'models/mix/mixItem', 'views/mix/mixListView', 'views/mix/mixDetailView', 'views/mix/mixEditView', 'models/user/userItem', 'views/user/userEditView'], function(App, Marionette, MixItem, MixListView, MixDetailView, MixEditView, UserItem, UserEditView) {
     var DssController;
     DssController = (function(_super) {
 
@@ -45,6 +45,22 @@
             return true;
           }
         });
+        return true;
+      };
+
+      DssController.prototype.uploadMix = function() {
+        var app, mix;
+        console.log("Controller: mixUpload");
+        app = require('app');
+        mix = new MixItem({
+          title: '',
+          description: '',
+          mix_image: '',
+          is_featured: false
+        });
+        app.contentRegion.show(new MixEditView({
+          model: mix
+        }));
         return true;
       };
 

@@ -6,6 +6,7 @@ define ['marionette', 'app.lib/controller'],
             "": "home",
             "/": "home",
 
+            "mix/upload": "uploadMix",
             "mixes": "showMixList",
             "mixes/:type": "showMixList"
             "mix/:slug": "showMix"

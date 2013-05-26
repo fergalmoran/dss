@@ -1,4 +1,4 @@
-define ['marionette', 'views/comments/item', 'text!/tpl/CommentListView'],
+define ['marionette', 'views/comment/commentItemView', 'text!/tpl/CommentListView'],
 (Marionette, CommentItemView, Template) ->
     class CommentListView extends Marionette.CompositeView
 

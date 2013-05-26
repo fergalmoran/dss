@@ -1,4 +1,4 @@
-define ['marionette', 'models/activity/collection', 'views/activity/item', 'text!/tpl/ActivityListView'],
+define ['marionette', 'models/activity/activityCollection', 'views/activity/activityItemView', 'text!/tpl/ActivityListView'],
 (Marionette, ActivityCollection, ActivityItemView, Template) ->
     class ActivityListView extends Marionette.CompositeView
 

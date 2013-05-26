@@ -40,7 +40,7 @@
         console.log("MixEditView: onRender");
         this.sendImage = false;
         parent = this;
-        if (this.model.id === 'undefined') {
+        if (!this.model.id) {
           $("#mix-upload", this.el).uploadifive({
             uploadScript: "/ajax/upload_mix_file_handler/",
             buttonText: "Select audio file (mp3 for now please)",

@@ -1,6 +1,6 @@
 define ['app', 'marionette',
-        'models/mix/item', 'views/mix/list', 'views/mix/detail', 'views/mix/edit',
-        'models/user/item', 'views/user/userEditView'],
+        'models/mix/mixItem', 'views/mix/mixListView', 'views/mix/mixDetailView', 'views/mix/mixEditView',
+        'models/user/userItem', 'views/user/userEditView'],
 (App, Marionette, MixItem, MixListView, MixDetailView, MixEditView, UserItem, UserEditView)->
     class DssController extends Marionette.Controller
         home: ->
@@ -25,6 +25,18 @@ define ['app', 'marionette',
                     app.contentRegion.show(new MixDetailView({model: mix}))
                     true
             )
+            true
+
+        uploadMix: ->
+            console.log("Controller: mixUpload")
+            app = require('app')
+            mix = new MixItem({
+                title: '',
+                description: '',
+                mix_image: '',
+                is_featured: false
+            });
+            app.contentRegion.show(new MixEditView({model: mix}))
             true
 
         editMix: (slug) ->

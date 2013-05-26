@@ -1,4 +1,4 @@
-define ['backbone', 'models/mix/item', 'app.lib/backbone.dss.model.collection'], \
+define ['backbone', 'models/mix/mixItem', 'app.lib/backbone.dss.model.collection'], \
     (Backbone, MixItem, DssCollection) ->
         class MixCollection extends DssCollection
             model: MixItem

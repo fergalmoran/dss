@@ -1,5 +1,5 @@
-define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'views/header', 'views/sidebar/sidebar',
-        'models/mix/collection'],
+define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'views/header', 'views/sidebar/sidebarView',
+        'models/mix/mixCollection'],
 (Backbone, Marionette, DssRouter, PanningRegion, HeaderView, SidebarView, MixCollection) ->
     Marionette.Region.prototype.open = (view) ->
         @.$el.hide();

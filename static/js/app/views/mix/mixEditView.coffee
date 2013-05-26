@@ -19,7 +19,7 @@ define ['app.lib/editableView', 'moment', 'libs/backbone/backbone.syphon', 'text
             console.log("MixEditView: onRender")
             @sendImage = false
             parent = this
-            if @model.id is 'undefined'
+            if not @model.id
                 $("#mix-upload", @el).uploadifive(
                     uploadScript: "/ajax/upload_mix_file_handler/"
                     buttonText: "Select audio file (mp3 for now please)"

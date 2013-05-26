@@ -1,4 +1,4 @@
-define ['underscore', 'backbone', 'marionette', 'views/activity/list', 'text!/tpl/SidebarView'],
+define ['underscore', 'backbone', 'marionette', 'views/activity/activityListView', 'text!/tpl/SidebarView'],
 (_, Backbone, Marionette, ActivityListView, Template) ->
     class SidebarView extends Marionette.Layout
         template: _.template(Template)

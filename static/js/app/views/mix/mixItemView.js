@@ -4,7 +4,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['moment', 'app', 'marionette', 'models/comments/collection', 'views/comments/list', 'text!/tpl/MixListItemView'], function(moment, App, Marionette, CommentsCollection, CommentsListView, Template) {
+  define(['moment', 'app', 'marionette', 'models/comment/commentCollection', 'views/comment/commentListView', 'text!/tpl/MixListItemView'], function(moment, App, Marionette, CommentsCollection, CommentsListView, Template) {
     var MixItemView;
     MixItemView = (function(_super) {
 

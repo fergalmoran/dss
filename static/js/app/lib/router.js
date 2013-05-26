@@ -18,6 +18,7 @@
       DssRouter.prototype.appRoutes = {
         "": "home",
         "/": "home",
+        "mix/upload": "uploadMix",
         "mixes": "showMixList",
         "mixes/:type": "showMixList",
         "mix/:slug": "showMix",

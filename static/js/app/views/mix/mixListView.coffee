@@ -1,4 +1,4 @@
-define ['marionette', 'models/mix/collection', 'views/mix/item', 'text!/tpl/MixListView'],
+define ['marionette', 'models/mix/mixCollection', 'views/mix/mixItemView', 'text!/tpl/MixListView'],
 (Marionette, MixCollection, MixItemView, Template) ->
     class  MixListView extends Marionette.CompositeView
 
