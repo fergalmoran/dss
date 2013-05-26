@@ -24,7 +24,7 @@ class ActivityResource(BackboneCompatibleResource):
                 user_image = bundle.obj.user.get_profile().get_small_profile_image()
                 user_profile = bundle.obj.user.get_profile().get_profile_url()
             else:
-                user_name = "Anonymous user"
+                user_name = "Anonymous"
                 user_image = UserProfile.get_default_avatar_image()
                 user_profile = ""
 
@@ -45,13 +45,3 @@ class ActivityResource(BackboneCompatibleResource):
         except Exception, ee:
             self.logger.debug("Exception: Error dehydrating activity, %s" % ee.message)
         return None
-
-    """"
-    def alter_list_data_to_serialize(self, request, data):
-        return [i for i in data['objects'] if i is not None and i.obj.user is not None and i.obj.get_object_name is not None and i.obj.get_object_url is not None]
-    """
-
-    """
-    def dehydrate_date(self, bundle):
-        return self.humanize_date(bundle.obj.date)
-    """

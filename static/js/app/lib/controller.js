@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app', 'marionette', 'models/mix/mixItem', 'views/mix/mixListView', 'views/mix/mixDetailView', 'views/mix/mixEditView', 'models/user/userItem', 'views/user/userEditView'], function(App, Marionette, MixItem, MixListView, MixDetailView, MixEditView, UserItem, UserEditView) {
+  define(['app', 'marionette', 'models/mix/mixItem', 'views/mix/mixListView', 'views/mix/mixDetailView', 'views/mix/mixEditView', 'models/user/userItem', 'views/user/userListView', 'views/user/userEditView'], function(App, Marionette, MixItem, MixListView, MixDetailView, MixEditView, UserItem, UserListView, UserEditView) {
     var DssController;
     DssController = (function(_super) {
 
@@ -81,7 +81,15 @@
         return true;
       };
 
-      DssController.prototype.user = function(slug) {
+      DssController.prototype.showUserList = function(type) {
+        var app;
+        console.log("Controller: showUserList");
+        app = require('app');
+        return app.contentRegion.show(new UserListView());
+      };
+
+      DssController.prototype.showUserDetail = function(slug) {
+        console.log("Controller: showUserDetail");
         return this.showMixList('latest', {
           user: slug
         });

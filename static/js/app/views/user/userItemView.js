@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app', 'marionette'], function(App, Marionette) {
+  define(['app', 'marionette', 'text!/tpl/UserListItemView'], function(App, Marionette, Template) {
     var UserItemView;
     return UserItemView = (function(_super) {
 
@@ -13,7 +13,9 @@
         return UserItemView.__super__.constructor.apply(this, arguments);
       }
 
-      UserItemView.prototype.itemView = UserItemView;
+      UserItemView.prototype.template = _.template(Template);
+
+      UserItemView.prototype.tagName = "tr";
 
       return UserItemView;
 

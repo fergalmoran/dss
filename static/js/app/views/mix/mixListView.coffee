@@ -8,7 +8,7 @@ define ['marionette', 'models/mix/mixCollection', 'views/mix/mixItemView', 'text
         itemViewContainer: "#mix-list-container-ul"
 
         initialize: ->
-            console.log "MixListView: Before render"
+            console.log "MixListView: initialize"
             @collection = new MixCollection()
             @collection.fetch(
                 data: @options

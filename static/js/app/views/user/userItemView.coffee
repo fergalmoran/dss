@@ -1,5 +1,5 @@
-define ['app', 'marionette'],
-(App, Marionette)->
+define ['app', 'marionette', 'text!/tpl/UserListItemView'],
+(App, Marionette, Template)->
     class UserItemView extends Marionette.ItemView
-        itemView: UserItemView
- 
+        template: _.template(Template)
+        tagName: "tr"

@@ -1,0 +1,9 @@
+<td><%= profile.display_name %></td>
+<td>
+    <a href="/user/<%= profile.slug %>"><%= profile.mix_count%></a>
+</td>
+<td>
+    <a href="/user/<%= profile.slug %>/followers"><%= profile.follower_count %></a>
+</td>
+<td><%= profile.following_count %></td>
+<td><%= human_last_login %></td>

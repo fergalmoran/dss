@@ -23,7 +23,7 @@
 
       MixListView.prototype.initialize = function() {
         var _this = this;
-        console.log("MixListView: Before render");
+        console.log("MixListView: initialize");
         this.collection = new MixCollection();
         this.collection.fetch({
           data: this.options,
