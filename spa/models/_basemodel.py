@@ -1,16 +1,12 @@
 import logging
 import os
-
 from django.db import models
 from django.utils import simplejson
-
 from core.utils import url
 from dss import localsettings, settings
 
-from immutablefield.models import ImmutableModel
 
-
-class _BaseModel(ImmutableModel):
+class _BaseModel(models.Model):
     logger = logging.getLogger(__name__)
 
     class Meta:

@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Count
 from django.template.loader import render_to_string
 from tastypie import fields
 from tastypie.authorization import Authorization
@@ -102,15 +103,28 @@ class MixResource(BackboneCompatibleResource):
         self._unpackGenreList(ret, bundle.data['genre-list'])
         return ret
 
-    def obj_get_list(self, bundle, **kwargs):
-        if 'user' in bundle.request.GET and bundle.request.GET['user']:
-            user = bundle.request.GET['user']
-            return Mix.get_for_username(user)
-        elif 'type' in bundle.request.GET and bundle.request.GET['type']:
-            type = bundle.request.GET['type']
-            return Mix.get_listing(type, bundle.request.user)
+    def apply_sorting(self, obj_list, options=None):
+        orderby = options.get('order_by', '')
+        if orderby == 'latest':
+            obj_list = obj_list.order_by('-id')
+        elif orderby == 'toprated':
+            obj_list = obj_list.annotate(karma=Count('likes')).order_by('-karma')
+        elif orderby == 'mostplayed':
+            obj_list = obj_list.annotate(karma=Count('plays')).order_by('-karma')
+        elif orderby == 'mostactive':
+            obj_list = obj_list.annotate(karma=Count('comments')).order_by('-karma')
+        elif orderby == 'recommended':
+            obj_list = obj_list.annotate(karma=Count('likes'))  .order_by('-karma')
 
-        return Mix.get_listing('latest', bundle.request.user)
+        return obj_list
+
+    def apply_filters(self, request, applicable_filters):
+        semi_filtered = super(MixResource, self).apply_filters(request, applicable_filters)
+        type = request.GET.get('type', None)
+        if type == 'favourites':
+            semi_filtered = semi_filtered.filter(favourites__mix__in=semi_filtered)
+
+        return semi_filtered
 
     def hydrate_favourited(self, bundle):
         return bundle
@@ -128,6 +142,7 @@ class MixResource(BackboneCompatibleResource):
         bundle.data['play_count'] = bundle.obj.plays.count()
         bundle.data['download_count'] = bundle.obj.downloads.count()
         bundle.data['like_count'] = bundle.obj.likes.count()
+        bundle.data['favourite_count'] = bundle.obj.favourites.count()
         bundle.data['tooltip'] = render_to_string('inc/player_tooltip.html', {'item': bundle.obj})
         bundle.data['comment_count'] = bundle.obj.comments.count()
 

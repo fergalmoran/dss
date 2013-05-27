@@ -17,7 +17,7 @@
 
       UserListView.prototype.tagName = "table";
 
-      UserListView.prototype.className = "table table-striped";
+      UserListView.prototype.className = "table table-hover";
 
       UserListView.prototype.itemView = UserItemView;
 
@@ -29,8 +29,14 @@
           data: this.options,
           success: function() {
             console.log("UserListView: Collection fetched");
+            $(_this.el).tablesorter();
           }
         });
+      };
+
+      UserListView.prototype.onRender = function() {
+        console.log("UserListView: onRender");
+        return true;
       };
 
       return UserListView;

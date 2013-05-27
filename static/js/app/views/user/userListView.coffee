@@ -4,7 +4,7 @@ define ['marionette', 'models/user/userCollection', 'views/user/userItemView', '
 
         template: _.template(Template)
         tagName: "table"
-        className: "table table-striped"
+        className: "table table-hover"
         itemView: UserItemView
 
         initialize: ->
@@ -14,8 +14,13 @@ define ['marionette', 'models/user/userCollection', 'views/user/userItemView', '
                 data: @options
                 success: =>
                     console.log("UserListView: Collection fetched")
+                    $(@el).tablesorter()
                     return
             )
             return
+
+        onRender: ->
+            console.log("UserListView: onRender")
+            true
 
     UserListView

@@ -8,12 +8,14 @@ define ['app', 'marionette',
             @showMixList()
             true
 
-        showMixList: (type, options) ->
-            console.log "Controller: showMixList"
-            type = type or "latest"
+        _showMixList: (options) ->
+            console.log "Controller: _showMixList"
             app = require('app')
+            app.contentRegion.show(new MixListView(options))
+            true
 
-            app.contentRegion.show(new MixListView($.extend({type: type}, options)), 'drop');
+        showMixList: (type) ->
+            @_showMixList({order_by: type || 'latest'})
             true
 
         showMix: (slug)->
@@ -54,10 +56,25 @@ define ['app', 'marionette',
             app = require('app')
             app.contentRegion.show(new UserListView())
 
-
         showUserDetail: (slug) ->
             console.log("Controller: showUserDetail")
-            @showMixList('latest', {user: slug})
+            @_showMixList({order_by: 'latest', user: slug})
+
+        showUserFavourites: (slug) ->
+            console.log("Controller: showUserFavourites")
+            @_showMixList({order_by: 'latest', type: 'favourites', user: slug})
+
+        showUserLikes: (slug) ->
+            console.log("Controller: showUserLikes")
+            @_showMixList({order_by: 'latest', type: 'likes', user: slug})
+
+        showUserFollowing: (slug) ->
+            console.log("Controller: showUserFollowing")
+            @_showMixList({order_by: 'latest', type: 'following', user: slug})
+
+        showUserFollowers: (slug) ->
+            console.log("Controller: showUserFollowers")
+            @_showMixList({order_by: 'latest', type: 'followers', user: slug})
 
         editUser: () ->
             console.log("Controller: editUser")

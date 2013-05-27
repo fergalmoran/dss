@@ -2,12 +2,10 @@ import os
 import rfc822
 from datetime import datetime
 import urlparse
-
 from sorl.thumbnail import get_thumbnail
 from django.contrib.sites.models import Site
 from django.db import models
 from django.db.models import Count
-
 from core.utils import url
 from core.utils.audio.mp3 import mp3_length
 from core.utils.url import unique_slugify
@@ -20,7 +18,7 @@ from spa.models.userprofile import UserProfile
 from spa.models._basemodel import _BaseModel
 from spa.models.mixfavourite import MixFavourite
 from core.utils.file import generate_save_file_name
-from immutablefield.models import ImmutableModel
+
 
 def mix_file_name(instance, filename):
     return generate_save_file_name(instance.uid, 'mixes', filename)
@@ -29,6 +27,10 @@ def mix_file_name(instance, filename):
 def mix_image_name(instance, filename):
     ret = generate_save_file_name(instance.uid, 'mix-images', filename)
     return ret
+
+
+class MixManager(models.Manager):
+    pass
 
 
 class Mix(_BaseModel):
@@ -59,7 +61,7 @@ class Mix(_BaseModel):
     def __unicode__(self):
         return self.title
 
-    def save(self, force_insert=False, force_update=False, using=None):
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.id:
             self.slug = unique_slugify(self, self.title)
 
@@ -68,7 +70,7 @@ class Mix(_BaseModel):
             self.waveform_generated = True
             self.duration = mp3_length(self.get_absolute_path())
 
-        super(Mix, self).save(force_insert, force_update, using)
+        super(Mix, self).save(force_insert, force_update, using, update_fields)
 
     def get_absolute_path(self, prefix=""):
         fileName, extension = os.path.splitext(self.local_file.name)
@@ -126,23 +128,28 @@ class Mix(_BaseModel):
             rfc822.mktime_tz(rfc822.parsedate_tz(self.upload_date.strftime("%a, %d %b %Y %H:%M:%S"))))
 
     @classmethod
-    def get_for_username(cls, user):
-        queryset = Mix.objects \
+    def get_for_username(cls, user, queryset=None):
+        if queryset is None:
+            queryset = Mix.objects
+
+        return queryset \
             .filter(user__slug__exact=user) \
             .filter(waveform_generated=True) \
             .order_by('-id')
-        return queryset
 
     @classmethod
-    def get_listing(cls, listing_type, user=None):
-        queryset = None
-        candidates = Mix.objects \
+    def get_listing(cls, listing_type, user=None, queryset=None):
+        candidates = queryset or Mix.objects \
             .filter(waveform_generated=True) \
             .filter(is_featured=True) \
             .exclude(duration__isnull=True)
 
         if listing_type == 'latest':
             queryset = candidates.order_by('-id')
+        elif listing_type == 'likes':
+            queryset = candidates.annotate(karma=Count('likes')).order_by('-karma')
+        elif listing_type == 'favourites':
+            queryset = candidates.annotate(karma=Count('likes')).order_by('-karma')
         elif listing_type == 'toprated':
             queryset = candidates.annotate(karma=Count('likes')).order_by('-karma')
         elif listing_type == 'mostactive':
@@ -200,7 +207,7 @@ class Mix(_BaseModel):
             if user.is_authenticated():
                 if value:
                     if self.favourites.filter(user=user).count() == 0:
-                        self.favourites.add(MixFavourite(mix=self, user=user))
+                        self.favourites.add(MixFavourite(mix=self, user=user.get_profile()))
                 else:
                     self.favourites.filter(user=user).delete()
         except Exception, ex:
@@ -213,7 +220,7 @@ class Mix(_BaseModel):
             if user.is_authenticated():
                 if value:
                     if self.likes.filter(user=user).count() == 0:
-                        self.likes.add(MixLike(mix=self, user=user))
+                        self.likes.add(MixLike(mix=self, user=user.get_profile()))
                 else:
                     self.likes.filter(user=user).delete()
         except Exception, ex:
