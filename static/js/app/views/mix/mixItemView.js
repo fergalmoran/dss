@@ -118,7 +118,7 @@
               collection: comments
             }).render();
             $("#comments", this.el).html(content.el);
-            return $('#mix-tab a:first', this.el).tab('show');
+            return true;
           }
         });
         return true;

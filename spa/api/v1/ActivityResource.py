@@ -3,26 +3,23 @@ from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.models import UserProfile
-from spa.models.activity import _Activity
+from spa.models.activity import Activity
 
 
 class ActivityResource(BackboneCompatibleResource):
     class Meta:
-        queryset = _Activity.objects.all().order_by('-date')
+        queryset = Activity.objects.all().order_by('-date')
         resource_name = 'activity'
         authorization = Authorization()
         authentication = Authentication()
         always_return_data = True
 
-    def get_object_list(self, request):
-        return self._meta.queryset.select_subclasses()
-
     def dehydrate(self, bundle):
         try:
-            if bundle.obj.user is not None and bundle.obj.user.get_profile() is not None:
-                user_name = bundle.obj.user.get_profile().get_nice_name()
-                user_image = bundle.obj.user.get_profile().get_small_profile_image()
-                user_profile = bundle.obj.user.get_profile().get_profile_url()
+            if bundle.obj.user is not None:
+                user_name = bundle.obj.user.get_nice_name()
+                user_image = bundle.obj.user.get_small_profile_image()
+                user_profile = bundle.obj.user.get_profile_url()
             else:
                 user_name = "Anonymous"
                 user_image = UserProfile.get_default_avatar_image()

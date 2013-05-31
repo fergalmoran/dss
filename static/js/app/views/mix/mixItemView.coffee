@@ -81,7 +81,7 @@ define ['moment', 'app', 'marionette', 'models/comment/commentCollection', 'view
                 console.log(data)
                 content = new CommentsListView(collection: comments).render()
                 $("#comments", @el).html content.el
-                $('#mix-tab a:first', @el).tab('show');
+                true
             true
 
         favouriteMix: ->

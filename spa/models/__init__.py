@@ -7,11 +7,7 @@ from venue import Venue
 from event import Event
 from label import Label
 from mix import Mix
-from activity import _Activity
-from mixlike import MixLike
-from mixplay import MixPlay
-from mixfavourite import MixFavourite
-from mixdownload import MixDownload
+from activity import Activity
 from genre import Genre
 from tracklist import Tracklist
 from purchaselink import PurchaseLink

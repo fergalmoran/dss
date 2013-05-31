@@ -14,12 +14,18 @@ define ['marionette', 'models/mix/mixCollection', 'views/mix/mixItemView', 'text
                 data: @options
                 success: =>
                     console.log("MixListView: Collection fetched")
-                    return
+                    @tabChanged('latest')
+                    true
             )
             return
 
         onRender: ->
             $('#li-' + @options.type, @el).addClass('active')
+            true
+
+        tabChanged: (type) ->
+            console.log("MixListView: tab changed")
+            $('#mix-tab a.' + type, @el).tab('show')
             true
 
     MixListView

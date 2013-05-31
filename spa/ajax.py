@@ -3,7 +3,6 @@ import logging
 
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import get_model
 from django.http import HttpResponse
@@ -15,10 +14,9 @@ from django.views.decorators.csrf import csrf_exempt
 from core.utils import live
 from dss import localsettings, settings
 from spa import social
-from spa.models import UserProfile, mixfavourite, Release
+from spa.models import UserProfile, Release, Activity
 from spa.models.mix import Mix
 from spa.models.comment import Comment
-from spa.models.mixlike import MixLike
 from core.serialisers import json
 from core.tasks import create_waveform_task
 from core.utils.audio.mp3 import mp3_length
@@ -160,7 +158,7 @@ def like(request):
                 if mix is not None:
                     if mix.likes.count() == 0:
                         uid = social.post_like(request, mix)
-                        mix.likes.add(MixLike(mix=mix, user=request.user, uid=uid))
+                        mix.likes.add(Activity(user=request.user))
                         response = _get_json('Liked')
                     else:
                         for like in mix.likes.all():
@@ -206,7 +204,7 @@ def favourite(request):
                 mix = Mix.objects.get(pk=request.POST['dataId'])
                 if mix is not None:
                     if mix.favourites.count() == 0:
-                        mix.favourites.add(mixfavourite(mix=mix, user=request.user))
+                        mix.favourites.add(Activity(mix=mix, user=request.user))
                         response = _get_json('Favourited')
                     else:
                         mix.favourites.all().delete()

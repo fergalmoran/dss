@@ -5,18 +5,14 @@ import urlparse
 from sorl.thumbnail import get_thumbnail
 from django.contrib.sites.models import Site
 from django.db import models
-from django.db.models import Count
 from core.utils import url
 from core.utils.audio.mp3 import mp3_length
 from core.utils.url import unique_slugify
-from spa.models.mixlike import MixLike
+from spa.models.activity import Activity
 from spa.models.genre import Genre
-from spa.models.mixplay import MixPlay
-from spa.models.mixdownload import MixDownload
 from dss import settings, localsettings
 from spa.models.userprofile import UserProfile
 from spa.models._basemodel import _BaseModel
-from spa.models.mixfavourite import MixFavourite
 from core.utils.file import generate_save_file_name
 
 
@@ -55,8 +51,10 @@ class Mix(_BaseModel):
 
     genres = models.ManyToManyField(Genre)
 
-    class ImmutableMeta:
-        immutable = ['user']
+    favourites = models.ManyToManyField(Activity, related_name='mix_favourites')
+    likes = models.ManyToManyField(Activity, related_name='mix_likes')
+    plays = models.ManyToManyField(Activity, related_name='mix_plays')
+    downloads = models.ManyToManyField(Activity, related_name='mix_downloads')
 
     def __unicode__(self):
         return self.title
@@ -137,60 +135,23 @@ class Mix(_BaseModel):
             .filter(waveform_generated=True) \
             .order_by('-id')
 
-    @classmethod
-    def get_listing(cls, listing_type, user=None, queryset=None):
-        candidates = queryset or Mix.objects \
-            .filter(waveform_generated=True) \
-            .filter(is_featured=True) \
-            .exclude(duration__isnull=True)
-
-        if listing_type == 'latest':
-            queryset = candidates.order_by('-id')
-        elif listing_type == 'likes':
-            queryset = candidates.annotate(karma=Count('likes')).order_by('-karma')
-        elif listing_type == 'favourites':
-            queryset = candidates.annotate(karma=Count('likes')).order_by('-karma')
-        elif listing_type == 'toprated':
-            queryset = candidates.annotate(karma=Count('likes')).order_by('-karma')
-        elif listing_type == 'mostactive':
-            queryset = candidates.filter(waveform_generated=True).annotate(karma=Count('comments')).order_by('-karma')
-        elif listing_type == 'mostplayed':
-            queryset = candidates.annotate(karma=Count('plays')).order_by('-karma')
-        elif listing_type == 'recommended':
-            queryset = candidates.order_by('-id')
-        elif listing_type == 'favourites':
-            queryset = candidates.filter(favourites__user=user).order_by('favourites__date')
-        else:
-            #check if we have a valid genre
-            queryset = candidates.filter(genres__slug__exact=listing_type)
-        return queryset
-
-    @classmethod
-    def get_user_mixes(cls, user_name):
-        mixes = Mix.objects.filter(user__user__username=user_name)
-        if mixes.count():
-            return {
-                "inline_play": False,
-                "heading": "Some mixes from " + mixes[0].user.user.get_full_name() or mixes[0].user.user.username,
-                "latest_mix_list": mixes,
-            }
-
-        return {
-            "heading": "No mixes found for this user",
-            "latest_mix_list": None,
-        }
-
     def add_download(self, user):
         try:
-            self.downloads.add(MixDownload(user=user if user.is_authenticated() else None))
+            if user.is_authenticated():
+                activity = Activity(user=user.get_profile(), activity_type='d')
+                activity.save()
+                self.downloads.add(activity)
         except Exception, e:
-            self.logger.exception("Error adding mix download")
+            self.logger.exception("Error adding mix download: %s" % e.message)
 
     def add_play(self, user):
         try:
-            self.plays.add(MixPlay(user=user if user.is_authenticated() else None))
+            if user.is_authenticated():
+                activity = Activity(user=user.get_profile(), activity_type='p')
+                activity.save()
+                self.plays.add(activity)
         except Exception, e:
-            self.logger.exception("Unable to add mix play")
+            self.logger.exception("Unable to add mix play: %s" % e.message)
 
     def is_liked(self, user):
         if user is None:
@@ -207,7 +168,9 @@ class Mix(_BaseModel):
             if user.is_authenticated():
                 if value:
                     if self.favourites.filter(user=user).count() == 0:
-                        self.favourites.add(MixFavourite(mix=self, user=user.get_profile()))
+                        activity = Activity(user=user.get_profile(), activity_type='f')
+                        activity.save()
+                        self.favourites.add(activity)
                 else:
                     self.favourites.filter(user=user).delete()
         except Exception, ex:
@@ -220,7 +183,9 @@ class Mix(_BaseModel):
             if user.is_authenticated():
                 if value:
                     if self.likes.filter(user=user).count() == 0:
-                        self.likes.add(MixLike(mix=self, user=user.get_profile()))
+                        activity = Activity(user=user.get_profile(), activity_type='l')
+                        activity.save()
+                        self.likes.add(activity)
                 else:
                     self.likes.filter(user=user).delete()
         except Exception, ex:

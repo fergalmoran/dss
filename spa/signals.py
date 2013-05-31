@@ -2,17 +2,13 @@ from celery.task import task
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.signals import post_save
 from django.dispatch import Signal
-from kombu import Connection
-from kombu.entity import Exchange
 from django.contrib.auth.models import User
 from south import signals
 from core.utils.audio.mp3 import mp3_length
 
-from dss import localsettings, settings
-from spa.models import _Activity
+from dss import settings
 from spa.models import UserProfile
 from spa.models.mix import Mix
-import pika
 
 waveform_generated = Signal()
 

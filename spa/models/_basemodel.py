@@ -14,7 +14,7 @@ class _BaseModel(models.Model):
         app_label = 'spa'
 
     def tosimplejson(self):
-        ret = simplejson.dump(self)
+        return simplejson.dump(self)
 
     @classmethod
     def get_lookup(cls, filter_field, transform=None, filter=None):

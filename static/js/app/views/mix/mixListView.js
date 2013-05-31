@@ -29,12 +29,20 @@
           data: this.options,
           success: function() {
             console.log("MixListView: Collection fetched");
+            _this.tabChanged('latest');
+            return true;
           }
         });
       };
 
       MixListView.prototype.onRender = function() {
         $('#li-' + this.options.type, this.el).addClass('active');
+        return true;
+      };
+
+      MixListView.prototype.tabChanged = function(type) {
+        console.log("MixListView: tab changed");
+        $('#mix-tab a.' + type, this.el).tab('show');
         return true;
       };
 

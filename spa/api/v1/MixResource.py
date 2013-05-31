@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL_WITH_RELATIONS
+from tastypie.fields import ToOneField
 from tastypie.http import HttpGone
 from tastypie.utils import trailing_slash
 
@@ -22,6 +23,7 @@ class MixResource(BackboneCompatibleResource):
 
     class Meta:
         queryset = Mix.objects.filter(is_active=True)
+        user = ToOneField('UserResource', 'user')
         always_return_data = True
         detail_uri_name = 'slug'
         excludes = ['download_url', 'is_active', 'local_file', 'upload_date', 'waveform-generated']

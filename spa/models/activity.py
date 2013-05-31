@@ -1,49 +1,33 @@
-import abc
-
-from django.contrib.auth.models import User
 from django.db import models
-
-from model_utils.managers import InheritanceManager
-
+from spa.models.userprofile import UserProfile
 from spa.models._basemodel import _BaseModel
-from spa.models.managers.QueuedActivityModelManager import QueuedActivityModelManager
+
+ACTIVITYTYPES = (
+    ('p', 'played'),
+    ('d', 'downloaded'),
+    ('l', 'liked'),
+    ('f', 'favourited'),
+)
 
 
-class _Activity(_BaseModel):
-    user = models.ForeignKey(User, null=True, related_name='activity')
-    uid = models.CharField(max_length=50, blank=True, null=True)
+class Activity(_BaseModel):
+    user = models.ForeignKey(UserProfile, null=True, blank=True)
     date = models.DateTimeField(auto_now=True)
-    objects = InheritanceManager()
-
-    message_manager = QueuedActivityModelManager()
-
-    class Meta:
-        app_label = 'spa'
+    activity_type = models.CharField(max_length=1, choices=ACTIVITYTYPES)
 
     def __unicode__(self):
         return "%s" % self.date
 
-    @abc.abstractmethod
     def get_verb_passed(self):
-        return
+        verb = [item for item in ACTIVITYTYPES if item[0] == self.activity_type][0]
+        return str(verb[1])
 
-    @abc.abstractmethod
-    def get_verb_present(self):
-        return
-
-    @abc.abstractmethod
     def get_object_singular(self):
-        return
+        return "mix"
 
-    @abc.abstractmethod
-    def get_object_plural(self):
-        return
-
-    @abc.abstractmethod
     def get_object_name(self):
-        return
+        return "mix"
 
-    @abc.abstractmethod
     def get_object_url(self):
-        return
+        return "url"
 

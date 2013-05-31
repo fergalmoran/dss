@@ -1,9 +1,12 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 import humanize
 from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import DjangoAuthorization
 from django.conf.urls import url
+from tastypie.http import HttpMultipleChoices, HttpGone
+from tastypie.utils import trailing_slash
 
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.api.v1.MixResource import MixResource
@@ -78,8 +81,8 @@ class UserProfileResource(BackboneCompatibleResource):
                                           UserProfile.ACTIVITY_SHARE_NETWORK_TWITTER)
 
         bundle.data['mix_count'] = Mix.objects.filter(user=bundle.obj).count()
-        bundle.data['like_count'] = bundle.obj.likes.count()
-        bundle.data['favourite_count'] = bundle.obj.favourites.count()
+        bundle.data['like_count'] = Mix.objects.filter(likes__user=bundle.obj).count()
+        bundle.data['favourite_count'] = Mix.objects.filter(favourites__user=bundle.obj).count()
         bundle.data['follower_count'] = bundle.obj.followers.count()
         bundle.data['following_count'] = bundle.obj.following.count()
         bundle.data['following'] = bundle.obj.is_follower(bundle.request.user)
@@ -95,10 +98,11 @@ class UserResource(BackboneCompatibleResource):
         excludes = ['is_active', 'is_staff', 'is_superuser', 'password']
         authorization = DjangoAuthorization()
         authentication = Authentication()
+        favourites = fields.ToManyField(MixResource, 'favourites')
 
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<userprofile__slug>[\w\d_.-]+)/favourites/$" % self._meta.resource_name,
+            url(r"^(?P<resource_name>%s)/(?P<userprofile__slug>[\w\d_.-]+)/favourites%s$" % (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('get_user_favourites'), name="api_get_user_favourites"),
             url(r"^(?P<resource_name>%s)/(?P<pk>\d+)/$" % self._meta.resource_name,
                 self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
@@ -108,12 +112,14 @@ class UserResource(BackboneCompatibleResource):
 
     def get_user_favourites(self, request, **kwargs):
         try:
-            basic_bundle = self.build_bundle(request=request)
-            user = self.cached_obj_get(bundle=basic_bundle, **self.remove_api_resource_names(kwargs))
-            mixes = MixResource()
-            return mixes.get_object_list(request).filter()
-        except Exception, ex:
-            self.logger.error("Error getting user favourites: %s" % ex.message)
+            obj = self.cached_obj_get(bundle=self.build_bundle(request=request), **self.remove_api_resource_names(kwargs))
+        except ObjectDoesNotExist:
+            return HttpGone()
+        except MultipleObjectsReturned:
+            return HttpMultipleChoices("More than one resource is found at this URI.")
+
+        mixes = MixResource()
+        return mixes.get_list(request, favourites__user=obj.get_profile())
 
     def dehydrate(self, bundle):
         if bundle.obj.id != bundle.request.user.id:
