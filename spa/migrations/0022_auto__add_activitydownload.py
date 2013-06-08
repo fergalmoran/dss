@@ -9,7 +9,7 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         # Adding model 'ActivityDownload'
-        db.delete_table(u'spa_activitydownload')
+        #db.delete_table(u'spa_activitydownload')
         db.create_table(u'spa_activitydownload', (
             (u'activity_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['spa.Activity'], unique=True, primary_key=True)),
             ('mix', self.gf('django.db.models.fields.related.ForeignKey')(related_name='downloads', to=orm['spa.Mix'])),

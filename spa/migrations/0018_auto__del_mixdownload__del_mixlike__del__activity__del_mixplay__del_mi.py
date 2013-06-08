@@ -9,9 +9,9 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         # Deleting model 'MixDownload'
-        db.delete_table(u'spa_activity')
-        db.delete_table(u'spa_activitymix')
-        db.delete_table(u'spa_mixdownload')
+        #db.delete_table(u'spa_activity')
+        #db.delete_table(u'spa_activitymix')
+        #db.delete_table(u'spa_mixdownload')
 
         # Deleting model 'MixLike'
         db.delete_table(u'spa_mixlike')

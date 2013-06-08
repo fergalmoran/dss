@@ -10,7 +10,7 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
         print "Importing from downloads.txt"
-        f = open("/home/fergalm/Dropbox/Private/deepsouthsounds.com/dss/downloads.txt", "rt")
+        f = open("/var/www/deepsouthsounds.com/dss/downloads.txt", "rt")
         rows = csv.DictReader(f, dialect='excel-tab')
         for row in rows:
             try:

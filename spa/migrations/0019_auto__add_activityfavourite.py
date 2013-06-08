@@ -9,7 +9,7 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         # Adding model 'ActivityFavourite'
-        db.delete_table(u'spa_activityfavourite')
+        #db.delete_table(u'spa_activityfavourite')
         db.create_table(u'spa_activityfavourite', (
             (u'activity_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['spa.Activity'], unique=True, primary_key=True)),
             ('mix', self.gf('django.db.models.fields.related.ForeignKey')(related_name='favourites', to=orm['spa.Mix'])),
