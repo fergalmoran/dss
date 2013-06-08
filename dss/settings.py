@@ -36,8 +36,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'deepsouthsounds',
-        'USER': 'deepsouthsounds',
-        'PASSWORD': 'password',
+        'USER': localsettings.DATABASE_USER if hasattr(localsettings, 'DATABASE_USER') else 'deepsouthsounds',
+        'PASSWORD': localsettings.DATABASE_PASSWORD if hasattr(localsettings, 'DATABASE_PASSWORD') else '',
         'HOST': 'localhost',
     }
 }
