@@ -52,10 +52,14 @@ class MixResource(BackboneCompatibleResource):
 
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<id>[\d]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
-            url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d-]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
-            url(r"^(?P<resource_name>%s)/(?P<slug>\w[\w/-]*)/comments%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_comments'), name="api_get_comments"),
-            url(r"^(?P<resource_name>%s)/(?P<slug>\w[\w/-]*)/activity%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_activity'), name="api_get_activity"),
+            url(r"^(?P<resource_name>%s)/(?P<id>[\d]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'),
+                name="api_dispatch_detail"),
+            url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d-]+)/$" % self._meta.resource_name,
+                self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
+            url(r"^(?P<resource_name>%s)/(?P<slug>\w[\w/-]*)/comments%s$" % (
+            self._meta.resource_name, trailing_slash()), self.wrap_view('get_comments'), name="api_get_comments"),
+            url(r"^(?P<resource_name>%s)/(?P<slug>\w[\w/-]*)/activity%s$" % (
+            self._meta.resource_name, trailing_slash()), self.wrap_view('get_activity'), name="api_get_activity"),
         ]
 
     def get_comments(self, request, **kwargs):
@@ -116,15 +120,18 @@ class MixResource(BackboneCompatibleResource):
         elif orderby == 'mostactive':
             obj_list = obj_list.annotate(karma=Count('comments')).order_by('-karma')
         elif orderby == 'recommended':
-            obj_list = obj_list.annotate(karma=Count('likes'))  .order_by('-karma')
+            obj_list = obj_list.annotate(karma=Count('likes')).order_by('-karma')
 
         return obj_list
 
     def apply_filters(self, request, applicable_filters):
-        semi_filtered = super(MixResource, self).apply_filters(request, applicable_filters)
+        semi_filtered = super(MixResource, self).apply_filters(request, applicable_filters).filter(
+            waveform_generated=True)
         type = request.GET.get('type', None)
         if type == 'favourites':
-            semi_filtered = semi_filtered.filter(favourites__mix__in=semi_filtered)
+            semi_filtered = semi_filtered.filter(favourites__user=request.user.get_profile())
+        elif type == 'likes':
+            semi_filtered = semi_filtered.filter(likes__user=request.user.get_profile())
 
         return semi_filtered
 

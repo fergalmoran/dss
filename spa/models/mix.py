@@ -8,7 +8,7 @@ from django.db import models
 from core.utils import url
 from core.utils.audio.mp3 import mp3_length
 from core.utils.url import unique_slugify
-from spa.models.activity import Activity
+from spa.models.activity import ActivityFavourite, ActivityLike, ActivityDownload, ActivityPlay
 from spa.models.genre import Genre
 from dss import settings, localsettings
 from spa.models.userprofile import UserProfile
@@ -50,11 +50,6 @@ class Mix(_BaseModel):
     slug = models.SlugField()
 
     genres = models.ManyToManyField(Genre)
-
-    favourites = models.ManyToManyField(Activity, related_name='mix_favourites')
-    likes = models.ManyToManyField(Activity, related_name='mix_likes')
-    plays = models.ManyToManyField(Activity, related_name='mix_plays')
-    downloads = models.ManyToManyField(Activity, related_name='mix_downloads')
 
     def __unicode__(self):
         return self.title
@@ -138,18 +133,14 @@ class Mix(_BaseModel):
     def add_download(self, user):
         try:
             if user.is_authenticated():
-                activity = Activity(user=user.get_profile(), activity_type='d')
-                activity.save()
-                self.downloads.add(activity)
+                ActivityDownload(user=user.get_profile(), mix=self).save()
         except Exception, e:
             self.logger.exception("Error adding mix download: %s" % e.message)
 
     def add_play(self, user):
         try:
             if user.is_authenticated():
-                activity = Activity(user=user.get_profile(), activity_type='p')
-                activity.save()
-                self.plays.add(activity)
+                ActivityPlay(user=user.get_profile(), mix=self).save()
         except Exception, e:
             self.logger.exception("Unable to add mix play: %s" % e.message)
 
@@ -168,9 +159,7 @@ class Mix(_BaseModel):
             if user.is_authenticated():
                 if value:
                     if self.favourites.filter(user=user).count() == 0:
-                        activity = Activity(user=user.get_profile(), activity_type='f')
-                        activity.save()
-                        self.favourites.add(activity)
+                        ActivityFavourite(user=user.get_profile(), mix=self).save()
                 else:
                     self.favourites.filter(user=user).delete()
         except Exception, ex:
@@ -183,9 +172,7 @@ class Mix(_BaseModel):
             if user.is_authenticated():
                 if value:
                     if self.likes.filter(user=user).count() == 0:
-                        activity = Activity(user=user.get_profile(), activity_type='l')
-                        activity.save()
-                        self.likes.add(activity)
+                        ActivityLike(user=user.get_profile(), mix=self).save()
                 else:
                     self.likes.filter(user=user).delete()
         except Exception, ex:

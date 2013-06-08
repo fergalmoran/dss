@@ -2,6 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import NoArgsCommand
 import csv
 from spa.models import Mix, Activity, UserProfile
+from spa.models.activity import ActivityPlay
 
 
 class Command(NoArgsCommand):
@@ -9,26 +10,24 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
         print "Importing from plays.txt"
-        f = open("D:\\Working\\Dropbox\\Private\\deepsouthsounds.com\\dss\\spa\\management\\commands\\plays.txt", "rt")
+        f = open("/home/fergalm/Dropbox/Private/deepsouthsounds.com/dss/plays.txt", "rt")
         rows = csv.DictReader(f, dialect='excel-tab')
         for row in rows:
             try:
                 mix = Mix.objects.get(id=row['mix_id'])
-                user = None
-
-                if row['user_id'] != '':
+                if row['user_id'] != '' and row['user_id'] != 'NULL':
                     try:
                         user = UserProfile.objects.get(user__id=row['user_id'])
+                        ActivityPlay(user=user, mix=mix).save()
+                        print "Added play: %s user: %s" % (mix.title, user.get_nice_name())
                     except ObjectDoesNotExist:
-                        pass
-                activity = Activity(user=user, date=row['date'], activity_type='p')
-                activity.save()
+                        print "Could not find user: %s" % row['user_id']
+                else:
+                    ActivityPlay(user=None, mix=mix).save()
+                    print "Added play: %s user: None" % mix.title
 
-                mix.plays.add(activity)
-                mix.save()
-                print "Added play: %s" % mix.title
             except ObjectDoesNotExist:
-                pass
+                print "Could not find mix: %s" % row['mix_id']
             except Exception, e:
                 print "Error: %s" % e.message
 

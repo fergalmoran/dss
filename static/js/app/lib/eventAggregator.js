@@ -15,7 +15,7 @@
 
       return EventAggregator;
 
-    })(Marionette.Controller);
+    })(Marionette.EventAggregator);
     return EventAggregator;
   });
 

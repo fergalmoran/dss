@@ -1,4 +1,5 @@
 from django.db import models
+from model_utils.managers import InheritanceManager
 from spa.models.userprofile import UserProfile
 from spa.models._basemodel import _BaseModel
 
@@ -11,23 +12,87 @@ ACTIVITYTYPES = (
 
 
 class Activity(_BaseModel):
+    objects = InheritanceManager()
     user = models.ForeignKey(UserProfile, null=True, blank=True)
     date = models.DateTimeField(auto_now=True)
-    activity_type = models.CharField(max_length=1, choices=ACTIVITYTYPES)
 
     def __unicode__(self):
         return "%s" % self.date
 
-    def get_verb_passed(self):
-        verb = [item for item in ACTIVITYTYPES if item[0] == self.activity_type][0]
-        return str(verb[1])
+"""
+    Can't actually use this until django 1.6 as InheritanceManager
+    doesn't support multi level inheritance
+"""
+class ActivityMix(Activity):
+    objects = InheritanceManager()
+
+    def get_object_name(self):
+        return self.mix.title
+
+    def get_object_url(self):
+        return self.mix.get_full_url()
 
     def get_object_singular(self):
         return "mix"
 
+class ActivityFavourite(Activity):
+    mix = models.ForeignKey('spa.Mix', related_name='favourites')
+
     def get_object_name(self):
-        return "mix"
+        return self.mix.title
 
     def get_object_url(self):
-        return "url"
+        return self.mix.get_full_url()
 
+    def get_object_singular(self):
+        return "mix"
+
+    def get_verb_passed(self):
+        return "favourited"
+
+class ActivityPlay(Activity):
+    mix = models.ForeignKey('spa.Mix', related_name='plays')
+
+    def get_object_name(self):
+        return self.mix.title
+
+    def get_object_url(self):
+        return self.mix.get_full_url()
+
+    def get_object_singular(self):
+        return "mix"
+
+    def get_verb_passed(self):
+        return "played"
+
+
+class ActivityLike(Activity):
+    mix = models.ForeignKey('spa.Mix', related_name='likes')
+
+    def get_object_name(self):
+        return self.mix.title
+
+    def get_object_url(self):
+        return self.mix.get_full_url()
+
+    def get_object_singular(self):
+        return "mix"
+
+    def get_verb_passed(self):
+        return "liked"
+
+
+class ActivityDownload(Activity):
+    mix = models.ForeignKey('spa.Mix', related_name='downloads')
+
+    def get_object_name(self):
+        return self.mix.title
+
+    def get_object_url(self):
+        return self.mix.get_full_url()
+
+    def get_object_singular(self):
+        return "mix"
+
+    def get_verb_passed(self):
+        return "downloaded"

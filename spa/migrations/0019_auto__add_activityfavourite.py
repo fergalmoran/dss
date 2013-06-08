@@ -8,14 +8,19 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'ActivityFavourite'
+        db.delete_table(u'spa_activityfavourite')
+        db.create_table(u'spa_activityfavourite', (
+            (u'activity_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['spa.Activity'], unique=True, primary_key=True)),
+            ('mix', self.gf('django.db.models.fields.related.ForeignKey')(related_name='favourites', to=orm['spa.Mix'])),
+        ))
+        db.send_create_signal('spa', ['ActivityFavourite'])
 
-        # Changing field 'MixLike.user'
-        db.alter_column(u'spa_mixlike', 'user_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['spa.UserProfile']))
 
     def backwards(self, orm):
+        # Deleting model 'ActivityFavourite'
+        db.delete_table(u'spa_activityfavourite')
 
-        # Changing field 'MixLike.user'
-        db.alter_column(u'spa_mixlike', 'user_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User']))
 
     models = {
         u'auth.group': {
@@ -54,17 +59,25 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        'spa._activity': {
-            'Meta': {'object_name': '_Activity'},
-            'date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'uid': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'activity'", 'null': 'True', 'to': u"orm['auth.User']"})
-        },
         'spa._lookup': {
             'Meta': {'object_name': '_Lookup'},
             'description': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+        },
+        'spa.activity': {
+            'Meta': {'object_name': 'Activity'},
+            'date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['spa.UserProfile']", 'null': 'True', 'blank': 'True'})
+        },
+        'spa.activityfavourite': {
+            'Meta': {'object_name': 'ActivityFavourite', '_ormbases': ['spa.Activity']},
+            u'activity_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['spa.Activity']", 'unique': 'True', 'primary_key': 'True'}),
+            'mix': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'favourites'", 'to': "orm['spa.Mix']"})
+        },
+        'spa.activitymix': {
+            'Meta': {'object_name': 'ActivityMix', '_ormbases': ['spa.Activity']},
+            u'activity_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['spa.Activity']", 'unique': 'True', 'primary_key': 'True'})
         },
         'spa.chatmessage': {
             'Meta': {'object_name': 'ChatMessage'},
@@ -85,11 +98,11 @@ class Migration(SchemaMigration):
         'spa.event': {
             'Meta': {'object_name': 'Event'},
             'attendees': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'attendees'", 'symmetrical': 'False', 'to': u"orm['auth.User']"}),
-            'date_created': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2013, 5, 26, 0, 0)'}),
-            'event_date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2013, 5, 26, 0, 0)'}),
+            'date_created': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2013, 6, 8, 0, 0)'}),
+            'event_date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2013, 6, 8, 0, 0)'}),
             'event_description': ('tinymce.models.HTMLField', [], {}),
             'event_recurrence': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['spa.Recurrence']"}),
-            'event_time': ('django.db.models.fields.TimeField', [], {'default': 'datetime.datetime(2013, 5, 26, 0, 0)'}),
+            'event_time': ('django.db.models.fields.TimeField', [], {'default': 'datetime.datetime(2013, 6, 8, 0, 0)'}),
             'event_title': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'event_venue': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['spa.Venue']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
@@ -121,33 +134,9 @@ class Migration(SchemaMigration):
             'stream_url': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
             'uid': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '38', 'blank': 'True'}),
-            'upload_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 5, 26, 0, 0)'}),
+            'upload_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 6, 8, 0, 0)'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['spa.UserProfile']"}),
             'waveform_generated': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
-        },
-        'spa.mixdownload': {
-            'Meta': {'object_name': 'MixDownload', '_ormbases': ['spa._Activity']},
-            u'_activity_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['spa._Activity']", 'unique': 'True', 'primary_key': 'True'}),
-            'mix': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'downloads'", 'to': "orm['spa.Mix']"})
-        },
-        'spa.mixfavourite': {
-            'Meta': {'object_name': 'MixFavourite'},
-            'date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'mix': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'favourites'", 'to': "orm['spa.Mix']"}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'favourites'", 'to': u"orm['auth.User']"})
-        },
-        'spa.mixlike': {
-            'Meta': {'object_name': 'MixLike'},
-            'date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'mix': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'likes'", 'to': "orm['spa.Mix']"}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'likes'", 'to': "orm['spa.UserProfile']"})
-        },
-        'spa.mixplay': {
-            'Meta': {'object_name': 'MixPlay', '_ormbases': ['spa._Activity']},
-            u'_activity_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['spa._Activity']", 'unique': 'True', 'primary_key': 'True'}),
-            'mix': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'plays'", 'to': "orm['spa.Mix']"})
         },
         'spa.purchaselink': {
             'Meta': {'object_name': 'PurchaseLink'},
@@ -166,7 +155,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'release_artist': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'release_date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2013, 5, 26, 0, 0)'}),
+            'release_date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2013, 6, 8, 0, 0)'}),
             'release_description': ('django.db.models.fields.TextField', [], {}),
             'release_image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'release_label': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['spa.Label']"}),

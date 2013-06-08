@@ -8,7 +8,7 @@ from spa.models.activity import Activity
 
 class ActivityResource(BackboneCompatibleResource):
     class Meta:
-        queryset = Activity.objects.all().order_by('-date')
+        queryset = Activity.objects.select_subclasses().order_by('-id')
         resource_name = 'activity'
         authorization = Authorization()
         authentication = Authentication()

@@ -2,6 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import NoArgsCommand
 import csv
 from spa.models import Mix, Activity, UserProfile
+from spa.models.activity import ActivityDownload
 
 
 class Command(NoArgsCommand):
@@ -9,24 +10,24 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
         print "Importing from downloads.txt"
-        f = open("D:\\Working\\Dropbox\\Private\\deepsouthsounds.com\\dss\\spa\\management\\commands\\downloads.txt", "rt")
+        f = open("/home/fergalm/Dropbox/Private/deepsouthsounds.com/dss/downloads.txt", "rt")
         rows = csv.DictReader(f, dialect='excel-tab')
         for row in rows:
             try:
                 mix = Mix.objects.get(id=row['mix_id'])
-                user = None
-
-                if row['user_id'] != '':
+                if row['user_id'] != '' and row['user_id'] != 'NULL':
                     try:
                         user = UserProfile.objects.get(user__id=row['user_id'])
+                        ActivityDownload(user=user, mix=mix).save()
+                        print "Added download: %s User: %s" % (mix.title, user.get_nice_name())
                     except ObjectDoesNotExist:
-                        pass
-                activity = Activity(user=user, date=row['date'], activity_type='p')
-                activity.save()
+                        print "Unable to find user: %s" % row['user_id']
+                        ActivityDownload(user=None, mix=mix).save()
+                        print "Added download: %s UnknownUser: %s" % (mix.title, row['user_id'])
+                else:
+                    ActivityDownload(user=None, mix=mix).save()
+                    print "Added download: %s User: None" % mix.title
 
-                mix.downloads.add(activity)
-                mix.save()
-                print "Added download: %s" % mix.title
             except ObjectDoesNotExist:
                 pass
             except Exception, e:

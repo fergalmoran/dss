@@ -14,3 +14,7 @@ dss.conf
 dss/debugsettings.py
 mysql
 test.py
+mysql2pgsql.yml
+downloads.txt
+plays.txt
+

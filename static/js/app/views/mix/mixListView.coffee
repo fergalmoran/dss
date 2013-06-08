@@ -25,7 +25,7 @@ define ['marionette', 'models/mix/mixCollection', 'views/mix/mixItemView', 'text
 
         tabChanged: (type) ->
             console.log("MixListView: tab changed")
-            $('#mix-tab a.' + type, @el).tab('show')
+            $('#mix-tab a#' + type, @el).tab('show')
             true
 
     MixListView
