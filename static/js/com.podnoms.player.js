@@ -48,7 +48,7 @@ com.podnoms.player = {
         if (oSound.instanceOptions.isMovieStar) {
             return (oSound.duration);
         } else {
-           return oSound.durationEstimate;
+            return oSound.durationEstimate;
         }
     },
     _whileLoading: function () {
@@ -104,16 +104,20 @@ com.podnoms.player = {
         this.currentPath = options.url;
     },
     _setupParams: function () {
-        this.waveFormTop = this.waveFormEl.position().top;
-        this.waveFormLeft = this.waveFormEl.offset().left;
-        this.waveFormWidth = this.waveFormEl.width();
-        this.playHeadEl.css('top', 0);
-        this.loadingEl.css('top', 0);
-        this.seekHeadEl.css('top', this.waveFormEl.position().top);
-        /*this.waveFormEl.mousedown($.proxy(this._mouseDown, this));*/
-        this.waveFormEl.mouseup($.proxy(this._mouseDown, this));
-        this.waveFormEl.mousemove($.proxy(this._mouseMove, this));
-        this.waveFormEl.mouseout($.proxy(this._mouseLeave, this));
+        if (this.waveFormEl.position()) {
+            this.waveFormTop = this.waveFormEl.position().top;
+            this.waveFormLeft = this.waveFormEl.offset().left;
+            this.waveFormWidth = this.waveFormEl.width();
+            this.playHeadEl.css('top', 0);
+            this.loadingEl.css('top', 0);
+            this.seekHeadEl.css('top', this.waveFormEl.position().top);
+            /*this.waveFormEl.mousedown($.proxy(this._mouseDown, this));*/
+            this.waveFormEl.mouseup($.proxy(this._mouseDown, this));
+            this.waveFormEl.mousemove($.proxy(this._mouseMove, this));
+            this.waveFormEl.mouseout($.proxy(this._mouseLeave, this));
+        } else {
+            console.error("Error setting up player, waveFormEl is empty");
+        }
     },
     /*Methods*/
     isPlaying: function () {
