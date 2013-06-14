@@ -1,6 +1,6 @@
-define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'views/header', 'views/sidebar/sidebarView',
+define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/audioController', 'views/header', 'views/sidebar/sidebarView',
         'models/mix/mixCollection'],
-(Backbone, Marionette, DssRouter, PanningRegion, HeaderView, SidebarView, MixCollection) ->
+(Backbone, Marionette, DssRouter, PanningRegion, AudioController, HeaderView, SidebarView, MixCollection) ->
     Marionette.Region.prototype.open = (view) ->
         @.$el.hide();
         @.$el.html(view.el);
@@ -8,6 +8,7 @@ define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'vi
         true
 
     App = new Marionette.Application();
+    App.audioController = new AudioController()
 
     App.vent.on "mix:favourite", (model) ->
         console.log "App(vent): mix:favourite"
@@ -50,7 +51,7 @@ define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'vi
     App.addInitializer ->
         console.log("App: routing starting");
         App.Router = new DssRouter();
-        return App.vent.trigger("routing:started");
+        App.vent.trigger("routing:started");
 
     App.addInitializer ->
         console.log("App: gobbling links");

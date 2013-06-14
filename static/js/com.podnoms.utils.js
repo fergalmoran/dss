@@ -109,7 +109,7 @@ com.podnoms.utils = {
         if (document.cookie.indexOf('sessionId')) {
             $.getJSON('/ajax/session_play_count', function (data) {
                 if ((data.play_count != 0) && (data.play_count % 5) == 0) {
-                    com.podnoms.utils.modal('tpl/PlayCountLoginAlert');
+                    com.podnoms.utils.showAlert('tpl/PlayCountLoginAlert');
                 }
             });
         }

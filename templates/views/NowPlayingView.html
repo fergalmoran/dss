@@ -1,0 +1,30 @@
+<span class="div-small-heading label label-warning">Now Playing</span>
+
+<div class="now-playing-surround">
+    <div class="span2 now-playing-image-container">
+        <img src="http://www.deepsouthsounds.com/media//cache/11/16/1116b53513b111266fac440b9c924ce4.jpg"
+             class="now-playing-image img-rounded">
+    </div>
+    <div class="span8 now-playing-bio">
+        <div>
+        <span>
+            <a class="mix-link"
+               href="<%= item_url %>"
+               title="<%= title %>"><%= title %>
+            </a>
+        </span>
+        </div>
+        <div>
+        <span>
+            <a href="/<%= user_profile_url %>">
+                <i class="icon-user"></i><%= user_name %>
+            </a>
+        </span>
+        </div>
+    </div>
+    <div class="span2">
+        <a id="now-playing-playing-toggle" class="now-playing-play player-button">
+            <span class="accessible-description">Play Button</span>
+        </a>
+    </div>
+</div>

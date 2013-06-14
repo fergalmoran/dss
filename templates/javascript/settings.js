@@ -15,7 +15,7 @@ com.podnoms.settings = {
     staticUrl: '{{ STATIC_URL }}',
     currentUser: {{ CURRENT_USER_ID }},
     /** simple helper to take an api JSON object and initialise a player item */
-    setupPlayer: function (data, id) {
+    setupPlayerWrapper: function (id, stream_url) {
         com.podnoms.player.setupPlayer({
             id: id,
             boundingEl: $('#mix-container-' + id),
@@ -24,7 +24,7 @@ com.podnoms.settings = {
             loadingEl: $('#progress-player-' + id),
             seekHeadEl: $('#player-seekhead'),
             playButtonEl: $('#play-pause-button-small-' + id),
-            url: data.stream_url
+            url: stream_url || ""
         });
     }
 };

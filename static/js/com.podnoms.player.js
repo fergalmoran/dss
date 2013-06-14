@@ -58,9 +58,6 @@ com.podnoms.player = {
     },
     _whilePlaying: function () {
         if (!this.trackLoaded) {
-            this.playButtonEl
-                .removeClass('play-button-small-loading')
-                .addClass('play-button-small-pause');
             this.trackLoaded = true;
         }
         this.currentPosition = this.currentSound.position;
@@ -93,12 +90,6 @@ com.podnoms.player = {
             soundManager.destroySound(this.currentSound.sID);
         }
         this.trackLoaded = false;
-        if (this.playButtonEl != undefined)
-            this.playButtonEl
-                .removeClass('play-button-small-pause')
-                .removeClass('play-button-small-loading')
-                .addClass('play-button-small-start');
-
         this.currentId = null;
         if (success != undefined)
             success();
@@ -110,7 +101,6 @@ com.podnoms.player = {
         this.seekHeadEl = options.seekHeadEl;
         this.playHeadEl = options.playHeadEl;
         this.loadingEl = options.loadingEl;
-        this.playButtonEl = options.playButtonEl;
         this.currentPath = options.url;
     },
     _setupParams: function () {
@@ -151,13 +141,6 @@ com.podnoms.player = {
     setupPlayer: function (options) {
         this._parseOptions(options);
         this._setupParams();
-        if (this.isPlayingId(options.id)) {
-            this.playButtonEl
-                .removeClass('play-button-small-start')
-                .removeClass('play-button-small-loading')
-                .addClass('play-button-small-pause');
-        }
-
     },
     startPlaying: function (options) {
         var ref = this;
@@ -219,21 +202,12 @@ com.podnoms.player = {
 
     play: function () {
         this.currentSound.play();
-        this.playButtonEl
-            .removeClass('play-button-small-start')
-            .addClass('play-button-small-loading');
     },
     pause: function () {
         this.currentSound.pause();
-        this.playButtonEl
-            .removeClass('play-button-small-pause')
-            .addClass('play-button-small-resume');
     },
     resume: function () {
         this.currentSound.resume();
-        this.playButtonEl
-            .removeClass('play-button-small-resume')
-            .addClass('play-button-small-pause');
     },
     forward: function (increment) {
 

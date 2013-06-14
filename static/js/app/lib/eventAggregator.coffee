@@ -1,6 +1,3 @@
-define ['marionette'],
-(Marionette) ->
-    class EventAggregator extends Marionette.EventAggregator
+define ['backbone.wreqr'], (Wreqr) ->
+    new Wreqr.EventAggregator
 
-        
-    EventAggregator

@@ -30,7 +30,7 @@ class ActivityMix(Activity):
         return self.mix.title
 
     def get_object_url(self):
-        return self.mix.get_full_url()
+        return self.mix.get_absolute_url()
 
     def get_object_singular(self):
         return "mix"
@@ -42,7 +42,7 @@ class ActivityFavourite(Activity):
         return self.mix.title
 
     def get_object_url(self):
-        return self.mix.get_full_url()
+        return self.mix.get_absolute_url()
 
     def get_object_singular(self):
         return "mix"
@@ -57,7 +57,7 @@ class ActivityPlay(Activity):
         return self.mix.title
 
     def get_object_url(self):
-        return self.mix.get_full_url()
+        return self.mix.get_absolute_url()
 
     def get_object_singular(self):
         return "mix"
@@ -73,7 +73,7 @@ class ActivityLike(Activity):
         return self.mix.title
 
     def get_object_url(self):
-        return self.mix.get_full_url()
+        return self.mix.get_absolute_url()
 
     def get_object_singular(self):
         return "mix"
@@ -89,7 +89,7 @@ class ActivityDownload(Activity):
         return self.mix.title
 
     def get_object_url(self):
-        return self.mix.get_full_url()
+        return self.mix.get_absolute_url()
 
     def get_object_singular(self):
         return "mix"

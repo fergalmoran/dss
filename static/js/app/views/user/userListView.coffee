@@ -1,4 +1,4 @@
-define ['marionette', 'models/user/userCollection', 'views/user/userItemView', 'text!/tpl/UserListView'],
+define ['marionette', 'models/user/userCollection', 'views/user/userItemView', 'text!/tpl/UserListView', 'libs/jquery.dataTables'],
 (Marionette, UserCollection, UserItemView, Template) ->
     class UserListView extends Marionette.CompositeView
 
@@ -14,7 +14,7 @@ define ['marionette', 'models/user/userCollection', 'views/user/userItemView', '
                 data: @options
                 success: =>
                     console.log("UserListView: Collection fetched")
-                    $(@el).tablesorter()
+                    $(@el).dataTable sDom: "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
                     return
             )
             return

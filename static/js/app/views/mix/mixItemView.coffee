@@ -1,26 +1,31 @@
-define ['moment', 'app', 'marionette', 'models/comment/commentCollection', 'views/comment/commentListView', 'text!/tpl/MixListItemView'],
-(moment, App, Marionette, CommentsCollection, CommentsListView, Template) ->
+define ['moment', 'app', 'vent', 'marionette', 'models/comment/commentCollection', 'views/comment/commentListView', 'text!/tpl/MixListItemView'],
+(moment, App, vent, Marionette, CommentsCollection, CommentsListView, Template) ->
     class MixItemView extends Marionette.ItemView
         template: _.template(Template)
         tagName: @tagName or "li"
         className: @className or ""
 
         events: {
-            "click .play-button-small-start": "startMix",
-            "click .play-button-small-resume": "resumeMix",
-            "click .play-button-small-pause": "pauseMix",
+            "click .play-button-small-start": "doStart",
+            "click .play-button-small-resume": "doResume",
+            "click .play-button-small-pause": "doPause",
             "click .mix-link": "mixLink",
-            "click .like-button a": "likeMix",
-            "click .favourite-button a": "favouriteMix",
-            "click .share-button": "shareMix",
-            "click .download-button a": "downloadMix"
+            "click .like-button a": "mixLike",
+            "click .favourite-button a": "mixFavourite",
+            "click .share-button": "mixShare",
+            "click .download-button a": "mixDownload"
+        }
+
+        ui: {
+            playButton: ".play-button-small"
         }
 
         initialize: =>
             @listenTo(@model, 'change:favourited', @render)
             @listenTo(@model, 'change:liked', @render)
+            @listenTo(vent, 'mix:play', @mixPlay)
+            @listenTo(vent, 'mix:pause', @mixPause)
             true
-
 
         onRender: =>
             id = @model.get('id')
@@ -31,39 +36,10 @@ define ['moment', 'app', 'marionette', 'models/comment/commentCollection', 'view
 
             #check if we're currently playing
             if com.podnoms.player.isPlayingId @model.id
-                com.podnoms.settings.setupPlayer @model.toJSON()
+                com.podnoms.settings.setupPlayerWrapper @model.get('id')
 
             @renderGenres()
             return
-
-        startMix: =>
-            console.log("MixItemView: starting mix")
-            id = @model.get('id')
-            $.getJSON "/ajax/mix_stream_url/" + id + "/", (data) ->
-                com.podnoms.settings.setupPlayer(data, id)
-                com.podnoms.player.startPlaying
-                    success: ->
-                        window._eventAggregator.trigger "track_playing"
-                        window._eventAggregator.trigger "track_changed", data
-                        com.podnoms.utils.checkPlayCount()
-                        return
-                    error: ->
-                        com.podnoms.utils.showWarning "Ooops", "Error playing mix. If you have a flash blocker, please disable it for this site. Otherwise, do please try again."
-
-                com.podnoms.storage.setItem "now_playing", id
-            return
-
-        pauseMix: ->
-            console.log("MixItemView: pauseMix")
-            com.podnoms.player.pause();
-            @.trigger("mix:paused", @model);
-            true
-
-        resumeMix: ->
-            console.log("MixItemView: resumeMix")
-            com.podnoms.player.resume();
-            @trigger("mix:resumed", @model);
-            true
 
         renderGenres: =>
             el = @el
@@ -84,19 +60,55 @@ define ['moment', 'app', 'marionette', 'models/comment/commentCollection', 'view
                 true
             true
 
-        favouriteMix: ->
+        doStart: =>
+            console.log("MixItemView: mixStart")
+            this.ui.playButton
+                .toggleClass('play-button-small-start', false)
+                .toggleClass('play-button-small-resume', false)
+                .toggleClass('play-button-small-pause', true)
+
+            vent.trigger('mix:init', @model)
+            return
+
+        doPause: ->
+            console.log("MixItemView: mixPause")
+            vent.trigger("mix:pause", @model);
+            true
+
+        doResume: ->
+            console.log("MixItemView: mixResume")
+            vent.trigger("mix:play", @model);
+            true
+
+        mixPlay: (model) ->
+            if (@model.get('id') == model.get('id'))
+                this.ui.playButton
+                    .toggleClass('play-button-small-start', false)
+                    .toggleClass('play-button-small-resume', false)
+                    .toggleClass('play-button-small-pause', true)
+            return
+
+        mixPause: (model) ->
+            if (@model.get('id') == model.get('id'))
+                this.ui.playButton
+                    .toggleClass('play-button-small-start', false)
+                    .toggleClass('play-button-small-resume', true)
+                    .toggleClass('play-button-small-pause', false)
+            return
+
+        mixFavourite: ->
             console.log("MixItemView: favouriteMix")
             app = require('app')
             app.vent.trigger("mix:favourite", @model)
             true
 
-        likeMix: ->
+        mixLike: ->
             console.log("MixItemView: likeMix")
             app = require('app')
             app.vent.trigger("mix:like", @model)
             true
 
-        shareMix: (e) ->
+        mixShare: (e) ->
             console.log("MixItemView: shareMix")
             mode = $(e.currentTarget).data("mode");
             console.log("MixItemView: "+ mode)

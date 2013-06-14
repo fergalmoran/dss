@@ -3,10 +3,12 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['marionette', 'models/mix/mixCollection', 'views/mix/mixItemView', 'text!/tpl/MixListView'], function(Marionette, MixCollection, MixItemView, Template) {
+  define(['marionette', 'vent', 'models/mix/mixCollection', 'views/mix/mixItemView', 'text!/tpl/MixListView'], function(Marionette, vent, MixCollection, MixItemView, Template) {
     var MixListView, _ref;
 
     MixListView = (function(_super) {
+      var currentMix;
+
       __extends(MixListView, _super);
 
       function MixListView() {
@@ -22,6 +24,8 @@
 
       MixListView.prototype.itemViewContainer = "#mix-list-container-ul";
 
+      currentMix = -1;
+
       MixListView.prototype.initialize = function() {
         var _this = this;
 
@@ -32,9 +36,16 @@
           success: function() {
             console.log("MixListView: Collection fetched");
             _this.tabChanged('latest');
+            _this.listenTo(vent, 'mix:play', _this.mixPlay);
             return true;
           }
         });
+      };
+
+      MixListView.prototype.mixPlay = function(model) {
+        console.log("MixListView: mixPlay");
+        "if currentMix != -1\n    v = @children.findByModelCid(currentMix)\n    v.mixPause()";
+        currentMix = model.cid;
       };
 
       MixListView.prototype.onRender = function() {
