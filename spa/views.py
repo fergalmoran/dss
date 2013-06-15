@@ -1,9 +1,9 @@
 import logging
+from django.http import HttpResponseServerError
 from django.shortcuts import render_to_response, redirect
 from django.template import loader, Context
 from django.template.context import RequestContext
 import sys
-from django.utils import http
 from core.utils.string import lreplace, rreplace
 from spa.social.views import social_redirect
 
@@ -48,4 +48,4 @@ def debug_500(request, template_name='debug_500.html'):
     ltype,lvalue,ltraceback = sys.exc_info()
     sys.exc_clear() #for fun, and to point out I only -think- this hasn't happened at 
                     #this point in the process already
-    return http.HttpResponseServerError(t.render(Context({'type':ltype,'value':lvalue,'traceback':ltraceback})))
+    return HttpResponseServerError(t.render(Context({'type':ltype,'value':lvalue,'traceback':ltraceback})))
