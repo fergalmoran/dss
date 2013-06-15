@@ -25,6 +25,7 @@ urlpatterns = patterns('',
                        (r'^tinymce/', include('tinymce.urls')),
                        url(r'^', include('spa.urls')),
 )
+handler500 = 'spa.views.debug_500'
 
 if settings.DEBUG:
     from django.views.static import serve

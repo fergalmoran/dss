@@ -39,3 +39,5 @@ urlpatterns = patterns(
     url(r'^comments/', include('django.contrib.comments.urls')),
     (r'^.*/$', 'spa.views.default')
 )
+
+

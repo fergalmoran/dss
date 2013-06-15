@@ -23,7 +23,7 @@ ADMINS = (
 MANAGERS = ADMINS
 AUTH_PROFILE_MODULE = 'spa.UserProfile'
 
-ALLOWED_HOSTS = localsettings.ALLOWED_HOSTS if hasattr(localsettings, 'ALLOWED_HOSTS') else []
+ALLOWED_HOSTS = ['*'] #localsettings.ALLOWED_HOSTS if hasattr(localsettings, 'ALLOWED_HOSTS') else []
 DATABASES = {
     'mysql': {
         'ENGINE': 'django.db.backends.mysql',
@@ -52,7 +52,7 @@ USE_TZ = True
 
 SITE_ROOT = here('')
 MEDIA_ROOT = localsettings.MEDIA_ROOT
-STATIC_ROOT = here('static') #localsettings.STATIC_ROOT if hasattr(localsettings, 'STATIC_ROOT') else ''
+STATIC_ROOT = '/var/www/deepsouthsounds.com/static' # here('static') #localsettings.STATIC_ROOT if hasattr(localsettings, 'STATIC_ROOT') else ''
 CACHE_ROOT = localsettings.CACHE_ROOT
 
 if DEBUG:
