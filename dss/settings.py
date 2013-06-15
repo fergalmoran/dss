@@ -244,23 +244,6 @@ SENDFILE_BACKEND = localsettings.SENDFILE_BACKEND
 SENDFILE_ROOT = os.path.join(MEDIA_ROOT, 'mixes')
 SENDFILE_URL = '/media/mixes'
 
-PIPELINE_CSS = {
-    'site_css': {
-        'source_filenames': (
-            'static/css/*.css'
-        ),
-        'output_filename': 'static/css/dss_min.css',
-        'extra_context': {
-            'media': 'screen,projection',
-        },
-    },
-}
-COMPRESS_CSS_FILTERS = [
-    'compressor.filters.css_default.CssAbsoluteFilter',
-]
-COMPRESS_JS = [
-    'compressor.filters.closure.ClosureCompilerFilter',
-]
 import mimetypes
 
 mimetypes.add_type("text/xml", ".plist", False)
