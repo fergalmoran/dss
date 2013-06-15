@@ -1,6 +1,9 @@
 import logging
 from django.shortcuts import render_to_response, redirect
+from django.template import loader, Context
 from django.template.context import RequestContext
+import sys
+from django.utils import http
 from core.utils.string import lreplace, rreplace
 from spa.social.views import social_redirect
 

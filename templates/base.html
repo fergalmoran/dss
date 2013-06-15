@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Deep South Sounds</title>
     {% include 'inc/meta.html' %}
+    {% load require %}
     {% load compress %}
     {% compress css %}
         <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css">
@@ -43,7 +44,7 @@
     </div>
 </div>
 <script src="/js/settings/"></script>
-<script data-main="{{ STATIC_URL }}js/app/dss.bootstrapper.js" src="{{ STATIC_URL }}js/libs/require.js"></script>
+{% require_module 'app/dss.bootstrapper' %}
 {% compress js %}
     {% if DEBUG %}
         <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2.js"></script>
