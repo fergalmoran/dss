@@ -141,6 +141,9 @@ class Mix(_BaseModel):
         try:
             if user.is_authenticated():
                 ActivityPlay(user=user.get_profile(), mix=self).save()
+            else:
+                ActivityPlay(user=None, mix=self).save()
+
         except Exception, e:
             self.logger.exception("Unable to add mix play: %s" % e.message)
 
