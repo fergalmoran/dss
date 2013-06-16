@@ -1,5 +1,7 @@
 requirejs.config({
     baseUrl: "static/js",
+    urlArgs: "bust="+ (new Date()).getTime(),
+    waitSeconds: 200,
     paths: {
         jquery: 'libs/jquery',
         backbone: 'libs/backbone/backbone',

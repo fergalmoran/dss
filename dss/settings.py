@@ -52,7 +52,7 @@ USE_TZ = True
 
 SITE_ROOT = here('')
 MEDIA_ROOT = localsettings.MEDIA_ROOT
-STATIC_ROOT = '/var/www/deepsouthsounds.com/static' # here('static') #localsettings.STATIC_ROOT if hasattr(localsettings, 'STATIC_ROOT') else ''
+STATIC_ROOT = here('static') #'/var/www/deepsouthsounds.com/static' # here('static') #localsettings.STATIC_ROOT if hasattr(localsettings, 'STATIC_ROOT') else ''
 CACHE_ROOT = localsettings.CACHE_ROOT
 
 if DEBUG:
@@ -160,6 +160,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'django_gravatar',
     'compressor',
+    'require',
     'notification',
     'djcelery',
     'sorl.thumbnail',
@@ -256,6 +257,10 @@ EMAIL_HOST = localsettings.EMAIL_HOST
 EMAIL_PORT = localsettings.EMAIL_PORT
 DEFAULT_FROM_EMAIL = 'DSS ChatBot <chatbot@deepsouthsounds.com>'
 DEFAULT_HTTP_PROTOCOL = 'http'
+
+REQUIRE_BASE_URL = "js"
+REQUIRE_JS = "libs/require.js"
+REQUIRE_DEBUG = False #DEBUG
 
 if DEBUG:
     import mimetypes
