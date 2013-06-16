@@ -1,6 +1,6 @@
 requirejs.config({
     baseUrl: "static/js",
-    urlArgs: "bust="+ (new Date()).getTime(),
+    //urlArgs: "bust="+ (new Date()).getTime(),
     waitSeconds: 200,
     paths: {
         jquery: 'libs/jquery',

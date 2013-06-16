@@ -9,14 +9,14 @@ define ['marionette', 'vent', 'models/mix/mixCollection', 'views/mix/mixItemView
 
         currentMix = -1
 
-        initialize: ->
+        initialize: =>
             console.log "MixListView: initialize"
             @collection = new MixCollection()
             @collection.fetch(
                 data: @options
                 success: =>
                     console.log("MixListView: Collection fetched")
-                    @tabChanged('latest')
+                    @tabChanged(@options.order_by)
                     @listenTo(vent, 'mix:play', @mixPlay)
                     true
             )
@@ -32,13 +32,9 @@ define ['marionette', 'vent', 'models/mix/mixCollection', 'views/mix/mixItemView
             currentMix = model.cid
             return
 
-        onRender: ->
-            $('#li-' + @options.type, @el).addClass('active')
-            true
-
         tabChanged: (type) ->
             console.log("MixListView: tab changed")
-            $('#mix-tab a#' + type, @el).tab('show')
+            $('#mix-tab li[id=li-' + type + ']', @el).addClass('active')
             true
 
     MixListView
