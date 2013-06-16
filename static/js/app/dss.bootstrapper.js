@@ -1,6 +1,6 @@
 requirejs.config({
     baseUrl: "static/js",
-    //urlArgs: "bust="+ (new Date()).getTime(),
+    urlArgs: com.podnoms.settings.urlArgs,
     waitSeconds: 200,
     paths: {
         jquery: 'libs/jquery',
