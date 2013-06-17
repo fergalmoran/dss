@@ -27,7 +27,7 @@
         if (document.cookie.indexOf("sessionId")) {
           $.getJSON("/ajax/session_play_count", function(data) {
             console.log("utils: got playcount");
-            if ((data.play_count !== 0) && (data.play_count % 1) === 0) {
+            if ((data.play_count !== 0) && (data.play_count % 5) === 0) {
               return _this.modal("dlg/PlayCountLoginAlert");
             }
           });
