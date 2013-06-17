@@ -60,9 +60,10 @@
         this.renderGenres();
       };
 
-      MixItemView.prototype.onDomRefresh = function() {
+      MixItemView.prototype.onShow = function() {
         if (com.podnoms.player.isPlayingId(this.model.id)) {
           com.podnoms.settings.setupPlayerWrapper(this.model.get('id'), com.podnoms.player.getStreamUrl(), this.el);
+          this.mixPlay(this.model);
         }
         return true;
       };

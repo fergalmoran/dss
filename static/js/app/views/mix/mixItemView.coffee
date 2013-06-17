@@ -38,10 +38,11 @@ define ['moment', 'app', 'vent', 'marionette', 'models/comment/commentCollection
             @renderGenres()
             return
 
-        onDomRefresh: ->
+        onShow: ->
             #check if we're currently playing
             if com.podnoms.player.isPlayingId @model.id
                 com.podnoms.settings.setupPlayerWrapper @model.get('id'), com.podnoms.player.getStreamUrl(), @el
+                @mixPlay(@model)
             true
 
         renderGenres: =>

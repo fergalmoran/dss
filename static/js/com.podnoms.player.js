@@ -59,7 +59,11 @@ com.podnoms.player = {
     _whilePlaying: function () {
         if (!this.trackLoaded) {
             this.trackLoaded = true;
+            this.loadingEl.css('width', 100);
         }
+
+        //need to call this every time as the boundaries may have changed.
+        this._calculateBounds();
         this.currentPosition = this.currentSound.position;
         var duration = this._getDurationEstimate(this.currentSound);
         var percentageFinished = (this.currentSound.position / duration) * 100;
@@ -103,7 +107,7 @@ com.podnoms.player = {
         this.loadingEl = options.loadingEl;
         this.currentPath = options.url;
     },
-    _setupParams: function () {
+    _calculateBounds: function () {
         if (this.waveFormEl.position()) {
             this.waveFormTop = this.waveFormEl.position().top;
             this.waveFormLeft = this.waveFormEl.offset().left;
@@ -147,7 +151,15 @@ com.podnoms.player = {
     },
     setupPlayer: function (options) {
         this._parseOptions(options);
-        this._setupParams();
+        this._calculateBounds();
+        this._createTimeDisplayLabel();
+    },
+    _createTimeDisplayLabel: function () {
+        this.timeDisplayLabel = $('<label>').text('00:00');
+        this.timeDisplayLabel.css('left', -100);
+        this.timeDisplayLabel.addClass('dss-time-display-label')
+        this.waveFormEl.append(this.timeDisplayLabel);
+        this.timeDisplayLabel.animate({ top: 0, left: this.playHeadEl.position().left });
     },
     startPlaying: function (options) {
         var ref = this;
@@ -169,11 +181,7 @@ com.podnoms.player = {
                 if (options.success)
                     options.success();
                 //create the floating time display label
-                ref.timeDisplayLabel = $('<label>').text('00:00');
-                ref.timeDisplayLabel.css('left', -100);
-                ref.timeDisplayLabel.addClass('dss-time-display-label')
-                ref.waveFormEl.append(ref.timeDisplayLabel);
-                ref.timeDisplayLabel.animate({ top: 0, left: ref.playHeadEl.position().left });
+                ref._createTimeDisplayLabel();
             }
             else {
                 if (options.error)

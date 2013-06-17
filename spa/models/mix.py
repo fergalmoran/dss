@@ -113,8 +113,7 @@ class Mix(_BaseModel):
         return super(Mix, self).get_image_url(self.mix_image, settings.STATIC_URL + 'img/default-track.png')
 
     def get_stream_path(self):
-        #return 'media/%s/' % self.local_file.name
-        return '/audio/stream/%d' % self.id
+        return '%s/mixes/%s.mp3' % (localsettings.STREAM_URL, self.uid)
 
     def get_date_as_rfc822(self):
         return rfc822.formatdate(
