@@ -9,6 +9,7 @@ com.podnoms.settings = {
     liveStreamRoot: 'http://{{ LIVE_STREAM_URL }}:{{ LIVE_STREAM_PORT }}/{{ LIVE_STREAM_MOUNT }}',
     streamInfoUrl: 'http://{{ LIVE_STREAM_INFO_URL }}',
     volume: '{{ DEFAULT_AUDIO_VOLUME }}',
+    nag_count: {{ NAG_COUNT }},
     smDebugMode: {{ SM_DEBUG_MODE }},
     isDebug: {{ IS_DEBUG }},
     drawTimelineOnMix: false,
