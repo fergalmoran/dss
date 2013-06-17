@@ -11,6 +11,7 @@ define ['app', 'marionette', 'vent', 'utils'],
         mixInit: (model) =>
             console.log "AudioController: mixInit"
             id = model.get('id')
+            com.podnoms.player.stopPlaying()
             $.getJSON "/ajax/mix_stream_url/" + id + "/", (data) =>
                 com.podnoms.settings.setupPlayerWrapper(id, data.stream_url)
                 com.podnoms.player.startPlaying

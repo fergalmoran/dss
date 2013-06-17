@@ -27,6 +27,7 @@
           _this = this;
         console.log("AudioController: mixInit");
         id = model.get('id');
+        com.podnoms.player.stopPlaying();
         return $.getJSON("/ajax/mix_stream_url/" + id + "/", function(data) {
           com.podnoms.settings.setupPlayerWrapper(id, data.stream_url);
           com.podnoms.player.startPlaying({
