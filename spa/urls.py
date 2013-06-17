@@ -27,6 +27,7 @@ urlpatterns = patterns(
     '',
     url(r'^$', 'spa.views.app', name='home'),
     url(r'^tpl/(?P<template_name>\w+)/$', 'spa.templates.get_template'),
+    url(r'^dlg/(?P<dialog_name>\w+)/$', 'spa.templates.get_dialog'),
     url(r'^js/(?P<template_name>\w+)/$', 'spa.templates.get_javascript'),
     url(r'^tplex/(?P<template_name>\w+)/$', 'spa.templates.get_template_ex'),
     url(r'^podcast\.xml', 'spa.podcast.get_default_podcast'),

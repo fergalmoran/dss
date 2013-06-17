@@ -1,5 +1,5 @@
-define ['app', 'marionette', 'vent'],
-(App, Marionette, vent) ->
+define ['app', 'marionette', 'vent', 'utils'],
+(App, Marionette, vent, utils) ->
     class AudioController extends Marionette.Controller
 
         initialize: (options) ->
@@ -16,10 +16,10 @@ define ['app', 'marionette', 'vent'],
                 com.podnoms.player.startPlaying
                     success: =>
                         vent.trigger("mix:play", model)
-                        com.podnoms.utils.checkPlayCount()
+                        utils.checkPlayCount()
                         return
                     error: =>
-                        com.podnoms.utils.showWarning "Ooops", "Error playing mix. If you have a flash blocker, please disable it for this site. Otherwise, do please try again."
+                        utils.showWarning "Ooops", "Error playing mix. If you have a flash blocker, please disable it for this site. Otherwise, do please try again."
                         return
                 com.podnoms.storage.setItem "now_playing", id
                 return

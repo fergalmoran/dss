@@ -10,12 +10,6 @@ __author__ = 'fergalm'
 
 @not_minified_response
 def get_template(request, template_name):
-    #Temporary hack here to create user profiles for zombie users
-    if request.user.is_authenticated() and request.user.get_profile() is None:
-        zm, created = UserProfile.objects.get_or_create(user=request.user)
-        zm.save()
-        print "Created user %s" % zm
-
     return render_to_response(
         'views/%s.html' % template_name,
         context_instance=RequestContext(request))
@@ -27,6 +21,13 @@ def get_template_ex(request, template_name):
         'views/%s.html' % template_name,
         context_instance=RequestContext(request, {'form': UserForm()}))
     return html
+
+
+@not_minified_response
+def get_dialog(request, dialog_name):
+    return render_to_response(
+        'views/dlg/%s.html' % dialog_name,
+        context_instance=RequestContext(request))
 
 
 def get_javascript(request, template_name):

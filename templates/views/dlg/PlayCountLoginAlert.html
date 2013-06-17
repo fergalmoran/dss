@@ -1,14 +1,14 @@
+{% extends 'views/dlg/_DialogBase.html' %}
+
 {% load account %}
 {% load socialaccount %}
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+{% block header %}
     <h3>Hey There!!</h3>
-</div>
-<div class="modal-body">
+{% endblock %}
+{% block content %}
     We've noticed you've been playing a few mixes now.<br/>
     This is cool and we're happy you're enjoying the site but we would love it<br/>
     if you would consider logging in.<br/>
     This will let you comment on mixes and even download them
-</div>
-
-
+{% endblock %}
+{% block primarybutton %}Okies...{% endblock %}

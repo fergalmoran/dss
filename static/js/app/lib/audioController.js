@@ -4,7 +4,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app', 'marionette', 'vent'], function(App, Marionette, vent) {
+  define(['app', 'marionette', 'vent', 'utils'], function(App, Marionette, vent, utils) {
     var AudioController;
     AudioController = (function(_super) {
 
@@ -32,10 +32,10 @@
           com.podnoms.player.startPlaying({
             success: function() {
               vent.trigger("mix:play", model);
-              com.podnoms.utils.checkPlayCount();
+              utils.checkPlayCount();
             },
             error: function() {
-              com.podnoms.utils.showWarning("Ooops", "Error playing mix. If you have a flash blocker, please disable it for this site. Otherwise, do please try again.");
+              utils.showWarning("Ooops", "Error playing mix. If you have a flash blocker, please disable it for this site. Otherwise, do please try again.");
             }
           });
           com.podnoms.storage.setItem("now_playing", id);
