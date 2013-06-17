@@ -100,6 +100,7 @@ def get_mix_stream_url(request, mix_id):
                 request.session['play_count'] = 1
 
         mix = Mix.objects.get(pk=mix_id)
+        mix.add_play(request.user)
         data = {
             'stream_url': mix.get_stream_path(),
             'description': mix.description,

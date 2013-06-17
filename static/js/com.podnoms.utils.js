@@ -9,7 +9,6 @@
 
 if (!com) var com = {};
 if (!com.podnoms) com.podnoms = {};
-
 com.podnoms.utils = {
     // Asynchronously load templates located in separate .html files
     loadTemplate: function (views, callback) {
@@ -108,8 +107,8 @@ com.podnoms.utils = {
     checkPlayCount: function () {
         if (document.cookie.indexOf('sessionId')) {
             $.getJSON('/ajax/session_play_count', function (data) {
-                if ((data.play_count != 0) && (data.play_count % 5) == 0) {
-                    com.podnoms.utils.showAlert('tpl/PlayCountLoginAlert');
+                if ((data.play_count != 0) && (data.play_count % 1) == 0) {
+                    com.podnoms.utils.modal('tpl/PlayCountLoginAlert');
                 }
             });
         }
