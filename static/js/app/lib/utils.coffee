@@ -1,7 +1,4 @@
-define ['jquery', 'bootstrap']
-($, bootstrap) ->
-    class Utils
-
+define ['jquery', 'bootstrap'], ($, bootstrap) ->
         modal: (url) ->
             if url.indexOf("#") is 0
                 $(url).modal "open"
@@ -19,6 +16,4 @@ define ['jquery', 'bootstrap']
                 $.getJSON "/ajax/session_play_count", (data) ->
                     com.podnoms.utils.modal "tpl/PlayCountLoginAlert"  if (data.play_count isnt 0) and (data.play_count % 1) is 0
             true
-
-        Utils
 

@@ -1,0 +1,31 @@
+if (!com) var com = {};
+if (!com.podnoms) com.podnoms = {};
+
+com.podnoms.settings = {
+    CHAT_HOST: 'www.deepsouthsounds.com:8081',
+    REALTIME_HOST: 'www.deepsouthsounds.com:8081',
+    REALTIME_PORT: 'www.deepsouthsounds.com:8081',
+    urlRoot: '/api/v1/',
+    liveStreamRoot: 'http://radio.deepsouthsounds.com:8000/mp3',
+    streamInfoUrl: 'http://radio.deepsouthsounds.com:8000/mp3',
+    volume: '50',
+    smDebugMode: false,
+    isDebug: false,
+    drawTimelineOnMix: false,
+    staticUrl: 'http://static.podnoms.com/',
+    urlArgs: false ? "" : "bust="+ (new Date()).getTime(),
+    currentUser: -1,
+    /** simple helper to take an api JSON object and initialise a player item */
+    setupPlayerWrapper: function (id, stream_url, el) {
+        com.podnoms.player.setupPlayer({
+            id: id,
+            boundingEl: $('#mix-container-' + id, el),
+            waveFormEl: $('#waveform-' + id, el),
+            playHeadEl: $('#playhead-player-' + id, el),
+            loadingEl: $('#progress-player-' + id, el),
+            seekHeadEl: $('#player-seekhead', el),
+            playButtonEl: $('#play-pause-button-small-' + id, el),
+            url: stream_url || ""
+        });
+    }
+};
