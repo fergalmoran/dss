@@ -24,11 +24,10 @@ define ['marionette', 'vent', 'models/mix/mixCollection', 'views/mix/mixItemView
 
         mixPlay: (model) ->
             console.log "MixListView: mixPlay"
-            """
+
             if currentMix != -1
                 v = @children.findByModelCid(currentMix)
-                v.mixPause()
-            """
+                v.mixPause(v.model)
             currentMix = model.cid
             return
 

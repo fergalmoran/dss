@@ -42,9 +42,12 @@
       };
 
       MixListView.prototype.mixPlay = function(model) {
+        var v;
         console.log("MixListView: mixPlay");
-        "if currentMix != -1\n    v = @children.findByModelCid(currentMix)\n    v.mixPause()";
-
+        if (currentMix !== -1) {
+          v = this.children.findByModelCid(currentMix);
+          v.mixPause(v.model);
+        }
         currentMix = model.cid;
       };
 
