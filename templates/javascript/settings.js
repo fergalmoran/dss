@@ -16,15 +16,15 @@ com.podnoms.settings = {
     urlArgs: {{ IS_DEBUG }} ? "" : "bust="+ (new Date()).getTime(),
     currentUser: {{ CURRENT_USER_ID }},
     /** simple helper to take an api JSON object and initialise a player item */
-    setupPlayerWrapper: function (id, stream_url) {
+    setupPlayerWrapper: function (id, stream_url, el) {
         com.podnoms.player.setupPlayer({
             id: id,
-            boundingEl: $('#mix-container-' + id),
-            waveFormEl: $('#waveform-' + id),
-            playHeadEl: $('#playhead-player-' + id),
-            loadingEl: $('#progress-player-' + id),
-            seekHeadEl: $('#player-seekhead'),
-            playButtonEl: $('#play-pause-button-small-' + id),
+            boundingEl: $('#mix-container-' + id, el),
+            waveFormEl: $('#waveform-' + id, el),
+            playHeadEl: $('#playhead-player-' + id, el),
+            loadingEl: $('#progress-player-' + id, el),
+            seekHeadEl: $('#player-seekhead', el),
+            playButtonEl: $('#play-pause-button-small-' + id, el),
             url: stream_url || ""
         });
     }

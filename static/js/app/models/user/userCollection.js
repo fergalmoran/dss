@@ -18,6 +18,46 @@
 
       UserCollection.prototype.url = com.podnoms.settings.urlRoot + "user/";
 
+      UserCollection.prototype._columns = [
+        {
+          property: 'toponymName',
+          label: 'Name',
+          sortable: true
+        }, {
+          property: 'uploads',
+          label: 'Uploads',
+          sortable: true
+        }, {
+          property: 'likes',
+          label: 'Likes',
+          sortable: true
+        }, {
+          property: 'favourites',
+          label: 'Favourites',
+          sortable: true
+        }, {
+          property: 'followers',
+          label: 'Followers',
+          sortable: true
+        }, {
+          property: 'following',
+          label: 'Following',
+          sortable: true
+        }, {
+          property: 'lastseen',
+          label: 'Last seen',
+          sortable: true
+        }
+      ];
+
+      UserCollection.prototype.columns = function() {
+        return this._columns;
+      };
+
+      UserCollection.prototype.data = function() {
+        return this.toJSON;
+      };
+
       return UserCollection;
 
     })(DssCollection);

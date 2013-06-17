@@ -34,12 +34,15 @@ define ['moment', 'app', 'vent', 'marionette', 'models/comment/commentCollection
                 totalDurationText = if totalDuration.hours() != 0 then moment(totalDuration).format("HH:mm:ss") else moment(totalDuration).format("mm:ss");
                 $('#player-duration-' + id, this.el).text(totalDurationText)
 
-            #check if we're currently playing
-            if com.podnoms.player.isPlayingId @model.id
-                com.podnoms.settings.setupPlayerWrapper @model.get('id')
 
             @renderGenres()
             return
+
+        onDomRefresh: ->
+            #check if we're currently playing
+            if com.podnoms.player.isPlayingId @model.id
+                com.podnoms.settings.setupPlayerWrapper @model.get('id'), com.podnoms.player.getStreamUrl(), @el
+            true
 
         renderGenres: =>
             el = @el

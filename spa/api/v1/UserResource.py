@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.db.models import Count
 import humanize
 from tastypie import fields
 from tastypie.authentication import Authentication
@@ -15,7 +16,7 @@ from spa.models import UserProfile, Mix
 
 class UserProfileResource(BackboneCompatibleResource):
     class Meta:
-        queryset = UserProfile.objects.all()
+        queryset = UserProfile.manager.annotate(fcount=Count('followers'))
         resource_name = 'profile'
         include_resource_uri = False
         include_absolute_url = False
@@ -102,7 +103,8 @@ class UserResource(BackboneCompatibleResource):
 
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<userprofile__slug>[\w\d_.-]+)/favourites%s$" % (self._meta.resource_name, trailing_slash()),
+            url(r"^(?P<resource_name>%s)/(?P<userprofile__slug>[\w\d_.-]+)/favourites%s$" % (
+            self._meta.resource_name, trailing_slash()),
                 self.wrap_view('get_user_favourites'), name="api_get_user_favourites"),
             url(r"^(?P<resource_name>%s)/(?P<pk>\d+)/$" % self._meta.resource_name,
                 self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
@@ -110,9 +112,13 @@ class UserResource(BackboneCompatibleResource):
                 self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
         ]
 
+    def get_object_list(self, request):
+        return super(UserResource, self).get_object_list(request)
+
     def get_user_favourites(self, request, **kwargs):
         try:
-            obj = self.cached_obj_get(bundle=self.build_bundle(request=request), **self.remove_api_resource_names(kwargs))
+            obj = self.cached_obj_get(bundle=self.build_bundle(request=request),
+                                      **self.remove_api_resource_names(kwargs))
         except ObjectDoesNotExist:
             return HttpGone()
         except MultipleObjectsReturned:

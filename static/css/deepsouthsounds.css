@@ -16,7 +16,7 @@ body {
     padding-top: 45px;
     padding-bottom: 40px;
     padding-right: 32px;
-    background: url('../img/bg.gif');
+    /*background: url('../img/bg.gif');*/
 }
 
 /* IE/Chrome image fix */
@@ -480,4 +480,9 @@ div.event-content td {
     width: 98%;
     text-align: center;
     margin-bottom: 8px;
+}
+dss-datatable{
+    cellpadding: 0;
+    cellspacing: 0;
+    border: 0;
 }

@@ -10,6 +10,7 @@ requirejs.config({
         'backbone.wreqr': 'libs/backbone/backbone.wreqr',
         ich: 'libs/ICanHaz',
         underscore: 'libs/backbone/underscore',
+        backgrid: 'libs/backgrid/backgrid',
         text: 'libs/text',
         templates: '/templates',
         app: 'app/appv2',

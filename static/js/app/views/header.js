@@ -6,8 +6,8 @@
  Code provided under the BSD License:
 
  */
-define(['underscore', 'backbone', 'text!/tpl/HeaderView'],
-    function (_, Backbone, Template) {
+define(['underscore', 'backbone', 'vent', 'text!/tpl/HeaderView'],
+    function (_, Backbone, vent, Template) {
         return Backbone.View.extend({
             template: _.template(Template),
             events: {
@@ -17,12 +17,8 @@ define(['underscore', 'backbone', 'text!/tpl/HeaderView'],
             },
             initialize: function () {
                 this.render();
-                _.bindAll(this, "trackChanged");
-                _.bindAll(this, "trackPlaying");
-                _.bindAll(this, "trackPaused");
-                window._eventAggregator.bind("track_changed", this.trackChanged);
-                _eventAggregator.bind("track_playing", this.trackPlaying);
-                _eventAggregator.bind("track_paused", this.trackPaused);
+                this.listenTo(vent, 'mix:play', this.trackPlaying);
+                this.listenTo(vent, 'mix:pause', this.trackPaused);
             },
             login: function () {
                 com.podnoms.utils.modal('tpl/LoginView');

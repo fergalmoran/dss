@@ -127,6 +127,9 @@ com.podnoms.player = {
     isPlayingId: function (id) {
         return this.isPlaying() && this.currentSound.sID == "com.podnoms.player-" + id;
     },
+    getStreamUrl: function(){
+        return this.currentPath;
+    },
     drawTimeline: function (el, boundingEl, duration) {
         /*
          Assume 10 markers

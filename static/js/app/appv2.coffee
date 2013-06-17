@@ -65,8 +65,6 @@ define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'ap
         )
         true
 
-    console.warn("Creating event aggregator shim")
-    window._eventAggregator = _.extend({}, Backbone.Events);
     App.headerRegion.show(new HeaderView());
     sidebarView = new SidebarView();
     App.sidebarRegion.show(sidebarView)

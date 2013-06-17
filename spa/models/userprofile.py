@@ -21,10 +21,16 @@ def avatar_name(instance, filename):
     return generate_save_file_name(str(instance.id), 'avatars', filename)
 
 
+class UserProfileManager(models.Manager):
+    def get_query_set(self):
+        return super(UserProfileManager, self).get_query_set().annotate(fcount=models.Count('followers'))
+
+
 class UserProfile(_BaseModel):
     class Meta:
         app_label = 'spa'
 
+    manager = UserProfileManager()
     ACTIVITY_SHARE_LIKES = 1
     ACTIVITY_SHARE_FAVOURITES = 2
     ACTIVITY_SHARE_COMMENTS = 4
