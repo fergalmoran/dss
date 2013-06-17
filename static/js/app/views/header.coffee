@@ -1,0 +1,67 @@
+###
+@license
+
+----------------------------------------------
+
+Copyright (c) 2012, Fergal Moran. All rights reserved.
+Code provided under the BSD License:
+###
+define ["underscore", "backbone", "vent", "utils", "text!/tpl/HeaderView"], (_, Backbone, vent, utils, Template) ->
+    class HeaderView extends Backbone.View
+        template: _.template(Template)
+        events:
+            "click #header-play-pause-button": "togglePlayState"
+            "click #header-login-button": "login"
+            "click #header-live-button": "playLive"
+
+        initialize: ->
+            @render()
+            @listenTo vent, "mix:play", @trackPlaying
+            @listenTo vent, "mix:pause", @trackPaused
+
+        login: ->
+            utils.modal "tpl/LoginView"
+
+        logout: ->
+            utils.showAlert "Success", "You are now logged out"
+
+        trackChanged: (data) ->
+            $(@el).find("#track-description").text data.title
+            $(@el).find("#track-description").attr "href", "#" + data.item_url
+
+        trackPlaying: (data) ->
+            $(@el).find("#header-play-button-icon").removeClass "icon-play"
+            $(@el).find("#header-play-button-icon").addClass "icon-pause"
+
+        trackPaused: (data) ->
+            $(@el).find("#header-play-button-icon").removeClass "icon-pause"
+            $(@el).find("#header-play-button-icon").addClass "icon-play"
+
+        render: ->
+            $(@el).html @template()
+            this
+
+        playLive: ->
+            ref = this
+            dssSoundHandler.playLive()
+            _eventAggregator.trigger "track_playing"
+            button = $(@el).find("#header-play-pause-button")
+            button.data "mode", "pause"
+            $.getJSON "ajax/live_now_playing/", (data) ->
+                alert data.title
+                $(ref.el).find("#live-now-playing").text data.title
+
+
+        togglePlayState: ->
+            button = $(@el).find("#header-play-pause-button")
+            mode = button.data("mode")
+            if mode is "play"
+                dssSoundHandler.resumeSound()
+                _eventAggregator.trigger "track_playing"
+                button.data "mode", "pause"
+            else
+                dssSoundHandler.pauseSound()
+                _eventAggregator.trigger "track_paused"
+                button.data "mode", "play"
+
+    HeaderView

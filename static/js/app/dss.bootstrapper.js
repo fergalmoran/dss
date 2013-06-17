@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: "static/js",
+    baseUrl: 'static/js',
     urlArgs: com.podnoms.settings.urlArgs,
     waitSeconds: 200,
     paths: {
@@ -14,6 +14,7 @@ requirejs.config({
         text: 'libs/text',
         templates: '/templates',
         app: 'app/appv2',
+        utils: 'app/lib/utils',
         vent: 'app/lib/eventAggregator',
         views: 'app/views',
         models: 'app/models',
@@ -24,25 +25,28 @@ requirejs.config({
     shim: {
         backbone: {
             exports: 'Backbone',
-            deps: ['underscore']
+            deps: ['jquery', 'underscore']
+        },
+        bootstrap: {
+            exports: 'bootstrap',
+            deps: ['jquery']
         },
         marionette: {
             exports: 'Marionette',
-            deps: ['backbone']
+            deps: ['jquery', 'backbone']
         },
         underscore: {
             exports: '_'
         },
-        'toastr': {
-            deps: ['jquery'],
-            exports: 'toastr'
+        utils: {
+            deps: ['jquery', 'bootstrap']
         }
     }
 });
 
 requirejs(['toastr', 'underscore', 'backbone', 'app'], function (toastr, _, Backbone, App) {
-    "use strict"
+    'use strict'
 
-    console.log("Dss.Bootstrapper: primed");
+    console.log('Dss.Bootstrapper: primed');
     App.start();
 });

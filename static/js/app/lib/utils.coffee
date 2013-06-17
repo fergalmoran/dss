@@ -1,4 +1,4 @@
-define['jquery', 'bootstrap']
+define ['jquery', 'bootstrap']
 ($, bootstrap) ->
     class Utils
 
@@ -13,6 +13,7 @@ define['jquery', 'bootstrap']
                 ).success ->
                     $("input:text:visible:first").focus()
             true
+
         checkPlayCount: ->
             if document.cookie.indexOf("sessionId")
                 $.getJSON "/ajax/session_play_count", (data) ->
