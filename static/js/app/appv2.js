@@ -50,6 +50,7 @@
       contentRegion: {
         selector: "#content"
       },
+      footerRegion: "#footer",
       sidebarRegion: "#sidebar"
     });
     App.addInitializer(function() {
@@ -61,6 +62,7 @@
       console.log("App: gobbling links");
       $(document).on("click", "a[href]:not([data-bypass])", function(evt) {
         var href, root;
+        console.log("App: scarfed link");
         href = {
           prop: $(this).prop("href"),
           attr: $(this).attr("href")

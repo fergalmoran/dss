@@ -36,6 +36,7 @@
                     <img id="waveform-image-<%= id %>" class="waveform_image"
                          alt="Audio waveform"
                          src="<%= waveform_url %>">
+
                     <div class="download-progress-overlay" id="progress-player-<%= id %>"></div>
                     <div class="playhead" id="playhead-player-<%= id %>" style="width: 0px"></div>
                 </div>
@@ -58,12 +59,10 @@
                                 class="icon-star-empty"></i> Favourite</a>
                     </div>
                 {% endif %}
-                <div class="footer-button">
-                    <div class="btn-group" id="share-dropdown-<%= id %>">
-                        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="icon-share"/>Share
+                    <div class="btn-group">
+                        <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><i class="icon-share"></i>Share
                             <span class="caret"></span>
-                        </a>
+                        </button>
                         <ul class="dropdown-menu">
                             <li>
                                 <a data-mode="facebook"
@@ -79,7 +78,6 @@
                             </li>
                         </ul>
                     </div>
-                </div>
                 {% if user.is_authenticated %}
                     <% if (download_allowed) { %>
                     <div class="download-button footer-button">

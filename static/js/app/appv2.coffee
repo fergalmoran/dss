@@ -1,4 +1,5 @@
-define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/audioController', 'views/header', 'views/sidebar/sidebarView',
+define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/audioController', 'views/header',
+        'views/sidebar/sidebarView',
         'models/mix/mixCollection'],
 (Backbone, Marionette, DssRouter, PanningRegion, AudioController, HeaderView, SidebarView, MixCollection) ->
     Marionette.Region.prototype.open = (view) ->
@@ -39,14 +40,13 @@ define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'ap
         })
         true
 
-    App.addRegions {
-        headerRegion: "#header",
-        contentRegion: {
+    App.addRegions
+        headerRegion: "#header"
+        contentRegion:
             selector: "#content"
-            #regionType: PanningRegion
-        }
+        footerRegion: "#footer"
         sidebarRegion: "#sidebar"
-    }
+
 
     App.addInitializer ->
         console.log("App: routing starting");
@@ -56,6 +56,7 @@ define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'ap
     App.addInitializer ->
         console.log("App: gobbling links");
         $(document).on("click", "a[href]:not([data-bypass])", (evt) ->
+            console.log("App: scarfed link")
             href = { prop: $(this).prop("href"), attr: $(this).attr("href") };
             root = location.protocol + "//" + location.host + (App.root || '/');
             if (href.prop.slice(0, root.length) == root)
