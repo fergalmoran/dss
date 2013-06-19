@@ -1,5 +1,5 @@
-define ['app.lib/editableView', 'moment', 'libs/backbone/backbone.syphon', 'text!/tpl/MixEditView'],
-(EditableView, moment, Syphon, Template) ->
+define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.syphon', 'text!/tpl/MixEditView'],
+(EditableView, moment, utils, Syphon, Template) ->
     class MixEditView extends EditableView
         template: _.template(Template)
         events:
@@ -12,7 +12,7 @@ define ['app.lib/editableView', 'moment', 'libs/backbone/backbone.syphon', 'text
                     trigger: true
 
         initialize: ->
-            @guid = com.podnoms.utils.generateGuid()
+            @guid = utils.generateGuid()
             @state = 0
 
         onRender: ->
@@ -128,7 +128,7 @@ define ['app.lib/editableView', 'moment', 'libs/backbone/backbone.syphon', 'text
                         @checkRedirect()
                     true
                 error: (model, response) ->
-                    com.podnoms.utils.showError "Error", "Something went wrong<br />Nerd stuff is: " + response
+                    utils.showError "Error", "Something went wrong<br />Nerd stuff is: " + response
 
             false
 
