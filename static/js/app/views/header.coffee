@@ -6,7 +6,8 @@
 Copyright (c) 2012, Fergal Moran. All rights reserved.
 Code provided under the BSD License:
 ###
-define ["underscore", "backbone", "vent", "utils", "text!/tpl/HeaderView"], (_, Backbone, vent, utils, Template) ->
+define ["underscore", "backbone", "vent", "utils", "text!/tpl/HeaderView"],
+(_, Backbone, vent, utils, Template) ->
     class HeaderView extends Backbone.View
         template: _.template(Template)
         events:
@@ -42,15 +43,7 @@ define ["underscore", "backbone", "vent", "utils", "text!/tpl/HeaderView"], (_, 
             this
 
         playLive: ->
-            ref = this
-            dssSoundHandler.playLive()
-            _eventAggregator.trigger "track_playing"
-            button = $(@el).find("#header-play-pause-button")
-            button.data "mode", "pause"
-            $.getJSON "ajax/live_now_playing/", (data) ->
-                alert data.title
-                $(ref.el).find("#live-now-playing").text data.title
-
+            vent.trigger('live:play')
 
         togglePlayState: ->
             button = $(@el).find("#header-play-pause-button")

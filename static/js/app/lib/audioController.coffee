@@ -7,6 +7,8 @@ define ['app', 'marionette', 'vent', 'utils'],
             @listenTo(vent, 'mix:init', @mixInit)
             @listenTo(vent, 'mix:pause', @mixPause)
             @listenTo(vent, 'mix:play', @mixPlay)
+            @listenTo(vent, 'live:play', @livePlay)
+            @listenTo(vent, 'live:pause', @livePause)
 
         mixInit: (model) =>
             console.log "AudioController: mixInit"
@@ -32,5 +34,13 @@ define ['app', 'marionette', 'vent', 'utils'],
         mixPause: (model) ->
             console.log("AudioController: mixPause")
             com.podnoms.player.pause();
+
+        livePlay: ->
+            console.log("AudioController: livePlay")
+            com.podnoms.player.playLive
+                success: ->
+                    console.log("Live stream started")
+                    vent.trigger('live:started')
+
     AudioController
 
