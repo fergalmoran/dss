@@ -39,7 +39,7 @@ Code provided under the BSD License:
       };
 
       HeaderView.prototype.login = function() {
-        return utils.modal("tpl/LoginView");
+        return utils.modal("dlg/LoginView");
       };
 
       HeaderView.prototype.logout = function() {

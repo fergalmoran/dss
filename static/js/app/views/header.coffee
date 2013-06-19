@@ -21,7 +21,7 @@ define ["underscore", "backbone", "vent", "utils", "text!/tpl/HeaderView"],
             @listenTo vent, "mix:pause", @trackPaused
 
         login: ->
-            utils.modal "tpl/LoginView"
+            utils.modal "dlg/LoginView"
 
         logout: ->
             utils.showAlert "Success", "You are now logged out"
