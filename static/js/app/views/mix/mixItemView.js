@@ -156,7 +156,11 @@
         return true;
       };
 
-      MixItemView.prototype.mixDownload = function() {};
+      MixItemView.prototype.mixDownload = function() {
+        console.log("MixItemView: mixDownload");
+        utils.downloadURL("/audio/download/" + this.model.get('id'));
+        return true;
+      };
 
       return MixItemView;
 

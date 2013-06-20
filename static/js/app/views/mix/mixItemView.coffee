@@ -119,9 +119,9 @@ define ['moment', 'app', 'vent', 'marionette', 'utils', 'models/comment/commentC
             true
 
         mixDownload: ->
+            console.log("MixItemView: mixDownload")
             utils.downloadURL("/audio/download/" + @model.get('id'))
             true
 
-        return false;
 
     MixItemView

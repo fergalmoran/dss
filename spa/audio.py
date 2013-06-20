@@ -30,9 +30,8 @@ def download(request, mix_id):
         if mix is not None:
             if mix.download_allowed:
                 mix.add_download(request.user)
-                filename = mix.local_file.path   # Select your file here.
-                file, ext = os.path.splitext(filename)
-                response = sendfile(request, filename, attachment=True, attachment_filename="%s.%s" % (mix.title, ext))
+                filename = "%s/mixes/%s.mp3" % (here(settings.MEDIA_ROOT), mix.uid)
+                response = sendfile(request, filename, attachment=True, attachment_filename="Deep South Sounds - %s.mp3" % mix.title)
                 return response
     except Exception, ex:
         print ex
