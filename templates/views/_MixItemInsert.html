@@ -59,8 +59,27 @@
                                 class="icon-star-empty"></i> Favourite</a>
                     </div>
                 {% endif %}
+                <div class="footer-button">
+                    <ul class="list-nostyle list-horiz">
+                        <li title="<%= play_count %> Plays" class="stats-item bordered-right">
+                            <span class="icon-play stats">Plays:</span> <%= play_count %>
+                        </li>
+                        <li title="<%= download_count %> Downloads" class="stats-item bordered-right">
+                            <span class="icon-download-alt stats">Downloads:</span> <%= download_count %>
+                        </li>
+                        <li title="<%= comment_count %> Comments" class="stats-item bordered-right">
+                            <span class="icon-pencil stats">Comments:</span> <%= comment_count %>
+                        </li>
+                        <li title="<%= like_count %> Likes" class="stats-item bordered-right">
+                            <span class="icon-heart stats">Likes:</span> <%= like_count %>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-button">
                     <div class="btn-group">
-                        <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><i class="icon-share"></i>Share
+                        <button class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown"><i
+                                class="icon-share"></i>Share
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
@@ -78,29 +97,6 @@
                             </li>
                         </ul>
                     </div>
-                {% if user.is_authenticated %}
-                    <% if (download_allowed) { %>
-                    <div class="download-button footer-button">
-                        <a class="btn btn-mini" data-id="<%= id %>">
-                            <i class="icon-download"></i> Download</a>
-                    </div>
-                    <% } %>
-                {% endif %}
-                <div class="footer-button">
-                    <ul class="list-nostyle list-horiz">
-                        <li title="<%= play_count %> Plays" class="stats-item bordered-right">
-                            <span class="icon-play stats">Plays:</span> <%= play_count %>
-                        </li>
-                        <li title="<%= download_count %> Downloads" class="stats-item bordered-right">
-                            <span class="icon-download-alt stats">Downloads:</span> <%= download_count %>
-                        </li>
-                        <li title="<%= comment_count %> Comments" class="stats-item bordered-right">
-                            <span class="icon-pencil stats">Comments:</span> <%= comment_count %>
-                        </li>
-                        <li title="<%= like_count %> Likes" class="stats-item bordered-right">
-                            <span class="icon-heart stats">Likes:</span> <%= like_count %>
-                        </li>
-                    </ul>
                 </div>
                 {% if user.is_staff %}
                     <div class="edit-button footer-button-right">
@@ -108,6 +104,14 @@
                            data-id="<%= id %>"><i
                                 class="icon-edit"></i>Edit</a>
                     </div>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <% if (download_allowed) { %>
+                    <div class="download-button footer-button-right">
+                        <a class="btn btn-mini btn-success" data-id="<%= id %>">
+                            <i class="icon-download"></i> Download</a>
+                    </div>
+                    <% } %>
                 {% endif %}
             </div>
         </div>

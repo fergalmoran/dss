@@ -1,7 +1,7 @@
-define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/audioController', 'views/header',
+define ['backbone', 'marionette', 'vent', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/audioController', 'views/header',
         'views/sidebar/sidebarView',
         'models/mix/mixCollection'],
-(Backbone, Marionette, DssRouter, PanningRegion, AudioController, HeaderView, SidebarView, MixCollection) ->
+(Backbone, Marionette, vent, DssRouter, PanningRegion, AudioController, HeaderView, SidebarView, MixCollection) ->
     Marionette.Region.prototype.open = (view) ->
         @.$el.hide();
         @.$el.html(view.el);
@@ -10,24 +10,6 @@ define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'ap
 
     App = new Marionette.Application();
     App.audioController = new AudioController()
-
-    App.vent.on "mix:favourite", (model) ->
-        console.log "App(vent): mix:favourite"
-        model.save 'favourited', !model.get('favourited'), patch: true
-        true
-
-    App.vent.on "mix:like", (model) ->
-        console.log "App(vent): mix:like"
-        model.save 'liked', !model.get('liked'), patch: true
-        true
-
-    App.vent.on "mix:share", (mode, model) ->
-        console.log "App(vent): mix:share"
-        if (mode == "facebook")
-            social.sharePageToFacebook(model);
-        else if (mode == "twitter")
-            social.sharePageToTwitter(model);
-        true
 
     App.vent.on "routing:started", ->
         console.log "App(vent): routing:started"
@@ -65,6 +47,25 @@ define ['backbone', 'marionette', 'app.lib/router', 'app.lib/panningRegion', 'ap
                 true
         )
         true
+
+    App.addInitializer ->
+        @listenTo vent, "mix:favourite", (model) ->
+            console.log "App(vent): mix:favourite"
+            model.save 'favourited', !model.get('favourited'), patch: true
+            true
+
+        @listenTo vent, "mix:like", (model) ->
+            console.log "App(vent): mix:like"
+            model.save 'liked', !model.get('liked'), patch: true
+            true
+
+        @listenTo vent, "mix:share", (mode, model) ->
+            console.log "App(vent): mix:share"
+            if (mode == "facebook")
+                social.sharePageToFacebook(model);
+            else if (mode == "twitter")
+                social.sharePageToTwitter(model);
+            true
 
     App.headerRegion.show(new HeaderView());
     sidebarView = new SidebarView();
