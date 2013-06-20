@@ -17,7 +17,8 @@ define ['jquery', 'bootstrap', 'toastr'], ($, bootstrap, toastr) ->
         if document.cookie.indexOf("sessionId")
             $.getJSON "/ajax/session_play_count", (data) =>
                 console.log "utils: got playcount"
-                @modal "dlg/PlayCountLoginAlert"  if (data.play_count isnt 0) and (data.play_count % com.podnoms.settings.nag_count) is 0
+                if data.play_count != 0 and (data.play_count % com.podnoms.settings.nag_count)
+                    @modal "dlg/PlayCountLoginAlert"
         true
 
     showError: (title, message) =>
