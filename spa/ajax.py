@@ -80,10 +80,15 @@ def header(request):
 
 
 def session_play_count(request):
-    if 'play_count' in request.session:
-        result = simplejson.dumps({
-            'play_count': request.session['play_count']
-        })
+    if not request.user.is_authenticated():
+        if 'play_count' in request.session:
+            result = simplejson.dumps({
+                'play_count': request.session['play_count']
+            })
+        else:
+            result = simplejson.dumps({
+                'play_count': '0'
+            })
     else:
         result = simplejson.dumps({
             'play_count': '0'
