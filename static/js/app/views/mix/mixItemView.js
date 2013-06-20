@@ -4,7 +4,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['moment', 'app', 'vent', 'marionette', 'models/comment/commentCollection', 'views/comment/commentListView', 'text!/tpl/MixListItemView'], function(moment, App, vent, Marionette, CommentsCollection, CommentsListView, Template) {
+  define(['moment', 'app', 'vent', 'marionette', 'utils', 'models/comment/commentCollection', 'views/comment/commentListView', 'text!/tpl/MixListItemView'], function(moment, App, vent, Marionette, utils, CommentsCollection, CommentsListView, Template) {
     var MixItemView, _ref;
 
     MixItemView = (function(_super) {
@@ -141,24 +141,22 @@
       };
 
       MixItemView.prototype.mixLike = function() {
-        var app;
-
         console.log("MixItemView: likeMix");
-        app = require('app');
-        app.vent.trigger("mix:like", this.model);
+        vent.trigger("mix:like", this.model);
         return true;
       };
 
       MixItemView.prototype.mixShare = function(e) {
-        var app, mode;
+        var mode;
 
         console.log("MixItemView: shareMix");
         mode = $(e.currentTarget).data("mode");
         console.log("MixItemView: " + mode);
-        app = require('app');
-        app.vent.trigger("mix:share", mode, this.model);
+        vent.trigger("mix:share", mode, this.model);
         return true;
       };
+
+      MixItemView.prototype.mixDownload = function() {};
 
       return MixItemView;
 

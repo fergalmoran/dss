@@ -1,5 +1,5 @@
-define ['moment', 'app', 'vent', 'marionette', 'models/comment/commentCollection', 'views/comment/commentListView', 'text!/tpl/MixListItemView'],
-(moment, App, vent, Marionette, CommentsCollection, CommentsListView, Template) ->
+define ['moment', 'app', 'vent', 'marionette', 'utils', 'models/comment/commentCollection', 'views/comment/commentListView', 'text!/tpl/MixListItemView'],
+(moment, App, vent, Marionette, utils, CommentsCollection, CommentsListView, Template) ->
     class MixItemView extends Marionette.ItemView
         template: _.template(Template)
         tagName: @tagName or "li"
@@ -108,17 +108,20 @@ define ['moment', 'app', 'vent', 'marionette', 'models/comment/commentCollection
 
         mixLike: ->
             console.log("MixItemView: likeMix")
-            app = require('app')
-            app.vent.trigger("mix:like", @model)
+            vent.trigger("mix:like", @model)
             true
 
         mixShare: (e) ->
             console.log("MixItemView: shareMix")
             mode = $(e.currentTarget).data("mode");
             console.log("MixItemView: "+ mode)
-            app = require('app')
-            app.vent.trigger("mix:share", mode, @model)
+            vent.trigger("mix:share", mode, @model)
             true
 
+        mixDownload: ->
+            utils.downloadURL("/audio/download/" + @model.get('id'))
+            true
+
+        return false;
 
     MixItemView

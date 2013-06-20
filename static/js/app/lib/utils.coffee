@@ -30,7 +30,17 @@ define ['jquery', 'bootstrap', 'toastr'], ($, bootstrap, toastr) ->
         toastr.success message, title
 
     generateGuid: ->
-      "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace /[xy]/g, (c) ->
-        r = Math.random() * 16 | 0
-        v = (if c is "x" then r else (r & 0x3 | 0x8))
-        v.toString 16
+        "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace /[xy]/g, (c) ->
+            r = Math.random() * 16 | 0
+            v = (if c is "x" then r else (r & 0x3 | 0x8))
+            v.toString 16
+
+    downloadURL: (url) ->
+        iframe = document.getElementById("hiddenDownloader")
+        if iframe is null
+            iframe = document.createElement("iframe")
+            iframe.id = "hiddenDownloader"
+            iframe.style.visibility = "hidden"
+            document.body.appendChild iframe
+        iframe.src = url
+        true

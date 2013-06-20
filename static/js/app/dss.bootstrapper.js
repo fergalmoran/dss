@@ -23,6 +23,9 @@ requirejs.config({
         toastr: 'libs/toastr'
     },
     shim: {
+        jquery: {
+            exports: 'jQuery'
+        },
         backbone: {
             exports: 'Backbone',
             deps: ['jquery', 'underscore']
