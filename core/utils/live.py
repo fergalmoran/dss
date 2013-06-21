@@ -42,4 +42,4 @@ def get_server_details(server, port, mount):
         return "Unknown stream"
 
 def get_now_playing(server, port, mount):
-    return get_server_details(server, port, mount)['current_song']
+    return get_server_details(server, port, mount)#['current_song']
