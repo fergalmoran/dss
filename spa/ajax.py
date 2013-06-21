@@ -126,11 +126,11 @@ def live_now_playing(request):
         return HttpResponse(
             simplejson.dumps({
                 'stream_url': 'http://%s:%s/%s' % (
-                    localsettings.JS_SETTINGS['LIVE_STREAM_URL'] %
-                    localsettings.JS_SETTINGS['LIVE_STREAM_PORT'] %
+                    localsettings.JS_SETTINGS['LIVE_STREAM_URL'],
+                    localsettings.JS_SETTINGS['LIVE_STREAM_PORT'],
                     localsettings.JS_SETTINGS['LIVE_STREAM_MOUNT']),
-                'description': 'Description',
-                'title': now_playing_info
+                'description': now_playing_info['stream_description'],
+                'title': now_playing_info['current_song']
             }), mimetype="application/json")
 
     return None
