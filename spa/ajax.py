@@ -5,7 +5,7 @@ from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import get_model
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from annoying.decorators import render_to
 from django.shortcuts import render_to_response
 from django.utils import simplejson
@@ -122,16 +122,19 @@ def live_now_playing(request):
         localsettings.JS_SETTINGS['LIVE_STREAM_URL'],
         localsettings.JS_SETTINGS['LIVE_STREAM_PORT'],
         localsettings.JS_SETTINGS['LIVE_STREAM_MOUNT'])
-    if now_playing_info is not None:
-        return HttpResponse(
-            simplejson.dumps({
-                'stream_url': 'http://%s:%s/%s' % (
-                    localsettings.JS_SETTINGS['LIVE_STREAM_URL'],
-                    localsettings.JS_SETTINGS['LIVE_STREAM_PORT'],
-                    localsettings.JS_SETTINGS['LIVE_STREAM_MOUNT']),
-                'description': now_playing_info['stream_description'],
-                'title': now_playing_info['current_song']
-            }), mimetype="application/json")
+    try:
+        if now_playing_info is not None:
+            return HttpResponse(
+                simplejson.dumps({
+                    'stream_url': 'http://%s:%s/%s' % (
+                        localsettings.JS_SETTINGS['LIVE_STREAM_URL'],
+                        localsettings.JS_SETTINGS['LIVE_STREAM_PORT'],
+                        localsettings.JS_SETTINGS['LIVE_STREAM_MOUNT']),
+                    'description': now_playing_info['stream_description'],
+                    'title': now_playing_info['current_song']
+                }), mimetype="application/json")
+    except:
+        return HttpResponseNotFound(now_playing_info)
 
     return None
 

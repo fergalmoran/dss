@@ -38,8 +38,7 @@ def get_server_details(server, port, mount):
             return None
 
     except urllib2.URLError:
-        print "Unable to read url, please check your parameters"
-        return "Unknown stream"
+        return "Unknown stream %s" % server
 
 def get_now_playing(server, port, mount):
     return get_server_details(server, port, mount)
