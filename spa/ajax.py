@@ -118,16 +118,22 @@ def get_mix_stream_url(request, mix_id):
 
 
 def live_now_playing(request):
-    return HttpResponse(
-        simplejson.dumps({
-            'stream_url': "radio.deepsouthsounds.com",
-            'description': 'Description',
-            'title': live.get_now_playing(
-                localsettings.JS_SETTINGS['LIVE_STREAM_URL'],
-                localsettings.JS_SETTINGS['LIVE_STREAM_PORT'],
-                localsettings.JS_SETTINGS['LIVE_STREAM_MOUNT'])
-        }), mimetype="application/json")
+    now_playing_info = live.get_now_playing(
+        localsettings.JS_SETTINGS['LIVE_STREAM_URL'],
+        localsettings.JS_SETTINGS['LIVE_STREAM_PORT'],
+        localsettings.JS_SETTINGS['LIVE_STREAM_MOUNT'])
+    if now_playing_info is not None:
+        return HttpResponse(
+            simplejson.dumps({
+                'stream_url': 'http://%s:%s/%s' % (
+                    localsettings.JS_SETTINGS['LIVE_STREAM_URL'] %
+                    localsettings.JS_SETTINGS['LIVE_STREAM_PORT'] %
+                    localsettings.JS_SETTINGS['LIVE_STREAM_MOUNT']),
+                'description': 'Description',
+                'title': now_playing_info
+            }), mimetype="application/json")
 
+    return None
 
 @render_to('inc/release_player.html')
 def release_player(request, release_id):

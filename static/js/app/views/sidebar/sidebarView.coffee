@@ -47,9 +47,9 @@ define ['underscore', 'backbone', 'marionette', 'vent', 'views/activity/activity
                     model: new Backbone.Model({
                         mix_image: "/static/img/radio.jpg",
                         item_url: "",
-                        title: data.Description,
+                        title: data.description,
                         user_profile_url: "",
-                        user_name: "Deep South Sounds Radio"
+                        user_name: data.title
                     })
                 }))
             true
