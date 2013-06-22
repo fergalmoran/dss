@@ -67,6 +67,7 @@ class Mix(_BaseModel):
 
     def create_mp3_tags(self):
         try:
+            image = get_thumbnail(self.mix_image, '300x300', crop='center')
             tag_mp3(
                 self.get_absolute_path(),
                 artist=self.user.get_nice_name(),
@@ -75,7 +76,7 @@ class Mix(_BaseModel):
                 album="Deep South Sounds Mixes",
                 year=self.upload_date.year,
                 comment=self.description,
-                image_file=self.mix_image.file.name,
+                image_file=os.path.join(image.storage.base_location, image.name),
                 genre=self.genres)
         except Exception, ex:
             pass
