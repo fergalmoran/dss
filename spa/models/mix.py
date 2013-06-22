@@ -6,7 +6,7 @@ from sorl.thumbnail import get_thumbnail
 from django.contrib.sites.models import Site
 from django.db import models
 from core.utils import url
-from core.utils.audio.mp3 import mp3_length
+from core.utils.audio.mp3 import mp3_length, tag_mp3
 from core.utils.url import unique_slugify
 from spa.models.activity import ActivityFavourite, ActivityLike, ActivityDownload, ActivityPlay
 from spa.models.genre import Genre
@@ -64,6 +64,20 @@ class Mix(_BaseModel):
             self.duration = mp3_length(self.get_absolute_path())
 
         super(Mix, self).save(force_insert, force_update, using, update_fields)
+
+    def create_mp3_tags(self):
+        try:
+            tag_mp3(
+                self.get_absolute_path(),
+                artist=self.user.get_nice_name(),
+                title=self.title,
+                album="Deep South Sounds Mixes",
+                year=self.upload_date.year,
+                comment=self.description,
+                image_file=self.mix_image.file.name,
+                genre=self.genres)
+        except Exception, ex:
+            pass
 
     def get_absolute_path(self, prefix=""):
         fileName, extension = os.path.splitext(self.local_file.name)

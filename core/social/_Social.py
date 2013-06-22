@@ -1,2 +1,0 @@
-class _Social:
-    pass

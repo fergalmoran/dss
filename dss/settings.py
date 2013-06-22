@@ -52,7 +52,7 @@ USE_TZ = True
 
 SITE_ROOT = here('')
 MEDIA_ROOT = localsettings.MEDIA_ROOT
-STATIC_ROOT = here('static') #'/var/www/deepsouthsounds.com/static' # here('static') #localsettings.STATIC_ROOT if hasattr(localsettings, 'STATIC_ROOT') else ''
+STATIC_ROOT = here('static')
 CACHE_ROOT = localsettings.CACHE_ROOT
 
 if DEBUG:
