@@ -11,7 +11,7 @@ def mp3_length(source_file):
         raise Mp3FileNotFoundException("Audio file not found: %s" % source_file)
 
 
-def tag_mp3(source_file, artist, title, album="", year="", comment="", image_file="", genre=[]):
+def tag_mp3(source_file, artist, title, url="", album="", year="", comment="", image_file="", genre=[]):
     #mp3Object.tags.add(APIC(encoding=3, mime=image[1], type=3, desc=u'Cover', data=open(image[0]).read()))
 
     info = EasyID3(source_file)
@@ -19,6 +19,7 @@ def tag_mp3(source_file, artist, title, album="", year="", comment="", image_fil
     info['title'] = unicode(title)
     info['album'] = unicode(album)
     info['genre'] = unicode("Deep House")
+    info['copyright'] = url
     #info['year'] = unicode(year)
     info.save()
 
