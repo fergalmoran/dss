@@ -7,7 +7,8 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
         print "Tagging audio files"
-        mixes = Mix.objects.filter(uid='6e2576bc-aba9-4717-9f9f-dede31fc2eaa')
+        #mixes = Mix.objects.filter(uid='6e2576bc-aba9-4717-9f9f-dede31fc2eaa')
+        mixes = Mix.objects.all()
         for mix in mixes:
             print "Tagging: %s" % mix.title
             mix.create_mp3_tags()
