@@ -103,7 +103,7 @@ define ['moment', 'app', 'vent', 'marionette', 'utils', 'models/comment/commentC
         mixFavourite: ->
             console.log("MixItemView: favouriteMix")
             app = require('app')
-            app.vent.trigger("mix:favourite", @model)
+            vent.trigger("mix:favourite", @model)
             true
 
         mixLike: ->

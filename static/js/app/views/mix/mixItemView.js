@@ -135,7 +135,7 @@
         var app;
         console.log("MixItemView: favouriteMix");
         app = require('app');
-        app.vent.trigger("mix:favourite", this.model);
+        vent.trigger("mix:favourite", this.model);
         return true;
       };
 
