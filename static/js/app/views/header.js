@@ -39,7 +39,7 @@ Code provided under the BSD License:
       };
 
       HeaderView.prototype.login = function() {
-        return utils.modal("dlg/LoginView");
+        return utils.modal("/dlg/LoginView");
       };
 
       HeaderView.prototype.logout = function() {
@@ -68,21 +68,6 @@ Code provided under the BSD License:
 
       HeaderView.prototype.playLive = function() {
         return vent.trigger('live:play');
-      };
-
-      HeaderView.prototype.togglePlayState = function() {
-        var button, mode;
-        button = $(this.el).find("#header-play-pause-button");
-        mode = button.data("mode");
-        if (mode === "play") {
-          dssSoundHandler.resumeSound();
-          _eventAggregator.trigger("track_playing");
-          return button.data("mode", "pause");
-        } else {
-          dssSoundHandler.pauseSound();
-          _eventAggregator.trigger("track_paused");
-          return button.data("mode", "play");
-        }
       };
 
       return HeaderView;

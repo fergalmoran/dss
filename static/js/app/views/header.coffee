@@ -21,7 +21,7 @@ define ["underscore", "backbone", "vent", "utils", "text!/tpl/HeaderView"],
             @listenTo vent, "mix:pause", @trackPaused
 
         login: ->
-            utils.modal "dlg/LoginView"
+            utils.modal "/dlg/LoginView"
 
         logout: ->
             utils.showAlert "Success", "You are now logged out"
@@ -44,17 +44,5 @@ define ["underscore", "backbone", "vent", "utils", "text!/tpl/HeaderView"],
 
         playLive: ->
             vent.trigger('live:play')
-
-        togglePlayState: ->
-            button = $(@el).find("#header-play-pause-button")
-            mode = button.data("mode")
-            if mode is "play"
-                dssSoundHandler.resumeSound()
-                _eventAggregator.trigger "track_playing"
-                button.data "mode", "pause"
-            else
-                dssSoundHandler.pauseSound()
-                _eventAggregator.trigger "track_paused"
-                button.data "mode", "play"
 
     HeaderView
