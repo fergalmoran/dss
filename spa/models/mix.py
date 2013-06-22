@@ -71,7 +71,7 @@ class Mix(_BaseModel):
                 self.get_absolute_path(),
                 artist=self.user.get_nice_name(),
                 title=self.title,
-                url=self.get_absolute_path(),
+                url=self.get_full_url(),
                 album="Deep South Sounds Mixes",
                 year=self.upload_date.year,
                 comment=self.description,
