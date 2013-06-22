@@ -79,6 +79,7 @@ class Mix(_BaseModel):
                 image_file=os.path.join(image.storage.base_location, image.name),
                 genre=self.genres)
         except Exception, ex:
+            self.logger.error("Mix: error creating tags: %s" % ex.message)
             pass
 
     def get_absolute_path(self, prefix=""):
@@ -115,6 +116,10 @@ class Mix(_BaseModel):
         if self.user:
             return self.user.get_medium_profile_image()
         return None
+
+    def get_image_absolute_path(self):
+        name, extension = os.path.splitext(self.mix_image.file.name)
+        return os.path.join(settings.MEDIA_ROOT, 'mix-images', "%s.%s", (self.uid, extension))
 
     def get_image_url(self):
         try:
