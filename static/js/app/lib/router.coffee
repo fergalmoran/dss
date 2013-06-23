@@ -12,6 +12,8 @@ define ['marionette', 'app.lib/controller'],
             "mix/:slug": "showMix"
             "mix/edit/:slug": "editMix",
 
+            "chat": "showChat",
+
             "users": "showUserList"
             "user/:slug/favourites": "showUserFavourites"
             "user/:slug/likes": "showUserLikes"

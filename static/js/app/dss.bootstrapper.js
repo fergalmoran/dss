@@ -20,7 +20,8 @@ requirejs.config({
         models: 'app/models',
         'app.lib': 'app/lib',
         moment: 'libs/moment',
-        toastr: 'libs/toastr'
+        toastr: 'libs/toastr',
+        'socket.io': com.podnoms.settings.SOCKET_IO_JS_URL
     },
     shim: {
         jquery: {

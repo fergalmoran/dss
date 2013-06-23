@@ -14,7 +14,6 @@ define ['marionette', 'models/activity/activityCollection', 'views/activity/acti
             @collection.fetch(
                 success: =>
                     console.log "ActivityListView: Collection fetched"
-                    console.log @collection
                     return
             )
             return

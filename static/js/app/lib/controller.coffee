@@ -1,7 +1,8 @@
 define ['app', 'marionette',
+        'views/chat/chatView',
         'models/mix/mixItem', 'views/mix/mixListView', 'views/mix/mixDetailView', 'views/mix/mixEditView',
         'models/user/userItem', 'views/user/userListView', 'views/user/userEditView'],
-(App, Marionette, MixItem, MixListView, MixDetailView, MixEditView, UserItem, UserListView, UserEditView)->
+(App, Marionette, ChatView, MixItem, MixListView, MixDetailView, MixEditView, UserItem, UserListView, UserEditView)->
     class DssController extends Marionette.Controller
         home: ->
             console.log "Controller: home"
@@ -50,6 +51,11 @@ define ['app', 'marionette',
                     app.contentRegion.show(new MixEditView(model: mix))
             )
             true
+
+        showChat: ->
+            console.log("Controller: showChat")
+            app = require('app')
+            app.contentRegion.show(new ChatView())
 
         showUserList: (type) ->
             console.log("Controller: showUserList")

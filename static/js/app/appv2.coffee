@@ -1,7 +1,8 @@
-define ['backbone', 'marionette', 'vent', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/audioController', 'views/header',
+define ['backbone', 'marionette', 'vent',
+        'app.lib/router', 'app.lib/panningRegion', 'app.lib/realtimeController', 'app.lib/audioController', 'views/header',
         'views/sidebar/sidebarView',
         'models/mix/mixCollection'],
-(Backbone, Marionette, vent, DssRouter, PanningRegion, AudioController, HeaderView, SidebarView, MixCollection) ->
+(Backbone, Marionette, vent, DssRouter, PanningRegion, RealtimeController, AudioController, HeaderView, SidebarView, MixCollection) ->
     Marionette.Region.prototype.open = (view) ->
         @.$el.hide();
         @.$el.html(view.el);
@@ -9,7 +10,9 @@ define ['backbone', 'marionette', 'vent', 'app.lib/router', 'app.lib/panningRegi
         true
 
     App = new Marionette.Application();
-    App.audioController = new AudioController()
+    App.audioController = new AudioController();
+    App.realtimeController = new RealtimeController();
+    App.realtimeController.startSocketIO();
 
     App.vent.on "routing:started", ->
         console.log "App(vent): routing:started"
@@ -36,9 +39,7 @@ define ['backbone', 'marionette', 'vent', 'app.lib/router', 'app.lib/panningRegi
         App.vent.trigger("routing:started");
 
     App.addInitializer ->
-        console.log("App: gobbling links");
         $(document).on("click", "a[href]:not([data-bypass])", (evt) ->
-            console.log("App: scarfed link")
             href = { prop: $(this).prop("href"), attr: $(this).attr("href") };
             root = location.protocol + "//" + location.host + (App.root || '/');
             if (href.prop.slice(0, root.length) == root)
