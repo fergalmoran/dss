@@ -17,7 +17,7 @@ define ['marionette', 'models/activity/activityCollection', 'views/activity/acti
                     console.log "ActivityListView: Collection fetched"
             )
 
-        #kinda primordial support for sorted collection view
+        #kinda primordial (but working) support for sorted collection view
         #based on https://github.com/marionettejs/backbone.marionette/wiki/Adding-support-for-sorted-collections
         appendHtml: (collectionView, itemView, index) ->
             childrenContainer = (if collectionView.itemViewContainer then collectionView.$(collectionView.itemViewContainer) else collectionView.$el)
