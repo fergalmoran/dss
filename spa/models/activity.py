@@ -19,10 +19,10 @@ class Activity(_BaseModel):
     def __unicode__(self):
         return "%s" % self.date
 
-"""
-    Can't actually use this until django 1.6 as InheritanceManager
-    doesn't support multi level inheritance
-"""
+    def get_activity_url(self):
+        return '/api/v1/activity/%s' % self.id
+
+
 class ActivityMix(Activity):
     objects = InheritanceManager()
 
@@ -34,6 +34,7 @@ class ActivityMix(Activity):
 
     def get_object_singular(self):
         return "mix"
+
 
 class ActivityFavourite(Activity):
     mix = models.ForeignKey('spa.Mix', related_name='favourites')
@@ -49,6 +50,7 @@ class ActivityFavourite(Activity):
 
     def get_verb_passed(self):
         return "favourited"
+
 
 class ActivityPlay(Activity):
     mix = models.ForeignKey('spa.Mix', related_name='plays')

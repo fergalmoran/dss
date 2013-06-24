@@ -265,3 +265,4 @@ REQUIRE_DEBUG = False #DEBUG
 if DEBUG:
     import mimetypes
     mimetypes.add_type("image/png", ".png", True)
+    mimetypes.add_type("font/woff", ".woff", True)

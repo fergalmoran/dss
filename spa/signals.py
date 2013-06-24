@@ -1,13 +1,15 @@
-from celery.task import task
+import threading
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.signals import post_save
 from django.dispatch import Signal
 from django.contrib.auth.models import User
 from south import signals
+from core.realtime.activity import post_activity
 from core.utils.audio.mp3 import mp3_length
 
 from dss import settings
 from spa.models import UserProfile
+from spa.models.activity import ActivityPlay
 from spa.models.mix import Mix
 
 waveform_generated = Signal()
@@ -30,20 +32,20 @@ def waveform_generated_callback(sender, **kwargs):
 waveform_generated.connect(waveform_generated_callback)
 
 
-@task
-def async_send_activity_to_message_queue(instance):
-    # do something with the instance.
-    pass
+class ActivityThread(threading.Thread):
+    def __init__(self, instance, **kwargs):
+        self.instance = instance
+        super(ActivityThread, self).__init__(**kwargs)
+
+    def run(self):
+        post_activity(self.instance.get_activity_url())
 
 
-def send_activity_to_message_queue(sender, *args, **kwargs):
-    try:
-        pass
-    except Exception, ex:
-        print "Error reporting activity to message queue: %s" % ex.message
+def send_activity_to_realtime(sender, instance, created, **kwargs):
+    ActivityThread(instance=instance).start()
 
 
-post_save.connect(send_activity_to_message_queue, sender=None)
+post_save.connect(send_activity_to_realtime, sender=ActivityPlay, dispatch_uid="activity-realtime-play")
 
 
 def create_user_profile(sender, instance, created, **kwargs):
@@ -57,7 +59,8 @@ if "notification" in settings.INSTALLED_APPS:
     from notification import models as notification
 
     def create_notice_types(app, created_models, verbosity, **kwargs):
-        notification.create_notice_type("new_follower", _("You have a new follower on deepsouthsounds.com"), _("You have a new follower."))
+        notification.create_notice_type("new_follower", _("You have a new follower on deepsouthsounds.com"),
+                                        _("You have a new follower."))
 
     signals.post_migrate.connect(create_notice_types, sender=notification)
 else:

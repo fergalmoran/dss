@@ -27,11 +27,22 @@
         var _this = this;
         console.log("ActivityListView: initialize");
         this.collection = new ActivityCollection;
-        this.collection.fetch({
+        return this.collection.fetch({
           success: function() {
-            console.log("ActivityListView: Collection fetched");
+            return console.log("ActivityListView: Collection fetched");
           }
         });
+      };
+
+      ActivityListView.prototype.appendHtml = function(collectionView, itemView, index) {
+        var children, childrenContainer;
+        childrenContainer = (collectionView.itemViewContainer ? collectionView.$(collectionView.itemViewContainer) : collectionView.$el);
+        children = childrenContainer.children();
+        if (children.size() <= index) {
+          return childrenContainer.append(itemView.el);
+        } else {
+          return childrenContainer.children().eq(index).before(itemView.el);
+        }
       };
 
       return ActivityListView;

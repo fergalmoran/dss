@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, url, include
-import django.conf.urls
 from tastypie.api import Api
 from spa.ajax import AjaxHandler
 from spa.audio import AudioHandler
+from spa.api.v1.ChatResource import ChatResource
 from spa.api.v1.CommentResource import CommentResource
 from spa.api.v1.EventResource import EventResource
 from spa.api.v1.MixResource import MixResource
@@ -12,6 +12,7 @@ from spa.api.v1.UserResource import UserResource
 from spa.api.v1.ActivityResource import ActivityResource
 
 v1_api = Api(api_name='v1')
+v1_api.register(ChatResource())
 v1_api.register(CommentResource())
 v1_api.register(MixResource())
 v1_api.register(ReleaseResource())
