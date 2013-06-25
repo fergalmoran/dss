@@ -64,4 +64,8 @@ if (com.podnoms.settings.isDebug) {
             console.log("Site: ajax request finished");
         }
     });
+} else {
+    var console = {};
+    console.log = function () {
+    };
 }

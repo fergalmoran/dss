@@ -14,6 +14,8 @@ define ["underscore", "backbone", "vent", "utils", "text!/tpl/HeaderView"],
             "click #header-play-pause-button": "togglePlayState"
             "click #header-login-button": "login"
             "click #header-live-button": "playLive"
+        ui:
+            liveButton: "#header-live-button"
 
         initialize: ->
             @render()
@@ -43,6 +45,9 @@ define ["underscore", "backbone", "vent", "utils", "text!/tpl/HeaderView"],
             this
 
         playLive: ->
+            $(@ui.liveButton).toggleClass('btn-success')
+                             .toggleClass('btn-warning')
+
             vent.trigger('live:play')
 
     HeaderView
