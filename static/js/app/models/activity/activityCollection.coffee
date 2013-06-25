@@ -16,7 +16,6 @@ define ['backbone', 'vent', 'models/activity/activityItem', 'app.lib/backbone.ds
                             @add response
 
             comparator: (item)->
-                console.log("Comparatoring")
                 -item.id
 
         ActivityCollection

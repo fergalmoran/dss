@@ -100,6 +100,14 @@ define ['moment', 'app', 'vent', 'marionette', 'utils', 'models/comment/commentC
                     .toggleClass('play-button-small-pause', false)
             return
 
+        mixStop: (model) ->
+            if (@model.get('id') == model.get('id'))
+                this.ui.playButton
+                    .toggleClass('play-button-small-start', true)
+                    .toggleClass('play-button-small-resume', false)
+                    .toggleClass('play-button-small-pause', false)
+            return
+
         mixFavourite: ->
             console.log("MixItemView: favouriteMix")
             app = require('app')

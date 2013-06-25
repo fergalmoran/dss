@@ -35,7 +35,6 @@
       };
 
       ActivityCollection.prototype.comparator = function(item) {
-        console.log("Comparatoring");
         return -item.id;
       };
 

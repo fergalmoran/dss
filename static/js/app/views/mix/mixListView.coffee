@@ -27,7 +27,7 @@ define ['marionette', 'vent', 'models/mix/mixCollection', 'views/mix/mixItemView
 
             if currentMix != -1
                 v = @children.findByModelCid(currentMix)
-                v.mixPause(v.model)
+                v.mixStop(v.model)
             currentMix = model.cid
             return
 
