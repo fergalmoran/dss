@@ -29,7 +29,8 @@ Code provided under the BSD License:
       HeaderView.prototype.events = {
         "click #header-play-pause-button": "togglePlayState",
         "click #header-login-button": "login",
-        "click #header-live-button": "playLive"
+        "click #header-live-button.btn-success": "playLive",
+        "click #header-live-button.btn-danger": "pauseLive"
       };
 
       HeaderView.prototype.ui = {
@@ -71,8 +72,15 @@ Code provided under the BSD License:
       };
 
       HeaderView.prototype.playLive = function() {
-        $(this.ui.liveButton).toggleClass('btn-success').toggleClass('btn-warning');
+        console.log("HeaderView: playLive");
+        $(this.ui.liveButton).toggleClass('btn-success', false).toggleClass('btn-danger', true);
         return vent.trigger('live:play');
+      };
+
+      HeaderView.prototype.pauseLive = function() {
+        console.log("HeaderView: pauseLive");
+        $(this.ui.liveButton).toggleClass('btn-success', true).toggleClass('btn-danger', false);
+        return vent.trigger('live:pause');
       };
 
       return HeaderView;

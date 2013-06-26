@@ -67,6 +67,6 @@ if (com.podnoms.settings.isDebug) {
 } else {
     console.log("Looking under the hood? Check us out on github https://github.com/fergalmoran/dss");
     var console = {};
-    console.log = function () {
+    console.log = function (message) {
     };
 }

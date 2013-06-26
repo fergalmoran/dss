@@ -5,5 +5,7 @@ define ['marionette', 'text!/tpl/ActivityListItemView', 'libs/jquery-ui'],
         tagName: "li"
         className: "media"
 
-        onDomRefresh: ->
-            @$el.effect("bounce", "slow")
+        onRender: (itemView) ->
+            $(itemView.el).effect("bounce", "slow")
+            $(itemView.el).effect("highlight", {}, 3000)
+            true

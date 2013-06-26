@@ -19,8 +19,10 @@
 
       ActivityItemView.prototype.className = "media";
 
-      ActivityItemView.prototype.onDomRefresh = function() {
-        return this.$el.effect("bounce", "slow");
+      ActivityItemView.prototype.onRender = function(itemView) {
+        $(itemView.el).effect("bounce", "slow");
+        $(itemView.el).effect("highlight", {}, 3000);
+        return true;
       };
 
       return ActivityItemView;

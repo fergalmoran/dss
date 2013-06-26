@@ -41,6 +41,9 @@ define ['app', 'marionette', 'vent', 'utils'],
                 success: ->
                     console.log("Live stream started")
                     vent.trigger('live:started')
+        livePause:->
+            console.log("AudioController: livePause")
+            com.podnoms.player.stopLive()
 
     AudioController
 

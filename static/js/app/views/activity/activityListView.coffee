@@ -1,5 +1,5 @@
 define ['marionette', 'models/activity/activityCollection', 'views/activity/activityItemView',
-        'text!/tpl/ActivityListView'],
+        'text!/tpl/ActivityListView', 'libs/jquery-ui'],
 (Marionette, ActivityCollection, ActivityItemView, Template) ->
     class ActivityListView extends Marionette.CompositeView
 

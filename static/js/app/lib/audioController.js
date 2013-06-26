@@ -65,6 +65,11 @@
         });
       };
 
+      AudioController.prototype.livePause = function() {
+        console.log("AudioController: livePause");
+        return com.podnoms.player.stopLive();
+      };
+
       return AudioController;
 
     })(Marionette.Controller);

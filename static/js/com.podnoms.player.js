@@ -194,6 +194,11 @@ com.podnoms.player = {
     stopPlaying: function () {
         this._destroyCurrent();
     },
+    stopLive: function () {
+        if (this.currentSound.instanceOptions.stream = true){
+            this.stopPlaying();
+        }
+    },
     playLive: function () {
         var ref = this;
         var args = arguments;

@@ -128,10 +128,15 @@ class MixResource(BackboneCompatibleResource):
         semi_filtered = super(MixResource, self).apply_filters(request, applicable_filters).filter(
             waveform_generated=True)
         type = request.GET.get('type', None)
+        user = request.GET.get('user', None)
         if type == 'favourites':
             semi_filtered = semi_filtered.filter(favourites__user=request.user.get_profile())
         elif type == 'likes':
             semi_filtered = semi_filtered.filter(likes__user=request.user.get_profile())
+
+        if user is not None:
+            semi_filtered = semi_filtered.filter(user__slug=user)
+
 
         return semi_filtered
 
