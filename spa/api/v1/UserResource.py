@@ -7,6 +7,7 @@ from tastypie.authentication import Authentication
 from tastypie.authorization import DjangoAuthorization
 from django.conf.urls import url
 from tastypie.http import HttpMultipleChoices, HttpGone
+from tastypie.paginator import Paginator
 from tastypie.utils import trailing_slash
 
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
@@ -16,7 +17,7 @@ from spa.models import UserProfile, Mix
 
 class UserProfileResource(BackboneCompatibleResource):
     class Meta:
-        queryset = UserProfile.manager.annotate(fcount=Count('followers'))
+        queryset = UserProfile.objects.annotate(fcount=Count('followers'))
         resource_name = 'profile'
         include_resource_uri = False
         include_absolute_url = False

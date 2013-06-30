@@ -8,7 +8,7 @@ from core.realtime.activity import post_activity
 from core.utils.audio.mp3 import mp3_length
 
 from dss import settings
-from spa.models import UserProfile
+from spa.models.userprofile import UserProfile
 from spa.models.activity import ActivityPlay
 from spa.models.mix import Mix
 
@@ -49,7 +49,7 @@ post_save.connect(send_activity_to_realtime, sender=ActivityPlay, dispatch_uid="
 
 
 def create_user_profile(sender, instance, created, **kwargs):
-    if created:
+    if not created:
         UserProfile.objects.create(user=instance)
 
 

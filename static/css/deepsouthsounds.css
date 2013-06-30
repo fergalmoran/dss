@@ -586,3 +586,7 @@ img.flag {
 .tt-hint {
     font-size: 0 !important;
 }
+
+.pagination {
+    margin: 0px 0;!important;
+}

@@ -30,7 +30,7 @@ class UserProfile(_BaseModel):
     class Meta:
         app_label = 'spa'
 
-    manager = UserProfileManager()
+    objects = UserProfileManager()
     ACTIVITY_SHARE_LIKES = 1
     ACTIVITY_SHARE_FAVOURITES = 2
     ACTIVITY_SHARE_COMMENTS = 4
