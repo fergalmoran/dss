@@ -2,7 +2,7 @@
 (function() {
 
   define(['backbone', 'marionette', 'vent', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/realtimeController', 'app.lib/audioController', 'views/widgets/headerView', 'views/sidebar/sidebarView', 'models/mix/mixCollection'], function(Backbone, Marionette, vent, DssRouter, PanningRegion, RealtimeController, AudioController, HeaderView, SidebarView, MixCollection) {
-    var App;
+    var App, sidebarView;
     App = new Marionette.Application();
     App.audioController = new AudioController();
     App.realtimeController = new RealtimeController();
@@ -73,6 +73,8 @@
       });
     });
     App.headerRegion.show(new HeaderView());
+    sidebarView = new SidebarView();
+    App.sidebarRegion.show(sidebarView);
     return App;
   });
 

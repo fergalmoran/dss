@@ -62,7 +62,7 @@ define ['backbone', 'marionette', 'vent',
             true
 
     App.headerRegion.show(new HeaderView());
-    #sidebarView = new SidebarView();
-    #App.sidebarRegion.show(sidebarView)
+    sidebarView = new SidebarView();
+    App.sidebarRegion.show(sidebarView)
 
     return App;
