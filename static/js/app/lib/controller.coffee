@@ -1,12 +1,13 @@
-define ['app', 'marionette',
+define ['app', 'marionette', 'vent',
         'views/chat/chatView',
         'models/mix/mixItem', 'views/mix/mixListView', 'views/mix/mixDetailView', 'views/mix/mixEditView',
         'models/user/userItem', 'views/user/userListView', 'views/user/userEditView'],
-(App, Marionette, ChatView, MixItem, MixListView, MixDetailView, MixEditView, UserItem, UserListView, UserEditView)->
+(App, Marionette, vent, ChatView, MixItem, MixListView, MixDetailView, MixEditView, UserItem, UserListView, UserEditView)->
     class DssController extends Marionette.Controller
+
         home: ->
             console.log "Controller: home"
-            @showMixList()
+            #@showMixList()
             true
 
         _showMixList: (options) ->

@@ -3,6 +3,7 @@ import logging
 
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import get_model
 from django.http import HttpResponse, HttpResponseNotFound
@@ -52,6 +53,7 @@ class AjaxHandler(object):
                 name='ajax_upload_release_image'),
             url(r'^upload_avatar_image/$', 'spa.ajax.upload_avatar_image', name='ajax_upload_avatar_image'),
             url(r'^upload_mix_file_handler/$', 'spa.ajax.upload_mix_file_handler', name='ajax_upload_mix_file_handler'),
+            url(r'^lookup/search/$', 'spa.ajax.lookup_search', name='ajax_lookup'),
             url(r'^lookup/(?P<source>\w+)/$', 'spa.ajax.lookup', name='ajax_lookup'),
         ]
         return pattern_list
@@ -137,6 +139,7 @@ def live_now_playing(request):
         return HttpResponseNotFound(now_playing_info)
 
     return None
+
 
 @render_to('inc/release_player.html')
 def release_player(request, release_id):
@@ -310,6 +313,19 @@ def upload_mix_file_handler(request):
         logger.exception("Error uploading mix")
     return HttpResponse(_get_json("Failed"), mimetype='application/json')
 
+
+@csrf_exempt
+def lookup_search(request):
+    query = request.GET['query'] if 'query' in request.GET else request.GET['q'] if 'q' in request.GET else ''
+    if query != '':
+        filter_field = Mix.get_lookup_filter_field()
+        kwargs = {
+            '{0}__{1}'.format(filter_field, 'icontains'): query,
+        }
+        rows = Mix.objects.values("title").filter(**kwargs)
+        #results = serializers.serialize("json", rows, fields="title",)
+        results = json.dumps(rows)
+        return HttpResponse(results, mimetype='application/json')
 
 @csrf_exempt
 def lookup(request, source):

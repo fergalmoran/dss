@@ -6,9 +6,9 @@
 Copyright (c) 2012, Fergal Moran. All rights reserved.
 Code provided under the BSD License:
 ###
-define ["underscore", "backbone", "vent", "utils", "text!/tpl/HeaderView"],
-(_, Backbone, vent, utils, Template) ->
-    class HeaderView extends Backbone.View
+define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView", "text!/tpl/HeaderView"],
+(_, Marionette, vent, utils, SearchView, Template) ->
+    class HeaderView extends Marionette.Layout
         template: _.template(Template)
         events:
             "click #header-play-pause-button": "togglePlayState"
@@ -18,10 +18,17 @@ define ["underscore", "backbone", "vent", "utils", "text!/tpl/HeaderView"],
         ui:
             liveButton: "#header-live-button"
 
+        regions:
+            searchRegion: "#header-search"
+
         initialize: ->
             @render()
+
             @listenTo vent, "mix:play", @trackPlaying
             @listenTo vent, "mix:pause", @trackPaused
+
+        onShow: ->
+            @searchRegion.show(new SearchView())
 
         login: ->
             utils.modal "/dlg/LoginView"

@@ -1,5 +1,5 @@
-define ['marionette', 'app.lib/controller'],
-(Marionette, Controller) ->
+define ['marionette', 'vent', 'app.lib/controller'],
+(Marionette, vent, Controller) ->
     class DssRouter extends Marionette.AppRouter
         controller: new Controller,
         appRoutes:
@@ -21,6 +21,11 @@ define ['marionette', 'app.lib/controller'],
             "user/:slug/following": "showUserFollowing"
             "user/:slug": "showUserDetail"
             "me": "editUser"
+
+        initialize: ->
+            console.log "Router: initializing"
+            @listenTo vent, "navigate:mix", (slug)->
+                @navigate 'mix/' + slug, true
 
 
 

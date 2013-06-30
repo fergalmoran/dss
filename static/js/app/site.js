@@ -58,10 +58,8 @@ $(document).ajaxSend(function (event, xhr, settings) {
 if (com.podnoms.settings.isDebug) {
     $(document).on({
         ajaxStart: function () {
-            console.log("Site: ajax request starting");
         },
         ajaxStop: function () {
-            console.log("Site: ajax request finished");
         }
     });
 } else {

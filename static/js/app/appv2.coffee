@@ -1,14 +1,8 @@
 define ['backbone', 'marionette', 'vent',
-        'app.lib/router', 'app.lib/panningRegion', 'app.lib/realtimeController', 'app.lib/audioController', 'views/header',
+        'app.lib/router', 'app.lib/panningRegion', 'app.lib/realtimeController', 'app.lib/audioController', 'views/widgets/headerView',
         'views/sidebar/sidebarView',
         'models/mix/mixCollection'],
 (Backbone, Marionette, vent, DssRouter, PanningRegion, RealtimeController, AudioController, HeaderView, SidebarView, MixCollection) ->
-    Marionette.Region.prototype.open = (view) ->
-        @.$el.hide();
-        @.$el.html(view.el);
-        @.$el.slideDown("fast");
-        true
-
     App = new Marionette.Application();
     App.audioController = new AudioController();
     App.realtimeController = new RealtimeController();
@@ -31,7 +25,6 @@ define ['backbone', 'marionette', 'vent',
             selector: "#content"
         footerRegion: "#footer"
         sidebarRegion: "#sidebar"
-
 
     App.addInitializer ->
         console.log("App: routing starting");
@@ -69,7 +62,7 @@ define ['backbone', 'marionette', 'vent',
             true
 
     App.headerRegion.show(new HeaderView());
-    sidebarView = new SidebarView();
-    App.sidebarRegion.show(sidebarView)
+    #sidebarView = new SidebarView();
+    #App.sidebarRegion.show(sidebarView)
 
     return App;

@@ -14,7 +14,7 @@ Code provided under the BSD License:
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(["underscore", "backbone", "vent", "utils", "text!/tpl/HeaderView"], function(_, Backbone, vent, utils, Template) {
+  define(["underscore", "marionette", "vent", "utils", "views/widgets/searchView", "text!/tpl/HeaderView"], function(_, Marionette, vent, utils, SearchView, Template) {
     var HeaderView;
     HeaderView = (function(_super) {
 
@@ -37,10 +37,18 @@ Code provided under the BSD License:
         liveButton: "#header-live-button"
       };
 
+      HeaderView.prototype.regions = {
+        searchRegion: "#header-search"
+      };
+
       HeaderView.prototype.initialize = function() {
         this.render();
         this.listenTo(vent, "mix:play", this.trackPlaying);
         return this.listenTo(vent, "mix:pause", this.trackPaused);
+      };
+
+      HeaderView.prototype.onShow = function() {
+        return this.searchRegion.show(new SearchView());
       };
 
       HeaderView.prototype.login = function() {
@@ -85,7 +93,7 @@ Code provided under the BSD License:
 
       return HeaderView;
 
-    })(Backbone.View);
+    })(Marionette.Layout);
     return HeaderView;
   });
 
