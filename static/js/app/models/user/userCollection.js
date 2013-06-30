@@ -23,55 +23,6 @@
         return com.podnoms.settings.urlRoot + "user/?limit=" + this.limit + "&offset=" + this.page * this.limit;
       };
 
-      UserCollection.prototype._columns = [
-        {
-          property: 'last_login',
-          label: 'Name',
-          sortable: true
-        }, {
-          property: 'uploads',
-          label: 'Uploads',
-          sortable: true
-        }, {
-          property: 'likes',
-          label: 'Likes',
-          sortable: true
-        }, {
-          property: 'favourites',
-          label: 'Favourites',
-          sortable: true
-        }, {
-          property: 'followers',
-          label: 'Followers',
-          sortable: true
-        }, {
-          property: 'following',
-          label: 'Following',
-          sortable: true
-        }, {
-          property: 'lastseen',
-          label: 'Last seen',
-          sortable: true
-        }
-      ];
-
-      UserCollection.prototype.columns = function() {
-        console.log("UserCollection: columns");
-        return this._columns;
-      };
-
-      UserCollection.prototype.data = function() {
-        console.log("UserCollection: data");
-        return this.toJSON();
-      };
-
-      UserCollection.prototype.formatter = function(items) {
-        console.log("UserCollection: formatter");
-        return $.each(items, function(index, item) {
-          return item.image = '<img src="' + flickrUrl(item) + '"></a>';
-        });
-      };
-
       return UserCollection;
 
     })(DssCollection);

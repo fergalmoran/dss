@@ -24,6 +24,8 @@ class UserProfileResource(BackboneCompatibleResource):
         always_return_data = True
         authorization = DjangoAuthorization()
         authentication = Authentication()
+        order_by = "-last_login"
+        ordering = ["-last_login"]
 
     def _hydrateBitmapOption(self, source, comparator):
         return True if (source & comparator) != 0 else False
@@ -95,7 +97,7 @@ class UserResource(BackboneCompatibleResource):
     profile = fields.ToOneField(UserProfileResource, attribute='userprofile', related_name='user', full=True)
 
     class Meta:
-        queryset = User.objects.all()
+        queryset = User.objects.all().order_by('-last_login')
         resource_name = 'user'
         excludes = ['is_active', 'is_staff', 'is_superuser', 'password']
         authorization = DjangoAuthorization()
@@ -105,7 +107,7 @@ class UserResource(BackboneCompatibleResource):
     def prepend_urls(self):
         return [
             url(r"^(?P<resource_name>%s)/(?P<userprofile__slug>[\w\d_.-]+)/favourites%s$" % (
-            self._meta.resource_name, trailing_slash()),
+                self._meta.resource_name, trailing_slash()),
                 self.wrap_view('get_user_favourites'), name="api_get_user_favourites"),
             url(r"^(?P<resource_name>%s)/(?P<pk>\d+)/$" % self._meta.resource_name,
                 self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
@@ -133,5 +135,4 @@ class UserResource(BackboneCompatibleResource):
             del bundle.data['email']
             del bundle.data['username']
 
-        bundle.data['human_last_login'] = humanize.naturaltime(bundle.obj.last_login.replace(tzinfo=None))
         return bundle

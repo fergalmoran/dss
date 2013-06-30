@@ -12,4 +12,5 @@
     <a href="/user/<%= profile.slug %>/followers"><%= profile.follower_count %></a>
 </td>
 <td><%= profile.following_count %></td>
-<td><%= human_last_login %></td>
+<td><%= humanise(date_joined) %></td>
+<td><%= humanise(last_login) %></td>
