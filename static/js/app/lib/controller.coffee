@@ -7,7 +7,7 @@ define ['app', 'marionette', 'vent',
 
         home: ->
             console.log "Controller: home"
-            #@showMixList()
+            @showMixList()
             true
 
         _showMixList: (options) ->

@@ -15,6 +15,7 @@
 
       DssController.prototype.home = function() {
         console.log("Controller: home");
+        this.showMixList();
         return true;
       };
 
