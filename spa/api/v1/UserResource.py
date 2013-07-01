@@ -1,31 +1,33 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db.models import Count
-import humanize
 from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import DjangoAuthorization
 from django.conf.urls import url
 from tastypie.http import HttpMultipleChoices, HttpGone
-from tastypie.paginator import Paginator
 from tastypie.utils import trailing_slash
 
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.api.v1.MixResource import MixResource
-from spa.models import UserProfile, Mix
+from spa.models.userprofile import UserProfile
+from spa.models.mix import Mix
 
 
 class UserProfileResource(BackboneCompatibleResource):
+    mix_count = fields.IntegerField(readonly=True)
+
     class Meta:
-        queryset = UserProfile.objects.annotate(fcount=Count('followers'))
+        queryset = UserProfile.objects.all()
         resource_name = 'profile'
         include_resource_uri = False
         include_absolute_url = False
         always_return_data = True
         authorization = DjangoAuthorization()
         authentication = Authentication()
-        order_by = "-last_login"
-        ordering = ["-last_login"]
+
+    def get_object_list(self, request):
+        return super(UserProfileResource, self).get_object_list(request).annotate(mix_count=Count('mixes'))
 
     def _hydrateBitmapOption(self, source, comparator):
         return True if (source & comparator) != 0 else False
@@ -84,20 +86,22 @@ class UserProfileResource(BackboneCompatibleResource):
                 self._hydrateBitmapOption(bundle.obj.activity_sharing_networks,
                                           UserProfile.ACTIVITY_SHARE_NETWORK_TWITTER)
 
-        bundle.data['mix_count'] = Mix.objects.filter(user=bundle.obj).count()
         bundle.data['like_count'] = Mix.objects.filter(likes__user=bundle.obj).count()
         bundle.data['favourite_count'] = Mix.objects.filter(favourites__user=bundle.obj).count()
         bundle.data['follower_count'] = bundle.obj.followers.count()
         bundle.data['following_count'] = bundle.obj.following.count()
         bundle.data['following'] = bundle.obj.is_follower(bundle.request.user)
+        bundle.data['url'] = bundle.obj.get_profile_url()
         return bundle
 
+    def dehydrate_mix_count(self, bundle):
+        return bundle.obj.mixes.count()
 
 class UserResource(BackboneCompatibleResource):
     profile = fields.ToOneField(UserProfileResource, attribute='userprofile', related_name='user', full=True)
 
     class Meta:
-        queryset = User.objects.all().order_by('-last_login')
+        queryset = User.objects.all()
         resource_name = 'user'
         excludes = ['is_active', 'is_staff', 'is_superuser', 'password']
         authorization = DjangoAuthorization()
@@ -114,6 +118,9 @@ class UserResource(BackboneCompatibleResource):
             url(r"^(?P<resource_name>%s)/(?P<userprofile__slug>[\w\d_.-]+)/$" % self._meta.resource_name,
                 self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
         ]
+
+    def apply_sorting(self, obj_list, options=None):
+        return super(UserResource, self).apply_sorting(obj_list, options)
 
     def get_object_list(self, request):
         return super(UserResource, self).get_object_list(request)
@@ -134,5 +141,4 @@ class UserResource(BackboneCompatibleResource):
         if bundle.obj.id != bundle.request.user.id:
             del bundle.data['email']
             del bundle.data['username']
-
         return bundle

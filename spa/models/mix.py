@@ -42,7 +42,7 @@ class Mix(_BaseModel):
     stream_url = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=True)
-    user = models.ForeignKey(UserProfile, editable=False)
+    user = models.ForeignKey(UserProfile, editable=False, related_name='mixes')
     waveform_generated = models.BooleanField(default=False)
     uid = models.CharField(max_length=38, blank=True, unique=True)
     download_allowed = models.BooleanField(default=False)

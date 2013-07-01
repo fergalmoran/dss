@@ -23,7 +23,7 @@ def avatar_name(instance, filename):
 
 class UserProfileManager(models.Manager):
     def get_query_set(self):
-        return super(UserProfileManager, self).get_query_set().annotate(fcount=models.Count('followers'))
+        return super(UserProfileManager, self).get_query_set()
 
 
 class UserProfile(_BaseModel):
@@ -174,7 +174,7 @@ class UserProfile(_BaseModel):
         return UserProfile.get_default_avatar_image()
 
     def get_profile_url(self):
-        return 'user/%s' % (self.slug)
+        return '/user/%s' % (self.slug)
 
     @classmethod
     def get_default_avatar_image(cls):
