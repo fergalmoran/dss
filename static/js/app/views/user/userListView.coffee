@@ -40,7 +40,6 @@ define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
             )
 
         doSearch: =>
-            console.clear()
             console.log("UserListView: doSearch")
             query = @ui.searchText.val()
             if (query)

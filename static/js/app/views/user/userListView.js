@@ -67,7 +67,6 @@
 
       UserListView.prototype.doSearch = function() {
         var query;
-        console.clear();
         console.log("UserListView: doSearch");
         query = this.ui.searchText.val();
         if (query) {
