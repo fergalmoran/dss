@@ -13,7 +13,13 @@ define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
         itemView: UserItemView
         itemViewContainer: "tbody"
 
-        isLoading = true
+        pag = $("#page-selection").bootpag
+            total: 0
+
+        pag.on "page", (event, num) => # page number here
+            console.log "Paginating"
+            @collection.page = num # Load next page
+            @collection.fetch()
 
         initialize: =>
             console.log "UserListView: initialize"
@@ -27,18 +33,14 @@ define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
                 success: =>
                     console.log("UserListView: Collection fetched")
                     console.log(@collection)
-                    pag = $("#page-selection").bootpag
+                    @pag = $("#page-selection").bootpag
                         total: @collection.page_count
 
-                    pag.on "page", (event, num) => # page number here
-                        console.log "Paginating"
-                        @collection.page = num # Load next page
-                        @collection.fetch()
-                    @isLoading = false
                     return
             )
 
         doSearch: =>
+            console.clear()
             console.log("UserListView: doSearch")
             query = @ui.searchText.val()
             if (query)

@@ -126,8 +126,7 @@ class UserResource(BackboneCompatibleResource):
         if q is not None:
             semi_filtered = semi_filtered.filter(
                 Q(first_name__icontains=q) |
-                Q(last_name__icontains=q) |
-                Q(username__icontains=q)
+                Q(last_name__icontains=q)
             )
 
         return semi_filtered

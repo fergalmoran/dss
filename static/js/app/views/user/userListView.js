@@ -7,7 +7,8 @@
   define(['jquery', 'marionette', 'models/user/userCollection', 'views/user/userItemView', 'text!/tpl/UserListView', 'libs/bootstrap/bootpag'], function($, Marionette, UserCollection, UserItemView, Template) {
     var UserListView;
     UserListView = (function(_super) {
-      var isLoading;
+      var pag,
+        _this = this;
 
       __extends(UserListView, _super);
 
@@ -34,7 +35,15 @@
 
       UserListView.prototype.itemViewContainer = "tbody";
 
-      isLoading = true;
+      pag = $("#page-selection").bootpag({
+        total: 0
+      });
+
+      pag.on("page", function(event, num) {
+        console.log("Paginating");
+        UserListView.collection.page = num;
+        return UserListView.collection.fetch();
+      });
 
       UserListView.prototype.initialize = function() {
         console.log("UserListView: initialize");
@@ -47,24 +56,18 @@
         return this.collection.fetch({
           data: options,
           success: function() {
-            var pag;
             console.log("UserListView: Collection fetched");
             console.log(_this.collection);
-            pag = $("#page-selection").bootpag({
+            _this.pag = $("#page-selection").bootpag({
               total: _this.collection.page_count
             });
-            pag.on("page", function(event, num) {
-              console.log("Paginating");
-              _this.collection.page = num;
-              return _this.collection.fetch();
-            });
-            _this.isLoading = false;
           }
         });
       };
 
       UserListView.prototype.doSearch = function() {
         var query;
+        console.clear();
         console.log("UserListView: doSearch");
         query = this.ui.searchText.val();
         if (query) {
@@ -78,7 +81,7 @@
 
       return UserListView;
 
-    })(Marionette.CompositeView);
+    }).call(this, Marionette.CompositeView);
     return UserListView;
   });
 
