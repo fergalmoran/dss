@@ -7,8 +7,6 @@
   define(['jquery', 'marionette', 'models/user/userCollection', 'views/user/userItemView', 'text!/tpl/UserListView', 'libs/bootstrap/bootpag'], function($, Marionette, UserCollection, UserItemView, Template) {
     var UserListView;
     UserListView = (function(_super) {
-      var pag,
-        _this = this;
 
       __extends(UserListView, _super);
 
@@ -35,16 +33,6 @@
 
       UserListView.prototype.itemViewContainer = "tbody";
 
-      pag = $("#page-selection").bootpag({
-        total: 0
-      });
-
-      pag.on("page", function(event, num) {
-        console.log("Paginating");
-        UserListView.collection.page = num;
-        return UserListView.collection.fetch();
-      });
-
       UserListView.prototype.initialize = function() {
         console.log("UserListView: initialize");
         this.collection = new UserCollection();
@@ -53,13 +41,22 @@
 
       UserListView.prototype._fetchCollection = function(options) {
         var _this = this;
-        return this.collection.fetch({
+        this.collection.fetch({
           data: options,
           success: function() {
+            var pag;
             console.log("UserListView: Collection fetched");
             console.log(_this.collection);
-            _this.pag = $("#page-selection").bootpag({
+            pag = $("#page-selection").bootpag({
               total: _this.collection.page_count
+            });
+            pag.off("page");
+            pag.on("page", function(event, num) {
+              if (num !== _this.collection.page) {
+                console.log("Paginating");
+                _this.collection.page = num;
+                return _this.collection.fetch();
+              }
             });
           }
         });
@@ -80,7 +77,7 @@
 
       return UserListView;
 
-    }).call(this, Marionette.CompositeView);
+    })(Marionette.CompositeView);
     return UserListView;
   });
 
