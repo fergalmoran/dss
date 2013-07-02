@@ -130,17 +130,19 @@ class MixResource(BackboneCompatibleResource):
         return obj_list
 
     def apply_filters(self, request, applicable_filters):
-        semi_filtered = super(MixResource, self).apply_filters(request, applicable_filters).filter(
-            waveform_generated=True)
-        type = request.GET.get('type', None)
-        user = request.GET.get('user', None)
-        if type == 'favourites':
+        semi_filtered = super(MixResource, self)\
+            .apply_filters(request, applicable_filters)\
+            .filter(waveform_generated=True)
+
+        f_type = request.GET.get('type', None)
+        f_user = request.GET.get('user', None)
+        if f_type == 'favourites':
             semi_filtered = semi_filtered.filter(favourites__user=request.user.get_profile())
-        elif type == 'likes':
+        elif f_type == 'likes':
             semi_filtered = semi_filtered.filter(likes__user=request.user.get_profile())
 
-        if user is not None:
-            semi_filtered = semi_filtered.filter(user__slug=user)
+        if f_user is not None:
+            semi_filtered = semi_filtered.filter(user__slug=f_user)
 
         return semi_filtered
 

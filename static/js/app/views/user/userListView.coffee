@@ -5,7 +5,10 @@ define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
 
         template: _.template(Template)
         events:
-            "scroll": "doScroll"
+            "keyup #search-text": "doSearch"
+
+        ui:
+            searchText: "#search-text"
 
         itemView: UserItemView
         itemViewContainer: "tbody"
@@ -15,8 +18,12 @@ define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
         initialize: =>
             console.log "UserListView: initialize"
             @collection = new UserCollection()
+            @_fetchCollection(@options)
+            return
+
+        _fetchCollection: (options)=>
             @collection.fetch(
-                data: @options
+                data: options
                 success: =>
                     console.log("UserListView: Collection fetched")
                     console.log(@collection)
@@ -30,7 +37,14 @@ define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
                     @isLoading = false
                     return
             )
-            return
 
+        doSearch: =>
+            console.log("UserListView: doSearch")
+            query = @ui.searchText.val()
+            if (query)
+                @_fetchCollection
+                    q: query
+            else
+                @_fetchCollection @options
 
     UserListView

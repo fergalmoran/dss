@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
-from django.db.models import Count
+from django.db.models import Count, Q
 from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import DjangoAuthorization
@@ -97,6 +97,7 @@ class UserProfileResource(BackboneCompatibleResource):
     def dehydrate_mix_count(self, bundle):
         return bundle.obj.mixes.count()
 
+
 class UserResource(BackboneCompatibleResource):
     profile = fields.ToOneField(UserProfileResource, attribute='userprofile', related_name='user', full=True)
 
@@ -118,6 +119,18 @@ class UserResource(BackboneCompatibleResource):
             url(r"^(?P<resource_name>%s)/(?P<userprofile__slug>[\w\d_.-]+)/$" % self._meta.resource_name,
                 self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
         ]
+
+    def apply_filters(self, request, applicable_filters):
+        semi_filtered = super(UserResource, self).apply_filters(request, applicable_filters)
+        q = request.GET.get('q', None)
+        if q is not None:
+            semi_filtered = semi_filtered.filter(
+                Q(first_name__icontains=q) |
+                Q(last_name__icontains=q) |
+                Q(username__icontains=q)
+            )
+
+        return semi_filtered
 
     def apply_sorting(self, obj_list, options=None):
         return super(UserResource, self).apply_sorting(obj_list, options)
