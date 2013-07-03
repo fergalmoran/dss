@@ -154,3 +154,12 @@ class UserResource(BackboneCompatibleResource):
             del bundle.data['email']
             del bundle.data['username']
         return bundle
+
+    def obj_update(self, bundle, skip_errors=False, **kwargs):
+        #Handle the patched items from backbone
+        if bundle.data['following']:
+            bundle.obj.get_profile().add_follower(bundle.request.user.get_profile())
+        else:
+            bundle.obj.get_profile().remove_follower(bundle.request.user.get_profile())
+
+        return super(UserResource, self).obj_update(bundle, skip_errors, **kwargs)

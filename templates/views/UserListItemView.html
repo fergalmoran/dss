@@ -16,3 +16,19 @@
 <td><%= profile.following_count %></td>
 <td><%= humanise(date_joined) %></td>
 <td><%= humanise(last_login) %></td>
+
+<td>
+    {% if user.is_authenticated %}
+        <button href="#"
+                id="follow-button"
+                class="follow-button btn btn-mini <% if (profile.following) { %> disabled <% } %>">
+            <i id="follow-icon" class="icon-eye-close"></i>Follow
+        </button>
+    {% else %}
+        <button href="#"
+                id="follow-button-login"
+                class="follow-button btn btn-mini <% if (profile.following) { %> disabled <% } %>">
+            <i id="follow-icon" class="icon-eye-close"></i>Follow
+        </button>
+    {% endif %}
+</td>

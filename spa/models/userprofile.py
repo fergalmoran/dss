@@ -114,6 +114,9 @@ class UserProfile(_BaseModel):
             self.logger.warning("Port: %s" % settings.EMAIL_PORT)
             self.logger.warning("Backend: %s" % settings.EMAIL_BACKEND)
 
+    def remove_follower(self, user):
+        self.followers.remove(user)
+
     def is_follower(self, user):
         try:
             return user.get_profile() in self.followers.all()
@@ -180,5 +183,22 @@ class UserProfile(_BaseModel):
     def get_default_avatar_image(cls):
         return urlparse.urljoin(settings.STATIC_URL, "img/default-avatar-32.png")
 
+    """
+        handle custom patch methods from tastypie
+        feels smelly, maybe introduce a tier between
+        the API and the models to handle these patches
+    """
+    def update_following(self, user, value):
+        try:
+            if user is None:
+                return
+            if user.is_authenticated():
+                if value:
+                    if self.favourites.filter(user=user).count() == 0:
+                        ActivityFavourite(user=user.get_profile(), mix=self).save()
+                else:
+                    self.favourites.filter(user=user).delete()
+        except Exception, ex:
+            self.logger.error("Exception updating favourite: %s" % ex.message)
 
 

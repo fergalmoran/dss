@@ -1,8 +1,9 @@
-define ['backbone', 'marionette', 'vent',
-        'app.lib/router', 'app.lib/panningRegion', 'app.lib/realtimeController', 'app.lib/audioController', 'views/widgets/headerView',
-        'views/sidebar/sidebarView',
-        'models/mix/mixCollection'],
-(Backbone, Marionette, vent, DssRouter, PanningRegion, RealtimeController, AudioController, HeaderView, SidebarView, MixCollection) ->
+define ['backbone', 'marionette', 'vent', 'utils'
+        'app.lib/router', 'app.lib/panningRegion', 'app.lib/realtimeController', 'app.lib/audioController',
+        'views/widgets/headerView', 'views/sidebar/sidebarView', 'models/mix/mixCollection'],
+(Backbone, Marionette, vent, utils,
+ DssRouter, PanningRegion, RealtimeController, AudioController,
+ HeaderView, SidebarView, MixCollection) ->
     App = new Marionette.Application();
     App.audioController = new AudioController();
     App.realtimeController = new RealtimeController();
@@ -59,6 +60,15 @@ define ['backbone', 'marionette', 'vent',
                 social.sharePageToFacebook(model);
             else if (mode == "twitter")
                 social.sharePageToTwitter(model);
+            true
+
+        @listenTo vent, "user:follow", (model)->
+            console.log "App(vent): user:follow"
+            model.save 'following', !model.get('following'), patch: true
+            true
+
+        @listenTo vent, "app:login", ->
+            utils.modal "/dlg/LoginView"
             true
 
     App.headerRegion.show(new HeaderView());

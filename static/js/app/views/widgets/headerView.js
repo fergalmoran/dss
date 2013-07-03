@@ -52,7 +52,7 @@ Code provided under the BSD License:
       };
 
       HeaderView.prototype.login = function() {
-        return utils.modal("/dlg/LoginView");
+        return vent.trigger('app:login');
       };
 
       HeaderView.prototype.logout = function() {

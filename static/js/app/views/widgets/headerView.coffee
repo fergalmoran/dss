@@ -31,7 +31,7 @@ define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView",
             @searchRegion.show(new SearchView())
 
         login: ->
-            utils.modal "/dlg/LoginView"
+            vent.trigger('app:login')
 
         logout: ->
             utils.showAlert "Success", "You are now logged out"

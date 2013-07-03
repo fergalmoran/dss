@@ -48,12 +48,12 @@ def send_activity_to_realtime(sender, instance, created, **kwargs):
 post_save.connect(send_activity_to_realtime, sender=ActivityPlay, dispatch_uid="activity-realtime-play")
 
 
-def create_user_profile(sender, instance, created, **kwargs):
-    if not created:
-        UserProfile.objects.create(user=instance)
-
-
-post_save.connect(create_user_profile, sender=User, dispatch_uid="users-profilecreation")
+def create_profile(sender, **kw):
+    user = kw["instance"]
+    if kw["created"]:
+        up = UserProfile(user=user)
+        up.save()
+post_save.connect(create_profile, sender=User)
 
 if "notification" in settings.INSTALLED_APPS:
     from notification import models as notification
