@@ -110,11 +110,11 @@ class UserProfile(_BaseModel):
             try:
                 send_templated_email([user.user], "notification/new_follower", {"profile": self.user})
             except Exception, ex:
-                self.logger.warning("Unable to send email for new follower")
-                self.logger.warning("Exception: %s" % ex.message)
-                self.logger.warning("Host: %s" % settings.EMAIL_HOST)
-                self.logger.warning("Port: %s" % settings.EMAIL_PORT)
-                self.logger.warning("Backend: %s" % settings.EMAIL_BACKEND)
+                self.logger.error("Unable to send email for new follower")
+                self.logger.error("Exception: %s" % ex.message)
+                self.logger.error("Host: %s" % settings.EMAIL_HOST)
+                self.logger.error("Port: %s" % settings.EMAIL_PORT)
+                self.logger.error("Backend: %s" % settings.EMAIL_BACKEND)
 
     def remove_follower(self, user):
         self.followers.remove(user)
