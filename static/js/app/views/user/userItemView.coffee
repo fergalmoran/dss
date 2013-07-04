@@ -12,8 +12,8 @@ define ['app', 'moment', 'marionette', 'vent', 'text!/tpl/UserListItemView'],
             humanise: (date)->
                 moment(date).fromNow()
 
-        intialize: =>
-            @listenTo(@model, 'change:profile.following', @render)
+        initialize: =>
+            @listenTo(@model, 'change:following', @render)
 
 
         followUser: ->

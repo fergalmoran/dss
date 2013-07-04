@@ -4,6 +4,7 @@ import urlparse
 from django.contrib.auth.models import User
 from django.core.exceptions import SuspiciousOperation
 from django.db import models
+from django.db.models import Count
 from django_gravatar.helpers import has_gravatar, get_gravatar_url
 from sorl.thumbnail import get_thumbnail
 
@@ -23,7 +24,7 @@ def avatar_name(instance, filename):
 
 class UserProfileManager(models.Manager):
     def get_query_set(self):
-        return super(UserProfileManager, self).get_query_set()
+        return super(UserProfileManager, self).get_query_set().annotate(mix_count=Count('mixes'))
 
 
 class UserProfile(_BaseModel):

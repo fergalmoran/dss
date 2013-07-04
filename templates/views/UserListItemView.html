@@ -1,19 +1,19 @@
 <td>
-    <a href="<%= profile.url %>"><%= profile.display_name %></a>
+    <a href="<%= url %>"><%= display_name %></a>
 </td>
 <td>
-    <a href="/user/<%= profile.slug %>"><%= profile.mix_count%></a>
+    <a href="/user/<%= slug %>"><%= mix_count%></a>
 </td>
 <td>
-    <a href="/user/<%= profile.slug %>/likes"><%= profile.like_count%></a>
+    <a href="/user/<%= slug %>/likes"><%= like_count%></a>
 </td>
 <td>
-    <a href="/user/<%= profile.slug %>/favourites"><%= profile.favourite_count%></a>
+    <a href="/user/<%= slug %>/favourites"><%= favourite_count%></a>
 </td>
 <td>
-    <a href="/user/<%= profile.slug %>/followers"><%= profile.follower_count %></a>
+    <a href="/user/<%= slug %>/followers"><%= follower_count %></a>
 </td>
-<td><%= profile.following_count %></td>
+<td><%= following_count %></td>
 <td><%= humanise(date_joined) %></td>
 <td><%= humanise(last_login) %></td>
 
@@ -21,13 +21,13 @@
     {% if user.is_authenticated %}
         <button href="#"
                 id="follow-button"
-                class="follow-button btn btn-mini <% if (profile.following) { %> disabled <% } %>">
+                class="follow-button btn btn-mini <% if (following) { %> disabled <% } %>">
             <i id="follow-icon" class="icon-eye-close"></i>Follow
         </button>
     {% else %}
         <button href="#"
                 id="follow-button-login"
-                class="follow-button btn btn-mini <% if (profile.following) { %> disabled <% } %>">
+                class="follow-button btn btn-mini <% if (following) { %> disabled <% } %>">
             <i id="follow-icon" class="icon-eye-close"></i>Follow
         </button>
     {% endif %}

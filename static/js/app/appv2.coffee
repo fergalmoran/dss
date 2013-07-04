@@ -44,6 +44,10 @@ define ['backbone', 'marionette', 'vent', 'utils'
         true
 
     App.addInitializer ->
+        @listenTo vent, "app:login", ->
+            utils.modal "/dlg/LoginView"
+            true
+
         @listenTo vent, "mix:favourite", (model) ->
             console.log "App(vent): mix:favourite"
             model.save 'favourited', !model.get('favourited'), patch: true
@@ -54,21 +58,17 @@ define ['backbone', 'marionette', 'vent', 'utils'
             model.save 'liked', !model.get('liked'), patch: true
             true
 
+        @listenTo vent, "user:follow", (model)->
+            console.log "App(vent): user:follow"
+            model.save 'following', !model.get('following'), patch: true
+            true
+
         @listenTo vent, "mix:share", (mode, model) ->
             console.log "App(vent): mix:share"
             if (mode == "facebook")
                 social.sharePageToFacebook(model);
             else if (mode == "twitter")
                 social.sharePageToTwitter(model);
-            true
-
-        @listenTo vent, "user:follow", (model)->
-            console.log "App(vent): user:follow"
-            model.save 'following', !model.get('following'), patch: true
-            true
-
-        @listenTo vent, "app:login", ->
-            utils.modal "/dlg/LoginView"
             true
 
     App.headerRegion.show(new HeaderView());
