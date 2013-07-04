@@ -105,6 +105,7 @@ class UserResource(BackboneCompatibleResource):
         queryset = User.objects.all()
         resource_name = 'user'
         excludes = ['is_active', 'is_staff', 'is_superuser', 'password']
+        ordering = ['mix_count']
         authorization = DjangoAuthorization()
         authentication = Authentication()
         favourites = fields.ToManyField(MixResource, 'favourites')
