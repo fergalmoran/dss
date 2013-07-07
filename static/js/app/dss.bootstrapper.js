@@ -11,6 +11,7 @@ requirejs.config({
         ich: 'libs/ICanHaz',
         bootstrap: 'libs/bootstrap/bootstrap',
         underscore: 'libs/backbone/underscore',
+        bootpag: 'libs/bootstrap/bootpag',
         text: 'libs/text',
         templates: '/templates',
         app: 'app/appv2',
@@ -37,6 +38,10 @@ requirejs.config({
         bootstrap: {
             exports: 'bootstrap',
             deps: ['jquery']
+        },
+        bootpag: {
+            exports: 'bootpag',
+            deps: ['jquery', 'bootstrap']
         },
         marionette: {
             exports: 'Marionette',

@@ -1,5 +1,5 @@
 define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userItemView', 'text!/tpl/UserListView',
-        'libs/bootstrap/bootpag'],
+        'bootpag'],
 ($, Marionette, UserCollection, UserItemView, Template) ->
     class UserListView extends Marionette.CompositeView
 
