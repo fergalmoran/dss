@@ -45,7 +45,7 @@ def mix(request, args):
     extras = {
         "description": mix.description.replace('<br />', '\n'),
         "title": mix.title,
-        "image_url": image,
+        "image_url": 'http://%s%s' % (Site.objects.get_current().domain, image),
         "audio_url": audio_url,
         "mix_url": 'http://%s%s' % (Site.objects.get_current().domain, mix_url)
     }
@@ -94,7 +94,7 @@ def social_redirect(request):
         resolver = resolve('/social' + request.path)
         if resolver is not None:
             logger.debug("Resolver successfully resolved")
-            return resolver.func(request)
+            return resolver.func(request, resolver.kwargs)
         else:
             logger.debug("No resolver found for: $%s" % request.path)
     except Http404:
