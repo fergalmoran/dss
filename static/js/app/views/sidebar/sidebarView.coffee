@@ -24,14 +24,6 @@ define ['underscore', 'backbone', 'marionette', 'vent', 'views/activity/activity
             console.log "SidebarView: onShow"
             @streamRegion.show(new ActivityListView())
             $(@topRegion.el).hide()
-            """
-            @topRegion.show(
-                new NowPlayingView(
-                    model: new Backbone.Model({
-                        item_url: "fdskjfhdsk", title: "Argle bargle", user_profile_url: "/", user_name: "Foo Ferra"
-                    })
-                ))
-            """
             return
 
         mixInit: (model) ->
