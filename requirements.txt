@@ -25,6 +25,10 @@ django_extensions
 requests
 django-compressor
 django-sendfile
-mysql-python
 django-model_utils
 mutagen
+Werkzeug
+psycopg2
+templated_emails
+htmlmin
+django-htmlmin
