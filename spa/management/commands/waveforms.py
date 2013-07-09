@@ -12,7 +12,7 @@ class Command(NoArgsCommand):
         in_file = mix.get_absolute_path()
         try:
             if os.path.isfile(in_file):
-                create_waveform_task.delay(in_file=in_file, mix_uid=mix.uid)
+                create_waveform_task.delay(in_file=in_file, mix_uid=mix.uid)    
             else:
                 print "File %s not found" % in_file
 
