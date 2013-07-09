@@ -121,9 +121,9 @@ class Mix(_BaseModel):
         name, extension = os.path.splitext(self.mix_image.file.name)
         return os.path.join(settings.MEDIA_ROOT, 'mix-images', "%s.%s", (self.uid, extension))
 
-    def get_image_url(self):
+    def get_image_url(self, size='160x160'):
         try:
-            ret = get_thumbnail(self.mix_image, '160x160', crop='center')
+            ret = get_thumbnail(self.mix_image, size, crop='center')
             return "%s/%s" % (settings.MEDIA_URL, ret.name)
         except Exception, ex:
             self.logger.error("Mix: error getting mix image %s" % ex.message)
