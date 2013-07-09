@@ -45,7 +45,7 @@ def mix(request, args):
     extras = {
         "description": mix.description.replace('<br />', '\n'),
         "title": mix.title,
-        "image_url": 'http://%s%s' % (Site.objects.get_current().domain, image),
+        "image_url": image,
         "audio_url": audio_url,
         "mix_url": 'http://%s%s' % (Site.objects.get_current().domain, mix_url)
     }
