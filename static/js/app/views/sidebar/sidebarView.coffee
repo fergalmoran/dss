@@ -9,7 +9,6 @@ define ['underscore', 'backbone', 'marionette', 'vent', 'views/activity/activity
 
 
         initialize: ->
-            console.log "SidebarView: initialize"
             this.listenTo(vent, 'mix:init', @mixInit)
             this.listenTo(vent, 'mix:play', @mixPlay)
             this.listenTo(vent, 'mix:pause', @mixPause)
@@ -17,17 +16,14 @@ define ['underscore', 'backbone', 'marionette', 'vent', 'views/activity/activity
             return
 
         onRender: ->
-            console.log "SidebarView: onRender"
             return
 
         onShow: ->
-            console.log "SidebarView: onShow"
             @streamRegion.show(new ActivityListView())
             $(@topRegion.el).hide()
             return
 
         mixInit: (model) ->
-            console.log "SidebarView: mixInit"
             $(@topRegion.el).show()
             @topRegion.show(new NowPlayingView({model: model}))
 

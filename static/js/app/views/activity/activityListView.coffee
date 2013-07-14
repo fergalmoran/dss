@@ -1,5 +1,5 @@
 define ['marionette', 'models/activity/activityCollection', 'views/activity/activityItemView',
-        'text!/tpl/ActivityListView', 'libs/jquery-ui'],
+        'text!/tpl/ActivityListView'],
 (Marionette, ActivityCollection, ActivityItemView, Template) ->
     class ActivityListView extends Marionette.CompositeView
 
@@ -12,10 +12,7 @@ define ['marionette', 'models/activity/activityCollection', 'views/activity/acti
         initialize: ->
             console.log "ActivityListView: initialize"
             @collection = new ActivityCollection
-            @collection.fetch(
-                success: =>
-                    console.log "ActivityListView: Collection fetched"
-            )
+            @collection.fetch()
 
         #kinda primordial (but working) support for sorted collection view
         #based on https://github.com/marionettejs/backbone.marionette/wiki/Adding-support-for-sorted-collections

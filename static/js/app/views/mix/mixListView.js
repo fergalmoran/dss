@@ -27,23 +27,14 @@
       currentMix = -1;
 
       MixListView.prototype.initialize = function() {
-        var _this = this;
-        console.log("MixListView: initialize");
         this.collection = new MixCollection();
         this.collection.fetch({
-          data: this.options,
-          success: function() {
-            console.log("MixListView: Collection fetched");
-            _this.tabChanged(_this.options.order_by);
-            _this.listenTo(vent, 'mix:play', _this.mixPlay);
-            return true;
-          }
+          data: this.options
         });
       };
 
       MixListView.prototype.mixPlay = function(model) {
         var v;
-        console.log("MixListView: mixPlay");
         if (currentMix !== -1) {
           v = this.children.findByModelCid(currentMix);
           v.mixStop(v.model);
@@ -52,7 +43,6 @@
       };
 
       MixListView.prototype.tabChanged = function(type) {
-        console.log("MixListView: tab changed");
         $('#mix-tab li[id=li-' + type + ']', this.el).addClass('active');
         return true;
       };

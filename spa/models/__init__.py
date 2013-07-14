@@ -8,6 +8,7 @@ from event import Event
 from label import Label
 from mix import Mix
 from activity import Activity
+from notification import Notification
 from genre import Genre
 from tracklist import Tracklist
 from purchaselink import PurchaseLink

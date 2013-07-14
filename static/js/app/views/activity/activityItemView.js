@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['marionette', 'text!/tpl/ActivityListItemView', 'libs/jquery-ui'], function(Marionette, Template) {
+  define(['marionette', 'text!/tpl/ActivityListItemView'], function(Marionette, Template) {
     var ActivityItemView;
     return ActivityItemView = (function(_super) {
 
@@ -20,8 +20,7 @@
       ActivityItemView.prototype.className = "media";
 
       ActivityItemView.prototype.onRender = function(itemView) {
-        $(itemView.el).effect("bounce", "slow");
-        $(itemView.el).effect("highlight", {}, 3000);
+        $(itemView.el).addClass('animated flash');
         return true;
       };
 

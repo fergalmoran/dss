@@ -11,7 +11,6 @@ define ['app', 'marionette', 'vent',
             true
 
         _showMixList: (options) ->
-            console.log "Controller: _showMixList"
             app = require('app')
             app.contentRegion.show(new MixListView(options))
             true

@@ -10,6 +10,7 @@ requirejs.config({
         'backbone.wreqr': 'libs/backbone/backbone.wreqr',
         ich: 'libs/ICanHaz',
         bootstrap: 'libs/bootstrap/bootstrap',
+        typeahead: 'libs/bootstrap/bootstrap-typeahead',
         underscore: 'libs/backbone/underscore',
         bootpag: 'libs/bootstrap/bootpag',
         text: 'libs/text',
@@ -29,7 +30,7 @@ requirejs.config({
     },
     shim: {
         jquery: {
-            exports: 'jQuery'
+            exports: '$'
         },
         backbone: {
             exports: 'Backbone',
@@ -38,6 +39,9 @@ requirejs.config({
         bootstrap: {
             exports: 'bootstrap',
             deps: ['jquery']
+        },
+        typeahead: {
+            deps: ['jquery', 'bootstrap']
         },
         bootpag: {
             exports: 'bootpag',

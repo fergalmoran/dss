@@ -2,6 +2,7 @@ from django.conf.urls import patterns, url, include
 from tastypie.api import Api
 from spa.ajax import AjaxHandler
 from spa.api.v1.DebugResource import DebugResource
+from spa.api.v1.NotificationResource import NotificationResource
 from spa.audio import AudioHandler
 from spa.api.v1.ChatResource import ChatResource
 from spa.api.v1.CommentResource import CommentResource
@@ -21,6 +22,7 @@ v1_api.register(ReleaseAudioResource())
 v1_api.register(EventResource())
 v1_api.register(UserResource())
 v1_api.register(ActivityResource())
+v1_api.register(NotificationResource())
 v1_api.register(DebugResource())
 
 ajax = AjaxHandler()

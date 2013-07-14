@@ -4,12 +4,16 @@
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
     <meta property="fb:app_id" content="{{ app_id }}" />
-    <meta property="og:url" content="{{ mix_url }}/" />
+    <meta property="og:url" content="http://ext-test.deepsouthsounds.com:8000/mix/deep-south-sounds-on-deep-vibes-17-apr-13/" />
 
-    <meta property="og:type"   content="deepsouthsounds:song" />
-    <meta property="og:title"  content="{{ title }}" />
-    <meta property="og:description"  content="{{ description }}" />
-    <meta property="og:image"  content="{{ image_url }}" />
+    <meta property="og:type" content="movie" />
+    <meta property="og:video" content="http://ext-test.deepsouthsounds.com:8000/static/bin/jplayer/player.swf?file={{ audio_url }}&autostart=true" />
+    <meta property="og:video:height" content="260" />
+    <meta property="og:video:width" content="420" />
+    <meta property="og:video:type" content="application/x-shockwave-flash" />
+    <meta property="og:title" content="{{ title }}" />
+    <meta property="og:description" content="{{ description }}" />
+    <meta property="og:image" content="http://ext-test.deepsouthsounds.com:8000{{ image_url }}" />
 </head>
 <body>
 </body>

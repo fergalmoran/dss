@@ -14,7 +14,6 @@ define ['jquery', 'underscore', 'libs/bootstrap/bootstrap-typeahead', 'marionett
                     compiled context
 
         onShow: ->
-            console.log("SearchView: onShow")
             t = $('#search-text', @el).typeahead
                 name: "search"
                 engine: @engine
@@ -30,7 +29,6 @@ define ['jquery', 'underscore', 'libs/bootstrap/bootstrap-typeahead', 'marionett
             $('.tt-hint', @el).addClass('span3');
 
             t.on 'typeahead:selected': (event, datum, dataset_name) ->
-                console.log("SearchView: Selected")
                 vent.trigger 'navigate:mix', datum.slug
                 $('#search-text', @el).blur()
                 $('.tt-hint', @el).blur()
