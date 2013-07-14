@@ -1,5 +1,7 @@
+import threading
 from django.db import models
 from model_utils.managers import InheritanceManager
+from core.realtime.activity import post_activity
 from spa.models.notification import Notification
 from spa.models.userprofile import UserProfile
 from spa.models._basemodel import _BaseModel
@@ -11,6 +13,14 @@ ACTIVITYTYPES = (
     ('l', 'liked'),
     ('f', 'favourited'),
 )
+
+class ActivityThread(threading.Thread):
+    def __init__(self, instance, **kwargs):
+        self.instance = instance
+        super(ActivityThread, self).__init__(**kwargs)
+
+    def run(self):
+        post_activity(self.instance.get_activity_url())
 
 
 class Activity(_BaseModel):
@@ -30,6 +40,9 @@ class Activity(_BaseModel):
         notification.verb = self.get_verb_past()
         notification.target = self.get_object_name()
         notification.save()
+
+    def notify_activity(self):
+        ActivityThread(instance=self).start()
 
     def get_activity_url(self):
         return '/api/v1/activity/%s' % self.id

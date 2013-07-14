@@ -32,31 +32,6 @@ def waveform_generated_callback(sender, **kwargs):
 waveform_generated.connect(waveform_generated_callback)
 
 
-class ActivityThread(threading.Thread):
-    def __init__(self, instance, **kwargs):
-        self.instance = instance
-        super(ActivityThread, self).__init__(**kwargs)
-
-    def run(self):
-        post_activity(self.instance.get_activity_url())
-
-
-def process_activity(sender, instance, created, **kwargs):
-    send_activity_to_realtime(instance)
-    create_notfication(instance.mix.user)
-    pass
-
-
-def send_activity_to_realtime(instance):
-    ActivityThread(instance=instance).start()
-
-#post_save.connect(process_activity, sender=Activity, dispatch_uid="activity-realtime-play")
-#post_save.connect(process_activity, sender=ActivityFollow, dispatch_uid="activity-realtime-play")
-#post_save.connect(process_activity, sender=ActivityFavourite, dispatch_uid="activity-realtime-play")
-#post_save.connect(process_activity, sender=ActivityDownload, dispatch_uid="activity-realtime-play")
-#post_save.connect(process_activity, sender=ActivityLike, dispatch_uid="activity-realtime-play")
-
-
 def create_profile(sender, **kw):
     user = kw["instance"]
     if kw["created"]:
@@ -88,6 +63,8 @@ def notification_post_save_handler(**kwargs):
     instance = kwargs['instance']
     if hasattr(instance, 'create_notification'):
         instance.create_notification()
+    if hasattr(instance, 'notify_activity'):
+        instance.notify_activity()
 
 
 post_save.connect(notification_post_save_handler)
