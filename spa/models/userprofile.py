@@ -185,3 +185,6 @@ class UserProfile(_BaseModel):
     def get_default_avatar_image(cls):
         return urlparse.urljoin(settings.STATIC_URL, "img/default-avatar-32.png")
 
+    @classmethod
+    def get_default_moniker(cls):
+        return "Anonymous"

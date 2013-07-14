@@ -21,7 +21,7 @@ class ActivityResource(BackboneCompatibleResource):
                 user_image = bundle.obj.user.get_small_profile_image()
                 user_profile = bundle.obj.user.get_profile_url()
             else:
-                user_name = "Anonymous"
+                user_name = UserProfile.get_default_moniker()
                 user_image = UserProfile.get_default_avatar_image()
                 user_profile = ""
 

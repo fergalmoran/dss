@@ -2,6 +2,7 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import DjangoAuthorization
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.models.notification import Notification
+from spa.models.userprofile import UserProfile
 
 
 class NotificationResource(BackboneCompatibleResource):
@@ -17,9 +18,12 @@ class NotificationResource(BackboneCompatibleResource):
         return object_list.filter(to_user=bundle.request.user)
 
     def dehydrate(self, bundle):
-        bundle.data['user_image'] = bundle.obj.from_user.get_small_profile_image()
-        bundle.data['user_name'] = bundle.obj.from_user.get_nice_name()
-
+        if bundle.obj.from_user is not None:
+            bundle.data['user_image'] = bundle.obj.from_user.get_small_profile_image()
+            bundle.data['user_name'] = bundle.obj.from_user.get_nice_name()
+        else:
+            bundle.data['user_image'] = UserProfile.get_default_avatar_image()
+            bundle.data['user_name'] = UserProfile.get_default_moniker()
         return bundle
 
     def alter_list_data_to_serialize(self, request, data):
