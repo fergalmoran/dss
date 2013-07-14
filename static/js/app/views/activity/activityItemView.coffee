@@ -1,4 +1,4 @@
-define ['marionette', 'text!/tpl/ActivityListItemView', 'libs/jquery-ui'],
+define ['marionette', 'text!/tpl/ActivityListItemView'],
 (Marionette, Template) ->
     class ActivityItemView extends Marionette.ItemView
         template: _.template(Template)
@@ -6,6 +6,5 @@ define ['marionette', 'text!/tpl/ActivityListItemView', 'libs/jquery-ui'],
         className: "media"
 
         onRender: (itemView) ->
-            $(itemView.el).effect("bounce", "slow")
-            $(itemView.el).effect("highlight", {}, 3000)
+            $(itemView.el).addClass('animated flash')
             true

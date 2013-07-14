@@ -6,9 +6,14 @@
 Copyright (c) 2012, Fergal Moran. All rights reserved.
 Code provided under the BSD License:
 ###
-define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView", "text!/tpl/HeaderView"],
-(_, Marionette, vent, utils, SearchView, Template) ->
+define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView",
+        "views/notifications/notificationsListView", "text!/tpl/HeaderView"],
+(_, Marionette, vent, utils, SearchView, NotificationsListView, Template) ->
     class HeaderView extends Marionette.Layout
+        NowrapRegion = Marionette.Region.extend(open: (view) ->
+            debugger
+            @$el.html view.$el.html()
+        )
         template: _.template(Template)
         events:
             "click #header-play-pause-button": "togglePlayState"
@@ -20,15 +25,18 @@ define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView",
 
         regions:
             searchRegion: "#header-search"
+            notificationsRegion:
+                selector: "#header-notifications"
+                #regionType: NowrapRegion
 
         initialize: ->
             @render()
-
             @listenTo vent, "mix:play", @trackPlaying
             @listenTo vent, "mix:pause", @trackPaused
 
         onShow: ->
             @searchRegion.show(new SearchView())
+            @notificationsRegion.show(new NotificationsListView())
 
         login: ->
             vent.trigger('app:login')
@@ -55,14 +63,14 @@ define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView",
         playLive: ->
             console.log("HeaderView: playLive")
             $(@ui.liveButton).toggleClass('btn-success', false)
-                             .toggleClass('btn-danger', true)
+            .toggleClass('btn-danger', true)
 
             vent.trigger('live:play')
 
         pauseLive: ->
             console.log("HeaderView: pauseLive")
             $(@ui.liveButton).toggleClass('btn-success', true)
-                             .toggleClass('btn-danger', false)
+            .toggleClass('btn-danger', false)
 
             vent.trigger('live:pause')
 

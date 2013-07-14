@@ -588,5 +588,52 @@ img.flag {
 }
 
 .pagination {
-    margin: 0px 0;!important;
+    margin: 0px 0;
+!important;
+}
+
+#header-alerts-icon {
+    -webkit-animation-duration: 3s;
+    -webkit-animation-delay: 2s;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-duration: 3s;
+    -moz-animation-delay: 2s;
+    -moz-animation-iteration-count: infinite;
+
+    animation-duration: 3s;
+    animation-delay: 2s;
+    animation-iteration-count: infinite;
+
+}
+
+.notifications-dropdown {
+    min-width: 320px;
+}
+
+.notification-surround {
+    margin-top: 1px;
+    line-height: 14px;
+    vertical-align: text-top;
+}
+
+.navbar .nav > li > span > a {
+    float: none;
+    padding: 10px 15px 10px;
+    color: #ffffff;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #ce4213;
+    display: block;
+}
+
+.navbar .nav > li > span > a:focus,
+.navbar .nav > li > span > a:hover {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #a5360f;
+}
+
+.navbarcaret {
+    border-top-color: #ffffff;
+    border-bottom-color: #ffffff;
 }

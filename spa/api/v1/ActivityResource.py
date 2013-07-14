@@ -25,7 +25,7 @@ class ActivityResource(BackboneCompatibleResource):
                 user_image = UserProfile.get_default_avatar_image()
                 user_profile = ""
 
-            bundle.data["verb"] = bundle.obj.get_verb_passed(),
+            bundle.data["verb"] = bundle.obj.get_verb_past(),
             bundle.data["object"] = bundle.obj.get_object_singular(),
             bundle.data["item_name"] = bundle.obj.get_object_name(),
             bundle.data["item_url"] = bundle.obj.get_object_url(),

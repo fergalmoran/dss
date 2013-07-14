@@ -1,0 +1,15 @@
+<div class="media bordered-faint activity-list-item">
+    <a class="pull-left" href="#">
+        <img class="media-object image-avatar-small" src="<%= user_image %>" alt="">
+    </a>
+
+    <div class="media-body">
+        <div class="media">
+            <a class="activity-user" href="#">
+                <%= user_name %>
+            </a>
+            <%= verb %> <a href="<%= notification_url %>"><%= target %></a>
+            <blockquote class="pull-right"><%= human_date %></blockquote>
+        </div>
+    </div>
+</div>

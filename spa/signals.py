@@ -9,7 +9,7 @@ from core.utils.audio.mp3 import mp3_length
 
 from dss import settings
 from spa.models.userprofile import UserProfile
-from spa.models.activity import ActivityPlay
+from spa.models.activity import ActivityPlay, ActivityDownload, ActivityFavourite, ActivityLike, ActivityFollow, Activity
 from spa.models.mix import Mix
 
 waveform_generated = Signal()
@@ -41,11 +41,20 @@ class ActivityThread(threading.Thread):
         post_activity(self.instance.get_activity_url())
 
 
-def send_activity_to_realtime(sender, instance, created, **kwargs):
+def process_activity(sender, instance, created, **kwargs):
+    send_activity_to_realtime(instance)
+    create_notfication(instance.mix.user)
+    pass
+
+
+def send_activity_to_realtime(instance):
     ActivityThread(instance=instance).start()
 
-
-post_save.connect(send_activity_to_realtime, sender=ActivityPlay, dispatch_uid="activity-realtime-play")
+#post_save.connect(process_activity, sender=Activity, dispatch_uid="activity-realtime-play")
+#post_save.connect(process_activity, sender=ActivityFollow, dispatch_uid="activity-realtime-play")
+#post_save.connect(process_activity, sender=ActivityFavourite, dispatch_uid="activity-realtime-play")
+#post_save.connect(process_activity, sender=ActivityDownload, dispatch_uid="activity-realtime-play")
+#post_save.connect(process_activity, sender=ActivityLike, dispatch_uid="activity-realtime-play")
 
 
 def create_profile(sender, **kw):
@@ -53,6 +62,8 @@ def create_profile(sender, **kw):
     if kw["created"]:
         up = UserProfile(user=user)
         up.save()
+
+
 post_save.connect(create_profile, sender=User)
 
 if "notification" in settings.INSTALLED_APPS:
@@ -65,3 +76,18 @@ if "notification" in settings.INSTALLED_APPS:
     signals.post_migrate.connect(create_notice_types, sender=notification)
 else:
     print "Skipping creation of NoticeTypes as notification app not found"
+
+"""
+    Doing signals for notifications here.
+    I like this method because I have a single signal
+    and just check for a hook method on the sender
+"""
+
+
+def notification_post_save_handler(**kwargs):
+    instance = kwargs['instance']
+    if hasattr(instance, 'create_notification'):
+        instance.create_notification()
+
+
+post_save.connect(notification_post_save_handler)
