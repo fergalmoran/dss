@@ -37,13 +37,26 @@
         this.collection = new NotificationCollection;
         return this.collection.fetch({
           success: function() {
-            return $(_this.ui.notificationCount).text(_this.collection.meta.is_new);
+            $(_this.ui.notificationCount).text(_this.collection.meta.is_new);
+            if (_this.collection.meta.is_new === 0) {
+              return $(_this.ui.notificationSurround).hide();
+            }
+          },
+          error: function() {
+            return $(_this.ui.notificationSurround).hide();
           }
         });
       };
 
       NotificationsListView.prototype.showNotifications = function() {
-        return console.log("Marking read");
+        var _this = this;
+        return $.ajax({
+          url: '/ajax/mark_read/',
+          type: 'post',
+          success: function() {
+            return $(_this.ui.notificationSurround).hide();
+          }
+        });
       };
 
       return NotificationsListView;

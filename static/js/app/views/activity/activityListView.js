@@ -24,7 +24,6 @@
       ActivityListView.prototype.itemViewContainer = "#activity-list-container-ul";
 
       ActivityListView.prototype.initialize = function() {
-        console.log("ActivityListView: initialize");
         this.collection = new ActivityCollection;
         return this.collection.fetch();
       };

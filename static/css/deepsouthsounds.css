@@ -637,3 +637,4 @@ img.flag {
     border-top-color: #ffffff;
     border-bottom-color: #ffffff;
 }
+.dropdown-menu li > span > a:hover, .dropdown-menu li > span > a:focus, .dropdown-submenu:hover > a

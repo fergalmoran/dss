@@ -1,9 +1,11 @@
 <a href="#" id="notifications-dropdown" class="dropdown-toggle" data-toggle="dropdown" data-bypass="true">
     <i class="icon-bell icon-white"></i>
+    {% if user.is_authenticated %}
     <span id="notification-surround" class="notification-surround">
         <span class="badge notif-background badge-important" id="notification-count">
         </span>
     </span>
+    {% endif %}
 </a>
 <ul class="dropdown-menu notifications-dropdown" id="notif_list_node">
     <li class="nav-header">Notifications</li>

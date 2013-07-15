@@ -17,13 +17,22 @@ define ['marionette', 'underscore', 'vent',
             notificationCount: "#notification-count"
 
         initialize: ->
+            #quick and dirty check to see if user is logged in
             @collection = new NotificationCollection
             @collection.fetch(
                 success: =>
                     $(@ui.notificationCount).text(@collection.meta.is_new)
+                    if @collection.meta.is_new == 0
+                        $(@ui.notificationSurround).hide()
+                error: =>
+                    $(@ui.notificationSurround).hide()
             )
 
         showNotifications: ->
-            console.log("Marking read")
+            $.ajax
+                url: '/ajax/mark_read/'
+                type: 'post'
+                success: =>
+                    $(@ui.notificationSurround).hide()
 
     NotificationsListView

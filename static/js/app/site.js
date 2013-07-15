@@ -15,6 +15,11 @@ $(document).ready(function () {
     }
 });
 
+$(document).ajaxError( function(event, xhr, settings){
+  //catch the 401's and don't log them, assume app is handling these
+    console.log("Site: ajaxError");
+});
+
 $(document).ajaxSend(function (event, xhr, settings) {
     function getCookie(name) {
         var cookieValue = null;

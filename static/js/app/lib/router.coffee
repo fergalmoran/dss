@@ -23,7 +23,7 @@ define ['marionette', 'vent', 'app.lib/controller'],
             "me": "editUser"
 
         initialize: ->
-            console.log "Router: initializing"
+            console.log "Router: initialize"
             @listenTo vent, "navigate:mix", (slug)->
                 @navigate 'mix/' + slug, true
 

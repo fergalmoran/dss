@@ -10,7 +10,6 @@ define ['marionette', 'models/activity/activityCollection', 'views/activity/acti
         itemViewContainer: "#activity-list-container-ul"
 
         initialize: ->
-            console.log "ActivityListView: initialize"
             @collection = new ActivityCollection
             @collection.fetch()
 
