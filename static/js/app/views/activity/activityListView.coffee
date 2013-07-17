@@ -22,4 +22,5 @@ define ['marionette', 'models/activity/activityCollection', 'views/activity/acti
                 childrenContainer.append itemView.el
             else
                 childrenContainer.children().eq(index).before itemView.el
+
     ActivityListView

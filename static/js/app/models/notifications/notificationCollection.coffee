@@ -7,12 +7,12 @@ define ['backbone', 'vent', 'models/notifications/notificationItem', 'app.lib/ba
 
             initialize: ->
                 @listenTo vent, "model:notification:new", (url) =>
-                    console.log("NotificationCollection: activity:new")
+                    console.log("NotificationCollection: notification:new")
                     item = new NotificationItem()
                     item.fetch
                         url: url,
                         success: (response) =>
-                            console.log("ActivityCollection: item fetched")
+                            console.log("NotificationCollection: item fetched")
                             console.log(response)
                             @add response
 

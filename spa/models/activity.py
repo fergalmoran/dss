@@ -35,7 +35,7 @@ class Activity(_BaseModel):
         notification = Notification()
         notification.from_user = self.user
         notification.to_user = self.get_target_user()
-        notification.notification_text = "%s %s %s" % (self.user, self.get_verb_past(), self.get_object_name())
+        notification.notification_text = "%s %s %s" % (self.user or "Anonymous", self.get_verb_past(), self.get_object_name())
         notification.notification_url = self.get_object_url()
         notification.verb = self.get_verb_past()
         notification.target = self.get_object_name()

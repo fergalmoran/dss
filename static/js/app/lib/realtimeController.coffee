@@ -7,9 +7,15 @@ define ['vent', 'socket.io'],
             @socket.on "hello", (data) =>
                 console.log("RealtimeController: Connected " + data['message'])
 
+            """
             @socket.on "activity", (data) =>
                 console.log("RealtimeController: activity " + data['message'])
                 vent.trigger("model:activity:new", data['message'])
+            """
+
+            @socket.on "notification", (data) =>
+                console.log("RealtimeController: notification " + data['message'])
+                vent.trigger("model:notification:new", data['message'])
 
         sendMessage: (message) ->
             console.log("RealtimeController: sendMessage")

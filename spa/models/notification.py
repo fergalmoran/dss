@@ -1,5 +1,16 @@
+import threading
 from django.db import models
+from core.realtime.notification import post_notification
 from spa.models import _BaseModel, UserProfile
+
+
+class NotificationThread(threading.Thread):
+    def __init__(self, instance, **kwargs):
+        self.instance = instance
+        super(NotificationThread, self).__init__(**kwargs)
+
+    def run(self):
+        post_notification(self.instance.get_notification_url())
 
 
 class Notification(_BaseModel):
@@ -14,3 +25,9 @@ class Notification(_BaseModel):
     target = models.CharField(max_length=200, null=True)
 
     accepted_date = models.DateTimeField(null=True)
+
+    def notify_activity(self):
+        NotificationThread(instance=self).start()
+
+    def get_notification_url(self):
+        return '/api/v1/notification/%s' % self.id

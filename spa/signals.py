@@ -4,12 +4,10 @@ from django.db.models.signals import post_save
 from django.dispatch import Signal
 from django.contrib.auth.models import User
 from south import signals
-from core.realtime.activity import post_activity
 from core.utils.audio.mp3 import mp3_length
 
 from dss import settings
 from spa.models.userprofile import UserProfile
-from spa.models.activity import ActivityPlay, ActivityDownload, ActivityFavourite, ActivityLike, ActivityFollow, Activity
 from spa.models.mix import Mix
 
 waveform_generated = Signal()
@@ -59,7 +57,7 @@ else:
 """
 
 
-def notification_post_save_handler(**kwargs):
+def post_save_handler(**kwargs):
     instance = kwargs['instance']
     if hasattr(instance, 'create_notification'):
         instance.create_notification()
@@ -67,4 +65,4 @@ def notification_post_save_handler(**kwargs):
         instance.notify_activity()
 
 
-post_save.connect(notification_post_save_handler)
+post_save.connect(post_save_handler)

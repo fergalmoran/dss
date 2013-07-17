@@ -266,3 +266,8 @@ if DEBUG:
     import mimetypes
     mimetypes.add_type("image/png", ".png", True)
     mimetypes.add_type("font/woff", ".woff", True)
+
+# TODO(fergal.moran@gmail.com): #import localsettings - so all localsettings are part of import settings
+REALTIME_HEADERS = {
+    'content-type': 'application/json'
+}
