@@ -68,7 +68,7 @@ class ActivityFollow(Activity):
     to_user = models.ForeignKey('spa.UserProfile', related_name='follower_activity')
 
     def get_target_user(self):
-        return self.user
+        return self.to_user
 
     def get_object_name(self):
         return self.user.get_nice_name()
