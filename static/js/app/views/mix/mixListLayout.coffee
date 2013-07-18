@@ -1,5 +1,12 @@
-define ['marionette', 'vent', 'views/widgets/mixTabHeaderView', 'views/mix/mixListView', 'text!/tpl/MixListLayoutView'],
-(Marionette, vent, MixTabHeaderView, MixListView, Template) ->
+define [
+    'marionette', 'vent',
+    'models/user/userItem',
+    'views/widgets/mixTabHeaderView', 'views/user/userItemView', 'views/mix/mixListView',
+    'text!/tpl/MixListLayoutView'],
+(Marionette, vent,
+ UserItem,
+ MixTabHeaderView, UserItemView, MixListView,
+ Template) ->
 
     class MixListRegionView extends Marionette.Layout
         template: _.template(Template)
@@ -19,7 +26,10 @@ define ['marionette', 'vent', 'views/widgets/mixTabHeaderView', 'views/mix/mixLi
             @bodyRegion.show(new MixListView(options))
 
         showUserView: (options) ->
-            @headerRegion.close()
             @bodyRegion.show(new MixListView(options))
-
+            user = new UserItem({id: options.user})
+            user.fetch(
+                success: =>
+                    @headerRegion.show(new UserItemView({model: user}))
+            )
     MixListRegionView

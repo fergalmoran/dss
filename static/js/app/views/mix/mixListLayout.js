@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['marionette', 'vent', 'views/widgets/mixTabHeaderView', 'views/mix/mixListView', 'text!/tpl/MixListLayoutView'], function(Marionette, vent, MixTabHeaderView, MixListView, Template) {
+  define(['marionette', 'vent', 'models/user/userItem', 'views/widgets/mixTabHeaderView', 'views/user/userItemView', 'views/mix/mixListView', 'text!/tpl/MixListLayoutView'], function(Marionette, vent, UserItem, MixTabHeaderView, UserItemView, MixListView, Template) {
     var MixListRegionView;
     MixListRegionView = (function(_super) {
 
@@ -34,8 +34,19 @@
       };
 
       MixListRegionView.prototype.showUserView = function(options) {
-        this.headerRegion.close();
-        return this.bodyRegion.show(new MixListView(options));
+        var user,
+          _this = this;
+        this.bodyRegion.show(new MixListView(options));
+        user = new UserItem({
+          id: options.user
+        });
+        return user.fetch({
+          success: function() {
+            return _this.headerRegion.show(new UserItemView({
+              model: user
+            }));
+          }
+        });
       };
 
       return MixListRegionView;
