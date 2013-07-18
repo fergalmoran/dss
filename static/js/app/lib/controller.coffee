@@ -66,7 +66,7 @@ define ['app', 'marionette', 'vent',
         showUserDetail: (slug) ->
             console.log("Controller: showUserDetail")
             @_showMixList()
-            vent.trigger("mix:showlist", {order_by: 'latest', user: slug})
+            vent.trigger("user:showdetail", {order_by: 'latest', user: slug})
 
         showUserFavourites: (slug) ->
             console.log("Controller: showUserFavourites")

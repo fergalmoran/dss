@@ -80,7 +80,7 @@ class ActivityFollow(Activity):
         return self.to_user.get_nice_name()
 
     def get_object_url(self):
-        return self.user.get_profile_url()
+        return self.to_user.get_profile_url()
 
     def get_object_singular(self):
         return "user"

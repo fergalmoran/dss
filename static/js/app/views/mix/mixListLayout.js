@@ -21,7 +21,8 @@
       };
 
       MixListRegionView.prototype.initialize = function() {
-        return this.listenTo(vent, "mix:showlist", this.showMixList);
+        this.listenTo(vent, "mix:showlist", this.showMixList);
+        return this.listenTo(vent, "user:showdetail", this.showUserView);
       };
 
       MixListRegionView.prototype.onShow = function() {
@@ -29,7 +30,11 @@
       };
 
       MixListRegionView.prototype.showMixList = function(options) {
-        console.log("Layout: showoing mixlist");
+        return this.bodyRegion.show(new MixListView(options));
+      };
+
+      MixListRegionView.prototype.showUserView = function(options) {
+        this.headerRegion.close();
         return this.bodyRegion.show(new MixListView(options));
       };
 

@@ -102,7 +102,7 @@
       DssController.prototype.showUserDetail = function(slug) {
         console.log("Controller: showUserDetail");
         this._showMixList();
-        return vent.trigger("mix:showlist", {
+        return vent.trigger("user:showdetail", {
           order_by: 'latest',
           user: slug
         });

@@ -10,12 +10,16 @@ define ['marionette', 'vent', 'views/widgets/mixTabHeaderView', 'views/mix/mixLi
 
         initialize: ->
             @listenTo(vent, "mix:showlist", @showMixList)
+            @listenTo(vent, "user:showdetail", @showUserView)
 
         onShow: ->
             @headerRegion.show(new MixTabHeaderView())
 
         showMixList: (options)->
-            console.log("Layout: showoing mixlist")
+            @bodyRegion.show(new MixListView(options))
+
+        showUserView: (options) ->
+            @headerRegion.close()
             @bodyRegion.show(new MixListView(options))
 
     MixListRegionView

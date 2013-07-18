@@ -11,5 +11,4 @@ define ['marionette', 'underscore', 'vent', 'text!/tpl/MixTabHeaderView'],
             $('#mix-tab li[id=li-' + options.order_by + ']', @el).addClass('active')
             true
 
-
     MixTabHeaderView
