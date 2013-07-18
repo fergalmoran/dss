@@ -17,10 +17,5 @@ define ['marionette', 'vent', 'views/widgets/mixTabHeaderView', 'views/mix/mixLi
         showMixList: (options)->
             console.log("Layout: showoing mixlist")
             @bodyRegion.show(new MixListView(options))
-            @tabChanged(options.order_by)
-
-        tabChanged: (type) ->
-            $('#mix-tab li[id=li-' + type + ']', @el).addClass('active')
-            true
 
     MixListRegionView

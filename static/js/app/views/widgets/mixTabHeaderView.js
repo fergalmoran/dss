@@ -15,6 +15,15 @@
 
       MixTabHeaderView.prototype.template = _.template(Template);
 
+      MixTabHeaderView.prototype.initialize = function() {
+        return this.listenTo(vent, "mix:showlist", this.tabChanged);
+      };
+
+      MixTabHeaderView.prototype.tabChanged = function(options) {
+        $('#mix-tab li[id=li-' + options.order_by + ']', this.el).addClass('active');
+        return true;
+      };
+
       return MixTabHeaderView;
 
     })(Marionette.ItemView);

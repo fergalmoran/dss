@@ -30,13 +30,7 @@
 
       MixListRegionView.prototype.showMixList = function(options) {
         console.log("Layout: showoing mixlist");
-        this.bodyRegion.show(new MixListView(options));
-        return this.tabChanged(options.order_by);
-      };
-
-      MixListRegionView.prototype.tabChanged = function(type) {
-        $('#mix-tab li[id=li-' + type + ']', this.el).addClass('active');
-        return true;
+        return this.bodyRegion.show(new MixListView(options));
       };
 
       return MixListRegionView;
