@@ -2,9 +2,23 @@ from django.conf import settings
 
 from django.core.management.base import NoArgsCommand
 
+
 class Command(NoArgsCommand):
     help = "Drop and re-create the database"
+
     def handle_noargs(self, **options):
+        self.pgsql_handle_noargs(options)
+
+    def pgsql_handle_noargs(self, **options):
+        import psycopg2
+        db = psycopg2.connect("dbname=%s user=%s password=%s" % (settings.DATABASES['default']['NAME'], settings.DATABASES['default']['USER'], settings.DATABASES['default']['PASSWORD']))
+
+        cur = db.cursor()
+        cur.execute("drop database %s; create database %s;" % settings.DATABASES['default']['NAME'], settings.DATABASES['default']['NAME'])
+
+        print "Dropped"
+
+    def mysql_handle_noargs(self, **options):
         import MySQLdb
 
         print "Connecting..."
@@ -16,6 +30,7 @@ class Command(NoArgsCommand):
 
         cursor = db.cursor()
         print "Dropping database %s" % settings.DATABASES['default']['NAME']
-        cursor.execute("drop database %s; create database %s;" % (settings.DATABASES['default']['NAME'], settings.DATABASES['default']['NAME']))
+        cursor.execute("drop database %s; create database %s;" % (
+        settings.DATABASES['default']['NAME'], settings.DATABASES['default']['NAME']))
         print "Dropped"
 
