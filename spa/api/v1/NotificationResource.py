@@ -12,7 +12,7 @@ class NotificationResource(BackboneCompatibleResource):
         authentication = SessionAuthentication()
         authorization = DjangoAuthorization()
         always_return_data = True
-        excludes = ['accepted_date', 'id']
+        excludes = ['accepted_date']
 
     def authorized_read_list(self, object_list, bundle):
         return object_list.filter(to_user=bundle.request.user)

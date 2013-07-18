@@ -14,6 +14,7 @@ ACTIVITYTYPES = (
     ('f', 'favourited'),
 )
 
+
 class ActivityThread(threading.Thread):
     def __init__(self, instance, **kwargs):
         self.instance = instance
@@ -35,7 +36,9 @@ class Activity(_BaseModel):
         notification = Notification()
         notification.from_user = self.user
         notification.to_user = self.get_target_user()
-        notification.notification_text = "%s %s %s" % (self.user or "Anonymous", self.get_verb_past(), self.get_object_name())
+        notification.notification_text = "%s %s %s" % (
+            self.user.get_nice_name() or "Anonymous", self.get_verb_past(), self.get_object_name_for_notification())
+
         notification.notification_url = self.get_object_url()
         notification.verb = self.get_verb_past()
         notification.target = self.get_object_name()
@@ -63,6 +66,9 @@ class Activity(_BaseModel):
     def get_object_singular(self):
         pass
 
+    def get_object_name_for_notification(self):
+        return self.get_object_name()
+
 
 class ActivityFollow(Activity):
     to_user = models.ForeignKey('spa.UserProfile', related_name='follower_activity')
@@ -71,7 +77,7 @@ class ActivityFollow(Activity):
         return self.to_user
 
     def get_object_name(self):
-        return self.user.get_nice_name()
+        return self.to_user.get_nice_name()
 
     def get_object_url(self):
         return self.user.get_profile_url()
@@ -81,6 +87,9 @@ class ActivityFollow(Activity):
 
     def get_verb_past(self):
         return "followed"
+
+    def get_object_name_for_notification(self):
+        return "You"
 
 
 class ActivityFavourite(Activity):
