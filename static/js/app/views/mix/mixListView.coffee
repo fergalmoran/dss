@@ -9,10 +9,11 @@ define ['marionette', 'vent', 'models/mix/mixCollection', 'views/mix/mixItemView
 
         currentMix = -1
 
-        initialize: =>
+        initialize: ->
             @collection = new MixCollection()
             @collection.fetch
                 data: @options
+
             return
 
         mixPlay: (model) ->
@@ -21,10 +22,6 @@ define ['marionette', 'vent', 'models/mix/mixCollection', 'views/mix/mixItemView
                 v.mixStop(v.model)
             currentMix = model.cid
             return
-
-        tabChanged: (type) ->
-            $('#mix-tab li[id=li-' + type + ']', @el).addClass('active')
-            true
 
     MixListView
 
