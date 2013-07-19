@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db.models import Count, Q
 from tastypie import fields
@@ -75,14 +74,15 @@ class UserResource(BackboneCompatibleResource):
 
     def _patch_resource(self, bundle):
         #Handle the patched items from backbone
-        if bundle.data['following']:
-            bundle.obj.add_follower(bundle.request.user.get_profile())
-            activity = ActivityFollow()
-            activity.user = bundle.request.user.get_profile()
-            activity.to_user = bundle.obj
-            activity.save()
-        else:
-            bundle.obj.remove_follower(bundle.request.user.get_profile())
+        if 'following' in bundle.data:
+            if bundle.data['following']:
+                bundle.obj.add_follower(bundle.request.user.get_profile())
+                activity = ActivityFollow()
+                activity.user = bundle.request.user.get_profile()
+                activity.to_user = bundle.obj
+                activity.save()
+            else:
+                bundle.obj.remove_follower(bundle.request.user.get_profile())
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
         """
@@ -95,9 +95,18 @@ class UserResource(BackboneCompatibleResource):
         if 'activity_sharing_favourites' in kwargs: del kwargs['activity_sharing_favourites']
         if 'activity_sharing_comments' in kwargs: del kwargs['activity_sharing_comments']
 
-        self._patch_resource(bundle)
+        #need to figure out why this is excepting, granted I shouldn't be
+        #trying to update followers in here but still though.
+        try:
+            self._patch_resource(bundle)
+        except:
+            pass
+
 
         return super(UserResource, self).obj_update(bundle, skip_errors, **kwargs)
+
+    def dehydrate_description(self, bundle):
+        return bundle.obj.get_profile_description()
 
     def dehydrate(self, bundle):
         del bundle.data['activity_sharing']
@@ -105,6 +114,9 @@ class UserResource(BackboneCompatibleResource):
         bundle.data['display_name'] = bundle.obj.get_nice_name()
         bundle.data['avatar_image'] = bundle.obj.get_avatar_image()
         if bundle.obj.user.id == bundle.request.user.id:
+            bundle.data['email'] = bundle.obj.email
+            bundle.data['first_name'] = bundle.obj.first_name
+            bundle.data['last_name'] = bundle.obj.last_name
             bundle.data['activity_sharing_likes'] = \
                 self._hydrateBitmapOption(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_LIKES)
             bundle.data['activity_sharing_favourites'] = \

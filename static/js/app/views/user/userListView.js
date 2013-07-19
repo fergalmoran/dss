@@ -29,7 +29,7 @@
 
       UserListView.prototype.itemView = UserItemView;
 
-      UserListView.prototype.itemViewContainer = "tbody";
+      UserListView.prototype.itemViewContainer = "#user-table";
 
       UserListView.prototype.initialize = function() {
         console.log("UserListView: initialize");

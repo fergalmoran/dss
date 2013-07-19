@@ -1,34 +1,83 @@
-<td>
-    <a href="<%= url %>"><%= display_name %></a>
-</td>
-<td>
-    <a href="/user/<%= slug %>"><%= mix_count%></a>
-</td>
-<td>
-    <a href="/user/<%= slug %>/likes"><%= like_count%></a>
-</td>
-<td>
-    <a href="/user/<%= slug %>/favourites"><%= favourite_count%></a>
-</td>
-<td>
-    <a href="/user/<%= slug %>/followers"><%= follower_count %></a>
-</td>
-<td><%= following_count %></td>
-<td><%= humanise(date_joined) %></td>
-<td><%= humanise(last_login) %></td>
+<div class="span12 bordered-faint well">
+    <div class="row-fluid">
+        <ul class="inline">
+            <li>
+                {% if user.is_authenticated %}
+                    <button href="#"
+                            id="follow-button"
+                            class="follow-button btn btn-mini btn-primary icon  <% if (following) { %> disabled <% } %>">
+                        <i id="follow-icon" class="icon-eye-close"></i>Follow
+                    </button>
+                {% else %}
+                    <button href="#"
+                            id="follow-button-login"
+                            class="follow-button btn btn-mini btn-primary icon  <% if (following) { %> disabled <% } %>">
+                        <i id="follow-icon" class="icon-eye-close"></i>Follow
+                    </button>
+                {% endif %}
+            </li>
+            <li>
+                <h4><strong><a href="<%= url %>"><%= display_name %></a></strong>
+                </h4>
+            </li>
+        </ul>
+    </div>
+    <div class="row-fluid">
+        <div class="span2">
+            <a href="<%= url %>" class="thumbnail">
+                <img src="<%= avatar_image %>" alt="" style="width: 170px; height: 106px">
+            </a>
+        </div>
+        <div class="span6">
+            <p>
+                <%= description %>
+            </p>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span8">
+            <p></p>
 
-<td>
-    {% if user.is_authenticated %}
-        <button href="#"
-                id="follow-button"
-                class="follow-button btn btn-mini <% if (following) { %> disabled <% } %>">
-            <i id="follow-icon" class="icon-eye-close"></i>Follow
-        </button>
-    {% else %}
-        <button href="#"
-                id="follow-button-login"
-                class="follow-button btn btn-mini <% if (following) { %> disabled <% } %>">
-            <i id="follow-icon" class="icon-eye-close"></i>Follow
-        </button>
-    {% endif %}
-</td>
+            <p>
+                | <i class="icon-calendar"></i> Joined: <%= humanise(date_joined) %>
+                | <i class="icon-calendar"></i> Last Seen: <%= humanise(last_login) %>
+            </p>
+
+            <p>
+                | <i class="icon-comment"></i> <a href="/user/<%= slug %>"><%= mix_count%> Mixes</a>
+                | <i class="icon-share"></i> <a href="/user/<%= slug %>/favourites"><%= favourite_count %>
+                Favourites</a>
+                | <i class="icon-share"></i> <a href="/user/<%= slug %>/likes"><%= like_count %> Likes</a>
+                | <i class="icon-share"></i> <a href="#"><%= follower_count %> Followers</a>
+                | <i class="icon-share"></i> <a href="#"><%= following_count %> Following</a>
+            </p>
+        </div>
+    </div>
+</div>
+<!--
+<div class="thumbnail clearfix">
+    <img src="<%= avatar_image %>" alt="ALT NAME" class="pull-left span2 clearfix"
+         style='margin-right:10px; width: 170px; height: 106px'>
+
+    <div class="caption">
+        {% if user.is_authenticated %}
+            <button href="#"
+                    id="follow-button"
+                    class="follow-button btn btn-primary icon  pull-right <% if (following) { %> disabled <% } %>">
+                <i id="follow-icon" class="icon-eye-close"></i>Follow
+            </button>
+        {% else %}
+            <button href="#"
+                    id="follow-button-login"
+                    class="follow-button btn btn-primary icon  pull-right <% if (following) { %> disabled <% } %>">
+                <i id="follow-icon" class="icon-eye-close"></i>Follow
+            </button>
+        {% endif %}
+
+        <h4>
+            <a href="<%= url %>"><%= display_name %></a>
+        </h4>
+        <small><%= description %></small>
+    </div>
+</div>
+-->

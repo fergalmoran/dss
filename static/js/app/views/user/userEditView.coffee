@@ -8,7 +8,7 @@ define ['app', 'toastr', 'app.lib/editableView', 'moment', 'libs/backbone/backbo
 
         onRender: ->
             console.log("MixEditView: onRender")
-            avatarType = @model.get('profile').avatar_type
+            avatarType = @model.get('avatar_type')
             $('#avatar_' + avatarType, @el).attr('checked', true);
             if avatarType is "custom"
                 $("#div_avatar_image_upload", @el).show()
@@ -32,7 +32,7 @@ define ['app', 'toastr', 'app.lib/editableView', 'moment', 'libs/backbone/backbo
             ref = this
             @_saveChanges
                 success: ->
-                    if ref.model.get("profile").avatar_type is "custom"
+                    if ref.model.get('avatar_type') is "custom"
                         $.ajaxFileUpload
                             url: "/ajax/upload_avatar_image/"
                             secureuri: false

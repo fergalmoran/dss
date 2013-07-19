@@ -11,7 +11,7 @@ define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
             searchText: "#search-text"
 
         itemView: UserItemView
-        itemViewContainer: "tbody"
+        itemViewContainer: "#user-table"
         initialize: =>
             console.log "UserListView: initialize"
             @collection = new UserCollection()

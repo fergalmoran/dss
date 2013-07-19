@@ -2,7 +2,8 @@ define ['app', 'moment', 'marionette', 'vent', 'text!/tpl/UserListItemView'],
 (App, moment, Marionette, vent, Template)->
     class UserItemView extends Marionette.ItemView
         template: _.template(Template)
-        tagName: "tr"
+        tagName: "div"
+        className: "row-fluid"
 
         events:
             "click #follow-button": "followUser"

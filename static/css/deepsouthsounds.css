@@ -89,7 +89,10 @@ ul.comment-listing .comment-entry {
     width: 32px;
     height: 32px;
 }
-
+.image-user-profile{
+    width: 320px;
+    height: 200px;
+}
 .social_login_providers {
     width: 100%;
     float: left;

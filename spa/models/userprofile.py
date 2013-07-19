@@ -117,7 +117,8 @@ class UserProfile(_BaseModel):
                 self.logger.error("Backend: %s" % settings.EMAIL_BACKEND)
 
     def remove_follower(self, user):
-        self.followers.remove(user)
+        if user in self.followers:
+            self.followers.remove(user)
 
     def is_follower(self, user):
         try:
@@ -174,12 +175,27 @@ class UserProfile(_BaseModel):
             except Exception, ex:
                 pass
         elif avatar_type == 'custom' or avatar_type:
-            return self.avatar_image.name
+            return urlparse.urljoin(settings.MEDIA_URL, self.avatar_image.name)
 
         return UserProfile.get_default_avatar_image()
 
     def get_profile_url(self):
         return '/user/%s' % (self.slug)
+
+    def get_profile_description(self):
+        try:
+            if not self.description:
+                social_account = SocialAccount.objects.filter(user=self.user)[0]
+                if social_account is not None:
+                    provider = social_account.get_provider_account()
+                    if 'bio' in provider.account.extra_data:
+                        return provider.account.extra_data['bio']
+            else:
+                return self.description
+        except Exception, ex:
+            pass
+
+        return "Too lazy to update my description"
 
     @classmethod
     def get_default_avatar_image(cls):

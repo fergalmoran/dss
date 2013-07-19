@@ -48,7 +48,7 @@ define ['moment', 'app', 'vent', 'marionette', 'utils', 'models/comment/commentC
         renderGenres: =>
             el = @el
             $.each @model.get("genre-list"), (data) ->
-                $("#genre-list", el).append '<a href="/mixes/' + @slug + '" class="dss-tag-button">' + @text + '</a>'
+                $("#genre-list", el).append '<a href="/mixes/' + @slug + '" class="label label-info">' + @text + '</a>'
                 true
             true
 

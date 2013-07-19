@@ -5,23 +5,23 @@
 <div id="layout-area" class="hero-well">
     <div class="row">
         <form enctype="multipart/form-data" method="post" class="form-horizontal" id="id-new-user-form">
-            <input type="hidden" name="profile[id]" value="<%= profile.id %>"/>
+            <input type="hidden" name="id" value="<%= id %>"/>
             <fieldset>
                 <div class="span6">
                     <div class="clearfix control-group" id="div_display_name">
                         <label class="control-label" for="display_name">Display name</label>
                         <div class="controls">
-                            <input type="text" maxlength="75" name="profile[display_name]" class="textinput textInput"
-                                   id="profile[display_name]"
-                                   value="<%= profile.display_name %>">
+                            <input type="text" maxlength="75" name="display_name" class="textinput textInput"
+                                   id="display_name"
+                                   value="<%= display_name %>">
                         </div>
                     </div>
                     <div class="clearfix control-group" id="div_slug">
                         <label class="control-label" for="slug">Profile Slug</label>
                         <div class="controls">
-                            <input type="text" maxlength="75" name="profile[slug]" class="textinput textInput"
-                                   id="profile[slug]"
-                                   value="<%= profile.slug %>">
+                            <input type="text" maxlength="75" name="slug" class="textinput textInput"
+                                   id="slug"
+                                   value="<%= slug %>">
                         </div>
                     </div>
                     <div class="clearfix control-group" id="div_email">
@@ -51,9 +51,9 @@
                         <label class="control-label requiredField" for="avatar_image_select_0">Avatar Image<span
                                 class="asteriskField">*</span></label>
                         <div class="controls">
-                                <label class="radio">Use gravatar image.<input type="radio" id='avatar_gravatar' value='gravatar' name="profile[avatar_type]" /></label>
-                                <label class="radio">Use Twitter/Facebook image.<input type="radio" id='avatar_social' value='social' name="profile[avatar_type]" /></label>
-                                <label class="radio">Use custom image.<input type="radio" id='avatar_custom' value='custom' name="profile[avatar_type]" /></label>
+                                <label class="radio">Use gravatar image.<input type="radio" id='avatar_gravatar' value='gravatar' name="avatar_type" /></label>
+                                <label class="radio">Use Twitter/Facebook image.<input type="radio" id='avatar_social' value='social' name="avatar_type" /></label>
+                                <label class="radio">Use custom image.<input type="radio" id='avatar_custom' value='custom' name="avatar_type" /></label>
                         </div>
                     </div>
                     <div class="clearfix control-group" id="div_avatar_image_upload">
@@ -62,7 +62,7 @@
                         <div class="fileupload fileupload-new pull-left" data-provides="fileupload"
                              id="div_avatar_image">
                             <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                                <img src="<%= profile.avatar_image  %>"/>
+                                <img src="<%= avatar_image  %>"/>
                             </div>
                             <div class="fileupload-preview fileupload-exists thumbnail"
                                  style="max-width: 200px; max-height: 150px; line-height: 20px;">
@@ -87,7 +87,7 @@
                         <p>
                             <h5>Tell us a bit about yourself.</h5>
                         </p>
-                        <textarea style="width: 100%" name="profile[description]" id="profile[description]" rows="5"><%= profile.description %></textarea>
+                        <textarea style="width: 100%" name="description" id="description" rows="5"><%= description %></textarea>
                     </div>
                     <div class="row">
                         <p>
@@ -104,16 +104,16 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="checkbox" name="profile[activity_sharing_likes]"
-                                               id="activity_sharing_likes" <%= renderCheckbox(profile.activity_sharing_likes) %>>
+                                        <input type="checkbox" name="activity_sharing_likes"
+                                               id="activity_sharing_likes" <%= renderCheckbox(activity_sharing_likes) %>>
                                     </td>
                                     <td>
-                                        <input type="checkbox" name="profile[activity_sharing_favourites]"
-                                               id="activity_sharing_favourites" <%= renderCheckbox(profile.activity_sharing_favourites) %>>
+                                        <input type="checkbox" name="activity_sharing_favourites"
+                                               id="activity_sharing_favourites" <%= renderCheckbox(activity_sharing_favourites) %>>
                                     </td>
                                     <td>
-                                        <input type="checkbox" name="profile[activity_sharing_comments]"
-                                               id="activity_sharing_comments" <%= renderCheckbox(profile.activity_sharing_comments) %>>
+                                        <input type="checkbox" name="activity_sharing_comments"
+                                               id="activity_sharing_comments" <%= renderCheckbox(activity_sharing_comments) %>>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -129,10 +129,10 @@
                                 </tr>
                                 <tr>
                                     <td style="text-align: center;  vertical-align: middle">
-                                        <input type="checkbox" name="profile[activity_sharing_networks_facebook]" <%= renderCheckbox(profile.activity_sharing_networks_facebook) %>>
+                                        <input type="checkbox" name="activity_sharing_networks_facebook" <%= renderCheckbox(activity_sharing_networks_facebook) %>>
                                     </td>
                                     <td>
-                                        <input type="checkbox" name="profile[activity_sharing_networks_twitter]" <%= renderCheckbox(profile.activity_sharing_networks_twitter) %>>
+                                        <input type="checkbox" name="activity_sharing_networks_twitter" <%= renderCheckbox(activity_sharing_networks_twitter) %>>
                                     </td>
                                 </tr>
                                 </tbody>

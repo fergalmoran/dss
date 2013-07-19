@@ -17,7 +17,9 @@
 
       UserItemView.prototype.template = _.template(Template);
 
-      UserItemView.prototype.tagName = "tr";
+      UserItemView.prototype.tagName = "div";
+
+      UserItemView.prototype.className = "row-fluid";
 
       UserItemView.prototype.events = {
         "click #follow-button": "followUser",
