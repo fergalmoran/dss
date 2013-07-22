@@ -164,7 +164,7 @@ class MixResource(BackboneCompatibleResource):
     def apply_filters(self, request, applicable_filters):
         semi_filtered = super(MixResource, self) \
             .apply_filters(request, applicable_filters) \
-            .filter(waveform_generated=True, is_featured=True)
+            .filter(waveform_generated=True)
 
         f_type = request.GET.get('type', None)
         f_user = request.GET.get('user', None)
@@ -176,7 +176,9 @@ class MixResource(BackboneCompatibleResource):
         """
         if f_user is not None:
             semi_filtered = semi_filtered.filter(user__slug=f_user)
-
+        else:
+            semi_filtered = semi_filtered.filter(is_featured=True)
+            
         return semi_filtered
 
     def hydrate_favourited(self, bundle):
