@@ -29,7 +29,7 @@ class MixResource(BackboneCompatibleResource):
         user = ToOneField('UserResource', 'user')
         always_return_data = True
         detail_uri_name = 'slug'
-        excludes = ['download_url', 'is_active', 'local_file', 'upload_date', 'waveform-generated']
+        excludes = ['is_active', 'local_file', 'upload_date', 'waveform-generated']
         filtering = {
             'comments': ALL_WITH_RELATIONS,
             'favourites': ALL_WITH_RELATIONS,
@@ -164,7 +164,7 @@ class MixResource(BackboneCompatibleResource):
     def apply_filters(self, request, applicable_filters):
         semi_filtered = super(MixResource, self) \
             .apply_filters(request, applicable_filters) \
-            .filter(waveform_generated=True)
+            .filter(waveform_generated=True, is_featured=True)
 
         f_type = request.GET.get('type', None)
         f_user = request.GET.get('user', None)

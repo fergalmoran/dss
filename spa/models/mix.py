@@ -38,8 +38,6 @@ class Mix(_BaseModel):
     upload_date = models.DateTimeField(default=datetime.now())
     mix_image = models.ImageField(blank=True, upload_to=mix_image_name)
     local_file = models.FileField(blank=True, upload_to=mix_file_name)
-    download_url = models.CharField(max_length=255)
-    stream_url = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=True)
     user = models.ForeignKey(UserProfile, editable=False, related_name='mixes')
@@ -52,7 +50,7 @@ class Mix(_BaseModel):
     genres = models.ManyToManyField(Genre)
 
     #activity based stuff
-    favourites = models.ManyToManyField(UserProfile)
+    favourites = models.ManyToManyField(UserProfile, blank=True, null=True)
 
     def __unicode__(self):
         return self.title
