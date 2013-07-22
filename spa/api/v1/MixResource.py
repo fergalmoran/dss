@@ -178,7 +178,7 @@ class MixResource(BackboneCompatibleResource):
             semi_filtered = semi_filtered.filter(user__slug=f_user)
         else:
             semi_filtered = semi_filtered.filter(is_featured=True)
-            
+
         return semi_filtered
 
     def hydrate_favourited(self, bundle):
