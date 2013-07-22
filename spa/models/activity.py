@@ -71,7 +71,7 @@ class Activity(_BaseModel):
 
 
 class ActivityFollow(Activity):
-    to_user = models.ForeignKey('spa.UserProfile', related_name='follower_activity')
+    to_user = models.ForeignKey('spa.UserProfile', related_name='activity_follow')
 
     def get_target_user(self):
         return self.to_user
@@ -93,7 +93,7 @@ class ActivityFollow(Activity):
 
 
 class ActivityFavourite(Activity):
-    mix = models.ForeignKey('spa.Mix', related_name='favourites')
+    mix = models.ForeignKey('spa.Mix', related_name='activity_favourites')
 
     def get_target_user(self):
         return self.mix.user
@@ -112,7 +112,7 @@ class ActivityFavourite(Activity):
 
 
 class ActivityPlay(Activity):
-    mix = models.ForeignKey('spa.Mix', related_name='plays')
+    mix = models.ForeignKey('spa.Mix', related_name='activity_plays')
 
     def get_target_user(self):
         return self.mix.user
@@ -131,7 +131,7 @@ class ActivityPlay(Activity):
 
 
 class ActivityLike(Activity):
-    mix = models.ForeignKey('spa.Mix', related_name='likes')
+    mix = models.ForeignKey('spa.Mix', related_name='activity_likes')
 
     def get_target_user(self):
         return self.mix.user
@@ -150,7 +150,7 @@ class ActivityLike(Activity):
 
 
 class ActivityDownload(Activity):
-    mix = models.ForeignKey('spa.Mix', related_name='downloads')
+    mix = models.ForeignKey('spa.Mix', related_name='activity_downloads')
 
     def get_target_user(self):
         return self.mix.user

@@ -1,6 +1,7 @@
 import humanize
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
+from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.models import UserProfile
 from spa.models.activity import Activity
@@ -13,6 +14,9 @@ class ActivityResource(BackboneCompatibleResource):
         authorization = Authorization()
         authentication = Authentication()
         always_return_data = True
+        filtering = {
+            'user': ALL_WITH_RELATIONS
+        }
 
     def dehydrate(self, bundle):
         try:
@@ -41,3 +45,4 @@ class ActivityResource(BackboneCompatibleResource):
         except Exception, ee:
             self.logger.debug("Exception: Error dehydrating activity, %s" % ee.message)
         return None
+

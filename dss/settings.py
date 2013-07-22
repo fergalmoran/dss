@@ -218,7 +218,6 @@ AVATAR_STORAGE_DIR = MEDIA_ROOT + '/avatars/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
-
 DSS_TEMP_PATH = localsettings.DSS_TEMP_PATH
 DSS_LAME_PATH = localsettings.DSS_LAME_PATH
 DSS_WAVE_PATH = localsettings.DSS_WAVE_PATH
@@ -264,6 +263,7 @@ REQUIRE_DEBUG = False #DEBUG
 
 if DEBUG:
     import mimetypes
+
     mimetypes.add_type("image/png", ".png", True)
     mimetypes.add_type("font/woff", ".woff", True)
 

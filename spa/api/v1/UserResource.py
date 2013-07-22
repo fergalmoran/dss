@@ -1,14 +1,12 @@
-from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db.models import Count, Q
 from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import DjangoAuthorization
 from django.conf.urls import url
-from tastypie.http import HttpMultipleChoices, HttpGone
+from tastypie.constants import ALL
 from tastypie.utils import trailing_slash
 
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
-from spa.api.v1.MixResource import MixResource
 from spa.models.activity import ActivityFollow
 from spa.models.userprofile import UserProfile
 from spa.models.mix import Mix
@@ -16,13 +14,18 @@ from spa.models.mix import Mix
 
 class UserResource(BackboneCompatibleResource):
     class Meta:
-        queryset = UserProfile.objects.all().annotate(mix_count=Count('mixes')).order_by('-mix_count')
+        queryset = UserProfile.objects.all().annotate(mix_count=Count('mixes'))\
+                                            .extra(select={'u':'user'}).order_by('-mix_count')
+        favourites = fields.ToManyField('spa.api.v1.MixResource.MixResource', 'favourites', null=True)
         resource_name = 'user'
         excludes = ['is_active', 'is_staff', 'is_superuser', 'password']
         ordering = ['mix_count']
+        filtering = {
+            'slug': ALL,
+        }
         authorization = DjangoAuthorization()
         authentication = Authentication()
-        favourites = fields.ToManyField(MixResource, 'favourites')
+        favourites = fields.ToManyField('spa.api.v1.MixResource', 'favourites')
 
     def _hydrateBitmapOption(self, source, comparator):
         return True if (source & comparator) != 0 else False
@@ -32,9 +35,6 @@ class UserResource(BackboneCompatibleResource):
             url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_.-]+)/favourites%s$" % (
                 self._meta.resource_name, trailing_slash()),
                 self.wrap_view('get_user_favourites'), name="api_get_user_favourites"),
-            url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_.-]+)/activity%s$" % (
-                self._meta.resource_name, trailing_slash()),
-                self.wrap_view('get_user_activity'), name="api_get_user_activity"),
             url(r"^(?P<resource_name>%s)/(?P<pk>\d+)/$" % self._meta.resource_name,
                 self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
             url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_.-]+)/$" % self._meta.resource_name,
@@ -50,6 +50,10 @@ class UserResource(BackboneCompatibleResource):
 
     def apply_filters(self, request, applicable_filters):
         semi_filtered = super(UserResource, self).apply_filters(request, applicable_filters)
+        return semi_filtered
+
+    def __apply_filters(self, request, applicable_filters):
+        semi_filtered = super(UserResource, self).apply_filters(request, applicable_filters)
         q = request.GET.get('q', None)
         if q is not None:
             semi_filtered = semi_filtered.filter(
@@ -59,18 +63,6 @@ class UserResource(BackboneCompatibleResource):
             )
 
         return semi_filtered
-
-    def get_user_favourites(self, request, **kwargs):
-        try:
-            obj = self.cached_obj_get(bundle=self.build_bundle(request=request),
-                                      **self.remove_api_resource_names(kwargs))
-        except ObjectDoesNotExist:
-            return HttpGone()
-        except MultipleObjectsReturned:
-            return HttpMultipleChoices("More than one resource is found at this URI.")
-
-        mixes = MixResource()
-        return mixes.get_list(request, favourites__user=obj.get_profile())
 
     def _patch_resource(self, bundle):
         #Handle the patched items from backbone
@@ -131,7 +123,7 @@ class UserResource(BackboneCompatibleResource):
                 self._hydrateBitmapOption(bundle.obj.activity_sharing_networks,
                                           UserProfile.ACTIVITY_SHARE_NETWORK_TWITTER)
 
-        bundle.data['like_count'] = Mix.objects.filter(likes__user=bundle.obj).count()
+        bundle.data['like_count'] = Mix.objects.filter(activity_likes__user=bundle.obj).count()
         bundle.data['favourite_count'] = Mix.objects.filter(favourites__user=bundle.obj).count()
         bundle.data['follower_count'] = bundle.obj.followers.count()
         bundle.data['following_count'] = bundle.obj.following.count()

@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, InvalidPage
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import Http404
 from django.template.loader import render_to_string
 from tastypie import fields
@@ -22,6 +22,7 @@ from spa.models.mix import Mix
 class MixResource(BackboneCompatibleResource):
     comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', null=True)
     #downloads = fields.ToManyField('spa.api.v1.ActivityResource.ActivityResource', 'downloads')
+    favourites = fields.ToManyField('spa.api.v1.UserResource.UserResource', 'favourites', related_name='favourites', full=True)
 
     class Meta:
         queryset = Mix.objects.filter(is_active=True)
@@ -30,7 +31,9 @@ class MixResource(BackboneCompatibleResource):
         detail_uri_name = 'slug'
         excludes = ['download_url', 'is_active', 'local_file', 'upload_date', 'waveform-generated']
         filtering = {
-            'comments': ALL_WITH_RELATIONS
+            'comments': ALL_WITH_RELATIONS,
+            'favourites': ALL_WITH_RELATIONS,
+            'activity_likes': ALL_WITH_RELATIONS
         }
         authorization = Authorization()
 
@@ -107,10 +110,11 @@ class MixResource(BackboneCompatibleResource):
     def obj_update(self, bundle, **kwargs):
         #don't sync the mix_image, this has to be handled separately
         del bundle.data['mix_image']
+        ret = super(MixResource, self).obj_update(bundle, bundle.request)
 
         bundle.obj.update_favourite(bundle.request.user, bundle.data['favourited'])
         bundle.obj.update_liked(bundle.request.user, bundle.data['liked'])
-        ret = super(MixResource, self).obj_update(bundle, bundle.request)
+
         self._unpackGenreList(ret, bundle.data['genre-list'])
         return ret
 
@@ -119,28 +123,57 @@ class MixResource(BackboneCompatibleResource):
         if orderby == 'latest':
             obj_list = obj_list.order_by('-id')
         elif orderby == 'toprated':
-            obj_list = obj_list.annotate(karma=Count('likes')).order_by('-karma')
+            obj_list = obj_list.annotate(karma=Count('activity_likes')).order_by('-karma')
         elif orderby == 'mostplayed':
-            obj_list = obj_list.annotate(karma=Count('plays')).order_by('-karma')
+            obj_list = obj_list.annotate(karma=Count('activity_plays')).order_by('-karma')
         elif orderby == 'mostactive':
             obj_list = obj_list.annotate(karma=Count('comments')).order_by('-karma')
         elif orderby == 'recommended':
-            obj_list = obj_list.annotate(karma=Count('likes')).order_by('-karma')
+            obj_list = obj_list.annotate(karma=Count('activity_likes')).order_by('-karma')
 
         return obj_list
 
+    """
+    def build_filters(self, filters=None):
+        if filters is None:
+            filters = {}
+
+        # TODO(Ferg@@lMoran.me): Yet another code smell
+        # I'm doing this shit everywhere in tastypie - here is my canonical rant about it
+
+        # Either I'm completely missing something or tastypie was the wrong horse to back here
+        # There has to be a more prescriptive way to do this shit!!!
+        # I'm seriously considering swapping out tastpie for a more sane REST framework
+        # Simple stuff like deciding on
+        #   your own url pattern
+        #   ORM level rather than Resource level filtering
+        # are extremely difficult/undocumented
+
+
+        orm_filters = super(MixResource, self).build_filters(filters)
+        #find the non-resource filters that were stripped but the super's build_filters
+        #and re add them, will probably need to perform some checks here against Meta.filters
+        #so we can't be filtered willy-nilly
+        #also, have no idea how filters became a QueryDict??
+        for f in filters:
+            if f not in ['format', 'order_by', 'sort']:
+                orm_filters.update({'custom': Q(f=filters.get(f))})
+
+        return orm_filters
+    """
     def apply_filters(self, request, applicable_filters):
-        semi_filtered = super(MixResource, self)\
-            .apply_filters(request, applicable_filters)\
+        semi_filtered = super(MixResource, self) \
+            .apply_filters(request, applicable_filters) \
             .filter(waveform_generated=True)
 
         f_type = request.GET.get('type', None)
         f_user = request.GET.get('user', None)
+        """
         if f_type == 'favourites':
             semi_filtered = semi_filtered.filter(favourites__user=request.user.get_profile())
         elif f_type == 'likes':
             semi_filtered = semi_filtered.filter(likes__user=request.user.get_profile())
-
+        """
         if f_user is not None:
             semi_filtered = semi_filtered.filter(user__slug=f_user)
 
@@ -159,16 +192,20 @@ class MixResource(BackboneCompatibleResource):
         bundle.data['user_profile_image'] = bundle.obj.user.get_small_profile_image()
         bundle.data['item_url'] = '/mix/%s' % bundle.obj.slug
 
-        bundle.data['play_count'] = bundle.obj.plays.count()
-        bundle.data['download_count'] = bundle.obj.downloads.count()
-        bundle.data['like_count'] = bundle.obj.likes.count()
         bundle.data['favourite_count'] = bundle.obj.favourites.count()
+
+        bundle.data['play_count'] = bundle.obj.activity_plays.count()
+        bundle.data['download_count'] = bundle.obj.activity_downloads.count()
+        bundle.data['like_count'] = bundle.obj.activity_likes.count()
+
+
         bundle.data['tooltip'] = render_to_string('inc/player_tooltip.html', {'item': bundle.obj})
         bundle.data['comment_count'] = bundle.obj.comments.count()
 
         bundle.data['genre-list'] = json.to_ajax(bundle.obj.genres.all(), 'description', 'slug')
         bundle.data['liked'] = bundle.obj.is_liked(bundle.request.user)
-        bundle.data['favourited'] = bundle.obj.is_favourited(bundle.request.user)
+        bundle.data['favourited'] = bundle.obj.favourites.filter(user=bundle.request.user).count() != 0
+
         return bundle
 
 
