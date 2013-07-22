@@ -22,7 +22,7 @@ from spa.models.mix import Mix
 class MixResource(BackboneCompatibleResource):
     comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', null=True)
     favourites = fields.ToManyField('spa.api.v1.UserResource.UserResource', 'favourites',
-                                    related_name='favourites', full=True)
+                                    related_name='favourites', full=True, null=True)
 
     class Meta:
         queryset = Mix.objects.filter(is_active=True)
