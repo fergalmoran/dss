@@ -50,7 +50,8 @@ class Mix(_BaseModel):
     genres = models.ManyToManyField(Genre)
 
     #activity based stuff
-    favourites = models.ManyToManyField(UserProfile, blank=True, null=True)
+    favourites = models.ManyToManyField(UserProfile, related_name='favourites', blank=True, null=True)
+    likes = models.ManyToManyField(UserProfile, related_name='likes', blank=True, null=True)
 
     def __unicode__(self):
         return self.title
@@ -168,14 +169,6 @@ class Mix(_BaseModel):
         except Exception, e:
             self.logger.exception("Unable to add mix play: %s" % e.message)
 
-    def is_liked(self, user):
-        if user is None:
-            return False
-        if user.is_authenticated():
-            return self.activity_likes.filter(user=user).count() != 0
-
-        return False
-
     def update_favourite(self, user, value):
         try:
             if user is None:
@@ -198,10 +191,12 @@ class Mix(_BaseModel):
                 return
             if user.is_authenticated():
                 if value:
-                    if self.activity_likes.filter(user=user).count() == 0:
-                        ActivityLike(user=user.get_profile(), mix=self).save()
+                    if self.likes.filter(user=user).count() == 0:
+                        self.likes.add(user.get_profile())
+                        self.save()
                 else:
-                    self.activity_likes.filter(user=user).delete()
+                    self.likes.remove(user.get_profile())
+                self.save()
         except Exception, ex:
             self.logger.error("Exception updating like: %s" % ex.message)
 
@@ -212,3 +207,12 @@ class Mix(_BaseModel):
             return self.favourites.filter(user=user).count() != 0
         else:
             return False
+
+    def is_liked(self, user):
+        if user is None:
+            return False
+        if user.is_authenticated():
+            return self.likes.filter(user=user).count() != 0
+
+        return False
+

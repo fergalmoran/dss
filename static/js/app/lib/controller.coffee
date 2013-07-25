@@ -71,12 +71,12 @@ define ['app', 'marionette', 'vent',
         showUserFavourites: (slug) ->
             console.log("Controller: showUserFavourites")
             @_showMixList()
-            vent.trigger("mix:showlist", {order_by: 'latest', type: 'favourites', user: slug})
+            vent.trigger("mix:showlist", {order_by: 'latest', favourites__slug: slug})
 
         showUserLikes: (slug) ->
             console.log("Controller: showUserLikes")
             @_showMixList()
-            vent.trigger("mix:showlist", {order_by: 'latest', type: 'likes', user: slug})
+            vent.trigger("mix:showlist", {order_by: 'latest', likes__slug: slug})
 
         showUserFollowing: (slug) ->
             console.log("Controller: showUserFollowing")

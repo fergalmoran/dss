@@ -120,8 +120,7 @@
         this._showMixList();
         return vent.trigger("mix:showlist", {
           order_by: 'latest',
-          type: 'favourites',
-          user: slug
+          favourites__slug: slug
         });
       };
 
@@ -130,8 +129,7 @@
         this._showMixList();
         return vent.trigger("mix:showlist", {
           order_by: 'latest',
-          type: 'likes',
-          user: slug
+          likes__slug: slug
         });
       };
 

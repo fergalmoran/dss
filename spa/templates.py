@@ -1,9 +1,9 @@
+from django.contrib.sites.models import Site
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from htmlmin.decorators import not_minified_response
 from dss import localsettings
 from spa.forms import UserForm
-from spa.models import UserProfile
 
 __author__ = 'fergalm'
 
@@ -24,7 +24,18 @@ def get_template_ex(request, template_name):
 
 
 @not_minified_response
-def get_dialog(request, dialog_name):
+def get_embed_codes_dialog(request, slug):
+    payload = {
+        'embed_code': 'http://%s/embed/%s' % (Site.objects.get_current().domain, slug)
+    }
+    return render_to_response(
+        'views/dlg/EmbedCodes.html',
+        payload,
+        context_instance=RequestContext(request))
+
+
+@not_minified_response
+def get_dialog(request, dialog_name, **kwargs):
     return render_to_response(
         'views/dlg/%s.html' % dialog_name,
         context_instance=RequestContext(request))

@@ -44,12 +44,12 @@
             </p>
 
             <p>
-                | <i class="icon-comment"></i> <a href="/user/<%= slug %>"><%= mix_count%> Mixes</a>
-                | <i class="icon-share"></i> <a href="/user/<%= slug %>/favourites"><%= favourite_count %>
+                | <i class="icon-music"></i> <a href="/user/<%= slug %>/"><%= mix_count%> Mixes</a>
+                | <i class="icon-heart"></i> <a href="/user/<%= slug %>/favourites/"><%= favourite_count %>
                 Favourites</a>
-                | <i class="icon-share"></i> <a href="/user/<%= slug %>/likes"><%= like_count %> Likes</a>
-                | <i class="icon-share"></i> <a href="#"><%= follower_count %> Followers</a>
-                | <i class="icon-share"></i> <a href="#"><%= following_count %> Following</a>
+                | <i class="icon-star-empty"></i> <a href="/user/<%= slug %>/likes/"><%= like_count %> Likes</a>
+                | <i class="icon-check"></i> <a href="/user/<%= slug %>/followers/"><%= follower_count %> Followers</a>
+                | <i class="icon-share"></i> <a href="/user/<%= slug %>/following/"><%= following_count %> Following</a>
             </p>
         </div>
     </div>

@@ -8,4 +8,3 @@ define ['backbone', 'models/mix/mixItem', 'app.lib/backbone.dss.model.collection
                 console.log("MixCollection: parse")
 
         MixCollection
-

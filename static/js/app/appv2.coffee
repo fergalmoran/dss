@@ -1,9 +1,7 @@
-define ['backbone', 'marionette', 'vent', 'utils'
-        'app.lib/router', 'app.lib/panningRegion', 'app.lib/realtimeController', 'app.lib/audioController',
+define ['backbone', 'marionette', 'vent', 'utils',
+        'app.lib/social', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/realtimeController', 'app.lib/audioController',
         'views/widgets/headerView', 'views/sidebar/sidebarView', 'models/mix/mixCollection'],
-(Backbone, Marionette, vent, utils,
- DssRouter, PanningRegion, RealtimeController, AudioController,
- HeaderView, SidebarView, MixCollection) ->
+(Backbone, Marionette, vent, utils, social, DssRouter, PanningRegion, RealtimeController, AudioController, HeaderView, SidebarView, MixCollection) ->
     App = new Marionette.Application();
     App.audioController = new AudioController();
     App.realtimeController = new RealtimeController();
@@ -64,11 +62,14 @@ define ['backbone', 'marionette', 'vent', 'utils'
             true
 
         @listenTo vent, "mix:share", (mode, model) ->
-            console.log "App(vent): mix:share"
+            console.log "App(vent): mix:share (" + mode + ")"
             if (mode == "facebook")
                 social.sharePageToFacebook(model);
             else if (mode == "twitter")
                 social.sharePageToTwitter(model);
+            else if (mode == "embed")
+                social.generateEmbedCode(model)
+
             true
 
     App.headerRegion.show(new HeaderView());

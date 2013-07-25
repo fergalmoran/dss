@@ -31,7 +31,7 @@ define ['moment', 'app', 'vent', 'marionette', 'utils', 'models/comment/commentC
             id = @model.get('id')
             if @model.get('duration')
                 totalDuration = moment.duration(this.model.get('duration'), "seconds")
-                totalDurationText = if totalDuration.hours() != 0 then moment(totalDuration).format("HH:mm:ss") else moment(totalDuration).format("mm:ss");
+                totalDurationText = if totalDuration.hours() != 0 then moment(totalDuration).format("h:mm:ss") else moment(totalDuration).format("mm:ss");
                 $('#player-duration-' + id, this.el).text(totalDurationText)
 
 

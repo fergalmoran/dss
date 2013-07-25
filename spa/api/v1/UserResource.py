@@ -1,9 +1,11 @@
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db.models import Count, Q
 from tastypie import fields
-from tastypie.authentication import Authentication
-from tastypie.authorization import DjangoAuthorization
+from tastypie.authentication import Authentication, BasicAuthentication
+from tastypie.authorization import DjangoAuthorization, Authorization
 from django.conf.urls import url
 from tastypie.constants import ALL
+from tastypie.http import HttpGone, HttpMultipleChoices
 from tastypie.utils import trailing_slash
 
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
@@ -13,9 +15,11 @@ from spa.models.mix import Mix
 
 
 class UserResource(BackboneCompatibleResource):
+    followers = fields.ToManyField(to='self', attribute='followers',
+                                   related_name='followers', null=True)
+
     class Meta:
-        queryset = UserProfile.objects.all().annotate(mix_count=Count('mixes'))\
-                                            .extra(select={'u':'user'}).order_by('-mix_count')
+        queryset = UserProfile.objects.all().annotate(mix_count=Count('mixes')).order_by('-mix_count')
         favourites = fields.ToManyField('spa.api.v1.MixResource.MixResource', 'favourites', null=True)
         resource_name = 'user'
         excludes = ['is_active', 'is_staff', 'is_superuser', 'password']
@@ -23,8 +27,8 @@ class UserResource(BackboneCompatibleResource):
         filtering = {
             'slug': ALL,
         }
-        authorization = DjangoAuthorization()
-        authentication = Authentication()
+        authorization = Authorization()
+        authentication = BasicAuthentication()
         favourites = fields.ToManyField('spa.api.v1.MixResource', 'favourites')
 
     def _hydrateBitmapOption(self, source, comparator):
@@ -39,14 +43,9 @@ class UserResource(BackboneCompatibleResource):
                 self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
             url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_.-]+)/$" % self._meta.resource_name,
                 self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/followers%s$" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('get_followers'), name="api_get_followers"),
         ]
-
-    """
-    Stub method, not actually needed just yet
-    but take heed of note below when implementing in the future
-        def apply_sorting(self, obj_list, options=None):
-            #apply the sort to the obj_list, not the super call
-    """
 
     def apply_filters(self, request, applicable_filters):
         semi_filtered = super(UserResource, self).apply_filters(request, applicable_filters)
@@ -77,6 +76,7 @@ class UserResource(BackboneCompatibleResource):
                 bundle.obj.remove_follower(bundle.request.user.get_profile())
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
+
         """
             This feels extremely hacky - but for some reason, deleting from the bundle
             in hydrate is not preventing the fields from being serialized at the ORM
@@ -93,7 +93,6 @@ class UserResource(BackboneCompatibleResource):
             self._patch_resource(bundle)
         except:
             pass
-
 
         return super(UserResource, self).obj_update(bundle, skip_errors, **kwargs)
 
@@ -123,7 +122,7 @@ class UserResource(BackboneCompatibleResource):
                 self._hydrateBitmapOption(bundle.obj.activity_sharing_networks,
                                           UserProfile.ACTIVITY_SHARE_NETWORK_TWITTER)
 
-        bundle.data['like_count'] = Mix.objects.filter(activity_likes__user=bundle.obj).count()
+        bundle.data['like_count'] = Mix.objects.filter(likes__user=bundle.obj).count()
         bundle.data['favourite_count'] = Mix.objects.filter(favourites__user=bundle.obj).count()
         bundle.data['follower_count'] = bundle.obj.followers.count()
         bundle.data['following_count'] = bundle.obj.following.count()
@@ -155,3 +154,15 @@ class UserResource(BackboneCompatibleResource):
             del bundle.data['activity_sharing_networks_twitter']
 
         return bundle
+
+    def get_followers(self, request, **kwargs):
+        try:
+            basic_bundle = self.build_bundle(request=request)
+            obj = self.cached_obj_get(bundle=basic_bundle, **self.remove_api_resource_names(kwargs))
+        except ObjectDoesNotExist:
+            return HttpGone()
+        except MultipleObjectsReturned:
+            return HttpMultipleChoices("More than one resource is found at this URI.")
+
+        child_resource = UserResource()
+        return child_resource.get_list(request, mix=obj)

@@ -1,0 +1,14 @@
+{% extends 'views/dlg/_DialogBase.html' %}
+
+{% load account %}
+{% load socialaccount %}
+{% block header %}
+    <h3>Embed Codes!!</h3>
+{% endblock %}
+{% block content %}
+
+    <textarea style="width:100%" rows="3">
+        <iframe src="{{ embed_code }}"></iframe>
+    </textarea>
+{% endblock %}
+{% block primarybutton %}Got it...{% endblock %}
