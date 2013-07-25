@@ -22,7 +22,7 @@ def mix(request, **args):
         "title": mix.title,
         "image_url": image,
         "audio_url": audio_url,
-        "mix_url": 'http://%smix/%s' % (Site.objects.get_current().domain, mix_url)
+        "mix_url": 'http://%s%s' % (Site.objects.get_current().domain, mix_url)
     }
     response = render_to_response(
         'inc/embed/mix.html',
