@@ -6,9 +6,30 @@
     <h3>Embed Codes!!</h3>
 {% endblock %}
 {% block content %}
-
-    <textarea style="width:92%" rows="4">
-        <iframe src="{{ embed_code }}"></iframe>
-    </textarea>
+    <ul class="nav nav-tabs" id="embed-tabs">
+        <li class="active"><a href="#standard" data-bypass="true" data-toggle="tab">Standard</a></li>
+        <li><a href="#wordpress" data-bypass="true" data-toggle="tab">Wordpress</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="standard">
+            <textarea style="width:92%" rows="4">
+                <iframe src="{{ embed_code }}"></iframe>
+            </textarea>
+        </div>
+        <div class="tab-pane" id="wordpress">
+            <textarea style="width:92%" rows="4">
+                [iframe src="{{ embed_code }}"/]
+            </textarea>
+            <aside>This will require the <a href="http://wordpress.org/plugins/iframe/">iframe</a> plugin to be
+                installed.
+            </aside>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            console.log($('#embed-tabs a[href="#standard"]'));
+            $('#embed-tabs a[href="#standard"]').tab('show');
+        })
+    </script>
 {% endblock %}
 {% block primarybutton %}Got it...{% endblock %}
