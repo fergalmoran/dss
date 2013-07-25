@@ -26,7 +26,7 @@ def get_template_ex(request, template_name):
 @not_minified_response
 def get_embed_codes_dialog(request, slug):
     payload = {
-        'embed_code': 'http://%s/mix/embed/%s' % (Site.objects.get_current().domain, slug)
+        'embed_code': 'http://%s/embed/mix/%s' % (Site.objects.get_current().domain, slug)
     }
     return render_to_response(
         'views/dlg/EmbedCodes.html',
