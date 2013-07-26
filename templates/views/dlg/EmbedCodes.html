@@ -12,22 +12,20 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="standard">
-            <textarea style="width:92%" rows="4">
-                <iframe src="{{ embed_code }}"></iframe>
-            </textarea>
+            <textarea id="embed_code" style="width:92%" rows="4"><iframe src="{{ embed_code }}"></iframe></textarea>
         </div>
         <div class="tab-pane" id="wordpress">
-            <textarea style="width:92%" rows="4">
-                [iframe src="{{ embed_code }}"/]
-            </textarea>
+            <textarea style="width:92%" rows="4">[iframe src="{{ embed_code }}"/]</textarea>
             <aside>This will require the <a href="http://wordpress.org/plugins/iframe/">iframe</a> plugin to be
                 installed.
             </aside>
         </div>
     </div>
+    <button class="btn" id="copy-button" data-clipboard-target="embed_code" data-clipboard-text="Copy Me!" title="Click to copy me.">Copy to Clipboard</button>
     <script>
         $(function () {
-            console.log($('#embed-tabs a[href="#standard"]'));
+            var clip = new ZeroClipboard($("#copy-button"));
+            ZeroClipboard.setDefaults( { moviePath: '{{ STATIC_URL }}bin/ZeroClipboard.swf' } );
             $('#embed-tabs a[href="#standard"]').tab('show');
         })
     </script>

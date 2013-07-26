@@ -28,7 +28,7 @@ class UserResource(BackboneCompatibleResource):
             'slug': ALL,
         }
         authorization = Authorization()
-        authentication = BasicAuthentication()
+        authentication = Authentication()
         favourites = fields.ToManyField('spa.api.v1.MixResource', 'favourites')
 
     def _hydrateBitmapOption(self, source, comparator):
