@@ -36,7 +36,8 @@ define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView",
 
         onShow: ->
             @searchRegion.show(new SearchView())
-            @notificationsRegion.show(new NotificationsListView())
+            if com.podnoms.settings.currentUser != -1
+                @notificationsRegion.show(new NotificationsListView())
 
         login: ->
             vent.trigger('app:login')
