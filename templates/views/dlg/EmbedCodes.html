@@ -21,13 +21,5 @@
             </aside>
         </div>
     </div>
-    <button class="btn" id="copy-button" data-clipboard-target="embed_code" data-clipboard-text="Copy Me!" title="Click to copy me.">Copy to Clipboard</button>
-    <script>
-        $(function () {
-            var clip = new ZeroClipboard($("#copy-button"));
-            ZeroClipboard.setDefaults( { moviePath: '{{ STATIC_URL }}bin/ZeroClipboard.swf' } );
-            $('#embed-tabs a[href="#standard"]').tab('show');
-        })
-    </script>
 {% endblock %}
 {% block primarybutton %}Got it...{% endblock %}
