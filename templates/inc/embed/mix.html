@@ -3,11 +3,12 @@
     <script src="{{ STATIC_URL }}js/libs/jquery.js"></script>
     <script src="{{ STATIC_URL }}js/libs/mediaelement/mediaelement-and-player.js"></script>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/mediaelementplayer.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/mediaelement/mediaelementplayer.css"/>
 </head>
 <body>
 
 <audio id="dss-player" src="{{ audio_url }}" type="audio/mp3" controls="controls">
+    <source src="{{ audio_url }}" type="audio/mp3" />
 </audio>
 <aside>Audio provided by <a href="{{ mix_url }}">Deep South Sounds</a></aside>
 
@@ -15,8 +16,10 @@
     jQuery(document).ready(function ($) {
         // declare object for video
         var player = new MediaElementPlayer('#dss-player', {
-            features: ['playpause', 'loop', 'current', 'progress', 'duration', 'volume']
+            features: ['playpause', 'current', 'progress', 'duration', 'volume'],
+            pluginPath: '/static/bin/mediaelement/'
         });
+        console.log(player);
     });
 </script>
 </body>
