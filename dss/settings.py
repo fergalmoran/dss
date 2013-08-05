@@ -176,7 +176,6 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.twitter',
     'allauth.socialaccount.providers.google',
     'debug_toolbar',
-    'rest_framework',
     #'backbone_tastypie',
 )
 

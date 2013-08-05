@@ -1,9 +1,6 @@
 import os
 import sys
 
-import djcelery
-djcelery.setup_loader()
-
 path = '/var/www/deepsouthsounds.com/dss'
 if path not in sys.path:
     sys.path.append(path)
