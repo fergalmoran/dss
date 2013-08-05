@@ -140,7 +140,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'spa.middleware.uploadify.SWFUploadMiddleware',
-    #'spa.middleware.sqlprinter.SqlPrintingMiddleware' if DEBUG else None,
+    'spa.middleware.sqlprinter.SqlPrintingMiddleware' if DEBUG else None,
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
@@ -168,6 +168,7 @@ INSTALLED_APPS = (
     'avatar',
     'spa',
     'spa.signals',
+    'api',
     'core',
     'allauth',
     'allauth.account',
@@ -175,7 +176,8 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
     'allauth.socialaccount.providers.google',
-    'debug_toolbar'
+    'debug_toolbar',
+    'rest_framework',
     #'backbone_tastypie',
 )
 
@@ -270,4 +272,18 @@ if DEBUG:
 # TODO(fergal.moran@gmail.com): #import localsettings - so all localsettings are part of import settings
 REALTIME_HEADERS = {
     'content-type': 'application/json'
+}
+
+
+REST_FRAMEWORK = {
+    # Use hyperlinked styles by default.
+    # Only used if the `serializer_class` attribute is not set on a view.
+    'DEFAULT_MODEL_SERIALIZER_CLASS':
+        'rest_framework.serializers.HyperlinkedModelSerializer',
+
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
 }

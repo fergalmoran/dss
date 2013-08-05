@@ -33,7 +33,7 @@
       };
 
       UserItemView.prototype.initialize = function() {
-        return this.listenTo(this.model, 'change:following', this.render);
+        return this.listenTo(this.model, 'change:is_following', this.render);
       };
 
       UserItemView.prototype.followUser = function() {

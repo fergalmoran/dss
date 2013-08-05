@@ -14,8 +14,7 @@ define ['app', 'moment', 'marionette', 'vent', 'text!/tpl/UserListItemView'],
                 moment(date).fromNow()
 
         initialize: =>
-            @listenTo(@model, 'change:following', @render)
-
+            @listenTo(@model, 'change:is_following', @render)
 
         followUser: ->
             console.log("UserItemView: followUser")

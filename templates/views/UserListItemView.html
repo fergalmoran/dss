@@ -5,13 +5,13 @@
                 {% if user.is_authenticated %}
                     <button href="#"
                             id="follow-button"
-                            class="follow-button btn btn-mini btn-primary icon  <% if (following) { %> disabled <% } %>">
+                            class="follow-button btn btn-mini btn-primary icon  <% if (is_following) { %> disabled <% } %>">
                         <i id="follow-icon" class="icon-eye-close"></i>Follow
                     </button>
                 {% else %}
                     <button href="#"
                             id="follow-button-login"
-                            class="follow-button btn btn-mini btn-primary icon  <% if (following) { %> disabled <% } %>">
+                            class="follow-button btn btn-mini btn-primary icon  <% if (is_following) { %> disabled <% } %>">
                         <i id="follow-icon" class="icon-eye-close"></i>Follow
                     </button>
                 {% endif %}
@@ -45,39 +45,11 @@
 
             <p>
                 | <i class="icon-music"></i> <a href="/user/<%= slug %>/"><%= mix_count%> Mixes</a>
-                | <i class="icon-heart"></i> <a href="/user/<%= slug %>/favourites/"><%= favourite_count %>
-                Favourites</a>
-                | <i class="icon-star-empty"></i> <a href="/user/<%= slug %>/likes/"><%= like_count %> Likes</a>
-                | <i class="icon-check"></i> <a href="/user/<%= slug %>/followers/"><%= follower_count %> Followers</a>
-                | <i class="icon-share"></i> <a href="/user/<%= slug %>/following/"><%= following_count %> Following</a>
+                | <i class="icon-heart"></i> <a href="/user/<%= slug %>/favourites"><%= favourite_count %> Favourites</a>
+                | <i class="icon-star-empty"></i> <a href="/user/<%= slug %>/likes"><%= like_count %> Likes</a>
+                | <i class="icon-check"></i> <a href="/user/<%= slug %>/followers"><%= followers.length %> Followers</a>
+                | <i class="icon-share"></i> <a href="/user/<%= slug %>/following"><%= following.length %> Following</a>
             </p>
         </div>
     </div>
 </div>
-<!--
-<div class="thumbnail clearfix">
-    <img src="<%= avatar_image %>" alt="ALT NAME" class="pull-left span2 clearfix"
-         style='margin-right:10px; width: 170px; height: 106px'>
-
-    <div class="caption">
-        {% if user.is_authenticated %}
-            <button href="#"
-                    id="follow-button"
-                    class="follow-button btn btn-primary icon  pull-right <% if (following) { %> disabled <% } %>">
-                <i id="follow-icon" class="icon-eye-close"></i>Follow
-            </button>
-        {% else %}
-            <button href="#"
-                    id="follow-button-login"
-                    class="follow-button btn btn-primary icon  pull-right <% if (following) { %> disabled <% } %>">
-                <i id="follow-icon" class="icon-eye-close"></i>Follow
-            </button>
-        {% endif %}
-
-        <h4>
-            <a href="<%= url %>"><%= display_name %></a>
-        </h4>
-        <small><%= description %></small>
-    </div>
-</div>
--->

@@ -1,6 +1,7 @@
 define ['app', 'marionette', 'vent',
         'views/chat/chatView',
-        'models/mix/mixItem', 'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView', 'views/mix/mixEditView',
+        'models/mix/mixItem', 'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView',
+        'views/mix/mixEditView',
         'models/user/userItem', 'views/user/userListView', 'views/user/userEditView'],
 (App, Marionette, vent, ChatView, MixItem, MixListLayout, MixListView, MixDetailView, MixEditView, UserItem, UserListView, UserEditView)->
     class DssController extends Marionette.Controller
@@ -58,7 +59,7 @@ define ['app', 'marionette', 'vent',
             app = require('app')
             app.contentRegion.show(new ChatView())
 
-        showUserList: (type) ->
+        showUserList: ->
             console.log("Controller: showUserList")
             app = require('app')
             app.contentRegion.show(new UserListView())
@@ -80,13 +81,13 @@ define ['app', 'marionette', 'vent',
 
         showUserFollowing: (slug) ->
             console.log("Controller: showUserFollowing")
-            @_showMixList()
-            vent.trigger("mix:showlist", {order_by: 'latest', type: 'following', user: slug})
+            app = require('app')
+            app.contentRegion.show(new UserListView({followers__slug: slug}))
 
         showUserFollowers: (slug) ->
             console.log("Controller: showUserFollowers")
-            @_showMixList()
-            vent.trigger("mix:showlist", {order_by: 'latest', type: 'followers', user: slug})
+            app = require('app')
+            app.contentRegion.show(new UserListView({following__slug: slug}))
 
         editUser: () ->
             console.log("Controller: editUser")

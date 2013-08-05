@@ -39,7 +39,6 @@ class UserProfile(_BaseModel):
     ACTIVITY_SHARE_NETWORK_FACEBOOK = 1
     ACTIVITY_SHARE_NETWORK_TWITTER = 2
 
-    # This field is required.
     user = models.OneToOneField(User, unique=True, related_name='userprofile')
     avatar_type = models.CharField(max_length=15, default='social')
     avatar_image = models.ImageField(blank=True, upload_to=avatar_name)
@@ -50,8 +49,7 @@ class UserProfile(_BaseModel):
     activity_sharing = models.IntegerField(default=0)
     activity_sharing_networks = models.IntegerField(default=0)
 
-    followers = models.ManyToManyField('self', null=True, blank=True)
-    following = models.ManyToManyField('self', null=True, blank=True)
+    following = models.ManyToManyField('self', null=True, blank=True, symmetrical=False, related_name='followers')
 
     def __unicode__(self):
         return "%s - %s" % (self.user.get_full_name(), self.slug)
@@ -106,6 +104,8 @@ class UserProfile(_BaseModel):
 
     def add_follower(self, user):
         self.followers.add(user)
+        user.following.add(self)
+
         if not settings.DEBUG:
             try:
                 send_templated_email([user.user], "notification/new_follower", {"profile": self.user})
@@ -117,7 +117,7 @@ class UserProfile(_BaseModel):
                 self.logger.error("Backend: %s" % settings.EMAIL_BACKEND)
 
     def remove_follower(self, user):
-        if user in self.followers:
+        if user in self.followers.all():
             self.followers.remove(user)
 
     def is_follower(self, user):

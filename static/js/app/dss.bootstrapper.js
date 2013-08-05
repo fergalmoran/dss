@@ -6,6 +6,7 @@ requirejs.config({
         jquery: 'libs/jquery',
         backbone: 'libs/backbone/backbone',
         'backbone.babysitter': 'libs/backbone/backbone.babysitter',
+        'backbone.relational': 'libs/backbone/backbone.relational',
         marionette: 'libs/backbone/backbone.marionette',
         'backbone.wreqr': 'libs/backbone/backbone.wreqr',
         ich: 'libs/ICanHaz',

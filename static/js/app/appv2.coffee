@@ -1,7 +1,9 @@
 define ['backbone', 'marionette', 'vent', 'utils',
-        'app.lib/social', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/realtimeController', 'app.lib/audioController',
-        'views/widgets/headerView', 'views/sidebar/sidebarView', 'models/mix/mixCollection'],
-(Backbone, Marionette, vent, utils, social, DssRouter, PanningRegion, RealtimeController, AudioController, HeaderView, SidebarView, MixCollection) ->
+        'app.lib/social', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/realtimeController',
+        'app.lib/audioController',
+        'models/user/userItem', 'models/mix/mixCollection',
+        'views/widgets/headerView', 'views/sidebar/sidebarView'],
+(Backbone, Marionette, vent, utils, social, DssRouter, PanningRegion, RealtimeController, AudioController, UserItem, MixCollection, HeaderView, SidebarView) ->
     App = new Marionette.Application();
     App.audioController = new AudioController();
     App.realtimeController = new RealtimeController();
@@ -58,7 +60,33 @@ define ['backbone', 'marionette', 'vent', 'utils',
 
         @listenTo vent, "user:follow", (model)->
             console.log "App(vent): user:follow"
-            model.save 'following', !model.get('following'), patch: true
+            user = new UserItem({id: com.podnoms.settings.currentUser })
+            target = com.podnoms.settings.urlRoot + "user/" + model.get("id") + "/"
+            user.fetch(
+                success: =>
+                    if not model.get("is_following")
+                        newFollowers = user.get("following").concat([target])
+                        user.save(
+                            "following": newFollowers
+                            "is_following": true
+                            ,
+                            patch: true
+                        )
+                        model.set("is_following", true)
+                    else
+                        f = user.get("following")
+                        f.splice(f.indexOf(target), 1)
+                        user.save(
+                            "following": f
+                            "is_following": false
+                            ,
+                            patch: true
+                        )
+                        model.set("is_following", false)
+
+                    return
+            )
+
             true
 
         @listenTo vent, "mix:share", (mode, model) ->

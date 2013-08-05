@@ -4,28 +4,35 @@ from tastypie import fields
 from tastypie.authentication import Authentication, BasicAuthentication
 from tastypie.authorization import DjangoAuthorization, Authorization
 from django.conf.urls import url
-from tastypie.constants import ALL
+from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie.http import HttpGone, HttpMultipleChoices
 from tastypie.utils import trailing_slash
+from dss import settings
 
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.models.activity import ActivityFollow
 from spa.models.userprofile import UserProfile
 from spa.models.mix import Mix
+from tastypie_msgpack import Serializer
 
 
 class UserResource(BackboneCompatibleResource):
-    followers = fields.ToManyField(to='self', attribute='followers',
-                                   related_name='followers', null=True)
+    following = fields.ToManyField(to='self', attribute='following', related_name='following', null=True)
+    followers = fields.ToManyField(to='self', attribute='followers', related_name='followers', null=True)
 
     class Meta:
         queryset = UserProfile.objects.all().annotate(mix_count=Count('mixes')).order_by('-mix_count')
+        serializer = Serializer()
+
         favourites = fields.ToManyField('spa.api.v1.MixResource.MixResource', 'favourites', null=True)
         resource_name = 'user'
-        excludes = ['is_active', 'is_staff', 'is_superuser', 'password']
+        if not settings.DEBUG:
+            excludes = ['is_active', 'is_staff', 'is_superuser', 'password']
         ordering = ['mix_count']
         filtering = {
             'slug': ALL,
+            'following': ALL_WITH_RELATIONS,
+            'followers': ALL_WITH_RELATIONS,
         }
         authorization = Authorization()
         authentication = Authentication()
@@ -43,8 +50,6 @@ class UserResource(BackboneCompatibleResource):
                 self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
             url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_.-]+)/$" % self._meta.resource_name,
                 self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/followers%s$" % (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('get_followers'), name="api_get_followers"),
         ]
 
     def apply_filters(self, request, applicable_filters):
@@ -65,8 +70,8 @@ class UserResource(BackboneCompatibleResource):
 
     def _patch_resource(self, bundle):
         #Handle the patched items from backbone
-        if 'following' in bundle.data:
-            if bundle.data['following']:
+        if 'is_following' in bundle.data:
+            if bundle.data['is_following']:
                 bundle.obj.add_follower(bundle.request.user.get_profile())
                 activity = ActivityFollow()
                 activity.user = bundle.request.user.get_profile()
@@ -87,14 +92,17 @@ class UserResource(BackboneCompatibleResource):
         if 'activity_sharing_favourites' in kwargs: del kwargs['activity_sharing_favourites']
         if 'activity_sharing_comments' in kwargs: del kwargs['activity_sharing_comments']
 
+        """
         #need to figure out why this is excepting, granted I shouldn't be
         #trying to update followers in here but still though.
         try:
             self._patch_resource(bundle)
-        except:
+        except Exception, ex:
             pass
+        """
 
-        return super(UserResource, self).obj_update(bundle, skip_errors, **kwargs)
+        ret = super(UserResource, self).obj_update(bundle, skip_errors, **kwargs)
+        return ret
 
     def dehydrate_description(self, bundle):
         return bundle.obj.get_profile_description()
@@ -124,9 +132,9 @@ class UserResource(BackboneCompatibleResource):
 
         bundle.data['like_count'] = Mix.objects.filter(likes__user=bundle.obj).count()
         bundle.data['favourite_count'] = Mix.objects.filter(favourites__user=bundle.obj).count()
-        bundle.data['follower_count'] = bundle.obj.followers.count()
+        #bundle.data['follower_count'] = bundle.obj.followers.count()
         bundle.data['following_count'] = bundle.obj.following.count()
-        bundle.data['following'] = bundle.obj.is_follower(bundle.request.user)
+        bundle.data['is_following'] = bundle.obj.is_follower(bundle.request.user)
         bundle.data['url'] = bundle.obj.get_profile_url()
         bundle.data['date_joined'] = bundle.obj.user.date_joined
         bundle.data['last_login'] = bundle.obj.user.last_login
@@ -165,4 +173,4 @@ class UserResource(BackboneCompatibleResource):
             return HttpMultipleChoices("More than one resource is found at this URI.")
 
         child_resource = UserResource()
-        return child_resource.get_list(request, mix=obj)
+        return child_resource.get_list(request, followers__in=obj)
