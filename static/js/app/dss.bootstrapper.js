@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: 'static/js',
+    baseUrl: com.podnoms.settings.staticUrl + 'js',
     urlArgs: com.podnoms.settings.urlArgs,
     waitSeconds: 200,
     paths: {

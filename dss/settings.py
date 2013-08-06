@@ -51,8 +51,7 @@ CACHE_ROOT = localsettings.CACHE_ROOT
 if DEBUG:
     STATIC_URL = '/static/'
 else:
-    STATIC_URL = localsettings.STATIC_URL if hasattr(localsettings,
-                                                     'STATIC_URL') else 'http://static.deepsouthsounds.com/'
+    STATIC_URL = localsettings.STATIC_URL if hasattr(localsettings, 'STATIC_URL') else 'http://static.deepsouthsounds.com/'
 
 if DEBUG:
     MEDIA_URL = '/media/'

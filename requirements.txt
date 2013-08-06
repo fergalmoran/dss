@@ -31,7 +31,10 @@ Werkzeug
 psycopg2
 templated_emails
 htmlmin
+mimeparse
 django-htmlmin
 tastypie-msgpack
 django-jenkins
+gunicorn
+django-dbbackup
 dropbox
