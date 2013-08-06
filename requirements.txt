@@ -34,3 +34,4 @@ htmlmin
 django-htmlmin
 tastypie-msgpack
 django-jenkins
+dropbox

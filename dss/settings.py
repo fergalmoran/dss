@@ -169,6 +169,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'debug_toolbar',
     'django_jenkins',
+    'dbbackup',
     #'backbone_tastypie',
 )
 
@@ -265,3 +266,7 @@ REALTIME_HEADERS = {
     'content-type': 'application/json'
 }
 
+DBBACKUP_STORAGE = localsettings.DBBACKUP_STORAGE
+DBBACKUP_TOKENS_FILEPATH = localsettings.DBBACKUP_TOKENS_FILEPATH
+DBBACKUP_DROPBOX_APP_KEY = localsettings.DBBACKUP_DROPBOX_APP_KEY
+DBBACKUP_DROPBOX_APP_SECRET = localsettings.DBBACKUP_DROPBOX_APP_SECRET
