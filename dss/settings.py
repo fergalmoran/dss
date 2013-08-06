@@ -25,14 +25,6 @@ AUTH_PROFILE_MODULE = 'spa.UserProfile'
 
 ALLOWED_HOSTS = ['*'] #localsettings.ALLOWED_HOSTS if hasattr(localsettings, 'ALLOWED_HOSTS') else []
 DATABASES = {
-    'mysql': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': localsettings.DATABASE_NAME if hasattr(localsettings, 'DATABASE_NAME') else 'deepsouthsounds',
-        'USER': localsettings.DATABASE_USER if hasattr(localsettings, 'DATABASE_USER') else 'deepsouthsounds',
-        'PASSWORD': localsettings.DATABASE_PASSWORD if hasattr(localsettings, 'DATABASE_PASSWORD') else '',
-        'HOST': localsettings.DATABASE_HOST if hasattr(localsettings, 'DATABASE_HOST') else '',
-        'PORT': '',
-    },
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'deepsouthsounds',
