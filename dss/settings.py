@@ -28,6 +28,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'deepsouthsounds',
+        'ADMINUSER': 'postgres',
         'USER': localsettings.DATABASE_USER if hasattr(localsettings, 'DATABASE_USER') else 'deepsouthsounds',
         'PASSWORD': localsettings.DATABASE_PASSWORD if hasattr(localsettings, 'DATABASE_PASSWORD') else '',
         'HOST': 'localhost',
@@ -270,3 +271,4 @@ DBBACKUP_STORAGE = localsettings.DBBACKUP_STORAGE
 DBBACKUP_TOKENS_FILEPATH = localsettings.DBBACKUP_TOKENS_FILEPATH
 DBBACKUP_DROPBOX_APP_KEY = localsettings.DBBACKUP_DROPBOX_APP_KEY
 DBBACKUP_DROPBOX_APP_SECRET = localsettings.DBBACKUP_DROPBOX_APP_SECRET
+DBBACKUP_CLEANUP_KEEP = 5
