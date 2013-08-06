@@ -32,3 +32,5 @@ psycopg2
 templated_emails
 htmlmin
 django-htmlmin
+tastypie-msgpack
+django-jenkins

@@ -176,6 +176,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.twitter',
     'allauth.socialaccount.providers.google',
     'debug_toolbar',
+    'django_jenkins',
     #'backbone_tastypie',
 )
 
