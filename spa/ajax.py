@@ -5,12 +5,15 @@ import logging
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 from django.db.models import get_model
 from django.http import HttpResponse, HttpResponseNotFound
 from annoying.decorators import render_to
 from django.shortcuts import render_to_response
 from django.utils import simplejson
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 from core.utils import live
 from dss import localsettings, settings
@@ -21,7 +24,7 @@ from core.serialisers import json
 from core.tasks import create_waveform_task
 from core.utils.audio.mp3 import mp3_length
 from spa.models.notification import Notification
-
+from jfu.http import upload_receive, UploadResponse, JFUResponse
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +52,6 @@ class AjaxHandler(object):
             url(r'^upload_release_image/(?P<release_id>\d+)/$', 'spa.ajax.upload_release_image',
                 name='ajax_upload_release_image'),
             url(r'^upload_avatar_image/$', 'spa.ajax.upload_avatar_image', name='ajax_upload_avatar_image'),
-            url(r'^upload_mix_file_handler/$', 'spa.ajax.upload_mix_file_handler', name='ajax_upload_mix_file_handler'),
             url(r'^lookup/search/$', 'spa.ajax.lookup_search', name='ajax_lookup'),
             url(r'^lookup/(?P<source>\w+)/$', 'spa.ajax.lookup', name='ajax_lookup'),
         ]
@@ -225,33 +227,40 @@ def upload_avatar_image(request):
     return HttpResponse(_get_json("Failed"))
 
 
-@csrf_exempt
-def upload_mix_file_handler(request):
+@require_POST
+@login_required
+def upload(request):
+    # The assumption here is that jQuery File Upload
+    # has been configured to send files one at a time.
+    # If multiple files can be uploaded simultaneously,
+    # 'file' may be a list of files.
     try:
-        if 'Filedata' in request.FILES and 'upload-hash' in request.POST:
-            f = request.FILES['Filedata']
-            fileName, extension = os.path.splitext(f.name)
-            uid = request.POST['upload-hash']
-            in_file = os.path.join(settings.CACHE_ROOT, "mixes", "%s%s" % (uid, extension))
-            with open(in_file, 'wb+') as destination:
-                for chunk in f.chunks():
-                    destination.write(chunk)
-            try:
-                #update mix with duration
-                try:
-                    mix = Mix.objects.get(uid=uid)
-                    mix.duration = mp3_length(mix.get_absolute_path())
-                    mix.save()
-                except ObjectDoesNotExist:
-                    pass
+        uid = request.POST['upload-hash']
+        in_file = upload_receive(request)
+        fileName, extension = os.path.splitext(in_file.name)
+        path = os.path.join(settings.CACHE_ROOT, "mixes", "%s%s" % (uid, extension))
+        cache_file = default_storage.save(path, ContentFile(in_file.read()))
 
-                create_waveform_task.delay(in_file=in_file, mix_uid=uid)
-            except Exception, ex:
-                logger.exception("Error starting waveform generation task: %s" % ex.message)
-        return HttpResponse(_get_json("Success"), mimetype='application/json')
+        try:
+            mix = Mix.objects.get(uid=uid)
+            mix.duration = mp3_length(mix.get_absolute_path())
+            mix.save()
+        except ObjectDoesNotExist:
+            #Form hasn't been posted yet
+            pass
+
+        #create_waveform_task.delay(in_file=file, mix_uid=uid)
+        create_waveform_task(in_file=cache_file, mix_uid=uid)
+
+        file_dict = {
+            'size': in_file.size,
+            'uid': uid
+        }
+
+        return UploadResponse(request, file_dict)
     except Exception, ex:
-        logger.exception("Error uploading mix")
-    return HttpResponse(_get_json("Failed"), mimetype='application/json')
+        logger.error(ex.message)
+        return HttpResponse(content="Error occurred uploading file", status=503)
 
 
 @csrf_exempt

@@ -7,11 +7,11 @@ django-allauth>=0.7.0
 django-annoying>=0.7.6
 django-celery>=3.0.4
 django-gravatar2>=1.0.6
-django-avatar>=1.0.5
 django-notification>=0.2
 django-socialauth>=0.1.2c
 django-tastypie>=0.9.11
 django-tinymce>=1.5.1b2
+git+git://github.com/jezdez/django-avatar.git#egg=django-avatar
 git+git://github.com/PaulUithol/backbone-tastypie.git#egg=backbone-tastypie
 git+git://github.com/tschellenbach/Django-facebook.git#django-facebook
 git+git://github.com/hpoul/sct-communitytools.git#django-sct
@@ -38,3 +38,4 @@ django-jenkins
 gunicorn
 django-dbbackup
 dropbox
+django-jfu

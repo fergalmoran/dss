@@ -98,7 +98,7 @@
  /* INPUTMASK PLUGIN DEFINITION
   * =========================== */
 
-  $.fn.fileupload = function (options) {
+  $.fn.jas_fileupload = function (options) {
     return this.each(function () {
       var $this = $(this)
       , data = $this.data('fileupload')
@@ -106,7 +106,7 @@
     })
   }
 
-  $.fn.fileupload.Constructor = Fileupload
+  $.fn.jas_fileupload.Constructor = Fileupload
 
 
  /* INPUTMASK DATA-API
@@ -116,7 +116,7 @@
     $('body').on('click.fileupload.data-api', '[data-provides="fileupload"]', function (e) {
       var $this = $(this)
       if ($this.data('fileupload')) return
-      $this.fileupload($this.data())
+      $this.jas_fileupload($this.data())
       
       if ($(e.target).data('dismiss') == 'fileupload') $(e.target).trigger('click.fileupload')
     })

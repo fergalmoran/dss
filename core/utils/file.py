@@ -1,4 +1,3 @@
-import uuid
 import os
 
 def generate_save_file_name(uid, prefix, filename):

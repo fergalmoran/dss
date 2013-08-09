@@ -4,6 +4,7 @@ requirejs.config({
     waitSeconds: 200,
     paths: {
         jquery: 'libs/jquery',
+        'jquery.ui.widget': 'libs/jquery.ui.widget',
         backbone: 'libs/backbone/backbone',
         'backbone.babysitter': 'libs/backbone/backbone.babysitter',
         'backbone.relational': 'libs/backbone/backbone.relational',
@@ -23,6 +24,22 @@ requirejs.config({
         models: 'app/models',
         'app.lib': 'app/lib',
         moment: 'libs/moment',
+
+        'tmpl': 'libs/upload/tmpl',
+        'jquery.fileupload': 'libs/upload/jquery.fileupload',
+        'jquery.fileupload-ui': 'libs/upload/jquery.fileupload-ui',
+        'jquery.fileupload-image': 'libs/upload/jquery.fileupload-image',
+        'jquery.fileupload-video': 'libs/upload/jquery.fileupload-video',
+        'jquery.fileupload-validate': 'libs/upload/jquery.fileupload-validate',
+        'jquery.fileupload-process': 'libs/upload/jquery.fileupload-process',
+        'jquery.fileupload-audio': 'libs/upload/jquery.fileupload-audio',
+        'jquery.iframe-transport': 'libs/jquery.iframe-transport',
+        'load-image': 'libs/upload/load-image',
+        'load-image-meta': 'libs/upload/load-image-meta',
+        'load-image-exif': 'libs/upload/load-image-exif',
+        'load-image-ios': 'libs/upload/load-image-ios',
+        'canvas-to-blob': 'libs/canvas-to-blob',
+
         toastr: 'libs/toastr',
         'socket.io': [
             com.podnoms.settings.SOCKET_IO_JS_URL,
@@ -33,6 +50,9 @@ requirejs.config({
         jquery: {
             exports: '$'
         },
+        'jquery.ui.widget': {
+            deps: ['jquery']
+        },
         backbone: {
             exports: 'Backbone',
             deps: ['jquery', 'underscore']
@@ -41,6 +61,12 @@ requirejs.config({
             exports: 'bootstrap',
             deps: ['jquery']
         },
+        /*
+        fileupload:{
+            deps: ['iframe-transport', 'fileupload-process', 'fileupload-audio', 'fileupload-video', 'fileupload-validate', 'fileupload-ui'],
+            deps: ['jquery.iframe-transport', 'jquery.ui.widget', 'fileupload-ui'],
+            exports: '$.fileupload'
+        },*/
         typeahead: {
             deps: ['jquery', 'bootstrap']
         },

@@ -1,5 +1,6 @@
 import threading
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ImproperlyConfigured
+from django.db.models import get_app
 from django.db.models.signals import post_save
 from django.dispatch import Signal
 from django.contrib.auth.models import User
@@ -24,6 +25,7 @@ def waveform_generated_callback(sender, **kwargs):
                 mix.duration = mp3_length(mix.get_absolute_path())
                 mix.save()
     except ObjectDoesNotExist:
+        print "Mix has still not been uploaded"
         pass
 
 
@@ -38,17 +40,6 @@ def create_profile(sender, **kw):
 
 
 post_save.connect(create_profile, sender=User)
-
-if "notification" in settings.INSTALLED_APPS:
-    from notification import models as notification
-
-    def create_notice_types(app, created_models, verbosity, **kwargs):
-        notification.create_notice_type("new_follower", _("You have a new follower on deepsouthsounds.com"),
-                                        _("You have a new follower."))
-
-    signals.post_migrate.connect(create_notice_types, sender=notification)
-else:
-    print "Skipping creation of NoticeTypes as notification app not found"
 
 """
     Doing signals for notifications here.

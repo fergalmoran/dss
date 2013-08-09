@@ -5,6 +5,7 @@ import os
 from django.core.urlresolvers import reverse_lazy
 import djcelery
 from django.conf import global_settings
+import sys
 
 from dss import localsettings
 from dss import logsettings
@@ -48,15 +49,12 @@ MEDIA_ROOT = localsettings.MEDIA_ROOT
 STATIC_ROOT = here('static')
 CACHE_ROOT = localsettings.CACHE_ROOT
 
-if DEBUG:
-    STATIC_URL = '/static/'
-else:
-    STATIC_URL = localsettings.STATIC_URL if hasattr(localsettings, 'STATIC_URL') else 'http://static.deepsouthsounds.com/'
+STATIC_URL = localsettings.STATIC_URL if hasattr(localsettings, 'STATIC_URL') else '/static/'
 
 if DEBUG:
     MEDIA_URL = '/media/'
 else:
-    MEDIA_URL = localsettings.MEDIA_URL if hasattr(localsettings, 'MEDIA_URL') else 'http://media.deepsouthsounds.com/'
+    MEDIA_URL = localsettings.MEDIA_URL if hasattr(localsettings, 'MEDIA_URL') else '/static/'
 
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 
@@ -131,7 +129,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'spa.middleware.uploadify.SWFUploadMiddleware',
+    #'spa.middleware.uploadify.SWFUploadMiddleware',
     #'spa.middleware.sqlprinter.SqlPrintingMiddleware' if DEBUG else None,
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
@@ -170,6 +168,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'django_jenkins',
     'dbbackup',
+    'jfu',
     #'backbone_tastypie',
 )
 
@@ -271,3 +270,11 @@ DBBACKUP_TOKENS_FILEPATH = localsettings.DBBACKUP_TOKENS_FILEPATH
 DBBACKUP_DROPBOX_APP_KEY = localsettings.DBBACKUP_DROPBOX_APP_KEY
 DBBACKUP_DROPBOX_APP_SECRET = localsettings.DBBACKUP_DROPBOX_APP_SECRET
 DBBACKUP_CLEANUP_KEEP = 5
+
+if 'test' in sys.argv:
+    try:
+        from test_settings import *
+    except ImportError:
+        pass
+
+

@@ -1,4 +1,6 @@
-define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.syphon', 'text!/tpl/MixEditView'],
+define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.syphon', 'text!/tpl/MixEditView'
+        'jquery.fileupload', 'jquery.fileupload-process', 'jquery.fileupload-audio', 'jquery.iframe-transport', 'jquery.ui.widget', 'jquery.fileupload-ui',
+        'libs/ajaxfileupload', 'libs/jasny/bootstrap-fileupload'],
 (EditableView, moment, utils, Syphon, Template) ->
     class MixEditView extends EditableView
         template: _.template(Template)
@@ -15,39 +17,28 @@ define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.sypho
             @guid = utils.generateGuid()
             @state = 0
 
+        onDomRefresh: ->
+            if not @model.id
+                $("#fileupload", @el).fileupload
+                    downloadTemplateId: undefined
+                    url:  "/_upload/"
+                    start: ->
+                        $("#mix-details", @el).show()
+                    done: ->
+                        $("#div-upload-mix", @el).hide()
+
         onRender: ->
             console.log("MixEditView: onRender")
             @sendImage = false
             parent = this
             if not @model.id
-                $("#mix-upload", @el).uploadifive(
-                    uploadScript: "/ajax/upload_mix_file_handler/"
-                    buttonText: "Select audio file (mp3 for now please)"
-                    formData:
-                        "upload-hash": @guid
-                        sessionid: $.cookie("sessionid")
-
-                    onUploadFile: (file) ->
-                        $(window).on "beforeunload", ->
-                            alert "Go on outta that.."
-
-
-                    onAddQueueItem: (file) ->
-                        $("#upload-extension", @el).val file.name.split(".").pop()
-                        $("#mix-details", @el).show()
-
-                    onProgress: (file, e) ->
-
-                    onUploadComplete: (file, data) ->
-                        parent.state++
-                        parent.checkRedirect()
-                )
-                $(".fileupload", @el).fileupload uploadtype: "image"
                 $("#mix-details", @el).hide()
-                $(".upload-hash", @el).val @guid
+                $("#upload-hash", @el).val @guid
             else
                 $("#div-upload-mix", @el).hide()
                 @state = 1
+
+            $("#mix-imageupload", @el).jas_fileupload uploadtype: "image"
 
             $("#image-form-proxy", @el).ajaxForm
                 beforeSubmit: ->

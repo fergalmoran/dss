@@ -4,7 +4,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.syphon', 'text!/tpl/MixEditView'], function(EditableView, moment, utils, Syphon, Template) {
+  define(['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.syphon', 'text!/tpl/MixEditView', 'jquery.fileupload', 'jquery.fileupload-process', 'jquery.fileupload-audio', 'jquery.iframe-transport', 'jquery.ui.widget', 'jquery.fileupload-ui', 'libs/ajaxfileupload', 'libs/jasny/bootstrap-fileupload'], function(EditableView, moment, utils, Syphon, Template) {
     var MixEditView, _ref;
 
     return MixEditView = (function(_super) {
@@ -35,6 +35,21 @@
         return this.state = 0;
       };
 
+      MixEditView.prototype.onDomRefresh = function() {
+        if (!this.model.id) {
+          return $("#fileupload", this.el).fileupload({
+            downloadTemplateId: void 0,
+            url: "/_upload/",
+            start: function() {
+              return $("#mix-details", this.el).show();
+            },
+            done: function() {
+              return $("#div-upload-mix", this.el).hide();
+            }
+          });
+        }
+      };
+
       MixEditView.prototype.onRender = function() {
         var parent;
 
@@ -42,37 +57,15 @@
         this.sendImage = false;
         parent = this;
         if (!this.model.id) {
-          $("#mix-upload", this.el).uploadifive({
-            uploadScript: "/ajax/upload_mix_file_handler/",
-            buttonText: "Select audio file (mp3 for now please)",
-            formData: {
-              "upload-hash": this.guid,
-              sessionid: $.cookie("sessionid")
-            },
-            onUploadFile: function(file) {
-              return $(window).on("beforeunload", function() {
-                return alert("Go on outta that..");
-              });
-            },
-            onAddQueueItem: function(file) {
-              $("#upload-extension", this.el).val(file.name.split(".").pop());
-              return $("#mix-details", this.el).show();
-            },
-            onProgress: function(file, e) {},
-            onUploadComplete: function(file, data) {
-              parent.state++;
-              return parent.checkRedirect();
-            }
-          });
-          $(".fileupload", this.el).fileupload({
-            uploadtype: "image"
-          });
           $("#mix-details", this.el).hide();
-          $(".upload-hash", this.el).val(this.guid);
+          $("#upload-hash", this.el).val(this.guid);
         } else {
           $("#div-upload-mix", this.el).hide();
           this.state = 1;
         }
+        $("#mix-imageupload", this.el).jas_fileupload({
+          uploadtype: "image"
+        });
         $("#image-form-proxy", this.el).ajaxForm({
           beforeSubmit: function() {
             return $("#results").html("Submitting...");

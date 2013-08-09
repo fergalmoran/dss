@@ -20,3 +20,4 @@ mysql2pgsql.yml
 downloads.txt
 plays.txt
 dss_ah
+fixtures.json
