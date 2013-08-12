@@ -50,18 +50,18 @@
               }
             }
           });
+          $('.tt-hint', this.el).addClass('search-query');
+          $('.tt-hint', this.el).addClass('span3');
+          return t.on({
+            'typeahead:selected': function(event, datum, dataset_name) {
+              vent.trigger('navigate:mix', datum.slug);
+              $('#search-text', this.el).blur();
+              return $('.tt-hint', this.el).blur();
+            }
+          });
         } else {
-          console.log("Typeahead disabled");
+          return console.log("Typeahead disabled");
         }
-        $('.tt-hint', this.el).addClass('search-query');
-        $('.tt-hint', this.el).addClass('span3');
-        return t.on({
-          'typeahead:selected': function(event, datum, dataset_name) {
-            vent.trigger('navigate:mix', datum.slug);
-            $('#search-text', this.el).blur();
-            return $('.tt-hint', this.el).blur();
-          }
-        });
       };
 
       return SearchView;

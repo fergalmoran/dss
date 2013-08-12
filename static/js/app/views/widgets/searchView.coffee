@@ -26,14 +26,15 @@ define ['jquery', 'underscore', 'marionette', 'vent',
                         dataType: "json"
                         filter: (parsedResponse)->
                             parsedResponse.objects
+
+                $('.tt-hint', @el).addClass('search-query');
+                $('.tt-hint', @el).addClass('span3');
+
+                t.on 'typeahead:selected': (event, datum, dataset_name) ->
+                    vent.trigger 'navigate:mix', datum.slug
+                    $('#search-text', @el).blur()
+                    $('.tt-hint', @el).blur()
             else
                 console.log("Typeahead disabled")
 
-            $('.tt-hint', @el).addClass('search-query');
-            $('.tt-hint', @el).addClass('span3');
-
-            t.on 'typeahead:selected': (event, datum, dataset_name) ->
-                vent.trigger 'navigate:mix', datum.slug
-                $('#search-text', @el).blur()
-                $('.tt-hint', @el).blur()
     SearchView
