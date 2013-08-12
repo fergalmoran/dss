@@ -23,7 +23,7 @@ def waveform_generated_callback(sender, **kwargs):
             if mix is not None:
                 mix.waveform_generated = True
                 mix.duration = mp3_length(mix.get_absolute_path())
-                mix.save()
+                mix.save(update_fields=["waveform_generated", "duration"])
     except ObjectDoesNotExist:
         print "Mix has still not been uploaded"
         pass
