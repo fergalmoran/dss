@@ -1,6 +1,7 @@
-define ['jquery', 'underscore', 'libs/bootstrap/bootstrap-typeahead', 'marionette', 'vent', 'text!/tpl/SearchView',
-        'text!/tpl/SearchResultView'],
-($, _, Typeahead, Marionette, vent, Template, SearchResultView) ->
+define ['jquery', 'underscore', 'marionette', 'vent',
+        'text!/tpl/SearchView', 'text!/tpl/SearchResultView',
+        'libs/bootstrap/bootstrap-typeahead'],
+($, _, Marionette, vent, Template, SearchResultView) ->
     class SearchView extends Marionette.CompositeView
         template: _.template(Template)
 
