@@ -251,7 +251,6 @@ def upload(request):
             pass
 
         create_waveform_task.delay(in_file=os.path.join(file_storage.base_location, cache_file), mix_uid=uid)
-        #create_waveform_task(in_file=cache_file, mix_uid=uid)
 
         file_dict = {
             'size': in_file.size,
