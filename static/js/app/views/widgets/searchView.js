@@ -36,19 +36,23 @@
       SearchView.prototype.onShow = function() {
         var t;
 
-        t = $('#search-text', this.el).typeahead({
-          name: "search",
-          engine: this.engine,
-          valueKey: "title",
-          template: SearchResultView,
-          remote: {
-            url: "/api/v1/mix/search?q=%QUERY",
-            dataType: "json",
-            filter: function(parsedResponse) {
-              return parsedResponse.objects;
+        if (typeahead === !None) {
+          t = $('#search-text', this.el).typeahead({
+            name: "search",
+            engine: this.engine,
+            valueKey: "title",
+            template: SearchResultView,
+            remote: {
+              url: "/api/v1/mix/search?q=%QUERY",
+              dataType: "json",
+              filter: function(parsedResponse) {
+                return parsedResponse.objects;
+              }
             }
-          }
-        });
+          });
+        } else {
+          console.log("Typeahead disabled");
+        }
         $('.tt-hint', this.el).addClass('search-query');
         $('.tt-hint', this.el).addClass('span3');
         return t.on({

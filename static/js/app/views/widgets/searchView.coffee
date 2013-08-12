@@ -15,17 +15,20 @@ define ['jquery', 'underscore', 'marionette', 'vent',
                     compiled context
 
         onShow: ->
-            t = $('#search-text', @el).typeahead
-                name: "search"
-                engine: @engine
-                valueKey: "title"
-                template: SearchResultView
-                remote:
-                    url: "/api/v1/mix/search?q=%QUERY"
-                    dataType: "json"
-                    filter: (parsedResponse)->
-                        parsedResponse.objects
-
+            if typeahead is not None
+                t = $('#search-text', @el).typeahead
+                    name: "search"
+                    engine: @engine
+                    valueKey: "title"
+                    template: SearchResultView
+                    remote:
+                        url: "/api/v1/mix/search?q=%QUERY"
+                        dataType: "json"
+                        filter: (parsedResponse)->
+                            parsedResponse.objects
+            else
+                console.log("Typeahead disabled")
+                
             $('.tt-hint', @el).addClass('search-query');
             $('.tt-hint', @el).addClass('span3');
 
