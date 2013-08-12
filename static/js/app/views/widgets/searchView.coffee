@@ -15,7 +15,7 @@ define ['jquery', 'underscore', 'marionette', 'vent',
                     compiled context
 
         onShow: ->
-            if typeahead is not None
+            if typeahead?
                 t = $('#search-text', @el).typeahead
                     name: "search"
                     engine: @engine
@@ -28,7 +28,7 @@ define ['jquery', 'underscore', 'marionette', 'vent',
                             parsedResponse.objects
             else
                 console.log("Typeahead disabled")
-                
+
             $('.tt-hint', @el).addClass('search-query');
             $('.tt-hint', @el).addClass('span3');
 

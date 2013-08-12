@@ -36,7 +36,7 @@
       SearchView.prototype.onShow = function() {
         var t;
 
-        if (typeahead === !None) {
+        if (typeof typeahead !== "undefined" && typeahead !== null) {
           t = $('#search-text', this.el).typeahead({
             name: "search",
             engine: this.engine,
