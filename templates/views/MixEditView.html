@@ -38,12 +38,6 @@
         </td>
         <td>
             <p class="size">{%=o.formatFileSize(file.size)%}</p>
-            {% if (!o.files.error) { %}
-            <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0"
-                 aria-valuemax="100" aria-valuenow="0">
-                <div class="bar" style="width:0%;"></div>
-            </div>
-            {% } %}
         </td>
         <td>
             {% if (!o.files.error && !i && !o.options.autoUpload) { %}
@@ -60,6 +54,16 @@
             {% } %}
         </td>
     </tr>
+    {% if (!o.files.error) { %}
+        <tr>
+            <td colspan="4">
+                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0"
+                     aria-valuemax="100" aria-valuenow="0">
+                    <div class="bar" style="width:0%;"></div>
+                </div>
+            </td>
+        </tr>
+    {% } %}
     {% } %}
 </script>
 <script id="template-download" type="text/x-tmpl">
