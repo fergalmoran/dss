@@ -6,7 +6,7 @@ from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
+from django.core.files.storage import default_storage, FileSystemStorage
 from django.db.models import get_model
 from django.http import HttpResponse, HttpResponseNotFound
 from annoying.decorators import render_to
@@ -238,8 +238,9 @@ def upload(request):
         uid = request.POST['upload-hash']
         in_file = upload_receive(request)
         fileName, extension = os.path.splitext(in_file.name)
-        path = os.path.join(settings.CACHE_ROOT, "mixes", "%s%s" % (uid, extension))
-        cache_file = default_storage.save(path, ContentFile(in_file.read()))
+
+        file_storage = FileSystemStorage(location=os.path.join(settings.CACHE_ROOT, "mixes"))
+        cache_file = file_storage.save("%s%s" % (uid, extension), ContentFile(in_file.read()))
 
         try:
             mix = Mix.objects.get(uid=uid)
