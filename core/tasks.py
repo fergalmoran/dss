@@ -13,7 +13,7 @@ def create_waveform_task(in_file, mix_uid):
     if os.path.isfile(out_file):
         print "Waveform generated successfully"
         file, extension = os.path.splitext(in_file)
-        new_file = in_file.replace('cache', 'mixes')
+        new_file = os.path.join(settings.MEDIA_ROOT, "mixes", file)
         print "Moving cache audio clip from %s to %s" % (in_file, new_file)
         shutil.move(in_file, new_file)
         print "Uid: %s" % mix_uid
