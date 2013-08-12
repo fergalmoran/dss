@@ -259,7 +259,7 @@ def upload(request):
 
         return UploadResponse(request, file_dict)
     except Exception, ex:
-        logger.error(ex.message)
+        logger.exception(ex.message)
         return HttpResponse(content="Error occurred uploading file", status=503)
 
 
