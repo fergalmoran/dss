@@ -1,5 +1,8 @@
 Django==1.5
 PIL>=1.1.7
+numpy
+pygtk
+timeside
 south
 beautifulsoup4>=4.1.1
 decorator>=3.3.3
