@@ -103,7 +103,7 @@
     </div>
 </div>
 <div class="well" id="mix-details">
-    <form class="form-horizontal">
+    <form id="mix-details-form" class="form-horizontal">
         {% csrf_token %}
         <input type="hidden" class="upload-hash" id="upload-hash-details">
         <input type="hidden" id="upload-extension">
@@ -137,7 +137,7 @@
                         <span class="btn btn-file">
                             <span class="fileupload-new">Select image</span>
                             <span class="fileupload-exists">Change</span>
-                            <input type="file" />
+                            <input id="mix_image" name="mix_image" type="file" />
                         </span>
                         <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
                     </div>

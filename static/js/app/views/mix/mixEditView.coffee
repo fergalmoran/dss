@@ -24,7 +24,8 @@ define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.sypho
                     url:  "/_upload/"
                     start: ->
                         $("#mix-details", @el).show()
-                    done: ->
+                    done: =>
+                        @state++;
                         $("#div-upload-mix", @el).hide()
 
         onRender: ->
@@ -86,7 +87,7 @@ define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.sypho
 
         saveChanges: =>
             console.log("MixEditView: saveChanges")
-            data = Syphon.serialize(this)
+            data = Syphon.serialize($("#mix-details-form", @el)[0])
             @model.set data
             @model.set "upload-hash", @guid
             @model.set "upload-extension", $("#upload-extension", @el).val()

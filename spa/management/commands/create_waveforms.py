@@ -5,7 +5,7 @@ import timeside
 class Command(NoArgsCommand):
     def handle_noargs(self, **options):
         try:
-            audio_file = 'spring.mp3'
+            audio_file = '/home/fergalm/Dropbox/Private/deepsouthsounds.com/working/sample.mp3'
             decoder = timeside.decoder.FileDecoder(audio_file)
             grapher = timeside.grapher.Spectrogram(width=1920, height=1080)
             (decoder | grapher).run()
