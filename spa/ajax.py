@@ -16,6 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from core.utils import live
+from core.utils.audio import Mp3FileNotFoundException
 from dss import localsettings, settings
 from spa.models import UserProfile, Release
 from spa.models.mix import Mix
@@ -241,14 +242,6 @@ def upload(request):
 
         file_storage = FileSystemStorage(location=os.path.join(settings.CACHE_ROOT, "mixes"))
         cache_file = file_storage.save("%s%s" % (uid, extension), ContentFile(in_file.read()))
-
-        try:
-            mix = Mix.objects.get(uid=uid)
-            mix.duration = mp3_length(mix.get_absolute_path())
-            mix.save()
-        except ObjectDoesNotExist:
-            #Form hasn't been posted yet
-            pass
 
         create_waveform_task.delay(in_file=os.path.join(file_storage.base_location, cache_file), uid=uid)
 
