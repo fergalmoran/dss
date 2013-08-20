@@ -13,7 +13,6 @@ $(document).ready(function () {
     if (window.location.hash == 'upload#') {
         Backbone.history.navigate("/");
     }
-    console.warn("Need to check indexOf IE8 shim is working");
     if (!Array.prototype.indexOf) {
         console.log("Shimming indexOf for IE8");
         Array.prototype.indexOf = function (searchElement /*, fromIndex */) {
