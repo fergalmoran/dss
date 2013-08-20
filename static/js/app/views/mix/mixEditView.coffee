@@ -27,6 +27,7 @@ define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.sypho
                     done: =>
                         @state++;
                         $("#div-upload-mix", @el).hide()
+                        @checkRedirect()
 
         onRender: ->
             console.log("MixEditView: onRender")

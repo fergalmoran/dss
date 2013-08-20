@@ -47,7 +47,8 @@
             },
             done: function() {
               _this.state++;
-              return $("#div-upload-mix", _this.el).hide();
+              $("#div-upload-mix", _this.el).hide();
+              return _this.checkRedirect();
             }
           });
         }
