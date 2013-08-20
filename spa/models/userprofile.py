@@ -41,7 +41,7 @@ class UserProfile(_BaseModel):
 
     user = models.OneToOneField(User, unique=True, related_name='userprofile')
     avatar_type = models.CharField(max_length=15, default='social')
-    avatar_image = models.ImageField(blank=True, upload_to=avatar_name)
+    avatar_image = models.ImageField(max_length=1024, blank=True, upload_to=avatar_name)
     display_name = models.CharField(blank=True, max_length=35)
     description = models.CharField(blank=True, max_length=2048)
 

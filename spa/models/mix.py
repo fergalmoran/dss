@@ -36,7 +36,7 @@ class Mix(_BaseModel):
     title = models.CharField(max_length=150)
     description = models.TextField()
     upload_date = models.DateTimeField(default=datetime.now())
-    mix_image = models.ImageField(blank=True, upload_to=mix_image_name)
+    mix_image = models.ImageField(max_length=1024, blank=True, upload_to=mix_image_name)
     local_file = models.FileField(blank=True, upload_to=mix_file_name)
     is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=True)
