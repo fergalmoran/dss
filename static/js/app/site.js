@@ -97,7 +97,7 @@ define(['jquery'], function ($) {
 
     if (com.podnoms.settings.isDebug) {
     } else {
-        console.log("Looking under the hood? Check us out on github https://github.com/fergalmoran/dss");
+        //console.log("Looking under the hood? Check us out on github https://github.com/fergalmoran/dss");
         var console = {};
         console.log = function (message) {
         };
