@@ -3,6 +3,7 @@ requirejs.config({
     urlArgs: com.podnoms.settings.urlArgs,
     waitSeconds: 200,
     paths: {
+        site: 'app/site',
         jquery: 'libs/jquery',
         'jquery.ui.widget': 'libs/jquery.ui.widget',
         backbone: 'libs/backbone/backbone',
@@ -87,7 +88,7 @@ requirejs.config({
     }
 });
 
-requirejs(['toastr', 'underscore', 'backbone', 'app'], function (toastr, _, Backbone, App) {
+requirejs(['site', 'toastr', 'underscore', 'backbone', 'app'], function (site, toastr, _, Backbone, App) {
     'use strict'
 
     console.log('Dss.Bootstrapper: primed');

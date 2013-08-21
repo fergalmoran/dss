@@ -46,7 +46,7 @@ USE_TZ = True
 
 SITE_ROOT = here('')
 MEDIA_ROOT = localsettings.MEDIA_ROOT
-STATIC_ROOT = here('static')
+STATIC_ROOT = localsettings.STATIC_ROOT
 CACHE_ROOT = localsettings.CACHE_ROOT
 
 STATIC_URL = localsettings.STATIC_URL if hasattr(localsettings, 'STATIC_URL') else '/static/'
@@ -88,14 +88,14 @@ TINYMCE_DEFAULT_CONFIG = {
 }
 TINYMCE_SPELLCHECKER = True
 
-STATICFILES_DIRS = (
-#here('static'),
-)
-
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
+)
+STATICFILES_STORAGE = 'require.storage.OptimizedStaticFilesStorage'
+STATICFILES_DIRS = (
+    here('static'),
 )
 
 SECRET_KEY = '8*&amp;j)j4lnq*ft*=jhajvc7&amp;upaifb2f2s5(v6i($$+3p(4^bvd'
@@ -252,7 +252,7 @@ DEFAULT_HTTP_PROTOCOL = 'http'
 
 REQUIRE_BASE_URL = "js"
 REQUIRE_JS = "libs/require.js"
-REQUIRE_DEBUG = False #DEBUG
+REQUIRE_DEBUG = DEBUG
 
 if DEBUG:
     import mimetypes

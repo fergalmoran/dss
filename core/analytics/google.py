@@ -8,13 +8,13 @@ class ShowGoogleAnalyticsJS(template.Node):
     def render(self, context):
         code = getattr(settings, "GOOGLE_ANALYTICS_CODE", False)
         if not code:
-            return "<!-- Goggle Analytics not included because you haven't set the settings.GOOGLE_ANALYTICS_CODE variable! -->"
+            return "<!-- Google Analytics not included because you haven't set the settings.GOOGLE_ANALYTICS_CODE variable! -->"
 
         if 'user' in context and context['user'] and context['user'].is_staff:
-            return "<!-- Goggle Analytics not included because you are a staff user! -->"
+            return "<!-- Google Analytics not included because you are a staff user! -->"
 
         if settings.DEBUG:
-            return "<!-- Goggle Analytics not included because you are in Debug mode! -->"
+            return "<!-- Google Analytics not included because you are in Debug mode! -->"
 
         return """
             <script type="text/javascript">

@@ -21,6 +21,10 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}css/emoticons.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/toastr.css">
     {% endcompress %}
+    {% compress js %}
+        <script src="{{ STATIC_URL }}js/libs/modernizr.js"></script>
+    {% endcompress %}
+
     {% block headerscripts %}
     {% endblock %}
 </head>
@@ -46,22 +50,13 @@
 <div id="footer"></div>
 
 <script src="/js/settings/"></script>
-{% require_module 'app/dss.bootstrapper' %}
+{% require_module 'main' %}
 {% compress js %}
     {% if DEBUG %}
         <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2.js"></script>
     {% else %}
         <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2-nodebug.js"></script>
     {% endif %}
-    <script src="{{ STATIC_URL }}js/libs/jquery.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/jquery.form.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/jquery.cookie.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/jquery.tablesorter.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/modernizr.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/point.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/matrix.js"></script>
-    <script src="{{ STATIC_URL }}js/libs/select2.js"></script>
-    <script src="{{ STATIC_URL }}js/app/site.js"></script>
     <script src="{{ STATIC_URL }}js/com.podnoms.storage.js"></script>
     <script src="{{ STATIC_URL }}js/com.podnoms.player.js"></script>
 {% endcompress %}
