@@ -1,6 +1,7 @@
 define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.syphon', 'text!/tpl/MixEditView'
-        'jquery.fileupload', 'jquery.fileupload-process', 'jquery.fileupload-audio', 'jquery.iframe-transport', 'jquery.ui.widget', 'jquery.fileupload-ui',
-        'libs/ajaxfileupload', 'libs/jasny/bootstrap-fileupload'],
+        'jquery.form', 'jquery.fileupload', 'jquery.fileupload-process', 'jquery.fileupload-audio',
+        'jquery.iframe-transport', 'jquery.ui.widget', 'jquery.fileupload-ui', 'select2'
+        'libs/ajaxfileupload', 'bootstrap-fileupload'],
 (EditableView, moment, utils, Syphon, Template) ->
     class MixEditView extends EditableView
         template: _.template(Template)

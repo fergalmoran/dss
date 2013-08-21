@@ -6,6 +6,7 @@ requirejs.config({
         site: 'app/site',
         jquery: 'libs/jquery',
         'jquery.ui.widget': 'libs/jquery.ui.widget',
+        'jquery.form': 'libs/jquery.form',
         backbone: 'libs/backbone/backbone',
         'backbone.babysitter': 'libs/backbone/backbone.babysitter',
         'backbone.relational': 'libs/backbone/backbone.relational',
@@ -13,9 +14,11 @@ requirejs.config({
         'backbone.wreqr': 'libs/backbone/backbone.wreqr',
         ich: 'libs/ICanHaz',
         bootstrap: 'libs/bootstrap/bootstrap',
+        'bootstrap-fileupload': 'libs/jasny/bootstrap-fileupload',
         typeahead: 'libs/bootstrap/bootstrap-typeahead',
         underscore: 'libs/backbone/underscore',
         bootpag: 'libs/bootstrap/bootpag',
+        select2: 'libs/select2',
         text: 'libs/text',
         templates: '/templates',
         app: 'app/appv2',
@@ -54,12 +57,21 @@ requirejs.config({
         'jquery.ui.widget': {
             deps: ['jquery']
         },
+        'jquery.form': {
+            deps: ['jquery']
+        },
         backbone: {
             exports: 'Backbone',
             deps: ['jquery', 'underscore']
         },
         bootstrap: {
             exports: 'bootstrap',
+            deps: ['jquery']
+        },
+        'bootstrap-fileupload': {
+            deps: ['jquery', 'bootstrap']
+        },
+        'select2': {
             deps: ['jquery']
         },
         /*
