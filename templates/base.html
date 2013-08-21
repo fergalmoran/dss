@@ -21,9 +21,6 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}css/emoticons.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/toastr.css">
     {% endcompress %}
-    {% compress js %}
-        <script src="{{ STATIC_URL }}js/libs/modernizr.js"></script>
-    {% endcompress %}
 
     {% block headerscripts %}
     {% endblock %}
@@ -48,7 +45,7 @@
     </div>
 </div>
 <div id="footer"></div>
-
+</body>
 <script src="/js/settings/"></script>
 {% require_module 'main' %}
 {% compress js %}
@@ -57,10 +54,10 @@
     {% else %}
         <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2-nodebug.js"></script>
     {% endif %}
+    <script src="{{ STATIC_URL }}js/libs/modernizr.js"></script>
     <script src="{{ STATIC_URL }}js/com.podnoms.storage.js"></script>
     <script src="{{ STATIC_URL }}js/com.podnoms.player.js"></script>
 {% endcompress %}
 {% block footerscripts %}
 {% endblock %}
-</body>
 </html>
