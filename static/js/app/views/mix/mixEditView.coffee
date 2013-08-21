@@ -19,16 +19,15 @@ define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.sypho
             @state = 0
 
         onDomRefresh: ->
-            if not @model.id
-                $("#fileupload", @el).fileupload
-                    downloadTemplateId: undefined
-                    url:  "/_upload/"
-                    start: ->
-                        $("#mix-details", @el).show()
-                    done: =>
-                        @state++;
-                        $("#div-upload-mix", @el).hide()
-                        @checkRedirect()
+            $("#fileupload", @el).fileupload
+                downloadTemplateId: undefined
+                url:  "/_upload/"
+                start: ->
+                    $("#mix-details", @el).show()
+                done: =>
+                    @state++;
+                    $("#div-upload-mix", @el).hide()
+                    @checkRedirect()
 
         onRender: ->
             console.log("MixEditView: onRender")

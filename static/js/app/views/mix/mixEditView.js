@@ -37,20 +37,18 @@
 
       MixEditView.prototype.onDomRefresh = function() {
         var _this = this;
-        if (!this.model.id) {
-          return $("#fileupload", this.el).fileupload({
-            downloadTemplateId: void 0,
-            url: "/_upload/",
-            start: function() {
-              return $("#mix-details", this.el).show();
-            },
-            done: function() {
-              _this.state++;
-              $("#div-upload-mix", _this.el).hide();
-              return _this.checkRedirect();
-            }
-          });
-        }
+        return $("#fileupload", this.el).fileupload({
+          downloadTemplateId: void 0,
+          url: "/_upload/",
+          start: function() {
+            return $("#mix-details", this.el).show();
+          },
+          done: function() {
+            _this.state++;
+            $("#div-upload-mix", _this.el).hide();
+            return _this.checkRedirect();
+          }
+        });
       };
 
       MixEditView.prototype.onRender = function() {
