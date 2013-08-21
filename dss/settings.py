@@ -278,3 +278,4 @@ if 'test' in sys.argv:
         pass
 
 
+COMPRESS_ENABLED = localsettings.COMPRESS_ENABLED
