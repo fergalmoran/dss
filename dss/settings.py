@@ -250,10 +250,6 @@ EMAIL_PORT = localsettings.EMAIL_PORT
 DEFAULT_FROM_EMAIL = 'DSS ChatBot <chatbot@deepsouthsounds.com>'
 DEFAULT_HTTP_PROTOCOL = 'http'
 
-REQUIRE_BASE_URL = "js"
-REQUIRE_JS = "libs/require.js"
-REQUIRE_DEBUG = DEBUG
-
 if DEBUG:
     import mimetypes
 
@@ -261,6 +257,7 @@ if DEBUG:
     mimetypes.add_type("font/woff", ".woff", True)
 
 # TODO(fergal.moran@gmail.com): #import localsettings - so all localsettings are part of import settings
+
 REALTIME_HEADERS = {
     'content-type': 'application/json'
 }
@@ -278,4 +275,6 @@ if 'test' in sys.argv:
         pass
 
 
-COMPRESS_ENABLED = localsettings.COMPRESS_ENABLED
+from pipelinesettings import *
+
+

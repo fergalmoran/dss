@@ -45,7 +45,6 @@
 </body>
 <script src="/js/settings/"></script>
 {% require_module 'main' %}
-{% compress js %}
     {% if DEBUG %}
         <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2.js"></script>
     {% else %}
@@ -54,6 +53,7 @@
     <script src="{{ STATIC_URL }}js/libs/modernizr.js"></script>
     <script src="{{ STATIC_URL }}js/com.podnoms.storage.js"></script>
     <script src="{{ STATIC_URL }}js/com.podnoms.player.js"></script>
+{% compress js %}
 {% endcompress %}
 {% block footerscripts %}
 {% endblock %}
