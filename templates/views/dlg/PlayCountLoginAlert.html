@@ -1,6 +1,7 @@
 {% extends 'views/dlg/_DialogBase.html' %}
 
 {% load account %}
+{% load static %}
 {% load socialaccount %}
 {% block header %}
     <h3>Hey There!!</h3>
@@ -8,15 +9,16 @@
 {% block content %}
 
     <div class="thumbnail clearfix">
-        <img src="/static/img/beg.jpg" alt="kitteh" class="img-circle pull-left span2 clearfix"
+        <img src="{% static "img/beg.jpg" %}" alt="kitteh" class="img-circle pull-left span2 clearfix"
              style='margin-right:10px; margin-top: 5px'>
+
         <div class="caption" style="padding: 0px">
             <h5>
                 We've noticed you've played a few mixes.
             </h5>
             <small>
                 We're happy you're enjoying the site but we would love it
-                if you would consider logging in.<br />
+                if you would consider logging in.<br/>
                 This will let you comment on mixes and even download them!
             </small>
         </div>

@@ -1,0 +1,1 @@
+python manage.py collectstatic -i admin -i grappelli -i tiny_mce -i backgrid -i django_extensions

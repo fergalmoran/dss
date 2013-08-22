@@ -5,21 +5,18 @@
     {% include 'inc/meta.html' %}
     {% load require %}
     {% load compress %}
+    {% load static %}
     {% compress css %}
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-responsive.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/jasny/jasny-bootstrap.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/jasny/jasny-bootstrap-responsive.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-datepicker.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-timepicker.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/colorbox.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/animate-custom.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/select2.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/deepsouthsounds.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.fileupload-ui.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/com.podnoms.player.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/emoticons.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/toastr.css">
+        <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+        <link rel="stylesheet" href="{% static "css/bootstrap-responsive.css" %}">
+        <link rel="stylesheet" href="{% static "css/jasny/jasny-bootstrap.css" %}">
+        <link rel="stylesheet" href="{% static "css/jasny/jasny-bootstrap-responsive.css" %}">
+        <link rel="stylesheet" href="{% static "css/select2.css" %}">
+        <link rel="stylesheet" href="{% static "css/deepsouthsounds.css" %}">
+        <link rel="stylesheet" href="{% static "css/jquery.fileupload-ui.css" %}">
+        <link rel="stylesheet" href="{% static "css/com.podnoms.player.css" %}">
+        <link rel="stylesheet" href="{% static "css/emoticons.css" %}">
+        <link rel="stylesheet" href="{% static "css/toastr.css" %}">
     {% endcompress %}
 
     {% block headerscripts %}
