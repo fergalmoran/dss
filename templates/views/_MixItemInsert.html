@@ -111,14 +111,19 @@
                                 class="icon-edit"></i>Edit</a>
                     </div>
                 {% endif %}
+                <% if (download_allowed) { %>
                 {% if user.is_authenticated %}
-                    <% if (download_allowed) { %>
                     <div class="download-button footer-button-right">
                         <a class="btn btn-mini btn-success" data-id="<%= id %>">
                             <i class="icon-download"></i> Download</a>
                     </div>
-                    <% } %>
+                {% else %}
+                    <div class="footer-button-right">
+                        <a class="btn btn-mini btn-success disabled" data-id="<%= id %>">
+                            <i class="icon-download"></i> Login to download</a>
+                    </div>
                 {% endif %}
+                <% } %>
             </div>
         </div>
     </div>

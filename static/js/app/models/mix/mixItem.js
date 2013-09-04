@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['backbone', 'app.lib/backbone.dss.model'], function(Backbone, DssModel) {
+  define(['backbone.relational', 'models/comment/commentCollection', 'models/comment/commentItem', 'app.lib/backbone.dss.model'], function(Backbone, CommentCollection, CommentItem, DSSModel) {
     var MixItem, _ref;
 
     MixItem = (function(_super) {
@@ -16,9 +16,11 @@
 
       MixItem.prototype.urlRoot = com.podnoms.settings.urlRoot + "mix/";
 
+      "relations: [\n    type: Backbone.HasMany\n    key: \"comments\"\n    relatedModel: CommentItem\n    collectionType: CommentCollection\n    reverseRelation:\n      key: \"hasItems\"\n      includeInJSON: \"id\"\n  ]";
+
       return MixItem;
 
-    })(Backbone.Model);
+    })(DSSModel);
     return MixItem;
   });
 

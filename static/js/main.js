@@ -64,6 +64,10 @@ requirejs.config({
             exports: 'Backbone',
             deps: ['jquery', 'underscore']
         },
+        'backbone.relational': {
+            exports: 'Backbone',
+            deps: ['backbone']
+        },
         bootstrap: {
             exports: 'bootstrap',
             deps: ['jquery']

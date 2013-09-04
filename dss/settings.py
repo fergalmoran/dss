@@ -117,6 +117,7 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     "allauth.account.context_processors.account",
     "spa.context_processors.debug"
 )
+
 AUTHENTICATION_BACKENDS = global_settings.AUTHENTICATION_BACKENDS + (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
@@ -129,6 +130,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'spa.middleware.cors.XsSharingMiddleware',
     #'spa.middleware.uploadify.SWFUploadMiddleware',
     #'spa.middleware.sqlprinter.SqlPrintingMiddleware' if DEBUG else None,
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -254,7 +256,11 @@ if DEBUG:
     import mimetypes
 
     mimetypes.add_type("image/png", ".png", True)
-    mimetypes.add_type("font/woff", ".woff", True)
+    mimetypes.add_type("image/png", ".png", True)
+    mimetypes.add_type("application/x-font-woff", ".woff", True)
+    mimetypes.add_type("application/vnd.ms-fontobject", ".eot", True)
+    mimetypes.add_type("font/ttf", ".ttf", True)
+    mimetypes.add_type("font/otf", ".otf", True)
 
 # TODO(fergal.moran@gmail.com): #import localsettings - so all localsettings are part of import settings
 

@@ -56,7 +56,7 @@ define ['moment', 'app', 'vent', 'marionette', 'utils', 'models/comment/commentC
             comments = new CommentsCollection()
             comments.url = @model.get("resource_uri") + "comments/"
             comments.mix_id = @model.id
-            comments.mix = @model.get("resource_uri")
+            comments.mix = @model
             comments.fetch success: (data) ->
                 console.log(data)
                 content = new CommentsListView(collection: comments).render()

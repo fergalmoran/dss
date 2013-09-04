@@ -15,6 +15,9 @@ com.podnoms.settings = {
     staticUrl: '{{ STATIC_URL }}',
     urlArgs: {{ IS_DEBUG }} ? "" : "bust="+ (new Date()).getTime(),
     currentUser: {{ CURRENT_USER_ID }},
+    userName: "{{ CURRENT_USER_NAME }}",
+    userUrl: "{{ CURRENT_USER_URL }}",
+    avatarImage: "{{ AVATAR_IMAGE }}",
     /** simple helper to take an api JSON object and initialise a player item */
     setupPlayerWrapper: function (id, stream_url, el) {
         com.podnoms.player.setupPlayer({

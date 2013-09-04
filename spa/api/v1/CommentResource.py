@@ -1,7 +1,10 @@
 from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
+from tastypie.exceptions import ImmediateHttpResponse
+from tastypie.http import HttpForbidden, HttpBadRequest
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.models import Mix
 from spa.models.comment import Comment
 
 
@@ -18,14 +21,20 @@ class CommentResource(BackboneCompatibleResource):
         authentication = Authentication()
         always_return_data = True
 
-    def obj_create(self, bundle, request=None, **kwargs):
-        bundle.data['user'] = {'pk': request.user.pk}
-        return super(CommentResource, self).obj_create(bundle, request, user=request.user)
+    def obj_create(self, bundle, **kwargs):
+        bundle.data['user'] = bundle.request.user
 
-    """
-    def dehydrate_date_created(self, bundle):
-        return self.humanize_date(bundle.obj.date_created)
-    """
+        try:
+            if 'mix_id' in bundle.data:
+                mix = Mix.objects.get(pk=bundle.data['mix_id'])
+                if mix is not None:
+                    return super(CommentResource, self).obj_create(bundle, user=bundle.request.user, mix=mix)
+        except Exception, e:
+            self.logger.error("Error creating comment (%s)" % e.message)
+            pass
+        raise ImmediateHttpResponse(
+            HttpBadRequest("Unable to hydrate comment from supplied data.")
+        )
 
     def dehydrate(self, bundle):
         bundle.data['avatar_image'] = bundle.obj.user.get_profile().get_small_profile_image()

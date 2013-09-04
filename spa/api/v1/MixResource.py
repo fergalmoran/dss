@@ -20,7 +20,7 @@ from spa.models.mix import Mix
 
 
 class MixResource(BackboneCompatibleResource):
-    comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', null=True)
+    comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', null=True, full=True)
     favourites = fields.ToManyField('spa.api.v1.UserResource.UserResource', 'favourites',
                                     related_name='favourites', full=False, null=True)
 
@@ -37,6 +37,7 @@ class MixResource(BackboneCompatibleResource):
             'comments': ALL_WITH_RELATIONS,
             'favourites': ALL_WITH_RELATIONS,
             'likes': ALL_WITH_RELATIONS,
+            'slug': ALL_WITH_RELATIONS,
         }
         authorization = Authorization()
 

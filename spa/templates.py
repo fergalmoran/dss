@@ -43,7 +43,10 @@ def get_dialog(request, dialog_name, **kwargs):
 
 def get_javascript(request, template_name):
     localsettings.JS_SETTINGS.update({
-        'CURRENT_USER_ID': request.user.get_profile().id if not request.user.is_anonymous() else -1
+        'CURRENT_USER_ID': request.user.get_profile().id if not request.user.is_anonymous() else -1,
+        'CURRENT_USER_NAME': request.user.get_profile().get_nice_name() if not request.user.is_anonymous() else -1,
+        'CURRENT_USER_URL': request.user.get_profile().get_profile_url() if not request.user.is_anonymous() else -1,
+        'AVATAR_IMAGE': request.user.get_profile().get_small_profile_image() if not request.user.is_anonymous() else ""
     })
     return render_to_response(
         'javascript/%s.js' % template_name,

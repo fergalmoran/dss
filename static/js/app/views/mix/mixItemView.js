@@ -85,7 +85,7 @@
         comments = new CommentsCollection();
         comments.url = this.model.get("resource_uri") + "comments/";
         comments.mix_id = this.model.id;
-        comments.mix = this.model.get("resource_uri");
+        comments.mix = this.model;
         comments.fetch({
           success: function(data) {
             var content;
