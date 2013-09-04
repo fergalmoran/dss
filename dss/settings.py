@@ -93,7 +93,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
-#STATICFILES_STORAGE = 'require.storage.OptimizedStaticFilesStorage'
+STATICFILES_STORAGE = 'require.storage.OptimizedStaticFilesStorage'
 STATICFILES_DIRS = (
     here('static'),
 )
@@ -152,7 +152,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'django_gravatar',
     'compressor',
-    #'require',
+    'require',
     'notification',
     'djcelery',
     'sorl.thumbnail',
