@@ -4,7 +4,7 @@
         {% csrf_token %}
         <legend>Event details</legend>
         <div class="row">
-            <div class="span6">
+            <div class="col-md-6">
                 <div class="control-group" id="group-event_venue">
                     <label class="control-label">Venue</label>
                     <div class="controls">
@@ -15,21 +15,21 @@
                     </div>
                 </div>
             </div>
-            <div class="span6">
+            <div class="col-md-6">
                 <div class="control-group" id="group-event_date">
                     <label class="control-label">Date</label>
 
                     <div class="controls controls-row">
-                        <input id="event_date" class="span4 datepicker input-medium" type="text"
+                        <input id="event_date" class="col-md-4 datepicker input-medium" type="text"
                                value="<%= item.event_date %>">
-                        <input id="event_time" class="span3 timepicker input-small" type="text" placeholder="Time…">
+                        <input id="event_time" class="col-md-3 timepicker input-small" type="text" placeholder="Time…">
                         <span class="help-inline" id="error-event_date"></span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="span6">
+            <div class="col-md-6">
                 <div class="control-group" id="group-event_title">
                     <label class="control-label">Title</label>
                     <div class="controls">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <div class="span6">
+            <div class="col-md-6">
                 <div class="control-group" id="group-event_recurrence">
                     <label class="control-label">Recurrence</label>
                     <div class="controls">

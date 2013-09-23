@@ -24,14 +24,14 @@
           name: "Check out this mix on Deep South Sounds",
           display: "popup",
           link: "http://" + window.location.host + "/" + model.get("item_url"),
-          picture: model.get("mix_image"),
+          picture: com.podnoms.settings.staticUrl + model.get("mix_image"),
           caption: model.get("title"),
           description: model.get("description")
         }, function(response) {
           if (response && response.post_id) {
-            return com.podnoms.utils.showAlert("Success", "Post shared to facebook");
+            return utils.showAlert("Success", "Post shared to facebook");
           } else {
-            return com.podnoms.utils.showError("Error", "Failure sharing post");
+            return utils.showError("Error", "Failure sharing post");
           }
         });
       }

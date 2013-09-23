@@ -27,13 +27,11 @@ define ['jquery', 'utils'], ($, utils) ->
             name: "Check out this mix on Deep South Sounds"
             display: "popup"
             link: "http://" + window.location.host + "/" + model.get("item_url")
-            picture: model.get("mix_image")
+            picture: com.podnoms.settings.staticUrl + model.get("mix_image")
             caption: model.get("title")
             description: model.get("description")
         , (response) ->
             if response and response.post_id
-                com.podnoms.utils.showAlert "Success", "Post shared to facebook"
+                utils.showAlert "Success", "Post shared to facebook"
             else
-                com.podnoms.utils.showError "Error", "Failure sharing post"
-
-
+                utils.showError "Error", "Failure sharing post"

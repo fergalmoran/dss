@@ -5,16 +5,15 @@ define ['marionette', 'underscore', 'vent', 'utils',
 (Marionette, _, vent, utils, NotificationCollection, NotificationsItemView, Template) ->
     class NotificationsListView extends Marionette.CompositeView
 
-        template: _.template(Template),
-        tagName: "span",
-        className: "dropdown"
-        itemView: NotificationsItemView,
-        itemViewContainer: "#notif_list_node",
+        template: _.template(Template)
+        itemView: NotificationsItemView
+        itemViewContainer: "#notif_list_node"
+        tagName: "li"
         events:
             "click #notifications-dropdown": "showNotifications"
         ui:
             notificationSurround: "#notification-surround"
-            notificationCount: "#notification-count"
+            notificationCount: "#notification-count-badge"
 
         initialize: =>
             #quick and dirty check to see if user is logged in

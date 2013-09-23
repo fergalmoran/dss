@@ -11,10 +11,10 @@ define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView",
 (_, Marionette, vent, utils, SearchView, NotificationsListView, Template) ->
     class HeaderView extends Marionette.Layout
         NowrapRegion = Marionette.Region.extend(open: (view) ->
-            debugger
             @$el.html view.$el.html()
         )
         template: _.template(Template)
+        className: "navbar navbar-default"
         events:
             "click #header-play-pause-button": "togglePlayState"
             "click #header-login-button": "login"

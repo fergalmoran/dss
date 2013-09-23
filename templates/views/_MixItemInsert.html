@@ -1,6 +1,6 @@
 {% load thumbnail %}
 <div class="row">
-    <div class="span2 mix-profile-container">
+    <div class="col-md-2 mix-profile-container">
         <div class="mix-image-container">
             <img alt="mix-logo" class="mix-image-image img-rounded img-polaroid" src="<%= mix_image %>"/>
         </div>
@@ -12,8 +12,8 @@
             </h6>
         </div>
     </div>
-    <div class="span10 mix-container" id="mix-container-<%= id %>">
-        <div class="row title-bar">
+    <div class="col-md-10 mix-container" id="mix-container-<%= id %>">
+        <div class="row orange">
             <div class="pull-left title-bar-item">
                 <a class="mix-link"
                    id="mix-link-<%= id %>"
@@ -49,12 +49,12 @@
                 </div>
                 {% if user.is_authenticated %}
                     <div class="like-button footer-button">
-                        <a class="btn btn-mini <% if (liked) { %> disabled <% } %>" id="like-<%= id %>"
+                        <a class="btn btn-pink btn-xs <% if (liked) { %> disabled <% } %>" id="like-<%= id %>"
                            data-id="<%= id %>">
                             <i class="icon-heart"></i> Like</a>
                     </div>
                     <div class="favourite-button footer-button">
-                        <a class="btn btn-mini <% if (favourited) { %> disabled <% } %> " id="favourite-<%= id %>"
+                        <a class="btn btn-pink btn-xs <% if (favourited) { %> disabled <% } %> " id="favourite-<%= id %>"
                            data-id="<%= id %>"><i
                                 class="icon-star-empty"></i> Favourite</a>
                     </div>
@@ -62,25 +62,33 @@
                 <div class="footer-button">
                     <ul class="list-nostyle list-horiz">
                         <li title="<%= play_count %> Plays" class="stats-item bordered-right">
-                            <span class="icon-play stats">Plays:</span> <%= play_count %>
+                            <span class="icon-play-circle tooltip-success" data-rel="tooltip" data-placement="right" title="" data-original-title="<%= play_count %> Plays">
+                                <%= play_count %>
+                            </span>
                         </li>
                         <li title="<%= download_count %> Downloads" class="stats-item bordered-right">
-                            <span class="icon-download-alt stats">Downloads:</span> <%= download_count %>
+                            <span class="icon-download-alt tooltip-success" data-rel="tooltip" data-placement="right" title="" data-original-title="<%= download_count %> Downloads">
+                                <%= download_count %>
+                            </span>
                         </li>
                         <li title="<%= comment_count %> Comments" class="stats-item bordered-right">
-                            <span class="icon-pencil stats">Comments:</span> <%= comment_count %>
+                            <span class="icon-comment tooltip-success" data-rel="tooltip" data-placement="right" title="" data-original-title="<%= comment_count %> Comments">
+                                <%= comment_count %>
+                            </span>
                         </li>
                         <li title="<%= like_count %> Likes" class="stats-item bordered-right">
-                            <span class="icon-heart stats">Likes:</span> <%= like_count %>
+                            <span class="icon-heart tooltip-success" data-rel="tooltip" data-placement="right" title="" data-original-title="<%= like_count %> Likes">
+                                <%= like_count %>
+                            </span>
                         </li>
                     </ul>
                 </div>
 
                 <div class="footer-button">
                     <div class="btn-group">
-                        <button class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown"><i
-                                class="icon-share"></i>Share
-                            <span class="caret"></span>
+                        <button class="btn btn-pink btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-share"></i>Share
+                            <span class="icon-caret-down icon-on-right"></span>
                         </button>
                         <ul class="dropdown-menu">
                             <li>
@@ -106,7 +114,7 @@
                 </div>
                 {% if user.is_staff %}
                     <div class="edit-button footer-button-right">
-                        <a href="/mix/edit/<%= slug %>" class="btn btn-mini"
+                        <a href="/mix/edit/<%= slug %>" class="btn btn-xs"
                            data-id="<%= id %>"><i
                                 class="icon-edit"></i>Edit</a>
                     </div>
@@ -114,12 +122,12 @@
                 <% if (download_allowed) { %>
                 {% if user.is_authenticated %}
                     <div class="download-button footer-button-right">
-                        <a class="btn btn-mini btn-success" data-id="<%= id %>">
+                        <a class="btn btn-xs btn-success" data-id="<%= id %>">
                             <i class="icon-download"></i> Download</a>
                     </div>
                 {% else %}
                     <div class="footer-button-right">
-                        <a class="btn btn-mini btn-success disabled" data-id="<%= id %>">
+                        <a class="btn btn-xs btn-success disabled" data-id="<%= id %>">
                             <i class="icon-download"></i> Login to download</a>
                     </div>
                 {% endif %}
@@ -128,3 +136,4 @@
         </div>
     </div>
 </div>
+<hr>

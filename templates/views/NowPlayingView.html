@@ -1,30 +1,31 @@
-<span class="div-small-heading label label-warning">Now Playing</span>
+<div class="widget-header widget-header-flat widget-header-small">
+    <h5>
+        <i class="icon-music"></i>
+        Now Playing
+    </h5>
+</div>
 
-<div class="now-playing-surround">
-    <div class="span2 now-playing-image-container">
-        <img src="<%= mix_image %>"
-             class="now-playing-image img-rounded">
-    </div>
-    <div class="span8 now-playing-bio">
+<div class="widget-body">
+    <div class="profile-activity clearfix">
         <div>
-        <span>
-            <a class="mix-link"
-               href="<%= item_url %>"
-               title="<%= title %>"><%= title %>
-            </a>
-        </span>
+            <img class="pull-left" alt="mix-image" src="<%= mix_image %>">
+            <a class="user" href="<%= item_url %>" title="<%= title %>"><%= title %></a>
+            <div class="time">
+                <i class="icon-user bigger-110"></i>
+                <a href="/<%= user_profile_url %>">
+                    <%= user_name %>
+                </a>
+            </div>
         </div>
-        <div>
-        <span>
-            <a href="/<%= user_profile_url %>">
-                <i class="icon-user"></i><%= user_name %>
+
+        <div class="tools action-buttons">
+            <a href="#" class="blue">
+                <i class="icon-pencil bigger-125"></i>
             </a>
-        </span>
+
+            <a href="#" class="red">
+                <i class="icon-remove bigger-125"></i>
+            </a>
         </div>
-    </div>
-    <div class="span2">
-        <a id="now-playing-playing-toggle" class="now-playing-play player-button">
-            <span class="accessible-description">Play Button</span>
-        </a>
     </div>
 </div>

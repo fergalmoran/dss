@@ -23,6 +23,9 @@ class CommentResource(BackboneCompatibleResource):
 
     def obj_create(self, bundle, **kwargs):
         bundle.data['user'] = bundle.request.user
+        del bundle.data['avatar_image']
+        del bundle.data['user_url']
+        del bundle.data['user_name']
 
         try:
             if 'mix_id' in bundle.data:
@@ -35,6 +38,12 @@ class CommentResource(BackboneCompatibleResource):
         raise ImmediateHttpResponse(
             HttpBadRequest("Unable to hydrate comment from supplied data.")
         )
+
+    def obj_update(self, bundle, skip_errors=False, **kwargs):
+        del bundle.data['avatar_image']
+        del bundle.data['user_url']
+        del bundle.data['user_name']
+        return super(CommentResource, self).obj_update(bundle, bundle.request)
 
     def dehydrate(self, bundle):
         bundle.data['avatar_image'] = bundle.obj.user.get_profile().get_small_profile_image()

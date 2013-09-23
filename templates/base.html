@@ -7,16 +7,35 @@
     {% load compress %}
     {% load static %}
     {% compress css %}
+
+        {% comment %}
         <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
         <link rel="stylesheet" href="{% static "css/bootstrap-responsive.css" %}">
         <link rel="stylesheet" href="{% static "css/jasny/jasny-bootstrap.css" %}">
         <link rel="stylesheet" href="{% static "css/jasny/jasny-bootstrap-responsive.css" %}">
+        <link rel="stylesheet" href="{% static "css/emoticons.css" %}">
+        {% endcomment %}
+
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300"/>
+
+
+        <link rel="stylesheet" href="{% static "css/ace/uncompressed/bootstrap.css" %}"/>
+        <link rel="stylesheet" href="{% static "css/ace/uncompressed/font-awesome.css" %}"/>
+        <link rel="stylesheet" href="{% static "css/jasny/jasny-bootstrap.css" %}">
+
+        <link rel="stylesheet" href="{% static "css/ace/bootstrap-editable.css" %}"/>
+        <link rel="stylesheet" href="{% static "css/ace/uncompressed/ace.css" %}"/>
+        <link rel="stylesheet" href="{% static "css/ace/uncompressed/ace-skins.css" %}"/>
+        <link rel="stylesheet" href="{% static "css/ace/jquery.gritter.css" %}"/>
+
+
         <link rel="stylesheet" href="{% static "css/select2.css" %}">
-        <link rel="stylesheet" href="{% static "css/deepsouthsounds.css" %}">
         <link rel="stylesheet" href="{% static "css/jquery.fileupload-ui.css" %}">
         <link rel="stylesheet" href="{% static "css/com.podnoms.player.css" %}">
-        <link rel="stylesheet" href="{% static "css/emoticons.css" %}">
         <link rel="stylesheet" href="{% static "css/toastr.css" %}">
+
+        <link rel="stylesheet" href="{% static "css/deepsouthsounds.css" %}">
+
     {% endcompress %}
 
     {% block headerscripts %}
@@ -27,24 +46,22 @@
 {% include 'inc/analytics.html' %}
 {% include 'inc/ancient_browser.html' %}
 <div id="header"></div>
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span9" id="content">
-            {% block content %}
-            {% endblock %}
-        </div>
-        <div class="span3" style="float: right" id="side-content">
-            {% block sidecontent %}
-            {% endblock %}
-            <div id="sidebar"></div>
-            <div id="site-content-fill"></div>
-        </div>
-    </div>
+<div class="space-6"></div>
+<div class="body-content col-md-9" id="content">
+    {% block content %}
+    {% endblock %}
+</div>
+<div id="side-content" class="col-md-3">
+    {% block sidecontent %}
+    {% endblock %}
+    <div id="sidebar"></div>
+    <div id="site-content-fill"></div>
 </div>
 <div id="footer"></div>
-</body>
 <script src="/js/settings/"></script>
 {% require_module 'main' %}
+
+{% compress js %}
     {% if DEBUG %}
         <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2.js"></script>
     {% else %}
@@ -53,8 +70,8 @@
     <script src="{{ STATIC_URL }}js/libs/modernizr.js"></script>
     <script src="{{ STATIC_URL }}js/com.podnoms.storage.js"></script>
     <script src="{{ STATIC_URL }}js/com.podnoms.player.js"></script>
-{% compress js %}
 {% endcompress %}
 {% block footerscripts %}
 {% endblock %}
+</body>
 </html>

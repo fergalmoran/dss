@@ -14,6 +14,7 @@ from core.utils.file import generate_save_file_name
 from core.utils.url import unique_slugify
 from dss import settings
 from spa.models._basemodel import _BaseModel
+from sorl import thumbnail
 
 logger = logging.getLogger(__name__)
 
@@ -51,6 +52,10 @@ class UserProfile(_BaseModel):
 
     following = models.ManyToManyField('self', null=True, blank=True, symmetrical=False, related_name='followers')
 
+    #location properties
+    city = models.CharField(max_length=100, blank=True, null=True)
+    country = models.CharField(max_length=100, blank=True, null=True)
+    
     def __unicode__(self):
         return "%s - %s" % (self.user.get_full_name(), self.slug)
 
@@ -149,6 +154,10 @@ class UserProfile(_BaseModel):
         except IOError, ex:
             self.logger.warn("Error getting medium profile image: %s", ex.message)
 
+    def get_small_profile_image_2(self):
+        ret = self.get_small_profile_image()
+        return ret
+
     def get_small_profile_image(self):
         try:
             image = self.get_avatar_image()
@@ -160,12 +169,17 @@ class UserProfile(_BaseModel):
         except IOError, ex:
             self.logger.warn("Error getting small profile image: %s", ex.message)
 
-    def get_avatar_image(self, size=150):
+    def get_sized_avatar_image(self, width, height):
+        image = self.get_avatar_image()
+        sized = thumbnail.get_thumbnail(image, "%sx%s" % (width, height), crop="center")
+        return urlparse.urljoin(settings.MEDIA_URL, sized.name)
+
+    def get_avatar_image(self):
         avatar_type = self.avatar_type
         if avatar_type == 'gravatar':
             gravatar_exists = has_gravatar(self.email)
             if gravatar_exists:
-                return get_gravatar_url(self.email, size)
+                return get_gravatar_url(self.email)
         elif avatar_type == 'social' or avatar_type == '':
             try:
                 social_account = SocialAccount.objects.filter(user=self.user)[0]
@@ -195,7 +209,7 @@ class UserProfile(_BaseModel):
         except Exception, ex:
             pass
 
-        return "Too lazy to update my description"
+        return "Just another<br>DSS lover"
 
     @classmethod
     def get_default_avatar_image(cls):
@@ -204,3 +218,4 @@ class UserProfile(_BaseModel):
     @classmethod
     def get_default_moniker(cls):
         return "Anonymous"
+

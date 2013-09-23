@@ -36,6 +36,8 @@ define ['moment', 'app', 'vent', 'marionette', 'utils', 'models/comment/commentC
 
 
             @renderGenres()
+            @renderComments()
+
             return
 
         onShow: ->
@@ -48,7 +50,7 @@ define ['moment', 'app', 'vent', 'marionette', 'utils', 'models/comment/commentC
         renderGenres: =>
             el = @el
             $.each @model.get("genre-list"), (data) ->
-                $("#genre-list", el).append '<a href="/mixes/' + @slug + '" class="label label-info">' + @text + '</a>'
+                $("#genre-list", el).append '<a href="/mixes/' + @slug + '" class="label label-info arrowed-right arrowed-in">' + @text + '</a>'
                 true
             true
 
@@ -58,7 +60,6 @@ define ['moment', 'app', 'vent', 'marionette', 'utils', 'models/comment/commentC
             comments.mix_id = @model.id
             comments.mix = @model
             comments.fetch success: (data) ->
-                console.log(data)
                 content = new CommentsListView(collection: comments).render()
                 $("#comments", @el).html content.el
                 true

@@ -14,24 +14,21 @@ define ['marionette', 'models/comment/commentItem', 'views/comment/commentItemVi
         events:
             "click #btn-add-comment": "addComment"
 
-        initialize: ->
-            console.log "CommentListView: initialize"
-
         addComment: ->
             console.log "CommentListView: addComment"
             @collection.create
                 mix_id: @collection.mix.get("id")
                 comment: @ui.commentText.val()
             ,
-              success: (newItem) =>
-                @ui.commentText.val ""
-                true
+                success: (newItem) =>
+                    @ui.commentText.val ""
+                    true
 
-              error: (a, b, c) ->
-                console.log a
-                console.log b
-                console.log c
-                true
+                error: (a, b, c) ->
+                    console.log a
+                    console.log b
+                    console.log c
+                    true
 
             true
 

@@ -10,6 +10,8 @@ define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
         ui:
             searchText: "#search-text"
 
+
+        className: "row"
         itemView: UserItemView
         itemViewContainer: "#user-table"
         initialize: =>
@@ -18,25 +20,13 @@ define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
             @_fetchCollection(@options)
             return
 
-        _fetchCollection: (options)=>
+        _fetchCollection: (options) =>
             @collection.fetch(
                 data: options
                 success: =>
                     console.log("UserListView: Collection fetched")
-                    console.log(@collection)
-                    pag = $("#page-selection").bootpag
-                        total: @collection.page_count
-
-                    pag.off "page"
-                    pag.on "page", (event, num) => # page number here
-                        if num != @collection.page
-                            console.log "Paginating"
-                            @collection.page = num # Load next page
-                            @collection.fetch()
-
                     return
             )
-            return
 
         doSearch: =>
             console.log("UserListView: doSearch")

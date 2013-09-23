@@ -21,13 +21,16 @@ define ['jquery', 'bootstrap', 'toastr'], ($, bootstrap, toastr) ->
                     @modal "/dlg/PlayCountLoginAlert"
         true
 
-    showError: (title, message) =>
+    showError: (title, message) ->
         toastr.error message, title
 
-    showWarning: (title, message) =>
+    showWarning: (title, message) ->
         toastr.warning message, title
 
-    showAlert: (title, message) =>
+    showAlert: (title, message) ->
+        @showMessage title, message
+
+    showMessage: (title, message) ->
         toastr.success message, title
 
     generateGuid: ->
@@ -45,3 +48,6 @@ define ['jquery', 'bootstrap', 'toastr'], ($, bootstrap, toastr) ->
             document.body.appendChild iframe
         iframe.src = url
         true
+
+    isMe: (id) ->
+        id == com.podnoms.settings.currentUser

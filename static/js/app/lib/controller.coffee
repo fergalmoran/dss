@@ -1,9 +1,9 @@
 define ['app', 'marionette', 'vent',
         'views/chat/chatView',
-        'models/mix/mixItem', 'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView',
-        'views/mix/mixEditView',
+        'models/mix/mixItem', 'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView'
+        'views/mix/mixEditView', 'views/user/userProfileView',
         'models/user/userItem', 'views/user/userListView', 'views/user/userEditView'],
-(App, Marionette, vent, ChatView, MixItem, MixListLayout, MixListView, MixDetailView, MixEditView, UserItem, UserListView, UserEditView)->
+(App, Marionette, vent, ChatView, MixItem, MixListLayout, MixListView, MixDetailView, MixEditView, UserProfileView, UserItem, UserListView, UserEditView)->
     class DssController extends Marionette.Controller
 
         home: ->
@@ -64,10 +64,17 @@ define ['app', 'marionette', 'vent',
             app = require('app')
             app.contentRegion.show(new UserListView())
 
-        showUserDetail: (slug) ->
-            console.log("Controller: showUserDetail")
-            @_showMixList()
-            vent.trigger("user:showdetail", {order_by: 'latest', user: slug})
+        showUserProfile: (slug) ->
+            console.log("Controller: showUserProfile")
+            app = require('app')
+            user = new UserItem({id: slug})
+            user.fetch(
+                success: ->
+                    app.contentRegion.show(new UserProfileView({model: user}))
+                error: (a, b, c) ->
+                    console.log("Error fetching user")
+            )
+
 
         showUserFavourites: (slug) ->
             console.log("Controller: showUserFavourites")
@@ -79,6 +86,11 @@ define ['app', 'marionette', 'vent',
             @_showMixList()
             vent.trigger("mix:showlist", {order_by: 'latest', likes__slug: slug})
 
+        showUserMixes: (slug) ->
+            console.log("Controller: showUserMixes")
+            @_showMixList()
+            vent.trigger("mix:showlist", {order_by: 'latest', user: slug})
+
         showUserFollowing: (slug) ->
             console.log("Controller: showUserFollowing")
             app = require('app')
@@ -89,7 +101,7 @@ define ['app', 'marionette', 'vent',
             app = require('app')
             app.contentRegion.show(new UserListView({following__slug: slug}))
 
-        editUser: () ->
+        editUser: ->
             console.log("Controller: editUser")
             app = require('app')
             user = new UserItem({id: com.podnoms.settings.currentUser })

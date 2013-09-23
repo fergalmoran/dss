@@ -49,6 +49,9 @@ class _BaseModel(models.Model):
         pass
 
     def clean_image(self, image_field, sender):
+
+        # TODO(fergal.moran@gmail.com): stop tastypie nulling image field if not sent
+
         if self.__dict__[image_field] == "DONOTSEND":
             try:
                 old_instance = sender.objects.get(pk=self.pk)

@@ -54,6 +54,9 @@ def post_save_handler(**kwargs):
         instance.create_notification()
     if hasattr(instance, 'notify_activity'):
         instance.notify_activity()
+    if hasattr(instance, 'update_geo_info'):
+        instance.update_geo_info()
 
 
 post_save.connect(post_save_handler)
+

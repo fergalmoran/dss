@@ -10,23 +10,20 @@
 */
 
 body {
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 1.5em;
-    padding-top: 45px;
-    padding-bottom: 40px;
-    padding-right: 32px;
     /*background: url('../img/bg.gif');*/
+    background-color: #ffffff;
+}
+
+.body-content {
+    background: #fff;
+    margin: 0;
+    padding: 8px 29px 24px 12px;
 }
 
 /* IE/Chrome image fix */
 img.event-content {
     width: auto;
     height: auto;
-}
-
-#header {
-    margin-top: 20px;
 }
 
 .nav-tabs {
@@ -89,10 +86,12 @@ ul.comment-listing .comment-entry {
     width: 32px;
     height: 32px;
 }
-.image-user-profile{
+
+.image-user-profile {
     width: 320px;
     height: 200px;
 }
+
 .social_login_providers {
     width: 100%;
     float: left;
@@ -207,10 +206,6 @@ ul.comment-listing .comment-entry {
 
 .stats {
     border: 0;
-    font: 0/0 a;
-    text-shadow: none;
-    color: transparent;
-    background-color: transparent;
 }
 
 table.tablesorter {
@@ -410,8 +405,8 @@ div.event-content td {
 }
 
 .mix-image-container img {
-    height: 120px;
-    width: 180px;
+    height: 110px;
+    width: 160px;
 }
 
 .btn.loading {
@@ -474,11 +469,6 @@ div.event-content td {
 
 .now-playing-image-container {
     display: inline-block;
-}
-
-#sidebar-top-content {
-    margin-bottom: 12px;
-    padding: 8px;
 }
 
 .div-small-heading {
@@ -640,4 +630,10 @@ img.flag {
     border-top-color: #ffffff;
     border-bottom-color: #ffffff;
 }
+
 .dropdown-menu li > span > a:hover, .dropdown-menu li > span > a:focus, .dropdown-submenu:hover > a
+
+
+#nav-profile-image {
+    height: auto;
+}

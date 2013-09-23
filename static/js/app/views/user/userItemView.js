@@ -4,7 +4,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app', 'moment', 'marionette', 'vent', 'text!/tpl/UserListItemView'], function(App, moment, Marionette, vent, Template) {
+  define(['app', 'moment', 'app.lib/dssView', 'vent', 'text!/tpl/UserListItemView'], function(App, moment, DssView, vent, Template) {
     var UserItemView, _ref;
 
     UserItemView = (function(_super) {
@@ -17,19 +17,11 @@
 
       UserItemView.prototype.template = _.template(Template);
 
-      UserItemView.prototype.tagName = "div";
-
-      UserItemView.prototype.className = "row-fluid";
+      UserItemView.prototype.className = "row";
 
       UserItemView.prototype.events = {
         "click #follow-button": "followUser",
         "click #follow-button-login": "promptLogin"
-      };
-
-      UserItemView.prototype.templateHelpers = {
-        humanise: function(date) {
-          return moment(date).fromNow();
-        }
       };
 
       UserItemView.prototype.initialize = function() {
@@ -47,7 +39,7 @@
 
       return UserItemView;
 
-    })(Marionette.ItemView);
+    })(DssView);
     return UserItemView;
   });
 

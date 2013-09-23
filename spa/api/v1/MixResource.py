@@ -33,6 +33,7 @@ class MixResource(BackboneCompatibleResource):
         always_return_data = True
         detail_uri_name = 'slug'
         excludes = ['is_active', 'local_file', 'upload_date', 'waveform-generated']
+        post_excludes = ['comments']
         filtering = {
             'comments': ALL_WITH_RELATIONS,
             'favourites': ALL_WITH_RELATIONS,
@@ -155,7 +156,7 @@ class MixResource(BackboneCompatibleResource):
         return bundle
 
     def dehydrate_mix_image(self, bundle):
-        return bundle.obj.get_image_url()
+        return bundle.obj.get_image_url(size="160x110")
 
     def dehydrate(self, bundle):
         bundle.data['waveform_url'] = bundle.obj.get_waveform_url()

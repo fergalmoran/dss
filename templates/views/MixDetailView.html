@@ -4,8 +4,17 @@
 <!-- Tab Stylee -->
 <section id="mix-detail-section">
     <ul id="mix-tab" class="nav nav-tabs" data-tabs="tabs">
-        <li><a data-bypass="true" href="#description" data-toggle="tab">Description</a></li>
-        <li><a data-bypass="true" href="#comments" data-toggle="tab">Comments</a></li>
+        <li class="active">
+            <a data-bypass="true" href="#description" data-toggle="tab">
+                Description
+            </a>
+        </li>
+        <li>
+            <a data-bypass="true" href="#comments" data-toggle="tab">
+                Comments
+                <span class="badge badge-danger"><%= comments.length %></span>
+            </a>
+        </li>
     </ul>
 
     <div id="mix-tabContent" class="tab-content">

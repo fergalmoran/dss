@@ -1,15 +1,13 @@
-<div class="media bordered-faint activity-list-item">
-    <a class="pull-left" href="#">
-        <img class="media-object image-avatar-small" src="<%= user_image %>" alt="">
-    </a>
-
-    <div class="media-body">
-        <div class="media">
-            <a class="activity-user" href="#">
-                <%= user_name %>
-            </a>
-            <%= verb %> <a href="<%= notification_url %>"><%= target %></a>
-            <blockquote class="pull-right"><%= human_date %></blockquote>
-        </div>
-    </div>
-</div>
+<a href="<%= notification_url %>">
+    <img src="<%= user_image %>" class="msg-photo" alt="Avatar Image"/>
+    <span class="msg-body">
+        <span class="msg-title">
+            <span class="blue"><%= user_name %></span>
+            <%= verb %> <%= target %>
+        </span>
+        <span class="msg-time">
+            <i class="icon-time"></i>
+            <span>a moment ago</span>
+        </span>
+    </span>
+</a>

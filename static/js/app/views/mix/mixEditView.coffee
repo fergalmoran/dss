@@ -1,14 +1,18 @@
 define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.syphon', 'text!/tpl/MixEditView'
         'jquery.form', 'jquery.fileupload', 'jquery.fileupload-process', 'jquery.fileupload-audio',
         'jquery.iframe-transport', 'jquery.ui.widget', 'jquery.fileupload-ui', 'select2'
-        'libs/ajaxfileupload', 'bootstrap-fileupload'],
+        'libs/ajaxfileupload', 'bootstrap-fileupload', 'ace', 'libs/ace/bootstrap-tag.min'],
 (EditableView, moment, utils, Syphon, Template) ->
     class MixEditView extends EditableView
         template: _.template(Template)
         events:
             "click #save-changes": "saveChanges"
             "change #mix_image": "imageChanged"
+        ui:
+            image: "#mix-image"
 
+        @working = false
+        @patch = false
         checkRedirect: ->
             if @state is 2
                 Backbone.history.navigate "/mix/" + @model.get("slug"),
@@ -21,35 +25,32 @@ define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.sypho
         onDomRefresh: ->
             $("#fileupload", @el).fileupload
                 downloadTemplateId: undefined
-                url:  "/_upload/"
+                url: "/_upload/"
                 start: ->
                     $("#mix-details", @el).show()
                 done: =>
                     @state++;
                     $("#div-upload-mix", @el).hide()
                     @checkRedirect()
+            @setupImageEditable
+                el: @ui.image
+                showbuttons: false
+                chooseMessage: "Choose mix image"
+
+            $("#mix-imageupload", @el).jas_fileupload uploadtype: "image"
+            true
 
         onRender: ->
             console.log("MixEditView: onRender")
             @sendImage = false
             parent = this
             if not @model.id
-                $("#mix-details", @el).hide()
+                #$("#mix-details", @el).hide()
                 $("#upload-hash", @el).val @guid
             else
                 $("#div-upload-mix", @el).hide()
+                @patch = true
                 @state = 1
-
-            $("#mix-imageupload", @el).jas_fileupload uploadtype: "image"
-
-            $("#image-form-proxy", @el).ajaxForm
-                beforeSubmit: ->
-                    $("#results").html "Submitting..."
-
-                success: (data) ->
-                    $out = $("#results")
-                    $out.html "Your results:"
-                    $out.append "<div><pre>" + data + "</pre></div>"
 
             $("#genres", @el).select2
                 placeholder: "Start typing and choose or press enter"
@@ -66,6 +67,7 @@ define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.sypho
                         results: data
 
                 initSelection: (element, callback) ->
+                    console.log("MixEditView: genres:initSelection")
                     result = []
                     genres = parent.model.get("genre-list")
                     unless genres is `undefined`
@@ -93,12 +95,15 @@ define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.sypho
             @model.set "upload-hash", @guid
             @model.set "upload-extension", $("#upload-extension", @el).val()
             @model.set "genre-list", $("#genres", @el).select2("data")
-            @model.set "mix_image", "DONOTSEND"  unless @sendImage
+            @model.unset "mix_image" unless @sendImage
+            @model.unset "comments"
+
             @_saveChanges
+                patch: @patch
                 success: =>
                     if @sendImage
                         $.ajaxFileUpload
-                            url: "/ajax/upload_image/" + @model.get("id") + "/"
+                            url: "/ajax/upload_mix_image/" + @model.get("id") + "/"
                             secureuri: false
                             fileElementId: "mix_image"
                             success: (data, status) =>
@@ -113,8 +118,7 @@ define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.sypho
                                     @checkRedirect()
 
                             error: (data, status, e) ->
-                                alert e
-
+                                utils.showError e
                     else
                         $("#mix-details", @el).hide()
                         @state++

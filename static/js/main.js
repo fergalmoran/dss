@@ -28,6 +28,9 @@ requirejs.config({
         models: 'app/models',
         'app.lib': 'app/lib',
         moment: 'libs/moment',
+        ace: 'libs/ace/uncompressed/ace',
+        wysiwyg: 'libs/ace/uncompressed/bootstrap-wysiwyg',
+        'ace-editable': 'libs/ace/uncompressed/x-editable/ace-editable',
 
         'tmpl': 'libs/upload/tmpl',
         'jquery.fileupload': 'libs/upload/jquery.fileupload',
@@ -78,12 +81,25 @@ requirejs.config({
         'select2': {
             deps: ['jquery']
         },
+        'ace': {
+            exports: 'ace',
+            deps: ['jquery', 'libs/ace/uncompressed/ace-elements', 'libs/ace/uncompressed/ace-extra']
+        },
+        'ace-editable': {
+            exports: 'editable',
+            deps: ['jquery', 'ace', 'libs/ace/uncompressed/x-editable/bootstrap-editable']
+        },
+        'wysiwyg': {
+            exports: 'wysiwyg',
+            deps: ['ace-editable', 'libs/ace/jquery.hotkeys.min']
+        },
+
         /*
-        fileupload:{
-            deps: ['iframe-transport', 'fileupload-process', 'fileupload-audio', 'fileupload-video', 'fileupload-validate', 'fileupload-ui'],
-            deps: ['jquery.iframe-transport', 'jquery.ui.widget', 'fileupload-ui'],
-            exports: '$.fileupload'
-        },*/
+         fileupload:{
+         deps: ['iframe-transport', 'fileupload-process', 'fileupload-audio', 'fileupload-video', 'fileupload-validate', 'fileupload-ui'],
+         deps: ['jquery.iframe-transport', 'jquery.ui.widget', 'fileupload-ui'],
+         exports: '$.fileupload'
+         },*/
         typeahead: {
             deps: ['jquery', 'bootstrap']
         },

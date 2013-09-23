@@ -49,7 +49,7 @@ class AjaxHandler(object):
             url(r'^mark_read/$', 'spa.ajax.mark_read'),
             url(r'^facebook_post_likes_allowed/$', 'spa.ajax.facebook_post_likes_allowed',
                 name='ajax_facebook_post_likes_allowed'),
-            url(r'^upload_image/(?P<mix_id>\d+)/$', 'spa.ajax.upload_image', name='ajax_upload_image'),
+            url(r'^upload_mix_image/(?P<mix_id>\d+)/$', 'spa.ajax.upload_mix_image', name='ajax_upload_mix_image'),
             url(r'^upload_release_image/(?P<release_id>\d+)/$', 'spa.ajax.upload_release_image',
                 name='ajax_upload_release_image'),
             url(r'^upload_avatar_image/$', 'spa.ajax.upload_avatar_image', name='ajax_upload_avatar_image'),
@@ -200,32 +200,38 @@ def upload_release_image(request, release_id):
     return HttpResponse(_get_json("Failed"))
 
 
-@csrf_exempt
-def upload_image(request, mix_id):
+def upload_mix_image(request, mix_id):
     try:
-        if 'mix_image' in request.FILES and mix_id is not None:
+        if len(request.FILES) != 0:
             mix = Mix.objects.get(pk=mix_id)
-            if mix is not None:
-                mix.mix_image = request.FILES['mix_image']
+            if mix:
+                mix.mix_image = request.FILES[request.FILES.keys()[0]]
                 mix.save()
-                return HttpResponse(_get_json("Success"))
+                return HttpResponse(json.dumps({'status': 'OK', 'url': mix.get_image_url()}))
     except Exception, ex:
-        logger.exception("Error uploading image")
-    return HttpResponse(_get_json("Failed"))
+        logger.exception("Error uploading avatar: %s", ex.message)
+        return HttpResponse(json.dumps({'status': 'failed', 'message': ex.message}))
+
+    return HttpResponse(json.dumps({'status': 'failed', 'message': 'No image file found'}))
 
 
-@csrf_exempt
 def upload_avatar_image(request):
+    # TODO: fergal.moran@gmail.com
+    # Problem here that only the current user can update avatar
+    # Might need to allow staff to change other's avatars?
     try:
-        if 'avatar_image' in request.FILES:
+        if len(request.FILES) != 0:
             profile = request.user.get_profile()
             if profile:
-                profile.avatar_image = request.FILES['avatar_image']
+                profile.avatar_image = request.FILES[request.FILES.keys()[0]]
+                profile.avatar_type = 'custom'
                 profile.save()
-                return HttpResponse(_get_json("Success"))
+                return HttpResponse(json.dumps({'status': 'OK', 'url': profile.get_avatar_image()}))
     except Exception, ex:
-        logger.exception("Error uploading avatar")
-    return HttpResponse(_get_json("Failed"))
+        logger.exception("Error uploading avatar: %s", ex.message)
+        return HttpResponse(json.dumps({'status': 'failed', 'message': ex.message}))
+
+    return HttpResponse(json.dumps({'status': 'failed', 'message': 'No image file found'}))
 
 
 @require_POST

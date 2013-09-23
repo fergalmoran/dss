@@ -27,6 +27,8 @@
         searchText: "#search-text"
       };
 
+      UserListView.prototype.className = "row";
+
       UserListView.prototype.itemView = UserItemView;
 
       UserListView.prototype.itemViewContainer = "#user-table";
@@ -40,24 +42,10 @@
       UserListView.prototype._fetchCollection = function(options) {
         var _this = this;
 
-        this.collection.fetch({
+        return this.collection.fetch({
           data: options,
           success: function() {
-            var pag;
-
             console.log("UserListView: Collection fetched");
-            console.log(_this.collection);
-            pag = $("#page-selection").bootpag({
-              total: _this.collection.page_count
-            });
-            pag.off("page");
-            pag.on("page", function(event, num) {
-              if (num !== _this.collection.page) {
-                console.log("Paginating");
-                _this.collection.page = num;
-                return _this.collection.fetch();
-              }
-            });
           }
         });
       };

@@ -28,11 +28,13 @@ Code provided under the BSD License:
 
       NowrapRegion = Marionette.Region.extend({
         open: function(view) {
-          debugger;          return this.$el.html(view.$el.html());
+          return this.$el.html(view.$el.html());
         }
       });
 
       HeaderView.prototype.template = _.template(Template);
+
+      HeaderView.prototype.className = "navbar navbar-default";
 
       HeaderView.prototype.events = {
         "click #header-play-pause-button": "togglePlayState",

@@ -4,10 +4,10 @@ define ['marionette', 'models/activity/activityCollection', 'views/activity/acti
     class ActivityListView extends Marionette.CompositeView
 
         template: _.template(Template)
-        tagName: "ul"
-        className: "activity-listing media-list"
+        tagName: "div"
+        className: "widget-box"
         itemView: ActivityItemView
-        itemViewContainer: "#activity-list-container-ul"
+        itemViewContainer: "#activity-container"
 
         initialize: ->
             @collection = new ActivityCollection

@@ -1,6 +1,22 @@
 require(['jquery'], function (jQuery) {
 
     jQuery.extend({
+        getCookie: function (name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        },
+
         createUploadIframe: function (id, uri) {
             //create frame
             var frameId = 'jUploadFrame' + id;
@@ -25,6 +41,7 @@ require(['jquery'], function (jQuery) {
             var formId = 'jUploadForm' + id;
             var fileId = 'jUploadFile' + id;
             var form = jQuery('<form  action="" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data"></form>');
+            jQuery('<input type="hidden" name="csrfmiddlewaretoken" value="' + jQuery.getCookie('csrftoken') + '"/>').appendTo(form);
             if (data) {
                 for (var i in data) {
                     jQuery('<input type="hidden" name="' + i + '" value="' + data[i] + '" />').appendTo(form);

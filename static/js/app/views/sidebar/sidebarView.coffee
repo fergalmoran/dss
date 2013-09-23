@@ -4,7 +4,7 @@ define ['underscore', 'backbone', 'marionette', 'vent', 'views/activity/activity
     class SidebarView extends Marionette.Layout
         template: _.template(Template)
         regions:
-            topRegion: '#sidebar-top-content'
+            topRegion: '#sidebar-now-playing'
             streamRegion: '#sidebar-stream-content'
 
 

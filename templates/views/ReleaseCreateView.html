@@ -3,7 +3,7 @@
         {% csrf_token %}
         <legend>Release details</legend>
         <div class="row">
-            <div class="span6">
+            <div class="col-md-6">
                 <div class="control-group" id="group-release_label">
                     <label class="control-label">Label</label>
 
@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <div class="span6">
+            <div class="col-md-6">
                 <div class="control-group" id="group-release_title">
                     <label class="control-label">Title</label>
 
@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="span8">
+            <div class="col-md-8">
                 <div class="control-group">
                     <label class="control-label">Embed Code</label>
                     <div class="controls">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
             </div>
-            <div class="span4 pull-right">
+            <div class="col-md-4 pull-right">
                 <div class="fileupload fileupload-new" data-provides="fileupload">
                     <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
                         <img src="<%= item.release_image %>" />

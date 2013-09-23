@@ -24,7 +24,7 @@ ADMINS = (
 MANAGERS = ADMINS
 AUTH_PROFILE_MODULE = 'spa.UserProfile'
 
-ALLOWED_HOSTS = ['*'] #localsettings.ALLOWED_HOSTS if hasattr(localsettings, 'ALLOWED_HOSTS') else []
+ALLOWED_HOSTS = ['*']  #localsettings.ALLOWED_HOSTS if hasattr(localsettings, 'ALLOWED_HOSTS') else []
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -280,7 +280,7 @@ if 'test' in sys.argv:
     except ImportError:
         pass
 
-
+GEOIP_PATH = localsettings.GEOIP_PATH
 from pipelinesettings import *
 
 

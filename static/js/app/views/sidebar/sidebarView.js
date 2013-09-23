@@ -17,7 +17,7 @@
       SidebarView.prototype.template = _.template(Template);
 
       SidebarView.prototype.regions = {
-        topRegion: '#sidebar-top-content',
+        topRegion: '#sidebar-now-playing',
         streamRegion: '#sidebar-stream-content'
       };
 

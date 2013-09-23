@@ -1,5 +1,5 @@
-define ['app', 'toastr', 'app.lib/editableView', 'moment', 'libs/backbone/backbone.syphon', 'text!/tpl/UserEditView'],
-(App, toastr, EditableView, moment, Syphon, Template) ->
+define ['app', 'toastr', 'app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.syphon', 'text!/tpl/UserEditView'],
+(App, toastr, EditableView, moment, utils, Syphon, Template) ->
     class UserEditView extends EditableView
         template: _.template(Template)
         events:
@@ -11,20 +11,26 @@ define ['app', 'toastr', 'app.lib/editableView', 'moment', 'libs/backbone/backbo
             avatarType = @model.get('avatar_type')
             $('#avatar_' + avatarType, @el).attr('checked', true);
             if avatarType is "custom"
+                @setupImageEditable
+                    el: $("#div_avatar_image_upload", @el)
+                    showbuttons: false
+                    chooseMessage: "Choose avatar image"
+
+                $("#mix-imageupload", @el).jas_fileupload uploadtype: "image"
                 $("#div_avatar_image_upload", @el).show()
-                $("#file_upload").uploadifive uploadScript: "ajax/upload_avatar_image/"
+                #$("#file_upload").uploadifive uploadScript: "ajax/upload_avatar_image/"
             else
                 $("#div_avatar_image_upload", this.el).hide();
 
             true
+
         selectAvatar: (evt) ->
             type = $(evt.currentTarget).val()
             @model.set "avatar_type", type
             if type is "custom"
-                $("#div_avatar_image_upload", @el).show()
-                $("#file_upload").uploadifive uploadScript: "ajax/upload_avatar_image/"
+                $("#custom_avatar_helptext", @el).show()
             else
-                $("#div_avatar_image_upload", @el).hide()
+                $("#custom_avatar_helptext", @el).hide()
 
         saveChanges: ->
             data = Backbone.Syphon.serialize(this)
@@ -34,23 +40,29 @@ define ['app', 'toastr', 'app.lib/editableView', 'moment', 'libs/backbone/backbo
                 success: ->
                     if ref.model.get('avatar_type') is "custom"
                         $.ajaxFileUpload
-                            url: "/ajax/upload_avatar_image/"
+                            url: "ajax/upload_avatar_image/"
                             secureuri: false
-                            fileElementId: "avatar_image"
-                            success: (data, status) ->
+                            fileElementId: "mix_image"
+                            success: (data, status) =>
                                 unless typeof (data.error) is "undefined"
                                     unless data.error is ""
                                         alert data.error
                                     else
                                         alert data.msg
                                 else
-                                    toastr.info "Successfully updated yourself"
+                                    $("#mix-details", @el).hide()
                                     Backbone.history.navigate "/",
                                         trigger: true
 
-
                             error: (data, status, e) ->
-                                alert e
+                                utils.showError e
+
+                        @uploadImage
+                            el: $('#avatar_image')
+                            success: ->
+                                utils.showMessage "Successfully updated yourself"
+                                Backbone.history.navigate "/",
+                                    trigger: true
 
                     else
                         toastr.info "Successfully updated yourself"

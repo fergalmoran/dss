@@ -46,6 +46,9 @@ def avatar_image(user, size=150):
 
     return settings.STATIC_URL + "/images/default-avatar-32.png"
 
+@register.filter
+def profile_url(user):
+    return user.get_profile().get_profile_url()
 
 class LookupNode(template.Node):
     def __init__(self, select_string):

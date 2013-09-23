@@ -16,9 +16,7 @@
 
       ActivityItemView.prototype.template = _.template(Template);
 
-      ActivityItemView.prototype.tagName = "li";
-
-      ActivityItemView.prototype.className = "media";
+      ActivityItemView.prototype.tagName = "div";
 
       ActivityItemView.prototype.onRender = function(itemView) {
         $(itemView.el).addClass('animated flash');

@@ -7,93 +7,70 @@
         <form enctype="multipart/form-data" method="post" class="form-horizontal" id="id-new-user-form">
             <input type="hidden" name="id" value="<%= id %>"/>
             <fieldset>
-                <div class="span6">
+                <div class="col-md-5">
                     <div class="clearfix control-group" id="div_display_name">
                         <label class="control-label" for="display_name">Display name</label>
+
                         <div class="controls">
-                            <input type="text" maxlength="75" name="display_name" class="textinput textInput"
+                            <input type="text" maxlength="75" name="display_name" class="col-xs-10"
                                    id="display_name"
                                    value="<%= display_name %>">
                         </div>
                     </div>
                     <div class="clearfix control-group" id="div_slug">
                         <label class="control-label" for="slug">Profile Slug</label>
+
                         <div class="controls">
-                            <input type="text" maxlength="75" name="slug" class="textinput textInput"
+                            <input type="text" maxlength="75" name="slug" class="col-xs-10"
                                    id="slug"
                                    value="<%= slug %>">
                         </div>
                     </div>
                     <div class="clearfix control-group" id="div_email">
                         <label class="control-label" for="email">E-mail address</label>
+
                         <div class="controls">
-                            <input type="text" maxlength="75" name="email" class="textinput textInput" id="email"
+                            <input type="text" maxlength="75" name="email" class="col-xs-10" id="email"
                                    value="<%= email %>">
                         </div>
                     </div>
-                    <div class="clearfix control-group" id="div_first_name">
-                        <label class="control-label " for="first_name">First name</label>
-                        <div class="controls">
-                            <input type="text" maxlength="30" name="first_name" class="textinput textInput"
-                                   id="first_name"
-                                   value="<%= first_name %>">
-                        </div>
-                    </div>
-                    <div class="clearfix control-group" id="div_last_name">
-                        <label class="control-label " for="last_name">Last name</label>
-                        <div class="controls">
-                            <input type="text" maxlength="30" name="last_name" class="textinput textInput"
-                                   id="last_name"
-                                   value="<%= last_name %>">
-                        </div>
-                    </div>
                     <div class="clearfix control-group" id="div_avatar_image_select">
-                        <label class="control-label requiredField" for="avatar_image_select_0">Avatar Image<span
-                                class="asteriskField">*</span></label>
+                        <label class="control-label requiredField" for="avatar_image_select_0">Avatar Image
+                            <span class="asteriskField">*</span></label>
+
                         <div class="controls">
-                                <label class="radio">Use gravatar image.<input type="radio" id='avatar_gravatar' value='gravatar' name="avatar_type" /></label>
-                                <label class="radio">Use Twitter/Facebook image.<input type="radio" id='avatar_social' value='social' name="avatar_type" /></label>
-                                <label class="radio">Use custom image.<input type="radio" id='avatar_custom' value='custom' name="avatar_type" /></label>
+                            <label class="radio">
+                                Use gravatar image.
+                                <input type="radio" id='avatar_gravatar' value='gravatar' name="avatar_type"/>
+                            </label>
+                            <label class="radio">
+                                Use Twitter/Facebook image.
+                                <input type="radio" id='avatar_social' value='social' name="avatar_type"/>
+                            </label>
+                            <label class="radio">
+                                Use custom image.
+                                <input type="radio" id='avatar_custom' value='custom' name="avatar_type"/>
+                            </label>
                         </div>
                     </div>
-                    <div class="clearfix control-group" id="div_avatar_image_upload">
-                        <label class="control-label requiredField" for="fileupload-new">Upload image<span
-                                class="asteriskField">*</span></label>
-                        <div class="fileupload fileupload-new pull-left" data-provides="fileupload"
-                             id="div_avatar_image">
-                            <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                                <img src="<%= avatar_image  %>"/>
-                            </div>
-                            <div class="fileupload-preview fileupload-exists thumbnail"
-                                 style="max-width: 200px; max-height: 150px; line-height: 20px;">
-                            </div>
-                            <div>
-                        <span class="btn btn-file">
-                            <span class="fileupload-new">
-                                Select image
-                            </span>
-                        <span class="fileupload-exists">
-                            Change
-                        </span>
-                            <input id="avatar_image" type="file" size="45" name="avatar_image" class="input">
-                        </span>
-                                <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-                            </div>
-                        </div>
-                    </div>
+                    <p id="custom_avatar_helptext" class="text-warning bigger-110 orange">
+                        <i class="icon-warning-sign"></i>
+                        Choose your custom image in your Profile Page
+                    </p>
                 </div>
-                <div class="span6">
+                <div class="col-md-7">
                     <div class="row">
                         <p>
-                            <h5>Tell us a bit about yourself.</h5>
+                        <h5>Tell us a bit about yourself.</h5>
                         </p>
-                        <textarea style="width: 100%" name="description" id="description" rows="5"><%= description %></textarea>
+                        <textarea style="width: 100%" name="description" id="description" rows="5"><%= description
+                            %></textarea>
                     </div>
                     <div class="row">
                         <p>
                         <h5>What can we share about you?</h5>
                         </p>
-                        <div class="span5 pull-left">
+                        <div class="col-md-5 pull-left">
                             <h5>Share this activity</h5>
                             <table class="table dss-option-table table-condensed table-bordered">
                                 <tbody>
@@ -105,21 +82,24 @@
                                 <tr>
                                     <td>
                                         <input type="checkbox" name="activity_sharing_likes"
-                                               id="activity_sharing_likes" <%= renderCheckbox(activity_sharing_likes) %>>
+                                               id="activity_sharing_likes" <%= renderCheckbox(activity_sharing_likes)
+                                        %>>
                                     </td>
                                     <td>
                                         <input type="checkbox" name="activity_sharing_favourites"
-                                               id="activity_sharing_favourites" <%= renderCheckbox(activity_sharing_favourites) %>>
+                                               id="activity_sharing_favourites"
+                                               <%= renderCheckbox(activity_sharing_favourites) %>>
                                     </td>
                                     <td>
                                         <input type="checkbox" name="activity_sharing_comments"
-                                               id="activity_sharing_comments" <%= renderCheckbox(activity_sharing_comments) %>>
+                                               id="activity_sharing_comments"
+                                               <%= renderCheckbox(activity_sharing_comments) %>>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="span5 pull-right">
+                        <div class="col-md-5 pull-right">
                             <h5>On these networks</h5>
                             <table class="table dss-option-table table-condensed table-bordered">
                                 <tbody>
@@ -129,10 +109,12 @@
                                 </tr>
                                 <tr>
                                     <td style="text-align: center;  vertical-align: middle">
-                                        <input type="checkbox" name="activity_sharing_networks_facebook" <%= renderCheckbox(activity_sharing_networks_facebook) %>>
+                                        <input type="checkbox" name="activity_sharing_networks_facebook"
+                                                <%= renderCheckbox(activity_sharing_networks_facebook) %>>
                                     </td>
                                     <td>
-                                        <input type="checkbox" name="activity_sharing_networks_twitter" <%= renderCheckbox(activity_sharing_networks_twitter) %>>
+                                        <input type="checkbox" name="activity_sharing_networks_twitter"
+                                                <%= renderCheckbox(activity_sharing_networks_twitter) %>>
                                     </td>
                                 </tr>
                                 </tbody>

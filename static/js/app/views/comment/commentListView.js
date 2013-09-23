@@ -32,10 +32,6 @@
         "click #btn-add-comment": "addComment"
       };
 
-      CommentListView.prototype.initialize = function() {
-        return console.log("CommentListView: initialize");
-      };
-
       CommentListView.prototype.addComment = function() {
         var _this = this;
 

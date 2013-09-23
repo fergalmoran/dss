@@ -10,18 +10,25 @@
 if (!com) var com = {};
 if (!com.podnoms) com.podnoms = {};
 
-soundManager.url = '/static/bin/sm/';
-soundManager.usePeakData = false;
-soundManager.useWaveformData = false;
-soundManager.useEQData = false;
-soundManager.fillGraph = false;
-soundManager.useThrottling = true;
+soundManager.url = com.podnoms.settings.staticUrl + '/swf/sm/';
+soundManager.bgColor = '#ffffff';
+soundManager.consoleOnly = true;
+soundManager.debugMode = false; //com.podnoms.settings.smDebugMode;
+soundManager.debugFlash = false; //com.podnoms.settings.smDebugMode;
 soundManager.flashVersion = 9;
-soundManager.useFlashBlock = com.podnoms.settings.smDebugMode;
-soundManager.debugMode = com.podnoms.settings.smDebugMode;
-soundManager.debugFlash = false;
+soundManager.flashPollingInterval = null;
+soundManager.html5PollingInterval = null;
+soundManager.html5Test = /^(probably|maybe)$/i;
+soundManager.flashLoadTimeout = 1000;
+soundManager.idPrefix = 'sound';
+soundManager.noSWFCache = false;
+soundManager.preferFlash = true;
+soundManager.useConsole = true;
+soundManager.useFlashBlock = false;
+soundManager.useHighPerformance = false;
 soundManager.useHTML5Audio = true;
-soundManager.preferFlash = false;
+soundManager.waitForWindowLoad = false;
+soundManager.wmode = null;
 
 com.podnoms.player = {
     /*Members*/
@@ -131,7 +138,7 @@ com.podnoms.player = {
     isPlayingId: function (id) {
         return this.isPlaying() && this.currentSound.sID == "com.podnoms.player-" + id;
     },
-    getStreamUrl: function(){
+    getStreamUrl: function () {
         return this.currentPath;
     },
     drawTimeline: function (el, boundingEl, duration) {
@@ -195,7 +202,7 @@ com.podnoms.player = {
         this._destroyCurrent();
     },
     stopLive: function () {
-        if (this.currentSound.instanceOptions.stream = true){
+        if (this.currentSound.instanceOptions.stream = true) {
             this.stopPlaying();
         }
     },

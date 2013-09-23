@@ -19,13 +19,15 @@ class NotificationResource(BackboneCompatibleResource):
 
     def dehydrate(self, bundle):
         if bundle.obj.from_user is not None:
-            bundle.data['user_image'] = bundle.obj.from_user.get_small_profile_image()
+            bundle.data['user_url'] = bundle.obj.from_user.get_absolute_url()
+            bundle.data['user_image'] = bundle.obj.from_user.get_sized_avatar_image(42, 42)
             bundle.data['user_name'] = bundle.obj.from_user.get_nice_name()
         else:
+            bundle.data['user_url'] = "#"
             bundle.data['user_image'] = UserProfile.get_default_avatar_image()
             bundle.data['user_name'] = UserProfile.get_default_moniker()
         return bundle
 
     def alter_list_data_to_serialize(self, request, data):
-        data['meta']['is_new'] = Notification.objects.filter(to_user=request.user, accepted_date__isnull=True).count()
+        data['meta']['is_new'] = 5  #Notification.objects.filter(to_user=request.user, accepted_date__isnull=True).count()
         return data

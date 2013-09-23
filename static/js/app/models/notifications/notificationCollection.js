@@ -14,11 +14,15 @@
         return _ref;
       }
 
+      NotificationCollection.prototype.page = 0;
+
       NotificationCollection.prototype.model = NotificationItem;
 
-      NotificationCollection.prototype.url = com.podnoms.settings.urlRoot + "notification/";
-
       NotificationCollection.prototype.limit = 5;
+
+      NotificationCollection.prototype.url = function() {
+        return com.podnoms.settings.urlRoot + "notification/?limit=" + this.limit + "&offset=" + Math.max(this.page - 1, 0) * this.limit;
+      };
 
       NotificationCollection.prototype.initialize = function() {
         var _this = this;

@@ -50,11 +50,6 @@ define(['jquery'], function ($) {
         }
     });
 
-    $(document).ajaxError(function (event, xhr, settings) {
-        //catch the 401's and don't log them, assume app is handling these
-        console.log("Site: ajaxError");
-    });
-
     $(document).ajaxSend(function (event, xhr, settings) {
         function getCookie(name) {
             var cookieValue = null;
@@ -90,10 +85,34 @@ define(['jquery'], function ($) {
         }
 
         if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
-            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            if (typeof(xhr.setRequestHeader) == typeof(Function))
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
         }
     });
 
+    $.ajaxSetup({
+         beforeSend: function(xhr, settings) {
+             function getCookie(name) {
+                 var cookieValue = null;
+                 if (document.cookie && document.cookie != '') {
+                     var cookies = document.cookie.split(';');
+                     for (var i = 0; i < cookies.length; i++) {
+                         var cookie = jQuery.trim(cookies[i]);
+                         // Does this cookie string begin with the name we want?
+                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                         break;
+                     }
+                 }
+             }
+             return cookieValue;
+             }
+             if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                 // Only send the token to relative URLs i.e. locally.
+                 xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+             }
+         }
+    });
 
     if (com.podnoms.settings.isDebug) {
     } else {

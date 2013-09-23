@@ -1,55 +1,106 @@
-<div class="span12 bordered-faint well">
-    <div class="row-fluid">
-        <ul class="inline">
-            <li>
-                {% if user.is_authenticated %}
-                    <button href="#"
-                            id="follow-button"
-                            class="follow-button btn btn-mini btn-primary icon  <% if (is_following) { %> disabled <% } %>">
-                        <i id="follow-icon" class="icon-eye-close"></i>Follow
-                    </button>
-                {% else %}
-                    <button href="#"
-                            id="follow-button-login"
-                            class="follow-button btn btn-mini btn-primary icon  <% if (is_following) { %> disabled <% } %>">
-                        <i id="follow-icon" class="icon-eye-close"></i>Follow
-                    </button>
-                {% endif %}
-            </li>
-            <li>
-                <h4><strong><a href="<%= url %>"><%= display_name %></a></strong>
-                </h4>
-            </li>
-        </ul>
-    </div>
-    <div class="row-fluid">
-        <div class="span2">
-            <a href="<%= url %>" class="thumbnail">
-                <img src="<%= avatar_image %>" alt="" style="width: 170px; height: 106px">
+<div class="col-sm-12">
+    <h3 class="header blue smaller">
+        <i class="icon-user"></i>
+        <a href="/user/<%= slug %>"><%= display_name %></a>
+        <span class="pull-right">
+            <a class="btn btn-xs btn-success" href="/user/<%= slug %>/mixes">
+                <i class="icon-music"></i>
+                Mixes
+                <span class="badge badge-purple"><%= mix_count%></span>
             </a>
-        </div>
-        <div class="span6">
-            <p>
-                <%= description %>
-            </p>
+            <a class="btn btn-xs btn-success" href="/user/<%= slug %>/favourites">
+                <i class="icon-star"></i>
+                Favourites
+                <span class="badge badge-purple"><%= favourite_count %></span>
+            </a>
+            <a class="btn btn-xs btn-success" href="/user/<%= slug %>/likes">
+                <i class="icon-heart"></i>
+                Likes
+                <span class="badge badge-purple"><%= like_count %></span>
+            </a>
+            <a class="btn btn-xs btn-success" href="/user/<%= slug %>/followers">
+                <i class="icon-check"></i>
+                Followers
+                <span class="badge badge-purple"><%= followers.length %></span>
+            </a>
+            <a class="btn btn-xs btn-success" href="/user/<%= slug %>/following">
+                <i class="icon-share"></i>
+                Following
+                <span class="badge badge-purple"><%= following.length %></span>
+            </a>
+        </span>
+    </h3>
+
+    <div class="col-sm-3 center">
+        <span class="profile-picture">
+            <img class="editable img-responsive editable-click editable-empty" alt="Avatar Image"
+                 style="width: 130px; height: 90px" src="<%= avatar_image %>">
+        </span>
+
+        <div class="space-4"></div>
+        <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
+            <div class="inline position-relative">
+                <a href="#" data-bypass="true" class="user-title-label dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-circle light-green middle"></i>
+                    &nbsp;
+                    <span class="white"><%= display_name %></span>
+                </a>
+
+                <% if (isMe(id)) { %>
+                <ul class="align-left dropdown-menu dropdown-caret dropdown-lighter">
+                    <li class="dropdown-header"> Change Status</li>
+                    <li>
+                        <a href="#" data-bypass="true">
+                            <i class="icon-circle green"></i>
+                            &nbsp;
+                            <span class="green">Available</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-bypass="true">
+                            <i class="icon-circle red"></i>
+                            &nbsp;
+                            <span class="red">Busy</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-bypass="true">
+                            <i class="icon-circle grey"></i>
+                            &nbsp;
+                            <span class="grey">Invisible</span>
+                        </a>
+                    </li>
+                </ul>
+                <% } %>
+            </div>
         </div>
     </div>
-    <div class="row-fluid">
-        <div class="span8">
-            <p></p>
-
-            <p>
-                | <i class="icon-calendar"></i> Joined: <%= humanise(date_joined) %>
-                | <i class="icon-calendar"></i> Last Seen: <%= humanise(last_login) %>
-            </p>
-
-            <p>
-                | <i class="icon-music"></i> <a href="/user/<%= slug %>"><%= mix_count%> Mixes</a>
-                | <i class="icon-heart"></i> <a href="/user/<%= slug %>/favourites"><%= favourite_count %> Favourites</a>
-                | <i class="icon-star-empty"></i> <a href="/user/<%= slug %>/likes"><%= like_count %> Likes</a>
-                | <i class="icon-check"></i> <a href="/user/<%= slug %>/followers"><%= followers.length %> Followers</a>
-                | <i class="icon-share"></i> <a href="/user/<%= slug %>/following"><%= following.length %> Following</a>
-            </p>
-        </div>
+    <div class="col-sm-9 bordered-faint">
+        <blockquote>
+            <%= description %>
+        </blockquote>
     </div>
+    <div class="col-sm-9">
+        <div class="space-4"></div>
+    </div>
+    <div class="col-sm-9 pull-right">
+        <div class="pull-right">
+            <i class="icon-calendar"></i>&nbsp;<span class="text-primary">Joined:</span><span class="text-muted">&nbsp;<%= humanise(date_joined) %></span>
+            <i class="icon-calendar"></i>&nbsp;<span class="text-primary">Last Seen:</span><span class="text-muted">&nbsp;<%= humanise(last_login) %></span>
+        </div>
+        {% if user.is_authenticated %}
+            <button id="follow-button"
+                    class="follow-button btn btn-xs btn-danger icon  <% if (is_following) { %> disabled <% } %>">
+                <i id="follow-icon" class="icon-eye-close"></i>Follow<% if (is_following) { %>ing<% } %>
+            </button>
+        {% else %}
+            <button id="follow-button-login"
+                    class="follow-button btn btn-xs btn-danger icon  <% if (is_following) { %> disabled <% } %>">
+                <i id="follow-icon" class="icon-eye-close"></i>Login to Follow
+            </button>
+        {% endif %}
+    </div>
+</div>
+<div class="col-sm-12">
+    <div class="hr hr-18 dotted hr-double"></div>
 </div>

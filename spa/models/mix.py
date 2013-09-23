@@ -60,6 +60,7 @@ class Mix(_BaseModel):
         if not self.id:
             self.slug = unique_slugify(self, self.title)
 
+        self.clean_image('mix_image', Mix)
         #Check for the unlikely event that the waveform has been generated
         if os.path.isfile(self.get_waveform_path()):
             self.waveform_generated = True

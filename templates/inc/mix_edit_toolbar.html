@@ -48,14 +48,14 @@
 
 <div class="btn-toolbar" style="margin-bottom: 9px">
     <div class="btn-group">
-        <a href="#" id="{{ model.id }}" class="btn btn-mini mix-play-btn"
+        <a href="#" id="{{ model.id }}" class="btn btn-xs mix-play-btn"
                 data-url="{{MEDIA_URL}}{{ model.local_file }}"
                 data-title="{{ model.title }}">
             <i class="icon-play icon-black"></i> Play
         </a>
         {% if model.user.user == user %}
-        <a class="btn btn-mini" href="#"><i class="icon-music"></i></a>
-        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+        <a class="btn btn-xs" href="#"><i class="icon-music"></i></a>
+        <a class="btn btn-xs dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
         <ul class="dropdown-menu">
             <li><a href="{% url mix_edit model.id %}"><i class="icon-edit"></i> Edit</a></li>
             <li>

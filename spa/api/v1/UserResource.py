@@ -14,6 +14,7 @@ from spa.models.activity import ActivityFollow
 from spa.models.userprofile import UserProfile
 from spa.models.mix import Mix
 from tastypie_msgpack import Serializer
+from django.contrib.gis.utils import GeoIP
 
 
 class UserResource(BackboneCompatibleResource):
@@ -52,11 +53,11 @@ class UserResource(BackboneCompatibleResource):
                 self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
         ]
 
-    def apply_filters(self, request, applicable_filters):
+    def ___apply_filters(self, request, applicable_filters):
         semi_filtered = super(UserResource, self).apply_filters(request, applicable_filters)
         return semi_filtered
 
-    def __apply_filters(self, request, applicable_filters):
+    def apply_filters(self, request, applicable_filters):
         semi_filtered = super(UserResource, self).apply_filters(request, applicable_filters)
         q = request.GET.get('q', None)
         if q is not None:
@@ -92,16 +93,19 @@ class UserResource(BackboneCompatibleResource):
         if 'activity_sharing_favourites' in kwargs: del kwargs['activity_sharing_favourites']
         if 'activity_sharing_comments' in kwargs: del kwargs['activity_sharing_comments']
 
-        """
-        #need to figure out why this is excepting, granted I shouldn't be
-        #trying to update followers in here but still though.
-        try:
-            self._patch_resource(bundle)
-        except Exception, ex:
-            pass
-        """
-
         ret = super(UserResource, self).obj_update(bundle, skip_errors, **kwargs)
+
+        try:
+            ip = '188.141.70.110' if bundle.request.META['REMOTE_ADDR'] == '127.0.0.1' else bundle.request.META['REMOTE_ADDR']
+            if ip:
+                g = GeoIP()
+                city = g.city(ip)
+                country = g.country(ip)
+                logger.info("Updated user location")
+        except Exception, e:
+            logger.error(e.message)
+            pass
+
         return ret
 
     def dehydrate_description(self, bundle):

@@ -11,7 +11,6 @@ define ['marionette', 'models/mix/mixItem', 'views/mix/mixItemView', 'text!/tpl/
         onRender: ->
             view = new MixItemView({tagName: "div", className: "mix-listing audio-listing-single", model: @model})
             @mix.show(view)
-            view.renderComments()
             true
 
     MixDetailView

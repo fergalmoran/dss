@@ -30,7 +30,8 @@
         "user/:slug/likes": "showUserLikes",
         "user/:slug/followers": "showUserFollowers",
         "user/:slug/following": "showUserFollowing",
-        "user/:slug": "showUserDetail",
+        "user/:slug/mixes": "showUserMixes",
+        "user/:slug": "showUserProfile",
         "me": "editUser"
       };
 

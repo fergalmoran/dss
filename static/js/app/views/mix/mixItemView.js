@@ -58,6 +58,7 @@
           $('#player-duration-' + id, this.el).text(totalDurationText);
         }
         this.renderGenres();
+        this.renderComments();
       };
 
       MixItemView.prototype.onShow = function() {
@@ -73,7 +74,7 @@
 
         el = this.el;
         $.each(this.model.get("genre-list"), function(data) {
-          $("#genre-list", el).append('<a href="/mixes/' + this.slug + '" class="label label-info">' + this.text + '</a>');
+          $("#genre-list", el).append('<a href="/mixes/' + this.slug + '" class="label label-info arrowed-right arrowed-in">' + this.text + '</a>');
           return true;
         });
         return true;
@@ -90,7 +91,6 @@
           success: function(data) {
             var content;
 
-            console.log(data);
             content = new CommentsListView({
               collection: comments
             }).render();
