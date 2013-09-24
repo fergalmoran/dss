@@ -23,14 +23,14 @@ define ['marionette', 'vent', 'text!/tpl/NowPlayingView'],
 
         mixPause: (model) ->
             console.log "NowPlayingView: mixPause"
-            $('#now-playing-play', @el).hide()
-            $('#now-playing-pause', @el).show()
+            $('#now-playing-play', @el).show()
+            $('#now-playing-pause', @el).hide()
             true
 
         mixPlay: (model) ->
             console.log "NowPlayingView: mixPlay"
-            $('#now-playing-play', @el).show()
-            $('#now-playing-pause', @el).hide()
+            $('#now-playing-play', @el).hide()
+            $('#now-playing-pause', @el).show()
             true
 
         doPlay: ->

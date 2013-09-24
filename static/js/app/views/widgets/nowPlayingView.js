@@ -37,15 +37,15 @@
 
       NowPlayingView.prototype.mixPause = function(model) {
         console.log("NowPlayingView: mixPause");
-        $('#now-playing-play', this.el).hide();
-        $('#now-playing-pause', this.el).show();
+        $('#now-playing-play', this.el).show();
+        $('#now-playing-pause', this.el).hide();
         return true;
       };
 
       NowPlayingView.prototype.mixPlay = function(model) {
         console.log("NowPlayingView: mixPlay");
-        $('#now-playing-play', this.el).show();
-        $('#now-playing-pause', this.el).hide();
+        $('#now-playing-play', this.el).hide();
+        $('#now-playing-pause', this.el).show();
         return true;
       };
 
