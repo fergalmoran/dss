@@ -637,3 +637,9 @@ img.flag {
 #nav-profile-image {
     height: auto;
 }
+
+.now-playing-tools {
+    position: absolute;
+    right: 12px;
+    bottom: 8px;
+}

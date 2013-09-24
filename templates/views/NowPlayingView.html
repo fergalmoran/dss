@@ -10,6 +10,7 @@
         <div>
             <img class="pull-left" alt="mix-image" src="<%= mix_image %>">
             <a class="user" href="<%= item_url %>" title="<%= title %>"><%= title %></a>
+
             <div class="time">
                 <i class="icon-user bigger-110"></i>
                 <a href="/<%= user_profile_url %>">
@@ -17,14 +18,17 @@
                 </a>
             </div>
         </div>
-
-        <div class="tools action-buttons">
-            <a href="#" class="blue">
-                <i class="icon-pencil bigger-125"></i>
+        {% comment %}
+        <a id="now-playing-playing-toggle" class="now-playing-play player-button">
+            <span class="accessible-description">Play Button</span>
+        </a>
+        {% endcomment %}
+        <div class="now-playing-tools action-buttons">
+            <a id="now-playing-play" href="#" class="blue">
+                <i class="icon-play bigger-125"></i>
             </a>
-
-            <a href="#" class="red">
-                <i class="icon-remove bigger-125"></i>
+            <a id="now-playing-pause" href="#" class="red">
+                <i class="icon-pause bigger-125"></i>
             </a>
         </div>
     </div>

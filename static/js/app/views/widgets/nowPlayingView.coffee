@@ -6,14 +6,15 @@ define ['marionette', 'vent', 'text!/tpl/NowPlayingView'],
         className: "now-playing"
 
         events: {
-            "click .now-playing-play": "doPlay",
-            "click .now-playing-pause": "doPause"
+            "click #now-playing-play": "doPlay",
+            "click #now-playing-pause": "doPause"
         }
 
         initialize: ->
             console.log "NowPlayingView: initialize"
             @listenTo(vent, 'mix:play', @mixPlay)
             @listenTo(vent, 'mix:pause', @mixPause)
+            $('#now-playing-pause', @el).hide()
             true
 
         onRender: ->
@@ -22,16 +23,14 @@ define ['marionette', 'vent', 'text!/tpl/NowPlayingView'],
 
         mixPause: (model) ->
             console.log "NowPlayingView: mixPause"
-            $('#now-playing-playing-toggle', @el)
-                .toggleClass('now-playing-play', true)
-                .toggleClass('now-playing-pause', false)
+            $('#now-playing-play', @el).hide()
+            $('#now-playing-pause', @el).show()
             true
 
         mixPlay: (model) ->
             console.log "NowPlayingView: mixPlay"
-            $('#now-playing-playing-toggle', @el)
-                .toggleClass('now-playing-play', false)
-                .toggleClass('now-playing-pause', true)
+            $('#now-playing-play', @el).show()
+            $('#now-playing-pause', @el).hide()
             true
 
         doPlay: ->

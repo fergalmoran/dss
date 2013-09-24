@@ -170,9 +170,12 @@ class UserProfile(_BaseModel):
             self.logger.warn("Error getting small profile image: %s", ex.message)
 
     def get_sized_avatar_image(self, width, height):
-        image = self.get_avatar_image()
-        sized = thumbnail.get_thumbnail(image, "%sx%s" % (width, height), crop="center")
-        return urlparse.urljoin(settings.MEDIA_URL, sized.name)
+        try:
+            image = self.get_avatar_image()
+            sized = thumbnail.get_thumbnail(image, "%sx%s" % (width, height), crop="center")
+            return urlparse.urljoin(settings.MEDIA_URL, sized.name)
+        except SuspiciousOperation:
+            return UserProfile.get_default_avatar_image()
 
     def get_avatar_image(self):
         avatar_type = self.avatar_type
