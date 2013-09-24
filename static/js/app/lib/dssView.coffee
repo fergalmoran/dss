@@ -5,7 +5,11 @@ define ['marionette', 'utils'],
             renderCheckbox: (value) ->
                 return (if value then "checked" else "")
 
+            isMe: (id) ->
+                return utils.isMe(id)
+
             humanise: (date)->
                 moment(date).fromNow()
+
 
     DssView

@@ -15,6 +15,7 @@ from spa.models.userprofile import UserProfile
 from spa.models.mix import Mix
 from tastypie_msgpack import Serializer
 from django.contrib.gis.utils import GeoIP
+from core.tasks import update_geo_info_task
 
 
 class UserResource(BackboneCompatibleResource):
@@ -94,18 +95,8 @@ class UserResource(BackboneCompatibleResource):
         if 'activity_sharing_comments' in kwargs: del kwargs['activity_sharing_comments']
 
         ret = super(UserResource, self).obj_update(bundle, skip_errors, **kwargs)
-
-        try:
-            ip = '188.141.70.110' if bundle.request.META['REMOTE_ADDR'] == '127.0.0.1' else bundle.request.META['REMOTE_ADDR']
-            if ip:
-                g = GeoIP()
-                city = g.city(ip)
-                country = g.country(ip)
-                logger.info("Updated user location")
-        except Exception, e:
-            logger.error(e.message)
-            pass
-
+        update_geo_info_task.delay(ip_address=bundle.request.META['REMOTE_ADDR'],
+                                   profile_id=bundle.request.user.get_profile().id)
         return ret
 
     def dehydrate_description(self, bundle):

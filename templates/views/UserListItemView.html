@@ -33,20 +33,20 @@
 
     <div class="col-sm-3 center">
         <span class="profile-picture">
-            <img class="editable img-responsive editable-click editable-empty" alt="Avatar Image"
-                 style="width: 130px; height: 90px" src="<%= avatar_image %>">
+            <img class="img-responsive" alt="Avatar Image" style="width: 130px; height: 90px" src="<%= avatar_image %>">
         </span>
 
         <div class="space-4"></div>
         <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
             <div class="inline position-relative">
+
+
+                <% if (isMe(id)) { %>
                 <a href="#" data-bypass="true" class="user-title-label dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-circle light-green middle"></i>
                     &nbsp;
                     <span class="white"><%= display_name %></span>
                 </a>
-
-                <% if (isMe(id)) { %>
                 <ul class="align-left dropdown-menu dropdown-caret dropdown-lighter">
                     <li class="dropdown-header"> Change Status</li>
                     <li>
@@ -71,6 +71,12 @@
                         </a>
                     </li>
                 </ul>
+                <% } else { %>
+                <p class="user-title-label dropdown-toggle">
+                    <i class="icon-circle light-green middle"></i>
+                    &nbsp;
+                    <span class="white"><%= display_name %></span>
+                </p>
                 <% } %>
             </div>
         </div>
@@ -89,13 +95,13 @@
             <i class="icon-calendar"></i>&nbsp;<span class="text-primary">Last Seen:</span><span class="text-muted">&nbsp;<%= humanise(last_login) %></span>
         </div>
         {% if user.is_authenticated %}
-            <button id="follow-button"
-                    class="follow-button btn btn-xs btn-danger icon  <% if (is_following) { %> disabled <% } %>">
-                <i id="follow-icon" class="icon-eye-close"></i>Follow<% if (is_following) { %>ing<% } %>
+            <button id="follow-button" class="btn btn-xs <%= is_following ? 'btn-success' : 'btn-danger' %>">
+                <i class="<%= is_following ? 'icon-ok' : 'icon-eye-open' %>"></i>
+                <%= is_following == true ? 'Following' : 'Follow' %>
             </button>
         {% else %}
             <button id="follow-button-login"
-                    class="follow-button btn btn-xs btn-danger icon  <% if (is_following) { %> disabled <% } %>">
+                    class="follow-button btn btn-xs btn-danger icon">
                 <i id="follow-icon" class="icon-eye-close"></i>Login to Follow
             </button>
         {% endif %}

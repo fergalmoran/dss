@@ -32,6 +32,7 @@ define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.sypho
                     @state++;
                     $("#div-upload-mix", @el).hide()
                     @checkRedirect()
+
             @setupImageEditable
                 el: @ui.image
                 showbuttons: false
@@ -45,7 +46,7 @@ define ['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.sypho
             @sendImage = false
             parent = this
             if not @model.id
-                #$("#mix-details", @el).hide()
+                $("#mix-details", @el).hide()
                 $("#upload-hash", @el).val @guid
             else
                 $("#div-upload-mix", @el).hide()

@@ -1,13 +1,9 @@
-import threading
-from django.core.exceptions import ObjectDoesNotExist, ImproperlyConfigured
-from django.db.models import get_app
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.signals import post_save
 from django.dispatch import Signal
 from django.contrib.auth.models import User
-from south import signals
 from core.utils.audio.mp3 import mp3_length
 
-from dss import settings
 from spa.models.userprofile import UserProfile
 from spa.models.mix import Mix
 

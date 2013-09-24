@@ -74,6 +74,7 @@
         this.sendImage = false;
         parent = this;
         if (!this.model.id) {
+          $("#mix-details", this.el).hide();
           $("#upload-hash", this.el).val(this.guid);
         } else {
           $("#div-upload-mix", this.el).hide();

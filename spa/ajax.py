@@ -4,9 +4,8 @@ import logging
 
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage, FileSystemStorage
+from django.core.files.storage import FileSystemStorage
 from django.db.models import get_model
 from django.http import HttpResponse, HttpResponseNotFound
 from annoying.decorators import render_to
@@ -14,18 +13,17 @@ from django.shortcuts import render_to_response
 from django.utils import simplejson
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from jfu.http import upload_receive, UploadResponse
 
 from core.utils import live
-from core.utils.audio import Mp3FileNotFoundException
 from dss import localsettings, settings
 from spa.models import UserProfile, Release
 from spa.models.mix import Mix
 from spa.models.comment import Comment
 from core.serialisers import json
 from core.tasks import create_waveform_task
-from core.utils.audio.mp3 import mp3_length
 from spa.models.notification import Notification
-from jfu.http import upload_receive, UploadResponse, JFUResponse
+
 
 logger = logging.getLogger(__name__)
 

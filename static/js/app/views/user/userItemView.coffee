@@ -5,17 +5,11 @@ define ['app', 'moment', 'app.lib/dssView', 'vent', 'text!/tpl/UserListItemView'
         className: "row"
 
         events:
-            "click #follow-button": "followUser"
-            "click #follow-button-login": "promptLogin"
+            "click #follow-button": -> vent.trigger("user:follow", @model)
+            "click #follow-button-login": -> vent.trigger("app:login", @model)
 
         initialize: =>
             @listenTo(@model, 'change:is_following', @render)
 
-        followUser: ->
-            console.log("UserItemView: followUser")
-            vent.trigger("user:follow", @model)
-
-        promptLogin:->
-            vent.trigger("app:login", @model)
 
     UserItemView

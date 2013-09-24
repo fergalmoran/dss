@@ -10,6 +10,7 @@
                              alt="Avatar Image"
                              src="<%= avatar_image %>">
                     </span>
+
                     <div class="space-4"></div>
                     <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
                         <div class="inline position-relative">
@@ -48,22 +49,32 @@
                 <div class="space-6"></div>
                 <div class="profile-contact-info">
                     <div class="profile-contact-links align-left">
-                        <a class="btn btn-link" href="#">
-                            <i class="icon-plus-sign bigger-120 green"></i>
-                            Follow
-                        </a>
+                        {% if user.is_authenticated %}
+                            <a  id="follow-button" class="btn btn-link <% if (is_following) { %> following-disabled <% } %>" data-bypass="true">
+                                <i class="icon-plus-sign bigger-120 green"></i>
+                                Follow<% if (is_following) { %>ing<% } %>
+                            </a>
+                        {% else %}
+                            <a  id="follow-button-login" class="btn btn-link" data-bypass="true">
+                                <i class="icon-plus-sign bigger-120 green"></i>
+                                Follow<% if (is_following) { %>ing<% } %>
+                            </a>
+                        {% endif %}
+
                         <br>
+                        {% comment %}
                         <a class="btn btn-link" href="#">
                             <i class="icon-envelope bigger-120 pink"></i>
                             Send a message
                         </a>
+                        {% endcomment %}
                         <a class="btn btn-link" href="<%= url %>">
                             <i class="icon-globe bigger-125 blue"></i>
                             Profile Link
                         </a>
                     </div>
                     <div class="space-6"></div>
-
+                    {% comment %}
                     <div class="profile-social-links center">
                         <a href="#" class="tooltip-info" title="" data-original-title="Visit my Facebook">
                             <i class="middle icon-facebook-sign icon-2x blue"></i>
@@ -77,6 +88,7 @@
                             <i class="middle icon-pinterest-sign icon-2x red"></i>
                         </a>
                     </div>
+                    {% endcomment %}
                 </div>
             </div>
 
@@ -114,8 +126,8 @@
                         <div class="profile-info-name"> Location</div>
                         <div class="profile-info-value">
                             <i class="icon-map-marker light-orange bigger-110"></i>
-                            <span class="usereditable" id="country" style="display: inline;">Cork</span>
-                            <span class="usereditable" id="city" style="display: inline;">Ireland</span>
+                            <span class="usereditable" id="city" style="display: inline;"><%= city %></span>
+                            <span class="usereditable" id="country" style="display: inline;"><%= country %></span>
                         </div>
                     </div>
                     <div class="profile-info-row">

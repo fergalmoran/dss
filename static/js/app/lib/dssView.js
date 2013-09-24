@@ -17,6 +17,9 @@
         renderCheckbox: function(value) {
           return (value ? "checked" : "");
         },
+        isMe: function(id) {
+          return utils.isMe(id);
+        },
         humanise: function(date) {
           return moment(date).fromNow();
         }
