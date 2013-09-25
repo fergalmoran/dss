@@ -1,4 +1,4 @@
-Django==1.5
+Django==1.5.4
 PIL>=1.1.7
 south
 beautifulsoup4>=4.1.1
@@ -7,16 +7,17 @@ django-allauth>=0.7.0
 django-annoying>=0.7.6
 django-celery>=3.0.4
 django-gravatar2>=1.0.6
-django-notification>=0.2
 django-socialauth>=0.1.2c
 django-tastypie>=0.9.11
 django-tinymce>=1.5.1b2
 git+git://github.com/jezdez/django-avatar.git#egg=django-avatar
+git+git://github.com/pinax/django-notification.git#egg=django-notification
 git+git://github.com/PaulUithol/backbone-tastypie.git#egg=backbone-tastypie
 git+git://github.com/tschellenbach/Django-facebook.git#django-facebook
 git+git://github.com/hpoul/sct-communitytools.git#django-sct
 git+git://github.com/jefftriplett/django-podcast.git#django-podcast
 git+git://github.com/etianen/django-require.git#django-require
+django-templated-email
 django-grappelli
 humanize
 django-debug-toolbar
@@ -29,7 +30,6 @@ django-model_utils
 mutagen
 Werkzeug
 psycopg2
-templated_emails
 htmlmin
 mimeparse
 django-htmlmin
@@ -39,3 +39,5 @@ gunicorn
 django-dbbackup
 dropbox
 django-jfu
+six
+django-require

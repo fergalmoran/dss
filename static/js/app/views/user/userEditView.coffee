@@ -1,4 +1,4 @@
-define ['app', 'toastr', 'app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.syphon', 'text!/tpl/UserEditView'],
+define ['app', 'toastr', 'app.lib/editableView', 'moment', 'utils', 'backbone.syphon', 'text!/tpl/UserEditView'],
 (App, toastr, EditableView, moment, utils, Syphon, Template) ->
     class UserEditView extends EditableView
         template: _.template(Template)

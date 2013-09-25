@@ -1,5 +1,5 @@
-define ['backbone.relational', 'models/comment/commentCollection', 'models/comment/commentItem', 'app.lib/backbone.dss.model'], \
-    (Backbone, CommentCollection, CommentItem, DSSModel) ->
+define ['models/comment/commentCollection', 'models/comment/commentItem', 'app.lib/backbone.dss.model'], \
+    (CommentCollection, CommentItem, DSSModel) ->
         class MixItem extends DSSModel
             urlRoot: com.podnoms.settings.urlRoot + "mix/"
             """

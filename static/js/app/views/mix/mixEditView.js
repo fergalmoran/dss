@@ -4,7 +4,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.syphon', 'text!/tpl/MixEditView', 'jquery.form', 'jquery.fileupload', 'jquery.fileupload-process', 'jquery.fileupload-audio', 'jquery.iframe-transport', 'jquery.ui.widget', 'jquery.fileupload-ui', 'select2', 'libs/ajaxfileupload', 'bootstrap-fileupload', 'ace', 'libs/ace/bootstrap-tag.min'], function(EditableView, moment, utils, Syphon, Template) {
+  define(['app.lib/editableView', 'moment', 'utils', 'backbone.syphon', 'text!/tpl/MixEditView', 'jquery.fileupload', 'jquery.fileupload-process', 'jquery.fileupload-audio', 'jquery.fileupload-ui', 'jquery.iframe-transport', 'jquery.ui.widget', 'lib/select2', 'lib/ajaxfileupload', 'ace', 'lib/bootstrap-tag.min'], function(EditableView, moment, utils, Syphon, Template) {
     var MixEditView;
     return MixEditView = (function(_super) {
 

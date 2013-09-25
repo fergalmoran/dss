@@ -1,4 +1,4 @@
-define ['app.lib/dssView', 'utils', 'ace-editable'],
+define ['app.lib/dssView', 'utils', 'ace-editable', 'lib/bootstrap-typeahead'],
 (DssView, utils) ->
     class EditableView extends DssView
         events:

@@ -1,5 +1,4 @@
-define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userItemView', 'text!/tpl/UserListView',
-        'bootpag'],
+define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userItemView', 'text!/tpl/UserListView'],
 ($, Marionette, UserCollection, UserItemView, Template) ->
     class UserListView extends Marionette.CompositeView
 
@@ -9,7 +8,6 @@ define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
 
         ui:
             searchText: "#search-text"
-
 
         className: "row"
         itemView: UserItemView

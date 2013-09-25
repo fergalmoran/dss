@@ -9,11 +9,11 @@ from django_gravatar.helpers import has_gravatar, get_gravatar_url
 from sorl.thumbnail import get_thumbnail
 
 from allauth.socialaccount.models import SocialAccount
-from templated_emails.utils import send_templated_email
 from core.utils.file import generate_save_file_name
 from core.utils.url import unique_slugify
 from dss import settings
 from spa.models._basemodel import _BaseModel
+from templated_email import send_templated_mail
 from sorl import thumbnail
 
 logger = logging.getLogger(__name__)

@@ -1,6 +1,6 @@
 define ['jquery', 'underscore', 'marionette', 'vent',
         'text!/tpl/SearchView', 'text!/tpl/SearchResultView',
-        'typeahead'],
+        'lib/bootstrap-typeahead'],
 ($, _, Marionette, vent, Template, SearchResultView) ->
     class SearchView extends Marionette.CompositeView
         template: _.template(Template)

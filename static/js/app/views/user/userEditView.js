@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app', 'toastr', 'app.lib/editableView', 'moment', 'utils', 'libs/backbone/backbone.syphon', 'text!/tpl/UserEditView'], function(App, toastr, EditableView, moment, utils, Syphon, Template) {
+  define(['app', 'toastr', 'app.lib/editableView', 'moment', 'utils', 'backbone.syphon', 'text!/tpl/UserEditView'], function(App, toastr, EditableView, moment, utils, Syphon, Template) {
     var UserEditView;
     UserEditView = (function(_super) {
 

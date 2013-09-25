@@ -1,7 +1,11 @@
 import shutil
 from celery.task import task
 import os
-from django.contrib.gis.geoip import GeoIP
+try:
+    from django.contrib.gis.geoip import GeoIP
+except ImportError:
+    pass
+
 from core.utils.waveform import generate_waveform
 from dss import settings
 from spa.signals import waveform_generated

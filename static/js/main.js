@@ -4,22 +4,13 @@ requirejs.config({
     waitSeconds: 200,
     paths: {
         site: 'app/site',
-        jquery: 'libs/jquery',
-        'jquery.ui.widget': 'libs/jquery.ui.widget',
-        'jquery.form': 'libs/jquery.form',
-        backbone: 'libs/backbone/backbone',
-        'backbone.babysitter': 'libs/backbone/backbone.babysitter',
-        'backbone.relational': 'libs/backbone/backbone.relational',
-        marionette: 'libs/backbone/backbone.marionette',
-        'backbone.wreqr': 'libs/backbone/backbone.wreqr',
-        ich: 'libs/ICanHaz',
-        bootstrap: 'libs/bootstrap/bootstrap',
-        'bootstrap-fileupload': 'libs/jasny/bootstrap-fileupload',
-        typeahead: 'libs/bootstrap/bootstrap-typeahead',
-        underscore: 'libs/backbone/underscore',
-        bootpag: 'libs/bootstrap/bootpag',
-        select2: 'libs/select2',
-        text: 'libs/text',
+        jquery: 'lib/jquery',
+        backbone: 'lib/backbone',
+        'backbone.syphon': 'lib/backbone.syphon',
+        marionette: 'lib/backbone.marionette',
+        bootstrap: 'lib/bootstrap',
+        underscore: 'lib/underscore',
+        text: 'lib/text',
         templates: '/templates',
         app: 'app/appv2',
         utils: 'app/lib/utils',
@@ -27,85 +18,60 @@ requirejs.config({
         views: 'app/views',
         models: 'app/models',
         'app.lib': 'app/lib',
-        moment: 'libs/moment',
-        ace: 'libs/ace/uncompressed/ace',
-        wysiwyg: 'libs/ace/uncompressed/bootstrap-wysiwyg',
-        'ace-editable': 'libs/ace/uncompressed/x-editable/ace-editable',
+        moment: 'lib/moment',
+        ace: 'lib/ace',
+        wysiwyg: 'lib/bootstrap-wysiwyg',
+        'ace-editable': 'lib/ace-editable',
 
-        'tmpl': 'libs/upload/tmpl',
-        'jquery.fileupload': 'libs/upload/jquery.fileupload',
-        'jquery.fileupload-ui': 'libs/upload/jquery.fileupload-ui',
-        'jquery.fileupload-image': 'libs/upload/jquery.fileupload-image',
-        'jquery.fileupload-video': 'libs/upload/jquery.fileupload-video',
-        'jquery.fileupload-validate': 'libs/upload/jquery.fileupload-validate',
-        'jquery.fileupload-process': 'libs/upload/jquery.fileupload-process',
-        'jquery.fileupload-audio': 'libs/upload/jquery.fileupload-audio',
-        'jquery.iframe-transport': 'libs/jquery.iframe-transport',
-        'load-image': 'libs/upload/load-image',
-        'load-image-meta': 'libs/upload/load-image-meta',
-        'load-image-exif': 'libs/upload/load-image-exif',
-        'load-image-ios': 'libs/upload/load-image-ios',
-        'canvas-to-blob': 'libs/canvas-to-blob',
+        /*File upload */
+        /*TOOD: Move this to a shim */
+        'jquery.fileupload': 'lib/jquery.fileupload',
+        'jquery.fileupload-audio': 'lib/jquery.fileupload-audio',
+        'jquery.fileupload-video': 'lib/jquery.fileupload-video',
+        'jquery.fileupload-validate': 'lib/jquery.fileupload-validate',
+        'jquery.fileupload-process': 'lib/jquery.fileupload-process',
+        'jquery.fileupload-ui': 'lib/jquery.fileupload-ui',
+        'jquery.fileupload-image': 'lib/jquery.fileupload-image',
+        'jquery.iframe-transport': 'lib/jquery.iframe-transport',
+        'jquery.ui.widget': 'lib/jquery.ui.widget',
+        'load-image': 'lib/load-image',
+        'load-image-meta': 'lib/load-image-meta',
+        'load-image-exif': 'lib/load-image-exif',
+        'load-image-ios': 'lib/load-image-ios',
+        'load-image-blob': 'lib/load-image-blob',
+        'canvas-to-blob': 'lib/canvas-to-blob',
+        /*End file upload */
 
-        toastr: 'libs/toastr',
+        'tmpl': 'lib/tmpl',
+        toastr: 'lib/toastr',
         'socket.io': [
             com.podnoms.settings.SOCKET_IO_JS_URL,
-            'libs/socket.io'
+            'lib/socket.io'
         ]
     },
     shim: {
         jquery: {
             exports: '$'
         },
-        'jquery.ui.widget': {
-            deps: ['jquery']
-        },
-        'jquery.form': {
-            deps: ['jquery']
-        },
         backbone: {
             exports: 'Backbone',
             deps: ['jquery', 'underscore']
-        },
-        'backbone.relational': {
-            exports: 'Backbone',
-            deps: ['backbone']
         },
         bootstrap: {
             exports: 'bootstrap',
             deps: ['jquery']
         },
-        'bootstrap-fileupload': {
-            deps: ['jquery', 'bootstrap']
-        },
-        'select2': {
-            deps: ['jquery']
-        },
         'ace': {
             exports: 'ace',
-            deps: ['jquery', 'libs/ace/uncompressed/ace-elements', 'libs/ace/uncompressed/ace-extra']
+            deps: ['jquery', 'lib/ace-elements', 'lib/ace-extra']
         },
         'ace-editable': {
             exports: 'editable',
-            deps: ['jquery', 'ace', 'libs/ace/uncompressed/x-editable/bootstrap-editable']
+            deps: ['jquery', 'ace', 'lib/bootstrap-editable']
         },
         'wysiwyg': {
             exports: 'wysiwyg',
-            deps: ['ace-editable', 'libs/ace/jquery.hotkeys.min']
-        },
-
-        /*
-         fileupload:{
-         deps: ['iframe-transport', 'fileupload-process', 'fileupload-audio', 'fileupload-video', 'fileupload-validate', 'fileupload-ui'],
-         deps: ['jquery.iframe-transport', 'jquery.ui.widget', 'fileupload-ui'],
-         exports: '$.fileupload'
-         },*/
-        typeahead: {
-            deps: ['jquery', 'bootstrap']
-        },
-        bootpag: {
-            exports: 'bootpag',
-            deps: ['jquery', 'bootstrap']
+            deps: ['ace-editable', 'lib/jquery.hotkeys']
         },
         marionette: {
             exports: 'Marionette',

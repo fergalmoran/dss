@@ -11,18 +11,17 @@
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300"/>
 
 
-        <link rel="stylesheet" href="{% static "css/ace/uncompressed/bootstrap.css" %}"/>
-        <link rel="stylesheet" href="{% static "css/ace/uncompressed/font-awesome.css" %}"/>
-        <link rel="stylesheet" href="{% static "css/jasny/jasny-bootstrap.css" %}">
+        <link rel="stylesheet" href="{% static "css/bootstrap.css" %}"/>
+        <link rel="stylesheet" href="{% static "css/font-awesome.css" %}"/>
+        <link rel="stylesheet" href="{% static "css/jasny-bootstrap.css" %}">
 
-        <link rel="stylesheet" href="{% static "css/ace/bootstrap-editable.css" %}"/>
-        <link rel="stylesheet" href="{% static "css/ace/uncompressed/ace.css" %}"/>
-        <link rel="stylesheet" href="{% static "css/ace/uncompressed/ace-skins.css" %}"/>
-        <link rel="stylesheet" href="{% static "css/ace/jquery.gritter.css" %}"/>
+        <link rel="stylesheet" href="{% static "css/bootstrap-editable.css" %}"/>
+        <link rel="stylesheet" href="{% static "css/ace.css" %}"/>
+        <link rel="stylesheet" href="{% static "css/ace-skins.css" %}"/>
+        <link rel="stylesheet" href="{% static "css/jquery.gritter.css" %}"/>
 
 
         <link rel="stylesheet" href="{% static "css/select2.css" %}">
-        <link rel="stylesheet" href="{% static "css/jquery.fileupload-ui.css" %}">
         <link rel="stylesheet" href="{% static "css/com.podnoms.player.css" %}">
         <link rel="stylesheet" href="{% static "css/toastr.css" %}">
 
@@ -55,11 +54,10 @@
 
 {% compress js %}
     {% if DEBUG %}
-        <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2.js"></script>
+        <script src="{{ STATIC_URL }}js/lib/sm/soundmanager2.js"></script>
     {% else %}
-        <script src="{{ STATIC_URL }}js/libs/sm/soundmanager2-nodebug.js"></script>
+        <script src="{{ STATIC_URL }}js/lib/sm/soundmanager2-nodebug.js"></script>
     {% endif %}
-    <script src="{{ STATIC_URL }}js/libs/modernizr.js"></script>
     <script src="{{ STATIC_URL }}js/com.podnoms.storage.js"></script>
     <script src="{{ STATIC_URL }}js/com.podnoms.player.js"></script>
 {% endcompress %}

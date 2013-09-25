@@ -1,3 +1,3 @@
-define ['backbone.wreqr'], (Wreqr) ->
-    new Wreqr.EventAggregator
+define ['marionette'], () ->
+    new Backbone.Wreqr.EventAggregator
 

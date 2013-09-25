@@ -39,6 +39,7 @@ define ['marionette', 'underscore', 'vent', 'utils',
                     utils.showAlert(model.get('notification_text'))
 
         showNotifications: ->
+            console.log("NotificationsListView: showNotifications")
             $.ajax
                 url: '/ajax/mark_read/'
                 type: 'post'

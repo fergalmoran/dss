@@ -90,11 +90,13 @@ com.podnoms.player = {
         $(event.currentTarget).mouseup($.proxy(this._mouseDown, this));
     },
     _mouseMove: function (event) {
-        this.seekHeadEl.show();
-        this.seekHeadEl.css('left', (event.pageX) + 'px').fadeIn('fast');
+        this.seekHeadEl.css('left', (event.pageX - this.waveFormLeft));//.fadeIn('fast');
     },
     _mouseLeave: function (event) {
         this.seekHeadEl.hide();
+    },
+    _mouseEnter: function (event) {
+        this.seekHeadEl.show();
     },
     _destroyCurrent: function (success) {
         if (this.currentSound != null) {
@@ -126,6 +128,7 @@ com.podnoms.player = {
             this.waveFormEl.mouseup($.proxy(this._mouseDown, this));
             this.waveFormEl.mousemove($.proxy(this._mouseMove, this));
             this.waveFormEl.mouseout($.proxy(this._mouseLeave, this));
+            this.waveFormEl.mouseenter($.proxy(this._mouseEnter, this));
         } else {
             console.error("Error setting up player, waveFormEl is empty");
         }

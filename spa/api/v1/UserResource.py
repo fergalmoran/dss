@@ -1,20 +1,19 @@
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db.models import Count, Q
 from tastypie import fields
-from tastypie.authentication import Authentication, BasicAuthentication
-from tastypie.authorization import DjangoAuthorization, Authorization
+from tastypie.authentication import Authentication
+from tastypie.authorization import Authorization
 from django.conf.urls import url
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie.http import HttpGone, HttpMultipleChoices
 from tastypie.utils import trailing_slash
-from dss import settings
+from tastypie_msgpack import Serializer
 
+from dss import settings
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.models.activity import ActivityFollow
 from spa.models.userprofile import UserProfile
 from spa.models.mix import Mix
-from tastypie_msgpack import Serializer
-from django.contrib.gis.utils import GeoIP
 from core.tasks import update_geo_info_task
 
 
