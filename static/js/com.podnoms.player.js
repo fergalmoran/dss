@@ -172,26 +172,26 @@ com.podnoms.player = {
         this.timeDisplayLabel.animate({ top: 0, left: this.playHeadEl.position().left });
     },
     startPlaying: function (options) {
-        var ref = this;
+        var that = this;
         var currId = this.currentId;
         this._destroyCurrent(function () {
-            ref.currentSound = soundManager.createSound({
-                url: ref.currentPath,
+            that.currentSound = soundManager.createSound({
+                url: that.currentPath,
                 id: "com.podnoms.player-" + currId.toString(),
                 volume: com.podnoms.settings.volume,
                 whileloading: function () {
-                    ref._whileLoading();
+                    that._whileLoading();
                 },
                 whileplaying: function () {
-                    ref._whilePlaying();
+                    that._whilePlaying();
                 }
             });
-            if (ref.currentSound) {
-                ref.play();
+            if (that.currentSound) {
+                that.play();
                 if (options.success)
                     options.success();
                 //create the floating time display label
-                ref._createTimeDisplayLabel();
+                that._createTimeDisplayLabel();
             }
             else {
                 if (options.error)
@@ -210,18 +210,18 @@ com.podnoms.player = {
         }
     },
     playLive: function () {
-        var ref = this;
+        var that = this;
         var args = arguments;
         this._destroyCurrent(function () {
-            ref.currentSound = soundManager.createSound({
+            that.currentSound = soundManager.createSound({
                 id: 'com.podnoms.player-live',
                 url: com.podnoms.settings.liveStreamRoot,
                 volume: 50,
                 stream: true,
                 useMovieStar: true
             });
-            if (ref.currentSound) {
-                ref.currentSound.play();
+            if (that.currentSound) {
+                that.currentSound.play();
                 args[0].success();
             }
             else {
