@@ -406,7 +406,7 @@ div.event-content td {
 
 .mix-image-container img {
     max-width: 100%;
-    max-height: 100%;
+    height: autoE;
 }
 
 .btn.loading {

@@ -11,12 +11,6 @@ define ['app', 'toastr', 'app.lib/editableView', 'moment', 'utils', 'backbone.sy
             avatarType = @model.get('avatar_type')
             $('#avatar_' + avatarType, @el).attr('checked', true);
             if avatarType is "custom"
-                @setupImageEditable
-                    el: $("#div_avatar_image_upload", @el)
-                    showbuttons: false
-                    chooseMessage: "Choose avatar image"
-
-                $("#mix-imageupload", @el).jas_fileupload uploadtype: "image"
                 $("#div_avatar_image_upload", @el).show()
                 #$("#file_upload").uploadifive uploadScript: "ajax/upload_avatar_image/"
             else

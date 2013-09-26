@@ -15,7 +15,7 @@ from dss import settings
 from spa.models._basemodel import _BaseModel
 from templated_email import send_templated_mail
 from sorl import thumbnail
-
+from sorl.thumbnail.helpers import ThumbnailError
 logger = logging.getLogger(__name__)
 
 
@@ -160,14 +160,18 @@ class UserProfile(_BaseModel):
 
     def get_small_profile_image(self):
         try:
-            image = self.get_avatar_image()
             if self.avatar_type == 'custom':
+                image = self.avatar_image
                 image = "%s%s" % (settings.MEDIA_URL, get_thumbnail(image, "32x32", crop='center').name)
-            return image
+                return image
         except SuspiciousOperation, ex:
-            self.logger.warn("Error getting small profile image: %s", ex.message)
+            self.logger.error("Error getting small profile image: %s", ex.message)
         except IOError, ex:
-            self.logger.warn("Error getting small profile image: %s", ex.message)
+            self.logger.error("Error getting small profile image: %s", ex.message)
+        except ThumbnailError:
+            pass
+
+        return self.get_avatar_image()
 
     def get_sized_avatar_image(self, width, height):
         try:
