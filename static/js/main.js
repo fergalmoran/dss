@@ -22,6 +22,7 @@ requirejs.config({
         ace: 'lib/ace',
         wysiwyg: 'lib/bootstrap-wysiwyg',
         'ace-editable': 'lib/ace-editable',
+        'facebook': '//connect.facebook.net/en_US/all',
 
         /*File upload */
         /*TOOD: Move this to a shim */
@@ -60,6 +61,9 @@ requirejs.config({
         bootstrap: {
             exports: 'bootstrap',
             deps: ['jquery']
+        },
+        'facebook': {
+            export: 'FB'
         },
         'ace': {
             exports: 'ace',
