@@ -51,6 +51,17 @@ com.podnoms.player = {
     soundDuration: 0,
 
     /*Privates */
+    _secondsToHms: function (d) {
+        if (d) {
+            d = Number(d);
+            var h = Math.floor(d / 3600);
+            var m = Math.floor(d % 3600 / 60);
+            var s = Math.floor(d % 3600 % 60);
+            return ((h > 0 ? h + ":" : "") + (m > 0 ? (h > 0 && m < 10 ? "0" : "") + m + ":" : "00:") + (s < 10 ? "0" : "") + s);
+        } else {
+            return "00:00:00";
+        }
+    },
     _getDurationEstimate: function (oSound) {
         if (oSound.instanceOptions.isMovieStar) {
             return (oSound.duration);
@@ -76,11 +87,7 @@ com.podnoms.player = {
         var percentageFinished = (this.currentSound.position / duration) * 100;
         var percentageWidth = (this.waveFormWidth / 100) * percentageFinished;
         this.playHeadEl.css('width', percentageWidth);
-        var elapsed = moment.duration(this.currentSound.position, "milliseconds");
-        var text = elapsed.hours() != 0 ?
-            moment(elapsed).format("HH:mm") :
-            moment(elapsed).format("mm:ss");
-        this.timeDisplayLabel.text(text);
+        this.timeDisplayLabel.text(this._secondsToHms(this.currentSound.position / 1000));
     },
     _mouseDown: function (event) {
         if (this.currentSound != null) {

@@ -10,13 +10,6 @@ define(['backbone'], function (Backbone) {
         }
     });
 
-    var TastypieCollection = Backbone.Collection.extend({
-        parse: function (response) {
-            this.meta = response.meta || {};
-            return response.objects || response;
-        }
-    });
-
     return TastypieModel.extend({
         addError: function (field, message) {
             if (_.isUndefined(this.errors[field])) {
@@ -24,6 +17,18 @@ define(['backbone'], function (Backbone) {
             }
             this.errors[field].push(message);
             return field;
+        },
+        secondsToHms: function (field) {
+            var d = this.get(field);
+            if (d) {
+                d = Number(d);
+                var h = Math.floor(d / 3600);
+                var m = Math.floor(d % 3600 / 60);
+                var s = Math.floor(d % 3600 % 60);
+                return ((h > 0 ? h + ":" : "") + (m > 0 ? (h > 0 && m < 10 ? "0" : "") + m + ":" : "0:") + (s < 10 ? "0" : "") + s);
+            }else{
+                return "00:00:00";
+            }
         }
     });
 });

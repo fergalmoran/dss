@@ -259,7 +259,6 @@ def upload(request):
         logger.exception(ex.message)
         return HttpResponse(content="Error occurred uploading file", status=503)
 
-
 @csrf_exempt
 def lookup_search(request):
     query = request.GET['query'] if 'query' in request.GET else request.GET['q'] if 'q' in request.GET else ''
