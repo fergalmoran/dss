@@ -1,8 +1,10 @@
+import mimetypes
 import os
 import logging
 
 from django.conf.urls import url
-from django.http import Http404
+from django.http import Http404, HttpResponse
+from django.core.servers.basehttp import FileWrapper
 from sendfile import sendfile
 
 from dss import settings
@@ -30,8 +32,13 @@ def download(request, mix_id):
         if mix is not None:
             if mix.download_allowed:
                 mix.add_download(request.user)
-                filename = "%s/mixes/%s.mp3" % (here(settings.MEDIA_ROOT), mix.uid)
-                response = sendfile(request, filename, attachment=True, attachment_filename="Deep South Sounds - %s.mp3" % mix.title)
+                local_file = mix.get_absolute_path()
+                filename, extension = os.path.splitext(local_file)
+                response = HttpResponse(FileWrapper(open(local_file)),
+                                        content_type=mimetypes.guess_type(local_file)[0])
+                response['Content-Length'] = os.path.getsize(local_file)
+                response['Content-Disposition'] = "attachment; filename=Deep South Sounds - %s%s" % (
+                    mix.title, extension)
                 return response
     except Exception, ex:
         print ex
