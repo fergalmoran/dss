@@ -20,7 +20,9 @@ class Command(NoArgsCommand):
                     print "File %s not found" % in_file
                     return
 
+            print "File found, starting waveform task (%s)" % mix.uid
             create_waveform_task.delay(in_file=in_file, uid=mix.uid)
+            print "Task submitted"
 
         except Exception, ex:
             print "Error generating waveform: %s" % ex.message
