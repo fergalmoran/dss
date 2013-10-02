@@ -1,9 +1,11 @@
 define ['backbone', 'marionette', 'vent', 'utils',
-        'app.lib/social', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/realtimeController',
-        'app.lib/audioController',
+        'app.lib/social', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/realtimeController', 'app.lib/audioController',
         'models/user/userItem', 'models/mix/mixCollection',
         'views/widgets/headerView', 'views/sidebar/sidebarView'],
-(Backbone, Marionette, vent, utils, social, DssRouter, PanningRegion, RealtimeController, AudioController, UserItem, MixCollection, HeaderView, SidebarView) ->
+(Backbone, Marionette, vent, utils,
+ social, DssRouter, PanningRegion, RealtimeController, AudioController,
+ UserItem, MixCollection,
+ HeaderView, SidebarView) ->
     App = new Marionette.Application();
     App.audioController = new AudioController();
     App.realtimeController = new RealtimeController();

@@ -98,7 +98,7 @@ STATICFILES_DIRS = (
     here('static'),
 )
 
-SECRET_KEY = '8*&amp;j)j4lnq*ft*=jhajvc7&amp;upaifb2f2s5(v6i($$+3p(4^bvd'
+SECRET_KEY = localsettings.SECRET_KEY
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',

@@ -8,13 +8,12 @@ from django.db import models
 from core.utils import url
 from core.utils.audio.mp3 import mp3_length, tag_mp3
 from core.utils.url import unique_slugify
-from spa.models.activity import ActivityFavourite, ActivityLike, ActivityDownload, ActivityPlay
+from spa.models.activity import ActivityDownload, ActivityPlay
 from spa.models.genre import Genre
 from dss import settings, localsettings
 from spa.models.userprofile import UserProfile
 from spa.models._basemodel import _BaseModel
 from core.utils.file import generate_save_file_name
-
 
 def mix_file_name(instance, filename):
     return generate_save_file_name(instance.uid, 'mixes', filename)

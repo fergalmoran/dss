@@ -1,5 +1,11 @@
-define ['moment', 'app', 'vent', 'marionette', 'utils', 'models/comment/commentCollection', 'views/comment/commentListView', 'text!/tpl/MixListItemView'],
-(moment, App, vent, Marionette, utils, CommentsCollection, CommentsListView, Template) ->
+define ['moment', 'app', 'vent', 'marionette', 'utils',
+        'models/comment/commentCollection',
+        'views/comment/commentListView',
+        'text!/tpl/MixListItemView'],
+(moment, App, vent, Marionette, utils,
+ CommentsCollection,
+ CommentsListView,
+ Template) ->
     class MixItemView extends Marionette.ItemView
         template: _.template(Template)
         tagName: @tagName or "li"

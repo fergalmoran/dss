@@ -55,4 +55,3 @@ def post_save_handler(**kwargs):
 
 
 post_save.connect(post_save_handler)
-

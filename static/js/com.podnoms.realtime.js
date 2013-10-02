@@ -7,6 +7,7 @@
 
  */
 
+    /*
 var socket = new io.Socket({host: 'ext-test.deepsouthsounds.com', resource: 'socket.io', port: '8000', rememberTransport: false});
 socket.connect();
 
@@ -36,3 +37,4 @@ function message (from, msg) {
     console.log(msg);
     $('#lines').append($('<p>').append($('<b>').text(from), msg));
 }
+*/

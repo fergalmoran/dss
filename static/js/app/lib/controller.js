@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app', 'marionette', 'vent', 'views/chat/chatView', 'models/mix/mixItem', 'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView', 'views/mix/mixEditView', 'views/user/userProfileView', 'models/user/userItem', 'views/user/userListView', 'views/user/userEditView'], function(App, Marionette, vent, ChatView, MixItem, MixListLayout, MixListView, MixDetailView, MixEditView, UserProfileView, UserItem, UserListView, UserEditView) {
+  define(['app', 'marionette', 'vent', 'models/mix/mixItem', 'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView', 'views/mix/mixEditView', 'views/user/userProfileView', 'models/user/userItem', 'views/user/userListView', 'views/user/userEditView'], function(App, Marionette, vent, MixItem, MixListLayout, MixListView, MixDetailView, MixEditView, UserProfileView, UserItem, UserListView, UserEditView) {
     var DssController, _ref;
 
     DssController = (function(_super) {
@@ -20,18 +20,19 @@
         return true;
       };
 
-      DssController.prototype._showMixList = function() {
+      DssController.prototype.showMixList = function(options) {
         var app;
 
         app = require('app');
-        app.contentRegion.show(new MixListLayout());
+        app.contentRegion.show(new MixListLayout(options || {
+          order_by: 'latest'
+        }));
         return true;
       };
 
-      DssController.prototype.showMixList = function(type) {
-        this._showMixList();
-        vent.trigger("mix:showlist", {
-          order_by: type || 'latest'
+      DssController.prototype.showMixListType = function(type) {
+        this.showMixList({
+          order_by: type
         });
         return true;
       };
@@ -128,8 +129,7 @@
 
       DssController.prototype.showUserFavourites = function(slug) {
         console.log("Controller: showUserFavourites");
-        this._showMixList();
-        return vent.trigger("mix:showlist", {
+        return this.showMixList({
           order_by: 'latest',
           favourites__slug: slug
         });
@@ -137,8 +137,7 @@
 
       DssController.prototype.showUserLikes = function(slug) {
         console.log("Controller: showUserLikes");
-        this._showMixList();
-        return vent.trigger("mix:showlist", {
+        return this.showMixList({
           order_by: 'latest',
           likes__slug: slug
         });
@@ -146,8 +145,7 @@
 
       DssController.prototype.showUserMixes = function(slug) {
         console.log("Controller: showUserMixes");
-        this._showMixList();
-        return vent.trigger("mix:showlist", {
+        return this.showMixList({
           order_by: 'latest',
           user: slug
         });

@@ -24,3 +24,5 @@ dss_ah
 fixtures.json
 dss_test.db
 dsskeys
+.ropeproject/*
+*.map

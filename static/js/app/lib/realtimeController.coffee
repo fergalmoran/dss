@@ -2,7 +2,7 @@ define ['vent', 'socket.io'],
 (vent, SocketIO)  ->
     class RealtimeController
         startSocketIO: ->
-            console.log("RealtimeController: Socket IO starting")
+            console.log("RealtimeController: SocketIO starting on " + com.podnoms.settings.REALTIME_HOST)
             @socket = SocketIO.connect(com.podnoms.settings.REALTIME_HOST)
             @socket.on "hello", (data) =>
                 console.log("RealtimeController: Connected " + data['message'])

@@ -1,9 +1,11 @@
 define ['app', 'marionette', 'vent',
-        'views/chat/chatView',
         'models/mix/mixItem', 'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView'
         'views/mix/mixEditView', 'views/user/userProfileView',
         'models/user/userItem', 'views/user/userListView', 'views/user/userEditView'],
-(App, Marionette, vent, ChatView, MixItem, MixListLayout, MixListView, MixDetailView, MixEditView, UserProfileView, UserItem, UserListView, UserEditView)->
+(App, Marionette, vent,
+ MixItem, MixListLayout, MixListView, MixDetailView,
+ MixEditView, UserProfileView,
+ UserItem, UserListView, UserEditView)->
     class DssController extends Marionette.Controller
 
         home: ->
@@ -11,14 +13,13 @@ define ['app', 'marionette', 'vent',
             @showMixList()
             true
 
-        _showMixList: () ->
+        showMixList: (options) ->
             app = require('app')
-            app.contentRegion.show(new MixListLayout())
+            app.contentRegion.show(new MixListLayout(options or {order_by: 'latest'}))
             true
 
-        showMixList: (type) ->
-            @_showMixList()
-            vent.trigger("mix:showlist", {order_by: type || 'latest'})
+        showMixListType: (type) ->
+            @showMixList({order_by: type})
             true
 
         showMix: (slug)->
@@ -78,18 +79,15 @@ define ['app', 'marionette', 'vent',
 
         showUserFavourites: (slug) ->
             console.log("Controller: showUserFavourites")
-            @_showMixList()
-            vent.trigger("mix:showlist", {order_by: 'latest', favourites__slug: slug})
+            @showMixList({order_by: 'latest', favourites__slug: slug})
 
         showUserLikes: (slug) ->
             console.log("Controller: showUserLikes")
-            @_showMixList()
-            vent.trigger("mix:showlist", {order_by: 'latest', likes__slug: slug})
+            @showMixList({order_by: 'latest', likes__slug: slug})
 
         showUserMixes: (slug) ->
             console.log("Controller: showUserMixes")
-            @_showMixList()
-            vent.trigger("mix:showlist", {order_by: 'latest', user: slug})
+            @showMixList({order_by: 'latest', user: slug})
 
         showUserFollowing: (slug) ->
             console.log("Controller: showUserFollowing")

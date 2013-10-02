@@ -4,7 +4,4 @@ define ['backbone', 'models/mix/mixItem', 'app.lib/backbone.dss.model.collection
             model: MixItem
             url:com.podnoms.settings.urlRoot + "mix/"
 
-            _parse: (data) ->
-                console.log("MixCollection: parse")
-
         MixCollection

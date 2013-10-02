@@ -9,13 +9,6 @@ define ['marionette', 'vent', 'models/mix/mixCollection', 'views/mix/mixItemView
 
         currentMix = -1
 
-        initialize: ->
-            @collection = new MixCollection()
-            @collection.fetch
-                data: @options
-
-            return
-
         mixPlay: (model) ->
             if currentMix != -1
                 v = @children.findByModelCid(currentMix)

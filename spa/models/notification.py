@@ -6,11 +6,11 @@ from spa.models import _BaseModel, UserProfile
 
 class NotificationThread(threading.Thread):
     def __init__(self, instance, **kwargs):
-        self.instance = instance
+        self._instance = instance
         super(NotificationThread, self).__init__(**kwargs)
 
     def run(self):
-        post_notification(self.instance.get_notification_url())
+        post_notification(self._instance.get_notification_url())
 
 
 class Notification(_BaseModel):
