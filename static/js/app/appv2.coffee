@@ -50,6 +50,11 @@ define ['backbone', 'marionette', 'vent', 'utils',
             utils.modal "/dlg/LoginView"
             true
 
+        @listenTo vent, "app:donate", ->
+            console.log("App: donate")
+            utils.modal "/dlg/Donate"
+            true
+
         @listenTo vent, "mix:favourite", (model) ->
             console.log "App(vent): mix:favourite"
             model.save 'favourited', !model.get('favourited'), patch: true

@@ -18,6 +18,7 @@ define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView",
         events:
             "click #header-play-pause-button": "togglePlayState"
             "click #header-login-button": "login"
+            "click #header-donate-button": "donate"
             "click #header-live-button.btn-success": "playLive"
             "click #header-live-button.btn-danger": "pauseLive"
         ui:
@@ -41,6 +42,10 @@ define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView",
 
         login: ->
             vent.trigger('app:login')
+
+        donate: ->
+            console.log("headerView: donate")
+            vent.trigger('app:donate')
 
         logout: ->
             utils.showAlert "Success", "You are now logged out"

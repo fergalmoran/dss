@@ -1,0 +1,33 @@
+{% extends 'views/dlg/_DialogBase.html' %}
+
+{% load account %}
+{% load static %}
+{% load socialaccount %}
+{% block header %}
+    <h3>Show Me The Money!!</h3>
+{% endblock %}
+{% block content %}
+
+    <script type="text/javascript">
+        $('#submit')
+    </script>
+    <div class="well">
+        While the site is free and always will be free, bandwidth and disk space aren't. <br/>
+        Any support is gratefully received...
+    </div>
+    <form id="paypal-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="hosted_button_id" value="29VBHXWZNV8VQ">
+        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1"
+             height="1">
+    </form>
+    <p>
+        <button class="btn btn-pink" name="submit">
+            <i class="icon-euro bigger-125"></i>Paypal
+        </button>
+        <button class="btn btn-green" name="bitcoins" id="bitcoins">
+            <i class="icon-bitcoin align-top bigger-125"></i>Bitcoins
+        </button>
+    </p>
+{% endblock %}
+{% block primarybutton %}Okies...{% endblock %}

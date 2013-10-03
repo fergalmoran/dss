@@ -3,7 +3,7 @@ import os
 import logging
 
 from django.conf.urls import url
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.core.servers.basehttp import FileWrapper
 from sendfile import sendfile
 
@@ -28,6 +28,9 @@ class AudioHandler(object):
 
 def download(request, mix_id):
     try:
+        if not request.user.is_authenticated():
+            return HttpResponseForbidden("Get tae fuck!!!")
+
         mix = Mix.objects.get(pk=mix_id)
         if mix is not None:
             if mix.download_allowed:

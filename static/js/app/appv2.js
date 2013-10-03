@@ -52,6 +52,11 @@
         utils.modal("/dlg/LoginView");
         return true;
       });
+      this.listenTo(vent, "app:donate", function() {
+        console.log("App: donate");
+        utils.modal("/dlg/Donate");
+        return true;
+      });
       this.listenTo(vent, "mix:favourite", function(model) {
         console.log("App(vent): mix:favourite");
         model.save('favourited', !model.get('favourited'), {
