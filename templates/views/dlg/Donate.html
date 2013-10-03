@@ -9,11 +9,29 @@
 {% block content %}
 
     <script type="text/javascript">
-        $('#submit')
+        $('#paypal-submit').click(function () {
+            $('#paypal-form').submit();
+        });
+        $('#bitcoins-submit').click(function () {
+            $('#initial-banner').hide();
+            $('#bitcoin-preamble').show();
+        });
     </script>
     <div class="well">
-        While the site is free and always will be free, bandwidth and disk space aren't. <br/>
-        Any support is gratefully received...
+        <div class="marketing-droid-speak" id="initial-banner">
+            While the site is free and always will be free, bandwidth and disk space aren't. <br/>
+            Any support is gratefully received...
+        </div>
+        <div id="bitcoin-preamble" style="display: none">
+            <h1>Have 10 INTERNET nerd points!!</h1>
+            <small>You know what to do!!</small>
+            <hr />
+            <img src="{{ STATIC_URL }}img/bitcoin-qr.png" alt="Bitcoin QR wallet='1HwT3NxV7BpksNXBnm5hpG5EHAfRNZuJV2'">
+            <a class="btn btn-info" href="bitcoin:1HwT3NxV7BpksNXBnm5hpG5EHAfRNZuJV2">
+                <i class="icon-folder-open-alt bigger-125"></i>Open Wallet</a>
+            <hr/>
+            <i class="icon-bitcoin green"></i>1HwT3NxV7BpksNXBnm5hpG5EHAfRNZuJV2
+        </div>
     </div>
     <form id="paypal-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
         <input type="hidden" name="cmd" value="_s-xclick">
@@ -22,10 +40,10 @@
              height="1">
     </form>
     <p>
-        <button class="btn btn-pink" name="submit">
+        <button class="btn btn-pink" name="paypal" id="paypal-submit">
             <i class="icon-euro bigger-125"></i>Paypal
         </button>
-        <button class="btn btn-green" name="bitcoins" id="bitcoins">
+        <button class="btn btn-info" name="bitcoins" id="bitcoins-submit">
             <i class="icon-bitcoin align-top bigger-125"></i>Bitcoins
         </button>
     </p>
