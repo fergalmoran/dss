@@ -1,6 +1,8 @@
+from django.contrib.sessions.models import Session
+from django.core import signals
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models.signals import post_save
-from django.dispatch import Signal
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import Signal, receiver
 from django.contrib.auth.models import User
 from core.utils.audio.mp3 import mp3_length
 
@@ -55,3 +57,21 @@ def post_save_handler(**kwargs):
 
 
 post_save.connect(post_save_handler)
+
+"""
+    Setting up a post save handler for sessions here
+    So that I can store the session id against the user
+"""
+
+
+@receiver(pre_save, sender=Session, dispatch_uid='session_pre_save')
+def session_pre_save(sender, **kwargs):
+    s = kwargs['instance']
+    if s is not None:
+        uid = s.get_decoded().get('_auth_user_id')
+        if uid is not None:
+            user = User.objects.get(pk=uid)
+            if user is not None:
+                p = user.get_profile()
+                p.last_known_session = s.session_key
+                p.save()

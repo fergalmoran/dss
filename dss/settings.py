@@ -32,7 +32,7 @@ DATABASES = {
         'ADMINUSER': 'postgres',
         'USER': localsettings.DATABASE_USER if hasattr(localsettings, 'DATABASE_USER') else 'deepsouthsounds',
         'PASSWORD': localsettings.DATABASE_PASSWORD if hasattr(localsettings, 'DATABASE_PASSWORD') else '',
-        'HOST': 'localhost',
+        'HOST': localsettings.DATABASE_HOST if hasattr(localsettings, 'DATABASE_HOST') else 'localhost',
     }
 }
 

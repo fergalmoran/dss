@@ -11,7 +11,6 @@ def mp3_length(source_file):
     except IOError:
         raise Mp3FileNotFoundException("Audio file not found: %s" % source_file)
 
-
 def tag_mp3(source_file, artist, title, url="", album="", year="", comment="", image_file="", genre=[]):
     #mp3Object.tags.add(APIC(encoding=3, mime=image[1], type=3, desc=u'Cover', data=open(image[0]).read()))
 

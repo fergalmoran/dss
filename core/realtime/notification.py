@@ -7,8 +7,12 @@ HEADERS = {
 }
 
 
-def post_notification(notification_url):
+def post_notification(notification_url, session=None):
     payload = {'message': notification_url}
+
+    if session:
+        payload['session_id'] = session
+
     data = json.dumps(payload)
     r = requests.post(localsettings.REALTIME_HOST + '/api/notification', data=data, headers=HEADERS)
     if r.status_code == 200:

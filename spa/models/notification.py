@@ -10,7 +10,10 @@ class NotificationThread(threading.Thread):
         super(NotificationThread, self).__init__(**kwargs)
 
     def run(self):
-        post_notification(self._instance.get_notification_url())
+        #Check if target of notification has an active session
+        session = self._instance.last_known_session
+        if session:
+            post_notification(notification_url=self._instance.get_notification_url(), session=session)
 
 
 class Notification(_BaseModel):

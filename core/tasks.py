@@ -23,6 +23,7 @@ def create_waveform_task(in_file, uid):
         print "Moving cache audio clip from %s to %s" % (in_file, new_file)
         shutil.move(in_file, new_file)
         print "Uid: %s" % uid
+
         waveform_generated.send(sender=None, uid=uid)
     else:
         print "Outfile is missing"

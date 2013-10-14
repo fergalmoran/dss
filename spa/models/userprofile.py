@@ -55,7 +55,9 @@ class UserProfile(_BaseModel):
     #location properties
     city = models.CharField(max_length=100, blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
-    
+
+    last_known_session = models.CharField(max_length=250, blank=True, null=True)
+
     def __unicode__(self):
         return "%s - %s" % (self.user.get_full_name(), self.slug)
 
