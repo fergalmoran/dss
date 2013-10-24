@@ -67,6 +67,8 @@ class MixResource(BackboneCompatibleResource):
                 name="api_get_search"),
             url(r"^(?P<resource_name>%s)/(?P<id>[\d]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'),
                 name="api_dispatch_detail"),
+            url(r"^(?P<resource_name>%s)/random/$" % self._meta.resource_name, self.wrap_view('dispatch_random'),
+                name="api_dispatch_random"),
             url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d-]+)/$" % self._meta.resource_name,
                 self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
             url(r"^(?P<resource_name>%s)/(?P<slug>\w[\w/-]*)/comments%s$" % (
@@ -74,6 +76,10 @@ class MixResource(BackboneCompatibleResource):
             url(r"^(?P<resource_name>%s)/(?P<slug>\w[\w/-]*)/activity%s$" % (
                 self._meta.resource_name, trailing_slash()), self.wrap_view('get_activity'), name="api_get_activity"),
         ]
+
+    def dispatch_random(self, request, **kwargs):
+        kwargs['pk'] = self._meta.queryset.values_list('pk', flat=True).order_by('?')[0]
+        return self.get_detail(request, **kwargs)
 
     def get_comments(self, request, **kwargs):
         try:
@@ -176,6 +182,12 @@ class MixResource(BackboneCompatibleResource):
 
         bundle.data['genre-list'] = json.to_ajax(bundle.obj.genres.all(), 'description', 'slug')
         bundle.data['liked'] = bundle.obj.is_liked(bundle.request.user)
+
+        if bundle.request.user.is_authenticated():
+            bundle.data['can_edit'] = bundle.request.user.is_staff or bundle.obj.user_id == bundle.request.user.id
+        else:
+            bundle.data['can_edit'] = False
+
         if bundle.request.user.is_authenticated():
             bundle.data['favourited'] = bundle.obj.favourites.filter(user=bundle.request.user).count() != 0
         else:
