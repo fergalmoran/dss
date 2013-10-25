@@ -184,7 +184,8 @@ img.mix-listing-image {
 }
 
 .footer-button-right {
-    float: right;
+   padding-right: 8px;
+   float: right;
 }
 
 .audio-timeline-ruler {

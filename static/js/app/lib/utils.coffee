@@ -24,7 +24,7 @@ define ['jquery', 'bootstrap', 'toastr'], ($, bootstrap, toastr) ->
                 $.get(url,(data) ->
                     $("#yes-no-positive", data).click ->
                         alert("Oh yes")
-                        
+
                     $(data).modal().on "hidden", ->
                         $(this).remove()
                         true
