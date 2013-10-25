@@ -65,6 +65,16 @@ define ['backbone', 'marionette', 'vent', 'utils',
             model.save 'liked', !model.get('liked'), patch: true
             true
 
+        @listenTo vent, "mix:delete", (model) ->
+            console.log "App(vent): mix:like"
+            utils.messageBox "/dlg/DeleteMixConfirm"
+              yes: ->
+                console.log("Controller: mixDeleteYES!!")
+                mix.destroy()
+                Backbone.history.navigate "/", trigger: true
+              no: ->
+                console.log("Controller: mixDeleteNO!!")
+
         @listenTo vent, "user:follow", (model)->
             console.log "App(vent): user:follow"
             user = new UserItem({id: com.podnoms.settings.currentUser })
@@ -106,7 +116,6 @@ define ['backbone', 'marionette', 'vent', 'utils',
                 social.generateEmbedCode(model)
 
             true
-
     App.headerRegion.show(new HeaderView());
     sidebarView = new SidebarView();
     App.sidebarRegion.show(sidebarView)

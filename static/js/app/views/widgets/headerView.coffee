@@ -16,6 +16,7 @@ define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView",
         template: _.template(Template)
         className: "navbar navbar-default"
         events:
+            "click #header-random-button": "showRandom"
             "click #header-play-pause-button": "togglePlayState"
             "click #header-login-button": "login"
             "click #header-donate-button": "donate"
@@ -40,11 +41,14 @@ define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView",
             if com.podnoms.settings.currentUser != -1
                 @notificationsRegion.show(new NotificationsListView())
 
+        showRandom: ->
+            console.log("headerView: showRandom")
+            vent.trigger("mix:random")
+
         login: ->
             vent.trigger('app:login')
 
         donate: ->
-            console.log("headerView: donate")
             vent.trigger('app:donate')
 
         logout: ->

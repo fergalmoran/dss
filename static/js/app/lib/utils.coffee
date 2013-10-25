@@ -8,6 +8,26 @@ define ['jquery', 'bootstrap', 'toastr'], ($, bootstrap, toastr) ->
                     $(data).modal().on "hidden", ->
                         $(this).remove()
                         true
+                    $(data).proceed().on "hidden", ->
+                        alert("Go on so")
+                        true
+                ).success ->
+                    $("input:text:visible:first").focus()
+                    true
+        true
+
+    messageBox: (url) ->
+        if url
+            if url.indexOf("#") is 0
+                $(url).modal "open"
+            else
+                $.get(url,(data) ->
+                    $("#yes-no-positive", data).click ->
+                        alert("Oh yes")
+                        
+                    $(data).modal().on "hidden", ->
+                        $(this).remove()
+                        true
                 ).success ->
                     $("input:text:visible:first").focus()
                     true

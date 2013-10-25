@@ -40,6 +40,7 @@ define ['app', 'marionette', 'vent', 'utils'
                     app.contentRegion.show(new MixDetailView({model: mix}))
             )
             Backbone.history.navigate "/random", trigger: false
+
         uploadMix: ->
             console.log("Controller: mixUpload")
             app = require('app')

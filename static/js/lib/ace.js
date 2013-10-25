@@ -4,31 +4,6 @@ jQuery(function($) {
 	window['ace'].click_event = $.fn.tap ? "tap" : "click";
 });
 
-jQuery(function($) {
-	//ace.click_event defined in ace-elements.js
-	ace.handle_side_menu(jQuery);
-
-	ace.enable_search_ahead(jQuery);	
-
-	ace.general_things(jQuery);//and settings
-
-	ace.widget_boxes(jQuery);
-	ace.widget_reload_handler(jQuery);//this is for demo only, you can remove and have your own function, please see examples/widget.html
-
-	/**
-	//make sidebar scrollbar when it is fixed and some parts of it is out of view
-	//>> you should include jquery-ui and slimscroll javascript files in your file
-	//>> you can call this function when sidebar is clicked to be fixed
-	$('.nav-list').slimScroll({
-		height: '400px',
-		distance:0,
-		size : '6px'
-	});
-	*/
-});
-
-
-
 ace.handle_side_menu = function($) {
 	$('#menu-toggler').on(ace.click_event, function() {
 		$('#sidebar').toggleClass('display');
@@ -183,7 +158,7 @@ ace.general_things = function($) {
 	}
  });
  
-}
+};
 
 
 
@@ -212,7 +187,7 @@ ace.widget_boxes = function($) {
 			}
 
 		});
-	})
+	});
 
 
 	$(document).on('click.ace.widget', '[data-action]', function (ev) {
@@ -291,7 +266,7 @@ ace.widget_boxes = function($) {
 		}
 
 	});
-}
+};
 
 
 ace.widget_reload_handler = function($) {
@@ -315,7 +290,7 @@ ace.widget_reload_handler = function($) {
 		$(this).trigger('reloaded.ace.widget');
 	});	
 	*/
-}
+};
 
 
 
@@ -332,7 +307,7 @@ ace.enable_search_ahead = function($) {
 			}
 		});
 	} catch(e) {}
-}
+};
 
 
 
@@ -384,4 +359,28 @@ ace.switch_direction = function($) {
 		var pos = $(document.body).hasClass('rtl') ? 'nw' : 'ne';//draw on north-west or north-east?
 		placeholder.data('draw').call(placeholder.get(0) , placeholder, placeholder.data('chart'), pos);
 	}
-}
+};
+
+jQuery(function($) {
+	//ace.click_event defined in ace-elements.js
+	ace.handle_side_menu(jQuery);
+
+	ace.enable_search_ahead(jQuery);
+
+	ace.general_things(jQuery);//and settings
+
+	ace.widget_boxes(jQuery);
+	ace.widget_reload_handler(jQuery);//this is for demo only, you can remove and have your own function, please see examples/widget.html
+
+	/**
+	//make sidebar scrollbar when it is fixed and some parts of it is out of view
+	//>> you should include jquery-ui and slimscroll javascript files in your file
+	//>> you can call this function when sidebar is clicked to be fixed
+	$('.nav-list').slimScroll({
+		height: '400px',
+		distance:0,
+		size : '6px'
+	});
+	*/
+});
+

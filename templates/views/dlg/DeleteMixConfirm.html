@@ -1,0 +1,18 @@
+{% extends 'views/dlg/_DialogBase.html' %}
+
+{% load account %}
+{% load static %}
+{% load socialaccount %}
+{% block header %}
+    <h3>You sure about this chief??</h3>
+{% endblock %}
+{% block content %}
+    Hit Proceed here and your mix is gone.<br/>
+    Comments, likes, favourites, all gone, never to return.
+{% endblock %}
+{% block primarybutton %}Cancel{% endblock %}
+{% block  extrabuttons %}
+    <a href="#" data-bypass="true" class="btn btn-success" id="yes-no-positive">
+        Proceed
+    </a>
+{% endblock %}

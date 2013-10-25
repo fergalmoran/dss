@@ -36,6 +36,7 @@ Code provided under the BSD License:
       HeaderView.prototype.className = "navbar navbar-default";
 
       HeaderView.prototype.events = {
+        "click #header-random-button": "showRandom",
         "click #header-play-pause-button": "togglePlayState",
         "click #header-login-button": "login",
         "click #header-donate-button": "donate",
@@ -67,12 +68,16 @@ Code provided under the BSD License:
         }
       };
 
+      HeaderView.prototype.showRandom = function() {
+        console.log("headerView: showRandom");
+        return vent.trigger("mix:random");
+      };
+
       HeaderView.prototype.login = function() {
         return vent.trigger('app:login');
       };
 
       HeaderView.prototype.donate = function() {
-        console.log("headerView: donate");
         return vent.trigger('app:donate');
       };
 

@@ -16,6 +16,7 @@ define ['moment', 'app', 'vent', 'marionette', 'utils',
             "click .play-button-small-resume": "doResume",
             "click .play-button-small-pause": "doPause",
             "click .mix-link": "mixLink",
+            "click .delete-button a": "mixDelete",
             "click .like-button a": "mixLike",
             "click .favourite-button a": "mixFavourite",
             "click .share-button": "mixShare",
@@ -118,6 +119,10 @@ define ['moment', 'app', 'vent', 'marionette', 'utils',
             app = require('app')
             vent.trigger("mix:favourite", @model)
             true
+
+        mixDelete: ->
+            console.log("MixItemView: mixDelete")
+            vent.trigger("mix:delete", @model)
 
         mixLike: ->
             console.log("MixItemView: likeMix")

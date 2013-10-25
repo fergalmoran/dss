@@ -13,6 +13,7 @@ define ['marionette', 'vent', 'app.lib/controller'],
             "mix/edit/:slug": "editMix",
 
             "chat": "showChat",
+            #"random": "showRandomMix",
 
             "users": "showUserList"
             "user/:slug/favourites": "showUserFavourites"

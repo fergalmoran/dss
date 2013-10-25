@@ -15,7 +15,7 @@
 
       MixCollection.prototype.model = MixItem;
 
-      MixCollection.prototype.url = com.podnoms.settings.urlRoot + "mix/";
+      MixCollection.prototype.url = com.podnoms.settings.urlRoot + "mix/?limit=5";
 
       return MixCollection;
 

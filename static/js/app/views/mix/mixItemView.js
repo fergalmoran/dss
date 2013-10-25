@@ -34,6 +34,7 @@
         "click .play-button-small-resume": "doResume",
         "click .play-button-small-pause": "doPause",
         "click .mix-link": "mixLink",
+        "click .delete-button a": "mixDelete",
         "click .like-button a": "mixLike",
         "click .favourite-button a": "mixFavourite",
         "click .share-button": "mixShare",
@@ -141,6 +142,11 @@
         app = require('app');
         vent.trigger("mix:favourite", this.model);
         return true;
+      };
+
+      MixItemView.prototype.mixDelete = function() {
+        console.log("MixItemView: mixDelete");
+        return vent.trigger("mix:delete", this.model);
       };
 
       MixItemView.prototype.mixLike = function() {

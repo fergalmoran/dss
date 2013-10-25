@@ -11,8 +11,20 @@
         var _this = this;
         console.log("RealtimeController: SocketIO starting on " + com.podnoms.settings.REALTIME_HOST);
         this.socket = SocketIO.connect(com.podnoms.settings.REALTIME_HOST);
-        this.socket.on("hello", function(data) {
-          return console.log("RealtimeController: Connected " + data['message']);
+        this.socket.on('connect', function() {
+          var _this = this;
+          console.log("RealtimeController: Socket connected");
+          this.socket.emit('client-reg', {
+            sessionId: com.podnoms.settings.currentUser,
+            userName: com.podnoms.settings.userName
+          });
+          return this.socket.on("server-session", function(data) {
+            if (data) {
+              return console.log("RealtimeController: Connected " + data['sessionId']);
+            } else {
+              return console.log("RealtimeController: Can't read sessionId from socket");
+            }
+          });
         });
         "@socket.on \"activity\", (data) =>\n    console.log(\"RealtimeController: activity \" + data['message'])\n    vent.trigger(\"model:activity:new\", data['message'])";
 

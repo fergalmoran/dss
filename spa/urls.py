@@ -37,9 +37,8 @@ urlpatterns = patterns(
 
     url(r'^js/(?P<template_name>\w+)/$', 'spa.templates.get_javascript'),
     url(r'^tplex/(?P<template_name>\w+)/$', 'spa.templates.get_template_ex'),
-    url(r'^podcast\.xml', 'spa.podcast.get_default_podcast'),
     url(r'^podcast', 'spa.podcast.get_default_podcast'),
-    url(r'^podcasts', 'spa.podcast.get_default_podcast'),
+    url(r'^podcast\.xml', 'spa.podcast.get_default_podcast'),
     url(r'^social/', include('spa.social.urls')),
     url(r'^embed/', include('spa.embedding.urls')),
     url(r'_upload/', 'spa.ajax.upload', name='jfu_upload'),

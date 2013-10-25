@@ -71,6 +71,21 @@
         });
         return true;
       });
+      this.listenTo(vent, "mix:delete", function(model) {
+        console.log("App(vent): mix:like");
+        return utils.messageBox("/dlg/DeleteMixConfirm", {
+          yes: function() {
+            console.log("Controller: mixDeleteYES!!");
+            mix.destroy();
+            return Backbone.history.navigate("/", {
+              trigger: true
+            });
+          },
+          no: function() {
+            return console.log("Controller: mixDeleteNO!!");
+          }
+        });
+      });
       this.listenTo(vent, "user:follow", function(model) {
         var target, user,
           _this = this;
