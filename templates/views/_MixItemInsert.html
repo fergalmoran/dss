@@ -55,8 +55,7 @@
                     </div>
                     <div class="favourite-button footer-button">
                         <a class="btn btn-pink btn-xs <% if (favourited) { %> disabled <% } %> " id="favourite-<%= id %>"
-                           data-id="<%= id %>"><i
-                                class="icon-star-empty"></i> Favourite</a>
+                           data-id="<%= id %>"><i class="icon-star-empty"></i> Favourite</a>
                     </div>
                 {% endif %}
                 <div class="footer-button">
@@ -118,7 +117,7 @@
                            data-id="<%= id %>"><i class="icon-edit"></i>Edit</a>
                     </div>
                     <div class="edit-button footer-button footer-button-right">
-                        <a href="/mix/delete/<%= slug %>" class="btn btn-xs btn-danger"
+                        <a data-bypass="true" class="btn btn-xs btn-danger" id="mix-delete"
                            data-id="<%= id %>"><i class="icon-remove"></i>Delete</a>
                     </div>
                 <% } %>
