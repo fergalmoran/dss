@@ -1,26 +1,26 @@
-define ['app', 'marionette', 'vent',
-        'models/mix/mixItem', 'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView'
-        'views/mix/mixEditView', 'views/user/userProfileView',
-        'models/user/userItem', 'views/user/userListView', 'views/user/userEditView'],
-(App, Marionette, vent,
- MixItem, MixListLayout, MixListView, MixDetailView,
- MixEditView, UserProfileView,
- UserItem, UserListView, UserEditView)->
+define ['app', 'marionette', 'vent', 'utils'
+        'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView'
+        'views/mix/mixEditView', 'views/user/userProfileView', 'views/user/userListView', 'views/user/userEditView',
+        'models/mix/mixItem', 'models/mix/mixCollection', 'models/user/userItem'],
+(App, Marionette, vent, utils,
+ MixListLayout, MixListView, MixDetailView,
+ MixEditView, UserProfileView, UserListView, UserEditView,
+ MixItem, MixCollection, UserItem)->
     class DssController extends Marionette.Controller
+
+        initialize: ->
+          @listenTo(vent, "mix:random", @showRandomMix)
 
         home: ->
             console.log "Controller: home"
             @showMixList()
-            true
 
         showMixList: (options) ->
             app = require('app')
             app.contentRegion.show(new MixListLayout(options or {order_by: 'latest'}))
-            true
 
         showMixListType: (type) ->
             @showMixList({order_by: type})
-            true
 
         showMix: (slug)->
             console.log "Controller: showMix"
@@ -29,10 +29,17 @@ define ['app', 'marionette', 'vent',
             mix.fetch(
                 success: ->
                     app.contentRegion.show(new MixDetailView({model: mix}))
-                    true
             )
-            true
 
+        showRandomMix: ->
+            console.log "Controller: showRandomMix"
+            app = require('app')
+            mix = new MixItem({id: 'random'})
+            mix.fetch(
+                success: ->
+                    app.contentRegion.show(new MixDetailView({model: mix}))
+            )
+            Backbone.history.navigate "/random", trigger: false
         uploadMix: ->
             console.log("Controller: mixUpload")
             app = require('app')
@@ -60,6 +67,7 @@ define ['app', 'marionette', 'vent',
             app = require('app')
             app.contentRegion.show(new ChatView())
 
+
         showUserList: ->
             console.log("Controller: showUserList")
             app = require('app')
@@ -75,7 +83,6 @@ define ['app', 'marionette', 'vent',
                 error: (a, b, c) ->
                     console.log("Error fetching user")
             )
-
 
         showUserFavourites: (slug) ->
             console.log("Controller: showUserFavourites")
