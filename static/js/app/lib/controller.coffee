@@ -1,9 +1,11 @@
 define ['app', 'marionette', 'vent', 'utils'
         'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView'
+        'views/stream/streamListLayout',
         'views/mix/mixEditView', 'views/user/userProfileView', 'views/user/userListView', 'views/user/userEditView',
         'models/mix/mixItem', 'models/mix/mixCollection', 'models/user/userItem'],
 (App, Marionette, vent, utils,
  MixListLayout, MixListView, MixDetailView,
+ StreamListLayout,
  MixEditView, UserProfileView, UserListView, UserEditView,
  MixItem, MixCollection, UserItem)->
     class DssController extends Marionette.Controller
@@ -18,6 +20,9 @@ define ['app', 'marionette', 'vent', 'utils'
         showMixList: (options) ->
             app = require('app')
             app.contentRegion.show(new MixListLayout(options or {order_by: 'latest'}))
+
+        showStreamList: () ->
+          @showMixList({stream: true})
 
         showMixListType: (type) ->
             @showMixList({order_by: type})

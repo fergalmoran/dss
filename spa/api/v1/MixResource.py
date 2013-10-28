@@ -151,6 +151,8 @@ class MixResource(BackboneCompatibleResource):
 
         f_user = request.GET.get('user', None)
 
+        if request.GET.get('stream'):
+            semi_filtered = semi_filtered.filter(user__in=request.user.get_profile().following.all())
         if f_user is not None:
             semi_filtered = semi_filtered.filter(user__slug=f_user)
         else:

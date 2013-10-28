@@ -15,6 +15,7 @@ from spa.models.userprofile import UserProfile
 from spa.models._basemodel import _BaseModel
 from core.utils.file import generate_save_file_name
 
+
 def mix_file_name(instance, filename):
     return generate_save_file_name(instance.uid, 'mixes', filename)
 

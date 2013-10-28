@@ -24,6 +24,8 @@
         "mix/:slug": "showMix",
         "mix/edit/:slug": "editMix",
         "chat": "showChat",
+        "random": "showRandomMix",
+        "stream": "showStreamList",
         "users": "showUserList",
         "user/:slug/favourites": "showUserFavourites",
         "user/:slug/likes": "showUserLikes",

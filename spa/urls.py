@@ -13,17 +13,17 @@ from spa.api.v1.ReleaseResource import ReleaseResource
 from spa.api.v1.UserResource import UserResource
 from spa.api.v1.ActivityResource import ActivityResource
 
-v1_api = Api(api_name='v1')
-v1_api.register(ChatResource())
-v1_api.register(CommentResource())
-v1_api.register(MixResource())
-v1_api.register(ReleaseResource())
-v1_api.register(ReleaseAudioResource())
-v1_api.register(EventResource())
-v1_api.register(UserResource())
-v1_api.register(ActivityResource())
-v1_api.register(NotificationResource())
-v1_api.register(DebugResource())
+api = Api(api_name='v1')
+api.register(ChatResource())
+api.register(CommentResource())
+api.register(MixResource())
+api.register(ReleaseResource())
+api.register(ReleaseAudioResource())
+api.register(EventResource())
+api.register(UserResource())
+api.register(ActivityResource())
+api.register(NotificationResource())
+api.register(DebugResource())
 
 ajax = AjaxHandler()
 audio = AudioHandler()
@@ -44,7 +44,7 @@ urlpatterns = patterns(
     url(r'_upload/', 'spa.ajax.upload', name='jfu_upload'),
     url(r'^ajax/', include(ajax.urls)),
     url(r'^audio/', include(audio.urls)),
-    url(r'^api/', include(v1_api.urls)),
+    url(r'^api/', include(api.urls)),
     url(r'^comments/', include('django.contrib.comments.urls')),
     (r'^.*/$', 'spa.views.default')
 )
