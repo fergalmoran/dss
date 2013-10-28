@@ -1,6 +1,5 @@
 define ['app', 'marionette', 'vent', 'utils'
         'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView'
-        'views/stream/streamListLayout',
         'views/mix/mixEditView', 'views/user/userProfileView', 'views/user/userListView', 'views/user/userEditView',
         'models/mix/mixItem', 'models/mix/mixCollection', 'models/user/userItem'],
 (App, Marionette, vent, utils,
