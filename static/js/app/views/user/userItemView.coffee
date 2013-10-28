@@ -11,5 +11,4 @@ define ['app', 'moment', 'app.lib/dssView', 'vent', 'text!/tpl/UserListItemView'
         initialize: =>
             @listenTo(@model, 'change:is_following', @render)
 
-
     UserItemView

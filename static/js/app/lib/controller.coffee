@@ -4,7 +4,6 @@ define ['app', 'marionette', 'vent', 'utils'
         'models/mix/mixItem', 'models/mix/mixCollection', 'models/user/userItem'],
 (App, Marionette, vent, utils,
  MixListLayout, MixListView, MixDetailView,
- StreamListLayout,
  MixEditView, UserProfileView, UserListView, UserEditView,
  MixItem, MixCollection, UserItem)->
     class DssController extends Marionette.Controller
