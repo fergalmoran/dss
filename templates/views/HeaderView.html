@@ -16,13 +16,11 @@
             {% endif %}
             <li><a data-bypass="true" title="Show random mix from our vaults" id="header-random-button"><i class="icon-cogs icon-white"></i>Random</a></li>
             <li><a data-bypass="true" target="_blank" href="/podcast"><i class="icon-rss icon-white"></i>Podcast</a></li>
-            {% if false %}
-                <li class="purple">
-                    <a data-bypass="true" id="header-live-button">&nbsp;Listen Live
-                        <i class="icon-headphones icon-white" id="header-live-icon"></i>
-                    </a>
-                </li>
-            {% endif %}
+            <li class="purple">
+                <a data-bypass="true" id="header-live-button">&nbsp;Listen Live
+                    <i class="icon-headphones icon-white" id="header-live-icon"></i>
+                </a>
+            </li>
             {% if user.is_authenticated %}
                 <li class="purple">
                     <a href="/mix/upload" id='upload'>Upload
