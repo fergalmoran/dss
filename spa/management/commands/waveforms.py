@@ -17,7 +17,7 @@ class Command(NoArgsCommand):
             if not os.path.isfile(processed_file):
                 cached_file = mix.get_cache_path()
                 if not os.path.isfile(cached_file):
-                    print "File for %s not found tried\n\t%s\n\t%s" % (mix.title, processed_file, cached_file)
+                    print "File for [%s] not found tried\n\t%s\n\t%s" % (mix.title, processed_file, cached_file)
                     return
 
             print "File found, starting waveform task (%s)" % mix.uid
