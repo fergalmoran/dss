@@ -9,10 +9,8 @@ from core.utils.audio.mp3 import mp3_length
 from spa.models.userprofile import UserProfile
 from spa.models.mix import Mix
 
-waveform_generated = Signal()
-
-
-def waveform_generated_callback(sender, **kwargs):
+waveform_generated_signal = Signal()
+def _waveform_generated_callback(sender, **kwargs):
     print "Updating model with waveform"
     try:
         uid = kwargs['uid']
@@ -25,10 +23,18 @@ def waveform_generated_callback(sender, **kwargs):
     except ObjectDoesNotExist:
         print "Mix has still not been uploaded"
         pass
+waveform_generated_signal.connect(_waveform_generated_callback)
 
-
-waveform_generated.connect(waveform_generated_callback)
-
+update_user_geoip_signal = Signal()
+def _update_user_geoip_callback(sender, **kwargs):
+    try:
+        user = UserProfile.objects.get(pk=kwargs['profile_id'])
+        user.city = kwargs['city']
+        user.country = kwargs['country']
+        user.save()
+    except ObjectDoesNotExist:
+        pass
+update_user_geoip_signal.connect(_update_user_geoip_callback)
 
 def create_profile(sender, **kw):
     user = kw["instance"]
@@ -77,3 +83,4 @@ def session_pre_save(sender, **kwargs):
                 p.save()
             except ObjectDoesNotExist:
                 pass
+
