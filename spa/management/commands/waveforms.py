@@ -13,15 +13,15 @@ class Command(NoArgsCommand):
     def _generateWaveform(self, mix):
         #Check for file in mix directory
         try:
-            in_file = mix.get_absolute_path()
-            if not os.path.isfile(in_file):
-                in_file = mix.get_cache_path()
-                if not os.path.isfile(in_file):
-                    print "File %s not found" % in_file
+            processed_file = mix.get_absolute_path()
+            if not os.path.isfile(processed_file):
+                cached_file = mix.get_cache_path()
+                if not os.path.isfile(cached_file):
+                    print "File not found tried\n\t%s\n\t%s" % (processed_file, cached_file)
                     return
 
             print "File found, starting waveform task (%s)" % mix.uid
-            create_waveform_task.delay(in_file=in_file, uid=mix.uid)
+            create_waveform_task.delay(in_file=cached_file, uid=mix.uid)
             print "Task submitted"
 
         except Exception, ex:
