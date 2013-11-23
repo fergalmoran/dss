@@ -176,6 +176,8 @@ class MixResource(BackboneCompatibleResource):
         bundle.data['user_profile_url'] = bundle.obj.user.get_absolute_url()
         bundle.data['user_profile_image'] = bundle.obj.user.get_small_profile_image()
         bundle.data['item_url'] = '/mix/%s' % bundle.obj.slug
+        bundle.data['download_allowed'] = bundle.obj.download_allowed and \
+                                          bundle.obj.upload_date < datetime.datetime.now() - datetime.timedelta(days=1)
 
         bundle.data['favourite_count'] = bundle.obj.favourites.count()
 
