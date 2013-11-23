@@ -46,7 +46,6 @@ define ['app.lib/editableView', 'moment', 'utils', 'backbone.syphon', 'text!/tpl
             @sendImage = false
             parent = this
             if not @model.id
-                $("#mix-details", @el).hide()
                 $("#upload-hash", @el).val @guid
             else
                 $("#div-upload-mix", @el).hide()

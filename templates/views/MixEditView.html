@@ -13,7 +13,8 @@
                     <span class="fileupload-loading"></span>
                 </div>
                 <div class="span5 fileupload-progress fade">
-                    <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0"
+                         aria-valuemax="100">
                         <div class="progress-bar progress-bar-success" style="width:0%;"></div>
                     </div>
                 </div>
@@ -64,6 +65,8 @@
             </tr>
             {% } %}
             {% } %}
+
+
         </script>
         <script id="template-download" type="text/x-tmpl">
             {% for (var i=0, file; file=o.files[i]; i++) { %}
@@ -99,6 +102,8 @@
                 </td>
             </tr>
             {% } %}
+
+
         </script>
         {% endverbatim %}
     </div>
@@ -148,12 +153,20 @@
                     <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
                 </div>
             </div>
-            <label class="checkbox">
-                <input type="checkbox" id="download_allowed" name="download_allowed" <% print(download_allowed ? 'checked="checked"' : '') %>>Downloads Allowed?
-            </label>
-            <label class="checkbox">
-                <input type="checkbox" id="is_featured" name="is_featured" <% print(is_featured ? 'checked="checked"' : '') %>>Is featured?
-            </label>
+            <div class="mix_display_controls">
+                <input class="ace ace-switch ace-switch-7"
+                       type="checkbox"
+                       id="download_allowed"
+                       name="download_allowed"
+                <% print(download_allowed ? 'checked="checked"' : '') %>>
+                <label class="lbl" for="download_allowed">&nbsp;Downloads?</label>
+                <input class="ace ace-switch ace-switch-7"
+                       type="checkbox"
+                       id="is_featured"
+                       name="is_featured"
+                <% print(is_featured ? 'checked="checked"' : '') %>>
+                <label class="lbl" for="is_featured">&nbsp;Featured?</label>
+            </div>
         </div>
         <div class="col-xs-12">
             <div class="control-group">
