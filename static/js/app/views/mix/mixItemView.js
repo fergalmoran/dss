@@ -38,7 +38,8 @@
         "click .like-button a": "mixLike",
         "click .favourite-button a": "mixFavourite",
         "click .share-button": "mixShare",
-        "click .download-button a": "mixDownload"
+        "click .download-button a": "mixDownload",
+        "click .login-download-button  a": "login"
       };
 
       MixItemView.prototype.ui = {
@@ -167,6 +168,12 @@
       MixItemView.prototype.mixDownload = function() {
         console.log("MixItemView: mixDownload");
         utils.downloadURL("/audio/download/" + this.model.get('id'));
+        return true;
+      };
+
+      MixItemView.prototype.login = function() {
+        console.log("MixItemView: login");
+        vent.trigger('app:login');
         return true;
       };
 

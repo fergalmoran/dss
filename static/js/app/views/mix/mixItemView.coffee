@@ -21,6 +21,7 @@ define ['moment', 'app', 'vent', 'marionette', 'utils',
             "click .favourite-button a": "mixFavourite",
             "click .share-button": "mixShare",
             "click .download-button a": "mixDownload"
+            "click .login-download-button  a": "login"
         }
 
         ui: {
@@ -141,5 +142,9 @@ define ['moment', 'app', 'vent', 'marionette', 'utils',
             utils.downloadURL("/audio/download/" + @model.get('id'))
             true
 
+        login: ->
+          console.log("MixItemView: login")
+          vent.trigger('app:login')
+          true
 
     MixItemView

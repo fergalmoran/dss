@@ -67,6 +67,10 @@
             {% } %}
 
 
+
+
+
+
         </script>
         <script id="template-download" type="text/x-tmpl">
             {% for (var i=0, file; file=o.files[i]; i++) { %}
@@ -102,6 +106,10 @@
                 </td>
             </tr>
             {% } %}
+
+
+
+
 
 
         </script>
@@ -144,28 +152,39 @@
                         <img src="<%=mix_image%>"/>
                     </div>
                 </div>
-                <div class="widget-toolbox padding-8 clearfix">
-                                <span class="btn btn-file">
-                                    <span class="fileupload-new">Select image</span>
-                                    <span class="fileupload-exists">Change</span>
-                                    <input id="mix_image" name="mix_image" type="file"/>
-                                </span>
-                    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-                </div>
+                <span class="pull-right btn btn-sm btn-file">
+                    <span class="fileupload-new">Select image</span>
+                    <span class="fileupload-exists">Change</span>
+                    <input id="mix_image" name="mix_image" type="file"/>
+                </span>
+                <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
             </div>
+            <hr class="dotted"/>
             <div class="mix_display_controls">
-                <input class="ace ace-switch ace-switch-7"
-                       type="checkbox"
-                       id="download_allowed"
-                       name="download_allowed"
-                <% print(download_allowed ? 'checked="checked"' : '') %>>
-                <label class="lbl" for="download_allowed">&nbsp;Downloads?</label>
-                <input class="ace ace-switch ace-switch-7"
-                       type="checkbox"
-                       id="is_featured"
-                       name="is_featured"
-                <% print(is_featured ? 'checked="checked"' : '') %>>
-                <label class="lbl" for="is_featured">&nbsp;Featured?</label>
+                <div class="well well-sm">
+                    <label class="pull-left inline">
+                        <small class="muted">Downloads:</small>
+                        <input class="ace ace-switch ace-switch-7"
+                               type="checkbox"
+                               id="download_allowed"
+                               name="download_allowed"
+                        <% print(download_allowed ? 'checked="checked"' : '') %>>
+                        <span class="lbl" for="download_allowed"></span>
+                    </label>
+                </div>
+                {% if user.is_staff %}
+                <div class="well well-sm">
+                    <label class="pull-left inline">
+                        <small class="muted">Homepage:</small>
+                        <input class="ace ace-switch ace-switch-7"
+                               type="checkbox"
+                               id="is_featured"
+                               name="is_featured"
+                        <% print(is_featured ? 'checked="checked"' : '') %>>
+                        <span class="lbl"></span>
+                    </label>
+                </div>
+                {% endif %}
             </div>
         </div>
         <div class="col-xs-12">
