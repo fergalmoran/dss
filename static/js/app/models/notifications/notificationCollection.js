@@ -19,6 +19,10 @@
 
       NotificationCollection.prototype.limit = 5;
 
+      NotificationCollection.prototype.newCount = function() {
+        return this.is_new;
+      };
+
       NotificationCollection.prototype.url = function() {
         return com.podnoms.settings.urlRoot + "notification/?limit=" + this.limit + "&offset=" + Math.max(this.page - 1, 0) * this.limit;
       };

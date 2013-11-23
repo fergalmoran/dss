@@ -13,7 +13,8 @@ define ['marionette', 'underscore', 'vent', 'utils',
             "click #notifications-dropdown": "showNotifications"
         ui:
             notificationSurround: "#notification-surround"
-            notificationCount: "#notification-count-badge"
+            notificationCountBadge: "#notification-count-badge"
+            notificationCount: "#notification-count"
 
         initialize: =>
             #quick and dirty check to see if user is logged in
@@ -29,10 +30,13 @@ define ['marionette', 'underscore', 'vent', 'utils',
             )
 
         renderBeacon: (model) ->
-            $(@ui.notificationCount).text(@collection.meta.is_new)
-            if @collection.meta.is_new == 0
+            newCount = @collection.meta.is_new
+            if newCount == 0
+                $(@ui.notificationCount).text("Notifications")
                 $(@ui.notificationSurround).hide()
             else
+                $(@ui.notificationCountBadge).text(newCount)
+                $(@ui.notificationCount).text(newCount + " Notifications")
                 $(@ui.notificationSurround).show()
                 $(@ui.notificationSurround).addClass('animate pulse')
                 if model

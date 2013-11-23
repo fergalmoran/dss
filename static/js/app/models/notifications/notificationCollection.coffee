@@ -6,6 +6,10 @@ define ['backbone', 'vent',
         page: 0
         model: NotificationItem
         limit: 5
+
+        newCount: ->
+          return @is_new
+
         url: ->
             com.podnoms.settings.urlRoot + "notification/?limit=" + @limit + "&offset=" + Math.max(@page - 1,
                 0) * @limit

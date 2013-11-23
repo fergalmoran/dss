@@ -29,5 +29,5 @@ class NotificationResource(BackboneCompatibleResource):
         return bundle
 
     def alter_list_data_to_serialize(self, request, data):
-        data['meta']['is_new'] = 5  #Notification.objects.filter(to_user=request.user, accepted_date__isnull=True).count()
+        data['meta']['is_new'] = Notification.objects.filter(to_user=request.user, accepted_date__isnull=True).count()
         return data
