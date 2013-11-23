@@ -1,3 +1,4 @@
+import datetime
 from django.conf.urls import url
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, InvalidPage
@@ -32,7 +33,7 @@ class MixResource(BackboneCompatibleResource):
         user = ToOneField('UserResource', 'user')
         always_return_data = True
         detail_uri_name = 'slug'
-        excludes = ['is_active', 'local_file', 'upload_date', 'waveform-generated']
+        excludes = ['is_active', 'local_file', 'waveform-generated']
         post_excludes = ['comments']
         filtering = {
             'comments': ALL_WITH_RELATIONS,
@@ -106,6 +107,9 @@ class MixResource(BackboneCompatibleResource):
         uid = bundle.data['upload-hash']
         if 'is_featured' not in bundle.data:
             bundle.data['is_featured'] = False
+
+        if 'download_allowed' not in bundle.data:
+            bundle.data['download_allowed'] = False
 
         bundle.data['user'] = bundle.request.user.get_profile()
         ret = super(MixResource, self).obj_create(

@@ -43,10 +43,13 @@ def download(request, mix_id):
                 response['Content-Disposition'] = "attachment; filename=Deep South Sounds - %s%s" % (
                     mix.title, extension)
                 return response
+            else:
+                return HttpResponse('Downloads not allowed for this mix', status=401)
+
     except Exception, ex:
         print ex
 
-    raise Http404("Mix not found")
+    return Http404("Mix not found")
 
 
 def start_streaming(request, mix_id):

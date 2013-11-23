@@ -51,6 +51,7 @@ define ['app', 'marionette', 'vent', 'utils'
                 title: '',
                 description: '',
                 mix_image: '',
+                download_allowed: false,
                 is_featured: false
             });
             app.contentRegion.show(new MixEditView({model: mix}))
