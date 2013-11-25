@@ -28,7 +28,10 @@
         "click #btn-add-comment": "addComment"
       };
 
-      MixDetailView.prototype.addComment = function() {};
+      MixDetailView.prototype.addComment = function() {
+        var comment;
+        return comment = "123";
+      };
 
       MixDetailView.prototype.onRender = function() {
         var view;

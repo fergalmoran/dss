@@ -6,6 +6,7 @@ requirejs.config({
         site: 'app/site',
         jquery: 'lib/jquery',
         backbone: 'lib/backbone',
+        'backbone.relational': 'lib/backbone.relational',
         'backbone.syphon': 'lib/backbone.syphon',
         marionette: 'lib/backbone.marionette',
         bootstrap: 'lib/bootstrap',

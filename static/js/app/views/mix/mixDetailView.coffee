@@ -24,7 +24,7 @@ define ['marionette',
 
 
         addComment: ->
-          commen = new
+          comment = "123"
 
         onRender: ->
             view = new MixItemView({tagName: "div", className: "mix-listing audio-listing-single", model: @model})
