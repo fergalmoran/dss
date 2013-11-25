@@ -60,7 +60,7 @@ define ['backbone', 'marionette', 'vent', 'utils',
             model.save 'favourited', !model.get('favourited'), patch: true
             true
 
-        @listenTo vent, "mix:like", (model) ->
+        @listenTo vent, "mix:like", (model, id, success, favourite) ->
             console.log "App(vent): mix:like"
             model.save 'liked', !model.get('liked'), patch: true
             true
@@ -74,6 +74,11 @@ define ['backbone', 'marionette', 'vent', 'utils',
                 Backbone.history.navigate "/", trigger: true
               no: ->
                 console.log("Controller: mixDeleteNO!!")
+
+        @listenTo vent, "mix:comment", (model, comment) ->
+            console.log "App(vent): mix:favourite"
+            model.save 'favourited', !model.get('favourited'), patch: true
+            true
 
         @listenTo vent, "user:follow", (model)->
             console.log "App(vent): user:follow"

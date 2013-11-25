@@ -64,7 +64,7 @@
         });
         return true;
       });
-      this.listenTo(vent, "mix:like", function(model) {
+      this.listenTo(vent, "mix:like", function(model, id, success, favourite) {
         console.log("App(vent): mix:like");
         model.save('liked', !model.get('liked'), {
           patch: true
@@ -85,6 +85,13 @@
             return console.log("Controller: mixDeleteNO!!");
           }
         });
+      });
+      this.listenTo(vent, "mix:comment", function(model, comment) {
+        console.log("App(vent): mix:favourite");
+        model.save('favourited', !model.get('favourited'), {
+          patch: true
+        });
+        return true;
       });
       this.listenTo(vent, "user:follow", function(model) {
         var target, user,

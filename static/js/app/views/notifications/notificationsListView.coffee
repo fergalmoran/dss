@@ -34,8 +34,8 @@ define ['marionette', 'underscore', 'vent', 'utils',
             if newCount == 0
                 $(@ui.notificationCount).text("Notifications")
                 $(@ui.notificationSurround).hide()
-            else
                 $(@ui.notificationCountBadge).text(newCount)
+            else
                 $(@ui.notificationCount).text(newCount + " Notifications")
                 $(@ui.notificationSurround).show()
                 $(@ui.notificationSurround).addClass('animate pulse')

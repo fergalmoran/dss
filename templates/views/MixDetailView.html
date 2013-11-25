@@ -1,27 +1,47 @@
-<section id="mix">
-    <ul id="mix-list-container-ul" class="mix-listing audio-listing"></ul>
-</section>
-<!-- Tab Stylee -->
-<section id="mix-detail-section">
-    <ul id="mix-tab" class="nav nav-tabs" data-tabs="tabs">
-        <li class="active">
-            <a data-bypass="true" href="#description" data-toggle="tab">
-                Description
-            </a>
-        </li>
-        <li>
-            <a data-bypass="true" href="#comments" data-toggle="tab">
-                Comments
-                <span class="badge badge-danger"><%= comments.length %></span>
-            </a>
-        </li>
-    </ul>
+<div class="row">
+    <section id="mix">
+        <ul id="mix-list-container-ul" class="mix-listing audio-listing"></ul>
+    </section>
+</div>
+<div class="row well-sm">
+    <section id="mix-comment">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button class="btn btn-sm btn-default"
+                        id="btn-add-comment"
+                        type="button">
+                    <i class="icon-comment bigger-110"></i>
+                    Add comment!
+                </button>
+            </span>
+            <input class="form-control input-mask-date" type="text" id="comment-text" name="new-comment">
+        </div>
+    </section>
+</div>
+<div class="row">
+    <section id="mix-detail-section">
+        <ul id="mix-tab" class="nav nav-tabs" data-tabs="tabs">
+            <li class="active">
+                <a data-bypass="true" href="#description" data-toggle="tab">
+                    <i class="orange icon-terminal bigger-120"></i>
+                    Description
+                </a>
+            </li>
+            <li>
+                <a data-bypass="true" href="#comments" data-toggle="tab">
+                    <i class="orange icon-comments bigger-120"></i>
+                        Comments
+                    <span class="badge badge-danger"><%= comments.length %></span>
+                </a>
+            </li>
+        </ul>
 
-    <div id="mix-tabContent" class="tab-content">
-        <div class="tab-pane active in fade" id="description">
-            <pre id="mix-description"><%= description %></pre>
+        <div id="mix-tabContent" class="tab-content">
+            <div class="tab-pane active in fade" id="description">
+                <pre id="mix-description"><%= description %></pre>
+            </div>
+            <div class="tab-pane fade" id="comments">
+            </div>
         </div>
-        <div class="tab-pane fade" id="comments">
-        </div>
-    </div>
-</section>
+    </section>
+</div>

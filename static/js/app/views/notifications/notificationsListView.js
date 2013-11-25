@@ -57,9 +57,9 @@
         newCount = this.collection.meta.is_new;
         if (newCount === 0) {
           $(this.ui.notificationCount).text("Notifications");
-          return $(this.ui.notificationSurround).hide();
+          $(this.ui.notificationSurround).hide();
+          return $(this.ui.notificationCountBadge).text(newCount);
         } else {
-          $(this.ui.notificationCountBadge).text(newCount);
           $(this.ui.notificationCount).text(newCount + " Notifications");
           $(this.ui.notificationSurround).show();
           $(this.ui.notificationSurround).addClass('animate pulse');

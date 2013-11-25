@@ -20,7 +20,8 @@
         bodyRegion: "#mix-list-body"
       };
 
-      MixListLayout.prototype.initialize = function() {
+      MixListLayout.prototype.initialize = function(options) {
+        this.options = options;
         this.listenTo(vent, "mix:showlist", this.showMixList);
         this.listenTo(vent, "user:showdetail", this.showUserView);
         return this.showMixList(this.options);
@@ -30,7 +31,7 @@
         return this.headerRegion.show(new MixTabHeaderView());
       };
 
-      MixListLayout.prototype.showMixList = function(options) {
+      MixListLayout.prototype.showMixList = function() {
         var _this = this;
         this.collection = new MixCollection();
         return this.collection.fetch({

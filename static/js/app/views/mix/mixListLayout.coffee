@@ -14,7 +14,8 @@ define [
             bodyRegion: "#mix-list-body"
         }
 
-        initialize: ->
+        initialize: (options)->
+            @options = options
             @listenTo(vent, "mix:showlist", @showMixList)
             @listenTo(vent, "user:showdetail", @showUserView)
             @showMixList(@options)
@@ -22,7 +23,7 @@ define [
         onShow: ->
             @headerRegion.show(new MixTabHeaderView())
 
-        showMixList: (options)->
+        showMixList:->
             @collection = new MixCollection()
             @collection.fetch
                 data: @options

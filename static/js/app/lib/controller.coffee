@@ -18,6 +18,7 @@ define ['app', 'marionette', 'vent', 'utils'
         showMixList: (options) ->
             app = require('app')
             app.contentRegion.show(new MixListLayout(options or {order_by: 'latest'}))
+            vent.trigger('mix:showlist', options or {order_by: 'latest'})
 
         showStreamList: () ->
           @showMixList({stream: true})

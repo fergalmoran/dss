@@ -4,7 +4,8 @@ define ['marionette', 'underscore', 'vent', 'text!/tpl/MixTabHeaderView'],
     class MixTabHeaderView extends Marionette.ItemView
         template: _.template(Template)
 
-        initialize: ->
+        initialize: (options)->
+            @options = options
             @listenTo(vent, "mix:showlist", @tabChanged)
 
         tabChanged: (options) ->

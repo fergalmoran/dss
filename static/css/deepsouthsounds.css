@@ -16,8 +16,8 @@ body {
 
 .body-content {
     background: #fff;
-    margin: 0;
-    padding: 8px 29px 24px 12px;
+    padding-left: 28px;
+    padding-right: 28px;
 }
 
 /* IE/Chrome image fix */

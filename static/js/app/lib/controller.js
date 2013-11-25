@@ -25,9 +25,12 @@
       DssController.prototype.showMixList = function(options) {
         var app;
         app = require('app');
-        return app.contentRegion.show(new MixListLayout(options || {
+        app.contentRegion.show(new MixListLayout(options || {
           order_by: 'latest'
         }));
+        return vent.trigger('mix:showlist', options || {
+          order_by: 'latest'
+        });
       };
 
       DssController.prototype.showStreamList = function() {
