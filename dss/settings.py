@@ -52,7 +52,7 @@ CACHE_ROOT = localsettings.CACHE_ROOT
 STATIC_URL = localsettings.STATIC_URL if hasattr(localsettings, 'STATIC_URL') else '/static/'
 
 if DEBUG:
-    MEDIA_URL = '/media/'
+    MEDIA_URL = localsettings.MEDIA_URL if hasattr(localsettings, 'MEDIA_URL') else '/media/'
 else:
     MEDIA_URL = localsettings.MEDIA_URL if hasattr(localsettings, 'MEDIA_URL') else '/static/'
 
@@ -222,7 +222,9 @@ PIPELINE_CSS = {
 INTERNAL_IPS = ('127.0.0.1', '86.44.166.21', '192.168.1.111')
 
 GOOGLE_ANALYTICS_CODE = localsettings.GOOGLE_ANALYTICS_CODE
+
 TASTYPIE_DATETIME_FORMATTING = 'rfc-2822'
+TASTYPIE_ALLOW_MISSING_SLASH = True
 
 SENDFILE_BACKEND = localsettings.SENDFILE_BACKEND
 SENDFILE_ROOT = os.path.join(MEDIA_ROOT, 'mixes')

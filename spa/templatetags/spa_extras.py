@@ -13,14 +13,14 @@ register = template.Library()
 @register.filter
 def nice_name(user):
     if user == "":
-        return "Anonymous"
+        return "Anonymouse"
     if user.is_authenticated():
         profile = user.get_profile()
         if profile is not None:
             if profile.display_name <> "":
                 return profile.display_name
     else:
-        return "Anonymous"
+        return "Anonymouse"
 
     return user.get_full_name() or user.username
 

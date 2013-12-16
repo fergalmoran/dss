@@ -4,7 +4,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['moment', 'app', 'vent', 'marionette', 'utils', 'models/comment/commentCollection', 'views/comment/commentListView', 'text!/tpl/MixListItemView'], function(moment, App, vent, Marionette, utils, CommentsCollection, CommentsListView, Template) {
+  define(['moment', 'app', 'vent', 'marionette', 'utils', 'text!/tpl/MixListItemView'], function(moment, App, vent, Marionette, utils, Template) {
     var MixItemView;
     MixItemView = (function(_super) {
 
@@ -12,8 +12,6 @@
 
       function MixItemView() {
         this.doStart = __bind(this.doStart, this);
-
-        this.renderComments = __bind(this.renderComments, this);
 
         this.renderGenres = __bind(this.renderGenres, this);
 
@@ -49,6 +47,7 @@
       MixItemView.prototype.initialize = function() {
         this.listenTo(this.model, 'change:favourited', this.render);
         this.listenTo(this.model, 'change:liked', this.render);
+        this.listenTo(this.model, 'nested-change', this.render);
         this.listenTo(vent, 'mix:play', this.mixPlay);
         this.listenTo(vent, 'mix:pause', this.mixPause);
         return true;
@@ -61,7 +60,6 @@
           $('#player-duration-' + id, this.el).text(this.model.secondsToHms('duration'));
         }
         this.renderGenres();
-        this.renderComments();
       };
 
       MixItemView.prototype.onShow = function() {
@@ -78,25 +76,6 @@
         $.each(this.model.get("genre-list"), function(data) {
           $("#genre-list", el).append('<a href="/mixes/' + this.slug + '" class="label label-info arrowed-right arrowed-in">' + this.text + '</a>');
           return true;
-        });
-        return true;
-      };
-
-      MixItemView.prototype.renderComments = function() {
-        var comments;
-        comments = new CommentsCollection();
-        comments.url = this.model.get("resource_uri") + "comments/";
-        comments.mix_id = this.model.id;
-        comments.mix = this.model;
-        comments.fetch({
-          success: function(data) {
-            var content;
-            content = new CommentsListView({
-              collection: comments
-            }).render();
-            $("#comments", this.el).html(content.el);
-            return true;
-          }
         });
         return true;
       };

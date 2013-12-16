@@ -6,7 +6,7 @@ requirejs.config({
         site: 'app/site',
         jquery: 'lib/jquery',
         backbone: 'lib/backbone',
-        'backbone.relational': 'lib/backbone.relational',
+        'backbone-associations': 'lib/backbone.associations',
         'backbone.syphon': 'lib/backbone.syphon',
         marionette: 'lib/backbone.marionette',
         bootstrap: 'lib/bootstrap',
@@ -58,6 +58,10 @@ requirejs.config({
         backbone: {
             exports: 'Backbone',
             deps: ['jquery', 'underscore']
+        },
+        'backbone-associations': {
+            exports: 'Backbone.AssociatedModel',
+            deps: ['backbone']
         },
         bootstrap: {
             exports: 'bootstrap',

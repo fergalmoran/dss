@@ -58,17 +58,36 @@
         }
         return true;
       },
+      toastOptions: function() {
+        return toastr.options = {
+          closeButton: true,
+          debug: false,
+          positionClass: "toast-bottom-left",
+          onclick: null,
+          showDuration: "300",
+          hideDuration: "1000",
+          timeOut: "5000",
+          extendedTimeOut: "1000",
+          showEasing: "swing",
+          hideEasing: "linear",
+          showMethod: "fadeIn",
+          hideMethod: "fadeOut"
+        };
+      },
       showError: function(title, message) {
+        this.toastOptions();
         return toastr.error(message, title);
       },
       showWarning: function(title, message) {
+        this.toastOptions();
         return toastr.warning(message, title);
+      },
+      showMessage: function(title, message) {
+        toastOptions();
+        return toastr.success(message, title);
       },
       showAlert: function(title, message) {
         return this.showMessage(title, message);
-      },
-      showMessage: function(title, message) {
-        return toastr.success(message, title);
       },
       generateGuid: function() {
         return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {

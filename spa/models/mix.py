@@ -2,10 +2,13 @@ import os
 import rfc822
 from datetime import datetime
 import urlparse
+from logilab.common.registry import ObjectNotFound
+from psycopg2.errorcodes import OBJECT_NOT_IN_PREREQUISITE_STATE
 from sorl.thumbnail import get_thumbnail
 from django.contrib.sites.models import Site
 from django.db import models
 from core.utils import url
+from core.utils.audio import Mp3FileNotFoundException
 from core.utils.audio.mp3 import mp3_length, tag_mp3
 from core.utils.url import unique_slugify
 from spa.models.activity import ActivityDownload, ActivityPlay
@@ -28,10 +31,22 @@ def mix_image_name(instance, filename):
 class MixManager(models.Manager):
     pass
 
+    def get_by_id_or_slug(self, id_or_slug):
+        """
+            Tries to get a mix using the slug first
+            If this fails then try getting by id
+        """
+        try:
+            return super(MixManager, self).get(slug=id_or_slug)
+        except ObjectNotFound:
+            return super(MixManager, self).get(slug=id_or_slug)
+
 
 class Mix(_BaseModel):
     class Meta:
         app_label = 'spa'
+
+    objects = MixManager()
 
     title = models.CharField(max_length=150)
     description = models.TextField()
@@ -64,7 +79,11 @@ class Mix(_BaseModel):
         #Check for the unlikely event that the waveform has been generated
         if os.path.isfile(self.get_waveform_path()):
             self.waveform_generated = True
-            self.duration = mp3_length(self.get_absolute_path())
+            try:
+                self.duration = mp3_length(self.get_absolute_path())
+            except Mp3FileNotFoundException:
+                #Not really bothered about this in save as it can be called before we have an mp3
+                pass
 
         super(Mix, self).save(force_insert, force_update, using, update_fields)
 
@@ -112,7 +131,6 @@ class Mix(_BaseModel):
     def get_waveform_url(self):
 
         if self.waveform_generated and os.path.exists(self.get_waveform_path()):
-
             waveform_root = localsettings.WAVEFORM_URL if hasattr(localsettings,
                                                                   'WAVEFORM_URL') else "%swaveforms" % settings.MEDIA_URL
             ret = "%s/%s.%s" % (waveform_root, self.uid, "png")
@@ -130,7 +148,7 @@ class Mix(_BaseModel):
         name, extension = os.path.splitext(self.mix_image.file.name)
         return os.path.join(settings.MEDIA_ROOT, 'mix-images', "%s.%s", (self.uid, extension))
 
-    def get_image_url(self, size='160x160'):
+    def get_image_url(self, size='160x160', default=''):
         try:
             ret = get_thumbnail(self.mix_image, size, crop='center')
             return "%s/%s" % (settings.MEDIA_URL, ret.name)

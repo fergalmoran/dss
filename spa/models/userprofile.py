@@ -226,5 +226,5 @@ class UserProfile(_BaseModel):
 
     @classmethod
     def get_default_moniker(cls):
-        return "Anonymous"
+        return "Anonymouse"
 

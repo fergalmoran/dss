@@ -1,10 +1,6 @@
 define ['moment', 'app', 'vent', 'marionette', 'utils',
-        'models/comment/commentCollection',
-        'views/comment/commentListView',
         'text!/tpl/MixListItemView'],
 (moment, App, vent, Marionette, utils,
- CommentsCollection,
- CommentsListView,
  Template) ->
     class MixItemView extends Marionette.ItemView
         template: _.template(Template)
@@ -31,6 +27,7 @@ define ['moment', 'app', 'vent', 'marionette', 'utils',
         initialize: =>
             @listenTo(@model, 'change:favourited', @render)
             @listenTo(@model, 'change:liked', @render)
+            @listenTo(@model, 'nested-change', @render)
             @listenTo(vent, 'mix:play', @mixPlay)
             @listenTo(vent, 'mix:pause', @mixPause)
             true
@@ -40,10 +37,7 @@ define ['moment', 'app', 'vent', 'marionette', 'utils',
             if @model.get('duration')
                 $('#player-duration-' + id, this.el).text(@model.secondsToHms('duration'))
 
-
             @renderGenres()
-            @renderComments()
-
             return
 
         onShow: ->
@@ -57,17 +51,6 @@ define ['moment', 'app', 'vent', 'marionette', 'utils',
             el = @el
             $.each @model.get("genre-list"), (data) ->
                 $("#genre-list", el).append '<a href="/mixes/' + @slug + '" class="label label-info arrowed-right arrowed-in">' + @text + '</a>'
-                true
-            true
-
-        renderComments: =>
-            comments = new CommentsCollection()
-            comments.url = @model.get("resource_uri") + "comments/"
-            comments.mix_id = @model.id
-            comments.mix = @model
-            comments.fetch success: (data) ->
-                content = new CommentsListView(collection: comments).render()
-                $("#comments", @el).html content.el
                 true
             true
 

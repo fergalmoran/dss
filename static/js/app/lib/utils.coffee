@@ -41,17 +41,35 @@ define ['jquery', 'bootstrap', 'toastr'], ($, bootstrap, toastr) ->
                     @modal "/dlg/PlayCountLoginAlert"
         true
 
+    toastOptions: ->
+        toastr.options =
+          closeButton: true
+          debug: false
+          positionClass: "toast-bottom-left"
+          onclick: null
+          showDuration: "300"
+          hideDuration: "1000"
+          timeOut: "5000"
+          extendedTimeOut: "1000"
+          showEasing: "swing"
+          hideEasing: "linear"
+          showMethod: "fadeIn"
+          hideMethod: "fadeOut"
+
     showError: (title, message) ->
+        @toastOptions()
         toastr.error message, title
 
     showWarning: (title, message) ->
+        @toastOptions()
         toastr.warning message, title
+
+    showMessage: (title, message) ->
+        toastOptions()
+        toastr.success message, title
 
     showAlert: (title, message) ->
         @showMessage title, message
-
-    showMessage: (title, message) ->
-        toastr.success message, title
 
     generateGuid: ->
         "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace /[xy]/g, (c) ->

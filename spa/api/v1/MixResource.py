@@ -164,9 +164,6 @@ class MixResource(BackboneCompatibleResource):
 
         return semi_filtered
 
-    def hydrate_favourited(self, bundle):
-        return bundle
-
     def dehydrate_mix_image(self, bundle):
         return bundle.obj.get_image_url(size="160x110")
 

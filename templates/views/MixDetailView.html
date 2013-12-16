@@ -5,7 +5,7 @@
 </div>
 <div class="row well-sm">
     <section id="mix-comment">
-        <div class="input-group">
+        <div class="input-group" id="comment-input">
             <span class="input-group-btn">
                 <button class="btn btn-sm btn-default"
                         id="btn-add-comment"
@@ -14,20 +14,20 @@
                     Add comment!
                 </button>
             </span>
-            <input class="form-control input-mask-date" type="text" id="comment-text" name="new-comment">
+            <input class="form-control" type="text" id="comment-text" name="new-comment">
         </div>
     </section>
 </div>
 <div class="row">
     <section id="mix-detail-section">
         <ul id="mix-tab" class="nav nav-tabs" data-tabs="tabs">
-            <li class="active">
+            <li class="active" id="tab-description">
                 <a data-bypass="true" href="#description" data-toggle="tab">
                     <i class="orange icon-terminal bigger-120"></i>
                     Description
                 </a>
             </li>
-            <li>
+            <li id="tab-comments">
                 <a data-bypass="true" href="#comments" data-toggle="tab">
                     <i class="orange icon-comments bigger-120"></i>
                         Comments

@@ -75,11 +75,6 @@ define ['backbone', 'marionette', 'vent', 'utils',
               no: ->
                 console.log("Controller: mixDeleteNO!!")
 
-        @listenTo vent, "mix:comment", (model, comment) ->
-            console.log "App(vent): mix:favourite"
-            model.save 'favourited', !model.get('favourited'), patch: true
-            true
-
         @listenTo vent, "user:follow", (model)->
             console.log "App(vent): user:follow"
             user = new UserItem({id: com.podnoms.settings.currentUser })

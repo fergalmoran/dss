@@ -86,13 +86,6 @@
           }
         });
       });
-      this.listenTo(vent, "mix:comment", function(model, comment) {
-        console.log("App(vent): mix:favourite");
-        model.save('favourited', !model.get('favourited'), {
-          patch: true
-        });
-        return true;
-      });
       this.listenTo(vent, "user:follow", function(model) {
         var target, user,
           _this = this;
