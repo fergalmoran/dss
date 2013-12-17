@@ -30,6 +30,12 @@ class CommentResource(BackboneCompatibleResource):
             bundle.data['avatar_image'] = UserProfile.get_default_avatar_image()
             bundle.data['user_url'] = "/"
             bundle.data['user_name'] = "Anonymouse"
+
+        if bundle.request.user.is_authenticated():
+            bundle.data['can_edit'] = bundle.request.user.is_staff or bundle.obj.user_id == bundle.request.user.id
+        else:
+            bundle.data['can_edit'] = False
+
         return bundle
 
     def obj_create(self, bundle, **kwargs):

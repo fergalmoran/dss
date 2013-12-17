@@ -16,21 +16,18 @@ define ['jquery', 'bootstrap', 'toastr'], ($, bootstrap, toastr) ->
                     true
         true
 
-    messageBox: (url) ->
+    messageBox: (url, success) ->
         if url
             if url.indexOf("#") is 0
                 $(url).modal "open"
             else
                 $.get(url,(data) ->
-                    $("#yes-no-positive", data).click ->
-                        alert("Oh yes")
+                    $(data).modal('show').on("shown.bs.modal", (e) ->
+                        $(this).find("#yes-no-positive").click ->
+                            success()
+                    )
+                )
 
-                    $(data).modal().on "hidden", ->
-                        $(this).remove()
-                        true
-                ).success ->
-                    $("input:text:visible:first").focus()
-                    true
         true
 
     checkPlayCount: ->

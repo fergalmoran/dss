@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app.lib/dssView', 'text!/tpl/CommentItemView'], function(DssView, Template) {
+  define(['app.lib/dssView', 'utils', 'text!/tpl/CommentItemView'], function(DssView, utils, Template) {
     var CommentItemView;
     CommentItemView = (function(_super) {
 
@@ -14,6 +14,17 @@
       }
 
       CommentItemView.prototype.template = _.template(Template);
+
+      CommentItemView.prototype.events = {
+        "click #delete-comment": "deleteComment"
+      };
+
+      CommentItemView.prototype.deleteComment = function() {
+        var _this = this;
+        return utils.messageBox("/dlg/DeleteMixConfirm", function() {
+          return _this.model.destroy();
+        });
+      };
 
       return CommentItemView;
 

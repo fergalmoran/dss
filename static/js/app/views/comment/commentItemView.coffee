@@ -1,6 +1,12 @@
-define ['app.lib/dssView', 'text!/tpl/CommentItemView'],
-(DssView, Template) ->
+define ['app.lib/dssView', 'utils', 'text!/tpl/CommentItemView'],
+(DssView, utils, Template) ->
     class CommentItemView extends DssView
         template: _.template(Template)
+        events: {
+            "click #delete-comment": "deleteComment"
+        }
 
+        deleteComment: ->
+            utils.messageBox "/dlg/DeleteMixConfirm", =>
+                @model.destroy()
     CommentItemView

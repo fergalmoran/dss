@@ -25,22 +25,17 @@
         }
         return true;
       },
-      messageBox: function(url) {
+      messageBox: function(url, success) {
         if (url) {
           if (url.indexOf("#") === 0) {
             $(url).modal("open");
           } else {
             $.get(url, function(data) {
-              $("#yes-no-positive", data).click(function() {
-                return alert("Oh yes");
+              return $(data).modal('show').on("shown.bs.modal", function(e) {
+                return $(this).find("#yes-no-positive").click(function() {
+                  return success();
+                });
               });
-              return $(data).modal().on("hidden", function() {
-                $(this).remove();
-                return true;
-              });
-            }).success(function() {
-              $("input:text:visible:first").focus();
-              return true;
             });
           }
         }

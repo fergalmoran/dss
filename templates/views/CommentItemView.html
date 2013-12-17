@@ -1,17 +1,26 @@
 {% load account_tags %}
+<div class="itemdiv dialogdiv">
+    <div class="user">
+        <img alt="<%= user_name %>'s Avatar" src="<%= avatar_image %>"/>
+    </div>
 
-<div class="comment-block">
-    <a href="">
-        <img class="image-avatar-small" src="<%= avatar_image %>" alt="">
-    </a>
+    <div class="body">
+        <div class="time">
+            <i class="icon-time"></i>
+            <span class="green"><%= humanise(date_created) %></span>
+        </div>
 
-    <div class="comment-details">
-        <a class="comment-user" href="<%= user_url %>">
-            <%= user_name %>
-        </a>
-        <blockquote class="pull-right">
-            <p><%= comment %></p>
-            <small><%= humanise(date_created) %></small>
-        </blockquote>
+        <div class="name">
+            <a href="#"><%= user_name %></a>
+        </div>
+        <div class="text"><%= comment %></div>
+
+        <% if (can_edit) { %>
+            <div class="tools">
+                <a id="delete-comment" class="btn btn-minier btn-danger">
+                    <i class="icon-only icon-trash"></i>
+                </a>
+            </div>
+        <% } %>
     </div>
 </div>
