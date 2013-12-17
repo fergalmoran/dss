@@ -83,7 +83,7 @@
         return toastr.warning(message, title);
       },
       showMessage: function(title, message) {
-        toastOptions();
+        this.toastOptions();
         return toastr.success(message, title);
       },
       showAlert: function(title, message) {

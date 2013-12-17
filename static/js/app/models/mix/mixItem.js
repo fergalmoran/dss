@@ -27,11 +27,10 @@
         var c;
         c = void 0;
         if (comment) {
-          c = this.get("comments").create({
+          return c = this.get("comments").create({
             comment: comment,
             mix_id: this.get("slug")
-          });
-          return c.save(null, {
+          }, {
             success: function() {
               return success();
             },

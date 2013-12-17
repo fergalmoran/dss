@@ -15,14 +15,13 @@ define  ['utils', 'vent', 'models/comment/commentCollection', 'models/comment/co
                 c = @get("comments").create(
                     comment: comment
                     mix_id: @get("slug")
-                )
-                c.save null,
+                ,
                     success: ->
                         success()
 
                     error: ->
                         error()
-
+                )
             else
                 error "Comment cannot be empty"
 

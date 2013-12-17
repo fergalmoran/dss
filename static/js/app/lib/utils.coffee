@@ -65,7 +65,7 @@ define ['jquery', 'bootstrap', 'toastr'], ($, bootstrap, toastr) ->
         toastr.warning message, title
 
     showMessage: (title, message) ->
-        toastOptions()
+        @toastOptions()
         toastr.success message, title
 
     showAlert: (title, message) ->
