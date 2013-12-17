@@ -1,6 +1,6 @@
-define ['marionette', 'text!/tpl/CommentItemView'],
-(Marionette, Template) ->
-    class CommentItemView extends Marionette.ItemView
+define ['app.lib/dssView', 'text!/tpl/CommentItemView'],
+(DssView, Template) ->
+    class CommentItemView extends DssView
         template: _.template(Template)
 
     CommentItemView
