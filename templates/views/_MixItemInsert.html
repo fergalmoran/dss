@@ -79,14 +79,14 @@
                 </div>
                 {% if user.is_authenticated %}
                     <div class="like-button footer-button">
-                        <a class="btn btn-pink btn-xs <% if (liked) { %> disabled <% } %>" id="like-<%= id %>"
+                        <a class="btn <% if (liked) { %>btn-light<% } else { %>btn-pink<% } %> btn-xs" id="like-<%= id %>"
                            data-id="<%= id %>">
-                            <i class="icon-heart"></i> Like</a>
+                            <i class="icon-heart"></i> Like<% if (liked) { %>d<% } %></a>
                     </div>
                     <div class="favourite-button footer-button">
-                        <a class="btn btn-pink btn-xs <% if (favourited) { %> disabled <% } %> "
+                        <a class="btn <% if (favourited) { %>btn-light<% } else { %>btn-pink<% } %> btn-xs"
                            id="favourite-<%= id %>"
-                           data-id="<%= id %>"><i class="icon-star-empty"></i> Favourite</a>
+                           data-id="<%= id %>"><i class="icon-star-empty"></i> Favourite<% if (favourited) { %>d<% } %></a>
                     </div>
                 {% endif %}
                 <div class="footer-button">

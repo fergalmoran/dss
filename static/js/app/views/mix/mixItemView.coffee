@@ -49,8 +49,8 @@ define ['moment', 'app', 'vent', 'marionette', 'utils',
 
         renderGenres: =>
             el = @el
-            $.each @model.get("genre-list"), (data) ->
-                $("#genre-list", el).append '<a href="/mixes/' + @slug + '" class="label label-info arrowed-right arrowed-in">' + @text + '</a>'
+            $.each @model.get("genres"), (data) ->
+                $("#genre-list", el).append '<a href="/mixes/' + @slug + '" class="label label-info arrowed-right arrowed-in">' + @description + '</a>'
                 true
             true
 
@@ -106,7 +106,8 @@ define ['moment', 'app', 'vent', 'marionette', 'utils',
 
         mixDelete: ->
             console.log("MixItemView: mixDelete")
-            vent.trigger("mix:delete", @model)
+            utils.messageBox "/dlg/DeleteMixConfirm", =>
+                @model.destroy()
 
         mixLike: ->
             console.log("MixItemView: likeMix")

@@ -102,12 +102,12 @@
             var genres, result;
             console.log("MixEditView: genres:initSelection");
             result = [];
-            genres = parent.model.get("genre-list");
+            genres = parent.model.get("genres");
             if (genres !== undefined) {
               $.each(genres, function(data) {
                 return result.push({
                   id: this.id,
-                  text: this.text
+                  text: this.description
                 });
               });
             }
@@ -135,7 +135,11 @@
         this.model.set(data);
         this.model.set("upload-hash", this.guid);
         this.model.set("upload-extension", $("#upload-extension", this.el).val());
-        this.model.set("genre-list", $("#genres", this.el).select2("data"));
+        $.each($("#genres", this.el).select2("data"), function(i, item) {
+          return _this.model.get("genres").add({
+            description: item.text
+          });
+        });
         if (!this.sendImage) {
           this.model.unset("mix_image");
         }

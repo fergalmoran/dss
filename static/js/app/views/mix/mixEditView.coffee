@@ -69,13 +69,12 @@ define ['app.lib/editableView', 'moment', 'utils', 'backbone.syphon', 'text!/tpl
                 initSelection: (element, callback) ->
                     console.log("MixEditView: genres:initSelection")
                     result = []
-                    genres = parent.model.get("genre-list")
+                    genres = parent.model.get("genres")
                     unless genres is `undefined`
                         $.each genres, (data) ->
                             result.push
                                 id: @id
-                                text: @text
-
+                                text: @description
 
                     callback result
 
@@ -94,7 +93,10 @@ define ['app.lib/editableView', 'moment', 'utils', 'backbone.syphon', 'text!/tpl
             @model.set data
             @model.set "upload-hash", @guid
             @model.set "upload-extension", $("#upload-extension", @el).val()
-            @model.set "genre-list", $("#genres", @el).select2("data")
+
+            $.each $("#genres", @el).select2("data"), (i, item) =>
+                @model.get("genres").add({description: item.text});
+
             @model.unset "mix_image" unless @sendImage
             @model.unset "comments"
 

@@ -21,7 +21,7 @@
 
       CommentItemView.prototype.deleteComment = function() {
         var _this = this;
-        return utils.messageBox("/dlg/DeleteMixConfirm", function() {
+        return utils.messageBox("/dlg/DeleteCommentConfirm", function() {
           return _this.model.destroy();
         });
       };

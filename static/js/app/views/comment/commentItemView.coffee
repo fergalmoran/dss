@@ -7,6 +7,6 @@ define ['app.lib/dssView', 'utils', 'text!/tpl/CommentItemView'],
         }
 
         deleteComment: ->
-            utils.messageBox "/dlg/DeleteMixConfirm", =>
+            utils.messageBox "/dlg/DeleteCommentConfirm", =>
                 @model.destroy()
     CommentItemView

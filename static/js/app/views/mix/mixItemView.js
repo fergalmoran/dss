@@ -73,8 +73,8 @@
       MixItemView.prototype.renderGenres = function() {
         var el;
         el = this.el;
-        $.each(this.model.get("genre-list"), function(data) {
-          $("#genre-list", el).append('<a href="/mixes/' + this.slug + '" class="label label-info arrowed-right arrowed-in">' + this.text + '</a>');
+        $.each(this.model.get("genres"), function(data) {
+          $("#genre-list", el).append('<a href="/mixes/' + this.slug + '" class="label label-info arrowed-right arrowed-in">' + this.description + '</a>');
           return true;
         });
         return true;
@@ -125,8 +125,11 @@
       };
 
       MixItemView.prototype.mixDelete = function() {
+        var _this = this;
         console.log("MixItemView: mixDelete");
-        return vent.trigger("mix:delete", this.model);
+        return utils.messageBox("/dlg/DeleteMixConfirm", function() {
+          return _this.model.destroy();
+        });
       };
 
       MixItemView.prototype.mixLike = function() {
