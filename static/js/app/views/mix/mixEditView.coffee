@@ -79,23 +79,6 @@ define ['app.lib/editableView',
 	    			<span class="smaller-80 grey">(or click)</span> <br />
 		    		<i class="upload-icon icon-cloud-upload blue icon-3x"></i>'
 
-                addedfile: (file) =>
-                    try
-                        reader = new FileReader()
-                        reader.onload = (e) =>
-                            dv = new jDataView(@result)
-
-                            # "TAG" starts at byte -128 from EOF.
-                            # See http://en.wikipedia.org/wiki/ID3
-                            if dv.getString(3, dv.byteLength - 128) is "TAG"
-                                @title = dv.getString(30, dv.tell())
-                            else
-                                # no ID3v1 data found.
-                        reader.readAsArrayBuffer @files[0]
-                    catch e
-                        #who cares
-                        console.log "Unable to read id3 tags"
-
                 uploadprogress: (e, progress, bytesSent) =>
                     @ui.progress.show()
                     @uploadState = 1

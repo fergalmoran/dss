@@ -87,24 +87,6 @@
           dictDefaultMessage: '<span class="bigger-150 bolder"><i class="icon-caret-right red"></i> Drop files</span> to upload\
 	    			<span class="smaller-80 grey">(or click)</span> <br />\
 		    		<i class="upload-icon icon-cloud-upload blue icon-3x"></i>',
-          addedfile: function(file) {
-            var reader;
-            try {
-              reader = new FileReader();
-              reader.onload = function(e) {
-                var dv;
-                dv = new jDataView(_this.result);
-                if (dv.getString(3, dv.byteLength - 128) === "TAG") {
-                  return _this.title = dv.getString(30, dv.tell());
-                } else {
-
-                }
-              };
-              return reader.readAsArrayBuffer(_this.files[0]);
-            } catch (e) {
-              return console.log("Unable to read id3 tags");
-            }
-          },
           uploadprogress: function(e, progress, bytesSent) {
             var percentage;
             _this.ui.progress.show();
