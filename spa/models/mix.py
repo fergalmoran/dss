@@ -106,13 +106,13 @@ class Mix(_BaseModel):
 			self.logger.error("Mix: error creating tags: %s" % ex.message)
 			pass
 
-		return '%s/mixes/%s%s%s' % (settings.MEDIA_ROOT, prefix, self.uid, self.filetype)
+		return '%s/mixes/%s%s.%s' % (settings.MEDIA_ROOT, prefix, self.uid, self.filetype)
 
 	def get_cache_path(self, prefix=""):
-		return '%s/mixes/%s%s%s' % (settings.CACHE_ROOT, prefix, self.uid, self.filetype)
+		return '%s/mixes/%s%s.%s' % (settings.CACHE_ROOT, prefix, self.uid, self.filetype)
 
 	def get_absolute_path(self, prefix=""):
-		return '%s/mixes/%s%s%s' % (settings.MEDIA_ROOT, prefix, self.uid, self.filetype)
+		return '%s/mixes/%s%s.%s' % (settings.MEDIA_ROOT, prefix, self.uid, self.filetype)
 
 	def get_absolute_url(self):
 		return '/mix/%s' % self.slug
