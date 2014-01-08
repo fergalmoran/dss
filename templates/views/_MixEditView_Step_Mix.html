@@ -1,0 +1,8 @@
+<form action="_upload/" id="mix-upload-form" class="dropzone">
+    {% csrf_token %}
+    <input type="hidden" name="upload-hash">
+    <div class="fallback">
+        Your browser is too old for uploading file <br/>
+        Please come back with Chrome or Firefox
+    </div>
+</form>

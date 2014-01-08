@@ -1,0 +1,22 @@
+<form id="mix-details-form" class="form-horizontal">
+    {% csrf_token %}
+    <input type="hidden" class="upload-hash">
+    <input type="hidden" id="upload-extension">
+
+    <div class="form-group">
+        <label class="control-label text-primary"
+               for="title">Title</label>
+        <input class="form-control" type="text"
+               id="title" name="title"
+               placeholder="Brief title for your mix"
+               value="<%= title %>">
+    </div>
+    <div class="form-group">
+        <label class="control-label text-primary"
+               for="description">Description</label>
+        <textarea class="autosize-transition form-control"
+                  rows="12"
+                  id="description" name="description"
+                  placeholder="Tracklist or something.."><%= description %></textarea>
+    </div>
+</form>

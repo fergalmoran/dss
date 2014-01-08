@@ -35,11 +35,11 @@ def download(request, mix_id):
         if mix is not None:
             if mix.download_allowed:
                 mix.add_download(request.user)
-                local_file = mix.get_absolute_path()
-                filename, extension = os.path.splitext(local_file)
-                response = HttpResponse(FileWrapper(open(local_file)),
-                                        content_type=mimetypes.guess_type(local_file)[0])
-                response['Content-Length'] = os.path.getsize(local_file)
+                audio_file = mix.get_absolute_path()
+                filename, extension = os.path.splitext(audio_file)
+                response = HttpResponse(FileWrapper(open(audio_file)),
+                                        content_type=mimetypes.guess_type(audio_file)[0])
+                response['Content-Length'] = os.path.getsize(audio_file)
                 response['Content-Disposition'] = "attachment; filename=Deep South Sounds - %s%s" % (
                     mix.title, extension)
                 return response
@@ -59,7 +59,6 @@ def start_streaming(request, mix_id):
         if mix is not None:
             mix.add_play(request.user)
             #logger.debug('Found the mix (old method): %s' % mix.uid)
-            #filename = mix.local_file.path
             logger.debug('Found the mix (new method) %s' % mix.uid)
             filename = "%s/mixes/%s.mp3" % (here(settings.MEDIA_ROOT), mix.uid)
             logger.debug('Serving file: %s' % filename)

@@ -41,7 +41,7 @@ urlpatterns = patterns(
     url(r'^podcast\.xml', 'spa.podcast.get_default_podcast'),
     url(r'^social/', include('spa.social.urls')),
     url(r'^embed/', include('spa.embedding.urls')),
-    url(r'_upload/', 'spa.ajax.upload', name='jfu_upload'),
+    url(r'_upload/', 'spa.ajax.upload', name='mix_upload'),
     url(r'^ajax/', include(ajax.urls)),
     url(r'^audio/', include(audio.urls)),
     url(r'^api/', include(api.urls)),

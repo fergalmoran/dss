@@ -16,6 +16,8 @@ define ['marionette', 'vent', 'app.lib/controller'],
             "random": "showRandomMix",
             "stream": "showStreamList",
 
+            "login": "doLogin"
+
             "users": "showUserList"
             "user/:slug/favourites": "showUserFavourites"
             "user/:slug/likes": "showUserLikes"

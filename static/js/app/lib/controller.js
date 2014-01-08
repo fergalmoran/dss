@@ -22,6 +22,10 @@
         return this.showMixList();
       };
 
+      DssController.prototype.doLogin = function() {
+        return vent.trigger('app:login');
+      };
+
       DssController.prototype.showMixList = function(options) {
         var app;
         app = require('app');
@@ -87,7 +91,7 @@
         mix = new MixItem({
           title: '',
           description: '',
-          mix_image: '',
+          mix_image: com.podnoms.settings.staticUrl + 'img/default-track.png',
           download_allowed: true,
           is_featured: false
         });

@@ -15,6 +15,9 @@ define ['app', 'marionette', 'vent', 'utils'
             console.log "Controller: home"
             @showMixList()
 
+        doLogin: ->
+            vent.trigger('app:login')
+
         showMixList: (options) ->
             app = require('app')
             app.contentRegion.show(new MixListLayout(options or {order_by: 'latest'}))
@@ -51,7 +54,7 @@ define ['app', 'marionette', 'vent', 'utils'
             mix = new MixItem({
                 title: '',
                 description: '',
-                mix_image: '',
+                mix_image: com.podnoms.settings.staticUrl + 'img/default-track.png',
                 download_allowed: true,
                 is_featured: false
             });

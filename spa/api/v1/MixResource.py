@@ -1,4 +1,4 @@
-import datetime
+import datetime, pytz
 from django.conf.urls import url
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, InvalidPage
@@ -11,6 +11,7 @@ from tastypie.constants import ALL_WITH_RELATIONS
 from tastypie.fields import ToOneField
 from tastypie.http import HttpGone
 from tastypie.utils import trailing_slash
+from django.utils import timezone
 
 from core.serialisers import json
 from spa.api.v1.ActivityResource import ActivityResource
@@ -22,16 +23,19 @@ from spa.models.mix import Mix
 
 class MixResource(BackboneCompatibleResource):
 	comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource', 'comments', null=True, full=True)
-	favourites = fields.ToManyField('spa.api.v1.UserResource.UserResource', 'favourites', related_name='favourites', full=False, null=True)
-	likes = fields.ToManyField('spa.api.v1.UserResource.UserResource', 'likes', related_name='likes', full=False, null=True)
-	genres = fields.ToManyField('spa.api.v1.GenreResource.GenreResource', 'genres', related_name='genres', full=True, null=True)
+	favourites = fields.ToManyField('spa.api.v1.UserResource.UserResource', 'favourites', related_name='favourites',
+	                                full=False, null=True)
+	likes = fields.ToManyField('spa.api.v1.UserResource.UserResource', 'likes', related_name='likes', full=False,
+	                           null=True)
+	genres = fields.ToManyField('spa.api.v1.GenreResource.GenreResource', 'genres', related_name='genres', full=True,
+	                            null=True)
 
 	class Meta:
 		queryset = Mix.objects.filter(is_active=True)
 		user = ToOneField('UserResource', 'user')
 		always_return_data = True
 		detail_uri_name = 'slug'
-		excludes = ['is_active', 'local_file', 'waveform-generated']
+		excludes = ['is_active', 'waveform-generated']
 		post_excludes = ['comments']
 		filtering = {
 		'comments': ALL_WITH_RELATIONS,
@@ -41,24 +45,6 @@ class MixResource(BackboneCompatibleResource):
 		'slug': ALL_WITH_RELATIONS,
 		}
 		authorization = Authorization()
-
-	def _parseGenreList(self, genres):
-		#for magic..
-		ret = []
-		for genre in genres:
-			if genre['id'] == genre['text']:
-				new_item = Genre(description=genre['text'])
-				new_item.save()
-				ret.append(new_item)
-			else:
-				ret.append(Genre.objects.get(pk=genre['id']))
-
-		return ret
-
-	def _unpackGenreList(self, bundle, genres):
-		genre_list = self._parseGenreList(genres)
-		bundle.obj.genres = genre_list
-		bundle.obj.save()
 
 	def prepend_urls(self):
 		return [
@@ -102,8 +88,6 @@ class MixResource(BackboneCompatibleResource):
 		return child_resource.get_list(request, mix=obj)
 
 	def obj_create(self, bundle, **kwargs):
-		file_name = "mixes/%s.%s" % (bundle.data['upload-hash'], bundle.data['upload-extension'])
-		uid = bundle.data['upload-hash']
 		if 'is_featured' not in bundle.data:
 			bundle.data['is_featured'] = False
 
@@ -114,14 +98,15 @@ class MixResource(BackboneCompatibleResource):
 		ret = super(MixResource, self).obj_create(
 			bundle,
 			user=bundle.request.user.get_profile(),
-			local_file=file_name,
-			uid=uid)
+			uid=bundle.data['upload-hash'],
+			extension=bundle.data['upload-extension'])
 
 		return ret
 
 	def obj_update(self, bundle, **kwargs):
 		#don't sync the mix_image, this has to be handled separately
-		del bundle.data['mix_image']
+		bundle.data.pop('mix_image', None)
+
 		ret = super(MixResource, self).obj_update(bundle, bundle.request)
 
 		bundle.obj.update_favourite(bundle.request.user, bundle.data['favourited'])
@@ -164,14 +149,13 @@ class MixResource(BackboneCompatibleResource):
 		return bundle.obj.get_image_url(size="160x110")
 
 	def dehydrate(self, bundle):
+		utc = pytz.UTC
 		bundle.data['waveform_url'] = bundle.obj.get_waveform_url()
 		bundle.data['user_name'] = bundle.obj.user.get_nice_name()
 		bundle.data['user_profile_url'] = bundle.obj.user.get_absolute_url()
 		bundle.data['user_profile_image'] = bundle.obj.user.get_small_profile_image()
 		bundle.data['item_url'] = '/mix/%s' % bundle.obj.slug
-		bundle.data['download_allowed'] = bundle.obj.download_allowed and \
-		                                  bundle.obj.upload_date < datetime.datetime.now() - datetime.timedelta(days=1)
-
+		bundle.data['download_allowed'] = bundle.obj.download_allowed
 		bundle.data['favourite_count'] = bundle.obj.favourites.count()
 
 		bundle.data['play_count'] = bundle.obj.activity_plays.count()

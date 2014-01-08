@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['utils', 'vent', 'models/comment/commentCollection', 'models/comment/commentItem', 'app.lib/backbone.dss.model'], function(utils, vent, CommentCollection, CommentItem, DssModel) {
+  define(['utils', 'vent', 'models/comment/commentCollection', 'models/comment/commentItem', 'models/genre/genreCollection', 'models/genre/genreItem', 'app.lib/backbone.dss.model'], function(utils, vent, CommentCollection, CommentItem, GenreCollection, GenreItem, DssModel) {
     var MixItem;
     return MixItem = (function(_super) {
 
@@ -19,7 +19,13 @@
         {
           type: Backbone.Many,
           key: "comments",
-          relatedModel: CommentItem
+          relatedModel: CommentItem,
+          collectionType: CommentCollection
+        }, {
+          type: Backbone.Many,
+          key: "genres",
+          relatedModel: GenreItem,
+          collectionType: GenreCollection
         }
       ];
 

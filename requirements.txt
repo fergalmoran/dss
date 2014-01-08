@@ -24,6 +24,7 @@ django-debug-toolbar
 sorl-thumbnail
 django_extensions
 requests
+pytz
 django-compressor
 django-sendfile
 django-model_utils

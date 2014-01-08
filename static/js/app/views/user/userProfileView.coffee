@@ -13,7 +13,7 @@ define ['app', 'utils', 'moment', 'marionette', 'vent', 'app.lib/editableView', 
             @setupImageEditable
                 el: $("#avatar", @el)
                 url: "/ajax/upload_avatar_image/"
-                chooseMessage: "Choose mix image"
+                chooseMessage: "Choose profile image"
 
             $.fn.editable.defaults.mode = "inline"
             $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>"

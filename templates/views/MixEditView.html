@@ -1,205 +1,86 @@
-<div class="clearfix control-group" id="div-upload-mix">
-    <div class="controls">
-        <form id="fileupload" action="//_upload/" method="POST" enctype="multipart/form-data">
-            <input type="hidden" id="upload-hash" name="upload-hash">
-
-            <div class="fileupload-buttonbar">
-                <div class="span7">
-                <span class="btn btn-success fileinput-button">
-                    <i class="icon-plus icon-white"></i>
-                    <span>Add files...</span>
-                    <input type="file" name="files[]" accept="audio/mp3">
-                </span>
-                    <span class="fileupload-loading"></span>
-                </div>
-                <div class="span5 fileupload-progress fade">
-                    <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0"
-                         aria-valuemax="100">
-                        <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-                    </div>
-                </div>
-            </div>
-            <table role="presentation" class="table table-striped">
-                <tbody class="files"></tbody>
-            </table>
-        </form>
-        {% verbatim %}
-        <script id="template-upload" type="text/x-tmpl">
-            {% for (var i=0, file; file=o.files[i]; i++) { %}
-            <tr class="template-upload fade">
-                <td>
-                    <span class="preview"></span>
-                </td>
-                <td>
-                    <p class="name">{%=file.name%}</p>
-                    {% if (file.error) { %}
-                    <div><span class="label label-important">Error</span> {%=file.error%}</div>
-                    {% } %}
-                </td>
-                <td>
-                    <p class="size">{%=o.formatFileSize(file.size)%}</p>
-                </td>
-                <td>
-                    {% if (!o.files.error && !i && !o.options.autoUpload) { %}
-                    <button class="btn btn-primary start">
-                        <i class="icon-upload icon-white"></i>
-                        <span>Start</span>
-                    </button>
-                    {% } %}
-                    {% if (!i) { %}
-                    <button class="btn btn-warning cancel">
-                        <i class="icon-ban-circle icon-white"></i>
-                        <span>Cancel</span>
-                    </button>
-                    {% } %}
-                </td>
-            </tr>
-            {% if (!o.files.error) { %}
-            <tr>
-                <td colspan="4">
-                    <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0"
-                         aria-valuemax="100" aria-valuenow="0">
-                        <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-                    </div>
-                </td>
-            </tr>
-            {% } %}
-            {% } %}
-
-
-
-
-
-
-        </script>
-        <script id="template-download" type="text/x-tmpl">
-            {% for (var i=0, file; file=o.files[i]; i++) { %}
-            <tr class="template-download fade">
-                <td>
-            <span class="preview">
-                {% if (file.thumbnailUrl) { %}
-                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img
-                            src="{%=file.thumbnailUrl%}"></a>
-                {% } %}
-            </span>
-                </td>
-                <td>
-                    <p class="name">
-                        <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}"
-                        {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
-                    </p>
-                    {% if (file.error) { %}
-                    <div><span class="label label-important">Error</span> {%=file.error%}</div>
-                    {% } %}
-                </td>
-                <td>
-                    <span class="size">{%=o.formatFileSize(file.size)%}</span>
-                </td>
-                <td>
-                    <button class="btn btn-danger delete" data-type="{%=file.deleteType%}"
-                            data-url="{%=file.deleteUrl%}"
-                    {% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                    <i class="icon-trash icon-white"></i>
-                    <span>Delete</span>
-                    </button>
-                    <input type="checkbox" name="delete" value="1" class="toggle">
-                </td>
-            </tr>
-            {% } %}
-
-
-
-
-
-
-        </script>
-        {% endverbatim %}
-    </div>
-</div>
-<div class="edit-basic" id="mix-details">
-    <h4 class="header blue bolder smaller">Mix details</h4>
-
-    <form id="mix-details-form" class="form-horizontal">
-        {% csrf_token %}
-        <input type="hidden" class="upload-hash" id="upload-hash-details">
-        <input type="hidden" id="upload-extension">
-
-        <div class="col-xs-8">
-            <div class="form-group">
-                <label class="control-label text-primary"
-                       for="title">Title</label>
-                <input class="form-control" type="text"
-                       id="title" name="title"
-                       placeholder="Brief title for your mix"
-                       value="<%= title %>">
-            </div>
-            <div class="form-group">
-                <label class="control-label text-primary"
-                       for="description">Description</label>
-                <textarea class="autosize-transition form-control"
-                          rows="12"
-                          id="description" name="description"
-                          placeholder="Tracklist or something.."><%= description %></textarea>
-            </div>
+{% if user.is_authenticated %}
+    <div class="page-content" id="mix-wizard">
+        <div class="page-header">
+            <h1>
+                New Mix
+                <small>
+                    <i class="icon-double-angle-right"></i>
+                    You know what to do - keep it clean!
+                </small>
+            </h1>
         </div>
-        <div class="space-4"></div>
-        <div class="col-xs-4">
-            <h5 class="text-primary">Mix Image</h5>
-
-            <div id="mix-imageupload" class="fileupload fileupload-new" data-provides="fileupload">
-                <div class="widget-main">
-                    <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">
-                        <img src="<%=mix_image%>"/>
-                    </div>
-                </div>
-                <span class="pull-right btn btn-sm btn-file">
-                    <span class="fileupload-new">Select image</span>
-                    <span class="fileupload-exists">Change</span>
-                    <input id="mix_image" name="mix_image" type="file"/>
-                </span>
-                <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-            </div>
-            <hr class="dotted"/>
-            <div class="mix_display_controls">
-                <div class="well well-sm">
-                    <label class="pull-left inline">
-                        <small class="muted">Downloads:</small>
-                        <input class="ace ace-switch ace-switch-7"
-                               type="checkbox"
-                               id="download_allowed"
-                               name="download_allowed"
-                        <% print(download_allowed ? 'checked="checked"' : '') %>>
-                        <span class="lbl" for="download_allowed"></span>
-                    </label>
-                </div>
-                {% if user.is_staff %}
-                <div class="well well-sm">
-                    <label class="pull-left inline">
-                        <small class="muted">Homepage:</small>
-                        <input class="ace ace-switch ace-switch-7"
-                               type="checkbox"
-                               id="is_featured"
-                               name="is_featured"
-                        <% print(is_featured ? 'checked="checked"' : '') %>>
+        <div class="progress">
+            <div class="progress-bar" id="mix-upload-progress"></div>
+        </div>
+        <div class="widget-box" id="mix-upload-wizard">
+            <div class="widget-header widget-header-blue widget-header-flat">
+                <h4 class="lighter">New Item Wizard</h4>
+                <!--
+                <div class="widget-toolbar">
+                    <label>
+                        <small class="green">
+                            <b>Validation</b>
+                        </small>
+                        <input id="skip-validation" type="checkbox" class="ace ace-switch ace-switch-4"/>
                         <span class="lbl"></span>
                     </label>
                 </div>
-                {% endif %}
+                -->
             </div>
-        </div>
-        <div class="col-xs-12">
-            <div class="control-group">
-                <label for="genres" class="control-label text-primary">Genres</label>
+            <div class="widget-body">
+                <div class="widget-main">
+                    <div id="fuelux-wizard" class="row-fluid" data-target="#step-container">
+                        <ul class="wizard-steps">
+                            <li data-target="#step1" class="active" id="header-step1">
+                                <span class="step">1</span>
+                                <span class="title">Mix</span>
+                            </li>
+                            <li data-target="#step2" id="header-step2">
+                                <span class="step">2</span>
+                                <span class="title">Details</span>
+                            </li>
+                            <li data-target="#step3" id="header-step3">
+                                <span class="step">3</span>
+                                <span class="title">Flair</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr/>
+                    <div class="step-content position-relative" id="step-container">
+                        <div class="step-pane active" id="step1">
+                            {% include "views/_MixEditView_Step_Mix.html" %}
+                        </div>
+                        <div class="step-pane" id="step2">
+                            {% include "views/_MixEditView_Step_Details.html" %}
+                        </div>
+                        <div class="step-pane" id="step3">
+                            {% include "views/_MixEditView_Step_Flair.html" %}
 
-                <div class="controls">
-                    <input value="0000" id="genres" style="width:98%"/>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row-fluid wizard-actions">
+                        <div class="alert alert-danger pull-left" id="mix-upload-error" style="display:none;">
+                            <strong>
+                                <i class="icon-remove"></i>
+                                Please add some audio!
+                            </strong>
+                            Drag & drop an mp3 above or click the image to browse
+                            <br>
+                        </div>
+                        <button class="btn btn-prev">
+                            <i class="icon-arrow-left"></i>
+                            Prev
+                        </button>
+                        <button class="btn btn-success btn-next" data-last="Finish ">
+                            Next
+                            <i class="icon-arrow-right icon-on-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12">
-            <div class="form-actions">
-                <button id="save-changes" class="btn">Submit</button>
-            </div>
-        </div>
-    </form>
-</div>
+    </div>
+{% else %}
+    Please <a data-bypass="true" id="login">login</a> first
+{% endif %}

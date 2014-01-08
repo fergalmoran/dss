@@ -4,7 +4,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app.lib/editableView', 'moment', 'utils', 'backbone.syphon', 'text!/tpl/MixEditView', 'jquery.fileupload', 'jquery.fileupload-process', 'jquery.fileupload-audio', 'jquery.fileupload-ui', 'jquery.iframe-transport', 'jquery.ui.widget', 'lib/bootstrap-fileupload', 'lib/select2', 'lib/ajaxfileupload', 'ace', 'lib/bootstrap-tag.min'], function(EditableView, moment, utils, Syphon, Template) {
+  define(['app.lib/editableView', 'vent', 'moment', 'utils', 'backbone.syphon', 'text!/tpl/MixEditView', 'models/genre/genreCollection', 'lib/jdataview', 'ace', 'dropzone', 'wizard', 'ajaxfileupload', 'jquery.fileupload', 'lib/ace/uncompressed/select2'], function(EditableView, vent, moment, utils, Syphon, Template, GenreCollection, jDataView) {
     var MixEditView;
     return MixEditView = (function(_super) {
 
@@ -18,70 +18,108 @@
       MixEditView.prototype.template = _.template(Template);
 
       MixEditView.prototype.events = {
-        "click #save-changes": "saveChanges",
-        "change #mix_image": "imageChanged"
+        "click #login": "login",
+        "change input[name='...']": "imageChanged"
       };
 
       MixEditView.prototype.ui = {
-        image: "#mix-image"
-      };
-
-      MixEditView.working = false;
-
-      MixEditView.patch = false;
-
-      MixEditView.prototype.checkRedirect = function() {
-        if (this.state === 2) {
-          return Backbone.history.navigate("/mix/" + this.model.get("slug"), {
-            trigger: true
-          });
-        }
+        image: "#mix-image",
+        progress: "#mix-upload-progress",
+        uploadError: '#mix-upload-error'
       };
 
       MixEditView.prototype.initialize = function() {
         this.guid = utils.generateGuid();
-        return this.state = 0;
+        this.uploadState = 0;
+        this.detailsEntered = false;
+        return this.patch = false;
       };
 
       MixEditView.prototype.onDomRefresh = function() {
-        var _this = this;
-        $("#fileupload", this.el).fileupload({
-          downloadTemplateId: void 0,
-          url: "/_upload/",
-          start: function() {
-            return $("#mix-details", this.el).show();
-          },
-          done: function() {
-            _this.state++;
-            $("#div-upload-mix", _this.el).hide();
-            return _this.checkRedirect();
-          }
-        });
-        this.setupImageEditable({
-          el: this.ui.image,
-          showbuttons: false,
-          chooseMessage: "Choose mix image"
-        });
-        $("#mix-imageupload", this.el).jas_fileupload({
-          uploadtype: "image"
-        });
+        "@setupImageEditable\n    el: $(\"#mix-image\", @el)\n    chooseMessage: \"Choose mix image\"";
         return true;
       };
 
       MixEditView.prototype.onRender = function() {
-        var parent;
-        console.log("MixEditView: onRender");
+        var wizard,
+          _this = this;
+        console.log("MixEditView: onRender js");
+        this.ui.progress.hide();
         this.sendImage = false;
-        parent = this;
         if (!this.model.id) {
-          $("#upload-hash", this.el).val(this.guid);
+          $('input[name="upload-hash"]', this.el).val(this.guid);
         } else {
-          $("#div-upload-mix", this.el).hide();
+          $('#header-step1', this.el).remove();
+          $('#step1', this.el).remove();
+          $('#header-step2', this.el).addClass("active");
+          $('#step2', this.el).addClass("active");
+          $('.progress', this.el).hide();
           this.patch = true;
-          this.state = 1;
+          this.uploadState = 2;
         }
+        wizard = $("#fuelux-wizard", this.el).ace_wizard().on("change", function(e, info) {
+          if (info.step === 1 && _this.uploadState === 0) {
+            console.log("MixEditView: No mix uploaded");
+            _this.ui.uploadError.fadeIn();
+            $('#step1').addClass("alert-danger");
+            return false;
+          } else {
+            return true;
+          }
+        }).on("finished", function(e) {
+          console.log("Finished");
+          return _this.saveChanges();
+        });
+        $("#mix-upload-form", this.el).dropzone({
+          previewTemplate: '<div class=\"dz-preview dz-file-preview\">\n\
+                        <div class=\"dz-details\">\n\
+                            <div class=\"dz-filename\"><span data-dz-name></span></div>\n\
+                            <div class=\"dz-size\" data-dz-size></div>\n\
+                            <img data-dz-thumbnail />\n\
+                        </div>\n\
+                        <div class=\"progress progress-small progress-striped active\">\
+                            <div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div>\
+                        </div>\n\
+                        <div class=\"dz-success-mark\"><span></span></div>\n\
+                        <div class=\"dz-error-mark\"><span></span></div>\n\
+                        <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n\
+                    </div>',
+          dictDefaultMessage: '<span class="bigger-150 bolder"><i class="icon-caret-right red"></i> Drop files</span> to upload\
+	    			<span class="smaller-80 grey">(or click)</span> <br />\
+		    		<i class="upload-icon icon-cloud-upload blue icon-3x"></i>',
+          addedfile: function(file) {
+            var reader;
+            try {
+              reader = new FileReader();
+              reader.onload = function(e) {
+                var dv;
+                dv = new jDataView(_this.result);
+                if (dv.getString(3, dv.byteLength - 128) === "TAG") {
+                  return _this.title = dv.getString(30, dv.tell());
+                } else {
+
+                }
+              };
+              return reader.readAsArrayBuffer(_this.files[0]);
+            } catch (e) {
+              return console.log("Unable to read id3 tags");
+            }
+          },
+          uploadprogress: function(e, progress, bytesSent) {
+            var percentage;
+            _this.ui.progress.show();
+            _this.uploadState = 1;
+            percentage = Math.round(progress);
+            console.log("Progressing");
+            return _this.ui.progress.css("width", percentage + "%").parent().attr("data-percent", percentage + "%");
+          },
+          complete: function() {
+            _this.uploadState = 2;
+            return _this.checkRedirect();
+          }
+        });
         $("#genres", this.el).select2({
-          placeholder: "Start typing and choose or press enter",
+          placeholder: "Start typing and choose from list or create your own.",
           minimumInputLength: 1,
           multiple: true,
           ajax: {
@@ -98,45 +136,47 @@
               };
             }
           },
+          formatResult: function(genre) {
+            return genre.description;
+          },
+          formatSelection: function(genre) {
+            return "<div class='select2-user-result'>" + genre.description + "</div>";
+          },
           initSelection: function(element, callback) {
             var genres, result;
             console.log("MixEditView: genres:initSelection");
             result = [];
-            genres = parent.model.get("genres");
+            genres = _this.model.get("genres");
             if (genres !== undefined) {
-              $.each(genres, function(data) {
+              genres.each(function(data) {
                 return result.push({
-                  id: this.id,
-                  text: this.description
+                  id: data.get("id"),
+                  description: data.get("description")
                 });
               });
             }
             return callback(result);
-          },
-          createSearchChoice: function(term, data) {
-            if ($(data).filter(function() {
-              return this.text.localeCompare(term) === 0;
-            }).length === 0) {
-              return {
-                id: term,
-                text: term
-              };
-            }
           }
-        });
-        return this;
+        }, "createSearchChoice: (term, data) ->\n    if $(data).filter(->\n        @description.localeCompare(term) is 0\n    ).length is 0\n        id: term\n        text: term");
+        return true;
       };
 
       MixEditView.prototype.saveChanges = function() {
-        var data,
+        var flair,
           _this = this;
         console.log("MixEditView: saveChanges");
-        data = Syphon.serialize($("#mix-details-form", this.el)[0]);
-        this.model.set(data);
+        this.model.set(Syphon.serialize($("#mix-details-form", this.el)[0]));
+        flair = Syphon.serialize($("#mix-flair-form", this.el)[0], {
+          exclude: ["...", ""]
+        });
+        this.model.set(flair);
         this.model.set("upload-hash", this.guid);
         this.model.set("upload-extension", $("#upload-extension", this.el).val());
+        this.model.set("genres", new GenreCollection());
         $.each($("#genres", this.el).select2("data"), function(i, item) {
+          "if @model.get(\"genres\") is undefined\n    @model.set(\"genres\", new GenreCollection())";
           return _this.model.get("genres").add({
+            id: item.id,
             description: item.text
           });
         });
@@ -151,7 +191,7 @@
               $.ajaxFileUpload({
                 url: "/ajax/upload_mix_image/" + _this.model.get("id") + "/",
                 secureuri: false,
-                fileElementId: "mix_image",
+                fileElementId: "input[name='...']",
                 success: function(data, status) {
                   if (typeof data.error !== "undefined") {
                     if (data.error !== "") {
@@ -160,8 +200,8 @@
                       return alert(data.msg);
                     }
                   } else {
-                    $("#mix-details", _this.el).hide();
-                    _this.state++;
+                    $("#mix-upload-wizard", _this.el).hide();
+                    _this.detailsEntered = true;
                     return _this.checkRedirect();
                   }
                 },
@@ -170,8 +210,8 @@
                 }
               });
             } else {
-              $("#mix-details", _this.el).hide();
-              _this.state++;
+              $("#mix-upload-wizard", _this.el).hide();
+              _this.detailsEntered = true;
               _this.checkRedirect();
             }
             return true;
@@ -183,9 +223,20 @@
         return false;
       };
 
+      MixEditView.prototype.checkRedirect = function() {
+        if (this.detailsEntered && this.uploadState === 2) {
+          return Backbone.history.navigate("/mix/" + this.model.get("slug"), {
+            trigger: true
+          });
+        }
+      };
+
+      MixEditView.prototype.login = function() {
+        return vent.trigger('app:login');
+      };
+
       MixEditView.prototype.imageChanged = function(evt) {
-        this.sendImage = true;
-        return true;
+        return this.sendImage = true;
       };
 
       MixEditView;

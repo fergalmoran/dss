@@ -13,7 +13,7 @@
       function MixItemView() {
         this.doStart = __bind(this.doStart, this);
 
-        this.renderGenres = __bind(this.renderGenres, this);
+        this.__renderGenres = __bind(this.__renderGenres, this);
 
         this.onRender = __bind(this.onRender, this);
 
@@ -59,7 +59,6 @@
         if (this.model.get('duration')) {
           $('#player-duration-' + id, this.el).text(this.model.secondsToHms('duration'));
         }
-        this.renderGenres();
       };
 
       MixItemView.prototype.onShow = function() {
@@ -70,7 +69,7 @@
         return true;
       };
 
-      MixItemView.prototype.renderGenres = function() {
+      MixItemView.prototype.__renderGenres = function() {
         var el;
         el = this.el;
         $.each(this.model.get("genres"), function(data) {

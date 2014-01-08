@@ -1,0 +1,56 @@
+<form id="mix-flair-form" class="form-horizontal">
+    <div class="row-fluid">
+        <div class="control-group">
+            <label for="genres" class="control-label text-primary">Genres</label>
+
+            <div class="controls">
+                <input value="0000" id="genres" style="width:98%"/>
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <h5 class="text-primary">Mix Image (click to change)</h5>
+
+        <div class="fileinput fileinput-new" data-provides="fileinput">
+            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
+                <img id="mix-image"
+                class="editable img-responsive image-user-profile"
+                alt="Mix Image"
+                src="<%= mix_image %>">
+            </div>
+            <div>
+                <span class="btn btn-default btn-file">
+                    <span class="fileinput-new">Select image</span>
+                    <span class="fileinput-exists">Change</span>
+                    <input type="file" name="...">
+                </span>
+                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="mix_display_controls">
+            <label class="inline">
+                <small class="muted">Downloads:</small>
+                <input class="ace ace-switch ace-switch-7"
+                type="checkbox"
+                id="download_allowed"
+                name="download_allowed"
+                <% print(download_allowed ? 'checked="checked"' : '') %>>
+                <span class="lbl" for="download_allowed"></span>
+            </label>
+            {% if user.is_staff %}
+            <label class="inline">
+                <small class="muted">Homepage:</small>
+                <input class="ace ace-switch ace-switch-7"
+                type="checkbox"
+                id="is_featured"
+                name="is_featured"
+                <% print(is_featured ? 'checked="checked"' : '') %>>
+                <span class="lbl"></span>
+            </label>
+            {% endif %}
+        </div>
+    </div>
+</form>

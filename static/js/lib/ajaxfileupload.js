@@ -47,7 +47,7 @@ require(['jquery'], function (jQuery) {
                     jQuery('<input type="hidden" name="' + i + '" value="' + data[i] + '" />').appendTo(form);
                 }
             }
-            var oldElement = jQuery('#' + fileElementId);
+            var oldElement = jQuery(fileElementId);
             var newElement = jQuery(oldElement).clone();
             jQuery(oldElement).attr('id', fileId);
             jQuery(oldElement).before(newElement);

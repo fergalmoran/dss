@@ -1,12 +1,22 @@
-define  ['utils', 'vent', 'models/comment/commentCollection', 'models/comment/commentItem', 'app.lib/backbone.dss.model'],
-(utils, vent, CommentCollection, CommentItem, DssModel) ->
+define  [
+    'utils', 'vent',
+    'models/comment/commentCollection', 'models/comment/commentItem', 'models/genre/genreCollection', 'models/genre/genreItem',
+    'app.lib/backbone.dss.model'],
+(utils, vent,
+    CommentCollection, CommentItem, GenreCollection, GenreItem, DssModel) ->
     class MixItem extends DssModel
         urlRoot: com.podnoms.settings.urlRoot + "mix/"
 
         relations: [
-            type: Backbone.Many #nature of the relation
-            key: "comments" #attribute of Model
-            relatedModel: CommentItem #AssociatedModel for attribute key
+            type: Backbone.Many
+            key: "comments"
+            relatedModel: CommentItem
+            collectionType: CommentCollection
+        ,
+            type: Backbone.Many
+            key: "genres"
+            relatedModel: GenreItem
+            collectionType: GenreCollection
         ]
 
         addComment: (comment, success, error) ->

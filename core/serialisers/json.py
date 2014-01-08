@@ -23,7 +23,7 @@ def to_ajax(rows, filter_field, slug_field=None):
     for row in rows:
         ret.append(
             {'id': row.id,
-             'text': getattr(row, filter_field),
+             'description': getattr(row, filter_field),
              'slug': getattr(row, slug_field) if slug_field else ''
             }
         )

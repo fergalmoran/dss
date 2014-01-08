@@ -42,7 +42,7 @@ LANGUAGE_CODE = 'en-ie'
 SITE_ID = 1
 USE_I18N = False
 USE_L10N = True
-USE_TZ = True
+s = True
 
 SITE_ROOT = here('')
 MEDIA_ROOT = localsettings.MEDIA_ROOT

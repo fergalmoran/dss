@@ -1,59 +1,114 @@
-define ['app.lib/editableView', 'moment', 'utils', 'backbone.syphon', 'text!/tpl/MixEditView'
-        'jquery.fileupload', 'jquery.fileupload-process', 'jquery.fileupload-audio', 'jquery.fileupload-ui',
-            'jquery.iframe-transport', 'jquery.ui.widget', 'lib/bootstrap-fileupload',
-        'lib/select2', 'lib/ajaxfileupload', 'ace', 'lib/bootstrap-tag.min'],
-(EditableView, moment, utils, Syphon, Template) ->
+define ['app.lib/editableView',
+        'vent', 'moment', 'utils', 'backbone.syphon', 'text!/tpl/MixEditView'
+        'models/genre/genreCollection', 'lib/jdataview',
+        'ace', 'dropzone', 'wizard', 'ajaxfileupload','jquery.fileupload', 'lib/ace/uncompressed/select2'],
+(EditableView, vent, moment, utils, Syphon, Template, GenreCollection, jDataView) ->
     class MixEditView extends EditableView
         template: _.template(Template)
         events:
-            "click #save-changes": "saveChanges"
-            "change #mix_image": "imageChanged"
+            "click #login": "login"
+            "change input[name='...']": "imageChanged"
         ui:
             image: "#mix-image"
-
-        @working = false
-        @patch = false
-        checkRedirect: ->
-            if @state is 2
-                Backbone.history.navigate "/mix/" + @model.get("slug"),
-                    trigger: true
+            progress: "#mix-upload-progress"
+            uploadError: '#mix-upload-error'
 
         initialize: ->
             @guid = utils.generateGuid()
-            @state = 0
+            @uploadState = 0
+            @detailsEntered = false
+            @patch = false
 
         onDomRefresh: ->
-            $("#fileupload", @el).fileupload
-                downloadTemplateId: undefined
-                url: "/_upload/"
-                start: ->
-                    $("#mix-details", @el).show()
-                done: =>
-                    @state++;
-                    $("#div-upload-mix", @el).hide()
-                    @checkRedirect()
-
+            """
             @setupImageEditable
-                el: @ui.image
-                showbuttons: false
+                el: $("#mix-image", @el)
                 chooseMessage: "Choose mix image"
+            """
 
-            $("#mix-imageupload", @el).jas_fileupload uploadtype: "image"
             true
 
         onRender: ->
-            console.log("MixEditView: onRender")
+            console.log("MixEditView: onRender js")
+            @ui.progress.hide()
             @sendImage = false
-            parent = this
+
             if not @model.id
-                $("#upload-hash", @el).val @guid
+                $('input[name="upload-hash"]', @el).val(@guid)
             else
-                $("#div-upload-mix", @el).hide()
+                $('#header-step1', @el).remove()
+                $('#step1', @el).remove()
+
+                $('#header-step2', @el).addClass("active")
+                $('#step2', @el).addClass("active")
+
+                $('.progress', @el).hide()
+
                 @patch = true
-                @state = 1
+                @uploadState = 2
+
+            wizard = $("#fuelux-wizard", @el).ace_wizard().on("change",(e, info) =>
+                if info.step is 1 and @uploadState is 0
+                    console.log "MixEditView: No mix uploaded"
+                    @ui.uploadError.fadeIn()
+                    $('#step1').addClass("alert-danger")
+                    false
+                else
+                    true
+            ).on("finished", (e) =>
+                console.log("Finished")
+                @saveChanges()
+            )
+
+            $("#mix-upload-form", @el).dropzone
+                previewTemplate: '<div class=\"dz-preview dz-file-preview\">\n
+                        <div class=\"dz-details\">\n
+                            <div class=\"dz-filename\"><span data-dz-name></span></div>\n
+                            <div class=\"dz-size\" data-dz-size></div>\n
+                            <img data-dz-thumbnail />\n
+                        </div>\n
+                        <div class=\"progress progress-small progress-striped active\">
+                            <div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div>
+                        </div>\n
+                        <div class=\"dz-success-mark\"><span></span></div>\n
+                        <div class=\"dz-error-mark\"><span></span></div>\n
+                        <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n
+                    </div>'
+
+                dictDefaultMessage : '<span class="bigger-150 bolder"><i class="icon-caret-right red"></i> Drop files</span> to upload
+	    			<span class="smaller-80 grey">(or click)</span> <br />
+		    		<i class="upload-icon icon-cloud-upload blue icon-3x"></i>'
+
+                addedfile: (file) =>
+                    try
+                        reader = new FileReader()
+                        reader.onload = (e) =>
+                            dv = new jDataView(@result)
+
+                            # "TAG" starts at byte -128 from EOF.
+                            # See http://en.wikipedia.org/wiki/ID3
+                            if dv.getString(3, dv.byteLength - 128) is "TAG"
+                                @title = dv.getString(30, dv.tell())
+                            else
+                                # no ID3v1 data found.
+                        reader.readAsArrayBuffer @files[0]
+                    catch e
+                        #who cares
+                        console.log "Unable to read id3 tags"
+
+                uploadprogress: (e, progress, bytesSent) =>
+                    @ui.progress.show()
+                    @uploadState = 1
+                    percentage = Math.round(progress)
+                    console.log("Progressing")
+                    @ui.progress.css("width", percentage + "%").parent().attr "data-percent", percentage + "%"
+
+                complete: =>
+                    @uploadState = 2
+                    @checkRedirect()
 
             $("#genres", @el).select2
-                placeholder: "Start typing and choose or press enter"
+                placeholder: "Start typing and choose from list or create your own."
                 minimumInputLength: 1
                 multiple: true
                 ajax: # instead of writing the function to execute the request we use Select2's convenient helper
@@ -66,36 +121,52 @@ define ['app.lib/editableView', 'moment', 'utils', 'backbone.syphon', 'text!/tpl
                         # since we are using custom formatting functions we do not need to alter remote JSON data
                         results: data
 
-                initSelection: (element, callback) ->
+                formatResult: (genre) ->
+                    genre.description
+
+                formatSelection: (genre) ->
+                    "<div class='select2-user-result'>" + genre.description + "</div>"
+
+                initSelection: (element, callback) =>
                     console.log("MixEditView: genres:initSelection")
                     result = []
-                    genres = parent.model.get("genres")
+                    genres = @model.get("genres")
                     unless genres is `undefined`
-                        $.each genres, (data) ->
+                        genres.each (data) ->
                             result.push
-                                id: @id
-                                text: @description
-
+                                id: data.get("id")
+                                description: data.get("description")
                     callback result
 
+                """
                 createSearchChoice: (term, data) ->
                     if $(data).filter(->
-                        @text.localeCompare(term) is 0
+                        @description.localeCompare(term) is 0
                     ).length is 0
                         id: term
                         text: term
+                """
 
-            this
+            true
 
         saveChanges: =>
             console.log("MixEditView: saveChanges")
-            data = Syphon.serialize($("#mix-details-form", @el)[0])
-            @model.set data
+            @model.set Syphon.serialize($("#mix-details-form", @el)[0])
+            flair = Syphon.serialize $("#mix-flair-form", @el)[0],
+                exclude: ["...", ""]
+
+            @model.set flair
+
             @model.set "upload-hash", @guid
             @model.set "upload-extension", $("#upload-extension", @el).val()
 
+            @model.set("genres", new GenreCollection())
             $.each $("#genres", @el).select2("data"), (i, item) =>
-                @model.get("genres").add({description: item.text});
+                """
+                if @model.get("genres") is undefined
+                    @model.set("genres", new GenreCollection())
+                """
+                @model.get("genres").add({id: item.id, description: item.text});
 
             @model.unset "mix_image" unless @sendImage
             @model.unset "comments"
@@ -107,7 +178,7 @@ define ['app.lib/editableView', 'moment', 'utils', 'backbone.syphon', 'text!/tpl
                         $.ajaxFileUpload
                             url: "/ajax/upload_mix_image/" + @model.get("id") + "/"
                             secureuri: false
-                            fileElementId: "mix_image"
+                            fileElementId: "input[name='...']"
                             success: (data, status) =>
                                 unless typeof (data.error) is "undefined"
                                     unless data.error is ""
@@ -115,15 +186,15 @@ define ['app.lib/editableView', 'moment', 'utils', 'backbone.syphon', 'text!/tpl
                                     else
                                         alert data.msg
                                 else
-                                    $("#mix-details", @el).hide()
-                                    @state++
+                                    $("#mix-upload-wizard", @el).hide()
+                                    @detailsEntered = true
                                     @checkRedirect()
 
                             error: (data, status, e) ->
                                 utils.showError e
                     else
-                        $("#mix-details", @el).hide()
-                        @state++
+                        $("#mix-upload-wizard", @el).hide()
+                        @detailsEntered = true
                         @checkRedirect()
                     true
                 error: (model, response) ->
@@ -131,8 +202,16 @@ define ['app.lib/editableView', 'moment', 'utils', 'backbone.syphon', 'text!/tpl
 
             false
 
+        checkRedirect: ->
+            if @detailsEntered and @uploadState is 2
+                Backbone.history.navigate "/mix/" + @model.get("slug"),
+                    trigger: true
+
+        login: ->
+            vent.trigger('app:login')
+
         imageChanged: (evt) ->
             @sendImage = true
-            true
+
 
         MixEditView

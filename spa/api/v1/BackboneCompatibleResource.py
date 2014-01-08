@@ -9,7 +9,7 @@ class BackboneCompatibleResource(ModelResource):
     pass
 
     def humanize_date(self, date):
-        if (datetime.datetime.now() - date) <= datetime.timedelta(days=1):
+        if (timezone.now() - date) <= datetime.timedelta(days=1):
             return humanize.naturaltime(date)
         else:
             return humanize.naturalday(date)

@@ -1,19 +1,30 @@
-from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
-from tastypie.exceptions import ImmediateHttpResponse
-from tastypie.http import HttpBadRequest, HttpMethodNotAllowed, HttpUnauthorized, HttpApplicationError, HttpNotImplemented
+
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
-from spa.models import Mix, UserProfile, Genre
-from spa.models.comment import Comment
+from spa.models import Genre
 
 
 class GenreResource(BackboneCompatibleResource):
-    class Meta:
-        queryset = Genre.objects.all().order_by('text')
-        resource_name = 'genres'
+	class Meta:
+		queryset = Genre.objects.all().order_by('description')
+		resource_name = 'genres'
 
-        excludes = ['id', 'resource_uri']
-        authorization = Authorization()
-        authentication = Authentication()
-        always_return_data = True
+		excludes = ['resource_uri']
+		authorization = Authorization()
+		authentication = Authentication()
+		always_return_data = True
+
+	def obj_create(self, bundle, **kwargs):
+		"""
+			Check to see if there is an existing genre for what was entered
+		"""
+		genre = Genre.objects.get(description=bundle.obj['description'])
+		if genre is not None:
+			bundle.obj = genre
+			return bundle
+		else:
+			ret = super(GenreResource, self).obj_create(bundle, bundle.request)
+
+		return ret
+
