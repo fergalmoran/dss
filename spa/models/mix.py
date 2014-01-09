@@ -45,6 +45,11 @@ class Mix(_BaseModel):
 	class Meta:
 		app_label = 'spa'
 
+		permissions = (
+			("mix_add_homepage", "Can add a mix to the homepage"),
+			("mix_allow_download", "Can allow downloads on a mix"),
+		)
+
 	objects = MixManager()
 
 	title = models.CharField(max_length=150)
