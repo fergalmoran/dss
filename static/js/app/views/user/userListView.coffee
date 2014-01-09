@@ -19,7 +19,6 @@ define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
             return
 
         _fetchCollection: (options) =>
-            debugger
             @collection.fetch(
                 data: options
                 success: =>

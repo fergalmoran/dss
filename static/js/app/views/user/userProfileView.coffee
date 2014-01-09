@@ -4,6 +4,13 @@ define ['app', 'utils', 'moment', 'marionette', 'vent', 'app.lib/editableView', 
     class UserProfileView extends EditableView
         template: _.template(Template)
 
+        events:
+            "click #follow-button": -> vent.trigger("user:follow", @model)
+            "click #follow-button-login": -> vent.trigger("app:login", @model)
+
+        initialize: =>
+            @listenTo(@model, 'change:is_following', @render)
+
         templateHelpers:
             humanise: (date)->
                 moment(date).fromNow()

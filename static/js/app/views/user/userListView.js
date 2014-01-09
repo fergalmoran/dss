@@ -41,7 +41,6 @@ define(['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
     };
 
     UserListView.prototype._fetchCollection = function(options) {
-      debugger;
       var _this = this;
       return this.collection.fetch({
         data: options,
