@@ -34,13 +34,14 @@ define(['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
 
     UserListView.prototype.itemViewContainer = "#user-table";
 
-    UserListView.prototype.initialize = function() {
+    UserListView.prototype.initialize = function(options) {
       console.log("UserListView: initialize");
       this.collection = new UserCollection();
-      this._fetchCollection(this.options);
+      this._fetchCollection(options);
     };
 
     UserListView.prototype._fetchCollection = function(options) {
+      debugger;
       var _this = this;
       return this.collection.fetch({
         data: options,

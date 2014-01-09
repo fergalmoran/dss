@@ -12,13 +12,14 @@ define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
         className: "row"
         itemView: UserItemView
         itemViewContainer: "#user-table"
-        initialize: =>
+        initialize: (options) =>
             console.log "UserListView: initialize"
             @collection = new UserCollection()
-            @_fetchCollection(@options)
+            @_fetchCollection(options)
             return
 
         _fetchCollection: (options) =>
+            debugger
             @collection.fetch(
                 data: options
                 success: =>

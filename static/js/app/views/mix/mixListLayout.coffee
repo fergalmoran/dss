@@ -15,18 +15,17 @@ define [
         }
 
         initialize: (options)->
-            @options = options
             @listenTo(vent, "mix:showlist", @showMixList)
             @listenTo(vent, "user:showdetail", @showUserView)
-            @showMixList(@options)
+            @showMixList(options)
 
         onShow: ->
             @headerRegion.show(new MixTabHeaderView())
 
-        showMixList:->
+        showMixList: (options) ->
             @collection = new MixCollection()
             @collection.fetch
-                data: @options
+                data: options
                 success: (collection)=>
                     @bodyRegion.show(new MixListView({collection: collection}))
 
