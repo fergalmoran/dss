@@ -35,4 +35,7 @@ define ['jquery', 'marionette', 'models/user/userCollection', 'views/user/userIt
             else
                 @_fetchCollection @options
 
+        onRender: ->
+            window.scrollTo 0, 0
+
     UserListView

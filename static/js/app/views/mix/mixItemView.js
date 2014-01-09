@@ -56,6 +56,7 @@ define(['moment', 'app', 'vent', 'marionette', 'utils', 'text!/tpl/MixListItemVi
       if (this.model.get('duration')) {
         $('#player-duration-' + id, this.el).text(this.model.secondsToHms('duration'));
       }
+      window.scrollTo(0, 0);
     };
 
     MixItemView.prototype.onShow = function() {

@@ -33,6 +33,8 @@ define ['app', 'utils', 'moment', 'marionette', 'vent', 'app.lib/editableView', 
 
             $(".usereditable").attr('class', if utils.isMe(@model.get("id")) then "editable editable-click" else "user-info")
 
+        onRender: ->
+            window.scrollTo 0, 0
 
     UserProfileView
 

@@ -37,6 +37,8 @@ define ['moment', 'app', 'vent', 'marionette', 'utils',
             if @model.get('duration')
                 $('#player-duration-' + id, this.el).text(@model.secondsToHms('duration'))
 
+            window.scrollTo 0, 0
+
             return
 
         onShow: ->
