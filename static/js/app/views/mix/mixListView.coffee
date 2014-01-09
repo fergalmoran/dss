@@ -16,5 +16,8 @@ define ['marionette', 'vent', 'models/mix/mixCollection', 'views/mix/mixItemView
             currentMix = model.cid
             return
 
+        onRender: ->
+            window.scrollTo 0, 0
+
     MixListView
 

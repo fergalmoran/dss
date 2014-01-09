@@ -11,6 +11,9 @@ class GenreResource(BackboneCompatibleResource):
 		resource_name = 'genres'
 
 		excludes = ['resource_uri']
+		filtering = {
+            'slug': ('exact',),
+		}
 		authorization = Authorization()
 		authentication = Authentication()
 		always_return_data = True

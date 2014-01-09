@@ -19,18 +19,9 @@ define ['app.lib/editableView',
             @detailsEntered = false
             @patch = false
 
-        onDomRefresh: ->
-            """
-            @setupImageEditable
-                el: $("#mix-image", @el)
-                chooseMessage: "Choose mix image"
-            """
-
-            true
-
         onRender: ->
             console.log("MixEditView: onRender js")
-            @ui.progress.hide()
+            $('.progress', @el).hide()
             @sendImage = false
 
             if not @model.id
@@ -80,7 +71,7 @@ define ['app.lib/editableView',
 		    		<i class="upload-icon icon-cloud-upload blue icon-3x"></i>'
 
                 uploadprogress: (e, progress, bytesSent) =>
-                    @ui.progress.show()
+                    $('.progress', @el).hide()
                     @uploadState = 1
                     percentage = Math.round(progress)
                     console.log("Progressing")

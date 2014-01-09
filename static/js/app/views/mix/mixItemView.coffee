@@ -37,7 +37,6 @@ define ['moment', 'app', 'vent', 'marionette', 'utils',
             if @model.get('duration')
                 $('#player-duration-' + id, this.el).text(@model.secondsToHms('duration'))
 
-            #@renderGenres()
             return
 
         onShow: ->
@@ -45,13 +44,6 @@ define ['moment', 'app', 'vent', 'marionette', 'utils',
             if com.podnoms.player.isPlayingId @model.id
                 com.podnoms.settings.setupPlayerWrapper @model.get('id'), com.podnoms.player.getStreamUrl(), @el
                 @mixPlay(@model)
-            true
-
-        __renderGenres: =>
-            el = @el
-            $.each @model.get("genres"), (data) ->
-                $("#genre-list", el).append '<a href="/mixes/' + @slug + '" class="label label-info arrowed-right arrowed-in">' + @description + '</a>'
-                true
             true
 
         doStart: =>

@@ -27,7 +27,7 @@ define ['app', 'marionette', 'vent', 'utils'
           @showMixList({stream: true})
 
         showMixListType: (type) ->
-            @showMixList({order_by: type})
+            @showMixList({genres__slug: type, order_by: 'latest'})
 
         showMix: (slug)->
             console.log "Controller: showMix"
