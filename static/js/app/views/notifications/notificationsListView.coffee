@@ -33,14 +33,14 @@ define ['marionette', 'underscore', 'vent', 'utils',
             newCount = @collection.meta.is_new
             if newCount == 0
                 $(@ui.notificationCount).text("Notifications")
-                $(@ui.notificationSurround).hide()
-                $(@ui.notificationCountBadge).text(newCount)
+                $(@ui.notificationCountBadge).hide()
             else
-                $(@ui.notificationCount).text(newCount + " Notifications")
-                $(@ui.notificationSurround).show()
-                $(@ui.notificationSurround).addClass('animate pulse')
-                if model
-                    utils.showAlert(model.get('notification_text'))
+                $(@ui.notificationCount).text(newCount + " new notifications")
+                $(@ui.notificationCountBadge).show()
+                $(@ui.notificationCountBadge).addClass('animate pulse')
+                $('#notification-icon', @el).addClass('icon-animated-bell')
+
+                $(@ui.notificationCountBadge).text(newCount)
 
         showNotifications: ->
             console.log("NotificationsListView: showNotifications")
@@ -48,7 +48,7 @@ define ['marionette', 'underscore', 'vent', 'utils',
                 url: '/ajax/mark_read/'
                 type: 'post'
                 success: =>
-                    $(@ui.notificationSurround).hide()
+                    $(@ui.notificationCountBadge).hide()
                     @collection.meta.is_new = 0
 
     NotificationsListView
