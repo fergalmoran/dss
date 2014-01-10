@@ -9,6 +9,7 @@ define ['marionette', 'vent', 'app.lib/controller'],
             "mix/upload": "uploadMix",
             "mixes": "showMixList",
             "mixes/:type": "showMixListType"
+            "mixes/genre/:type": "showMixListGenre"
             "mix/:slug": "showMix"
             "mix/edit/:slug": "editMix",
 

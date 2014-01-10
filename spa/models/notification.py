@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 import threading
 from django.db import models
 from core.realtime.notification import post_notification
@@ -17,7 +18,7 @@ class NotificationThread(threading.Thread):
 
 
 class Notification(_BaseModel):
-    to_user = models.ForeignKey(UserProfile, related_name='to_notications')
+    to_user = models.ForeignKey(User, related_name='to_notications')
     from_user = models.ForeignKey(UserProfile, related_name='notifications', null=True, blank=True)
     date = models.DateTimeField(auto_now=True)
 
