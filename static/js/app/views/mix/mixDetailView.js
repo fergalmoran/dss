@@ -27,7 +27,8 @@
       };
 
       MixDetailView.prototype.events = {
-        "click #btn-add-comment": "addComment"
+        "click #btn-add-comment": "addComment",
+        "keypress #comment-text": "checkCommentKeypress"
       };
 
       MixDetailView.prototype.initialize = function() {
@@ -67,7 +68,14 @@
 
       MixDetailView.prototype.modelChanged = function() {
         console.log("MixDetailView: modelChanged");
-        return this.render();
+        this.render();
+        return true;
+      };
+
+      MixDetailView.prototype.checkCommentKeypress = function(e) {
+        if (e.which === 13) {
+          return this.addComment();
+        }
       };
 
       MixDetailView.prototype.addComment = function() {
