@@ -42,3 +42,9 @@ dropbox
 django-jfu
 six
 django-require
+
+
+"""
+    timeside stuff
+    pyyaml
+"""
