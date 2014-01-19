@@ -24,9 +24,13 @@ define ['marionette',
             @model.on('nested-change', @modelChanged)
 
         onRender: ->
-            view = new MixItemView({tagName: "div", className: "mix-listing audio-listing-single", model: @model})
-            @mix.show view
+            @view = new MixItemView({tagName: "div", className: "mix-listing audio-listing-single", model: @model})
+            @mix.show @view
             @renderComments()
+            window.scrollTo 0, 0
+
+        onDomRefresh: ->
+            @view.onDomRefresh()
 
         renderComments: ->
             console.log "MixDetailView: Rendering comments"

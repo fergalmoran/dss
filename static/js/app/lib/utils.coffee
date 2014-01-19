@@ -16,6 +16,16 @@ define ['jquery', 'bootstrap', 'toastr'], ($, bootstrap, toastr) ->
                     true
         true
 
+    secondsToHms: (d)  ->
+        if d
+            d = Number(d)
+            h = Math.floor(d / 3600)
+            m = Math.floor(d % 3600 / 60)
+            s = Math.floor(d % 3600 % 60)
+            ((if h > 0 then h + ":" else "")) + ((if m > 0 then ((if h > 0 and m < 10 then "0" else "")) + m + ":" else "00:")) + ((if s < 10 then "0" else "")) + s
+        else
+            "00:00:00"
+
     messageBox: (url, success) ->
         if url
             if url.indexOf("#") is 0

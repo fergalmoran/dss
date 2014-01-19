@@ -11,5 +11,7 @@ define ['marionette', 'utils'],
             humanise: (date)->
                 moment(date).fromNow()
 
+            secondsToHms: (d) ->
+                utils.secondsToHms d
 
     DssView

@@ -1,8 +1,8 @@
-define ['backbone', 'marionette', 'vent', 'utils',
+define ['backbone', 'marionette', 'vent', 'utils', 'underscore',
         'app.lib/social', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/realtimeController', 'app.lib/audioController',
         'models/user/userItem', 'models/mix/mixCollection',
         'views/widgets/headerView', 'views/sidebar/sidebarView'],
-(Backbone, Marionette, vent, utils,
+(Backbone, Marionette, vent, utils, _,
  social, DssRouter, PanningRegion, RealtimeController, AudioController,
  UserItem, MixCollection,
  HeaderView, SidebarView) ->

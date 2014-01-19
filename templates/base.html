@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="{% static "css/ace/jquery.gritter.css" %}"/>
         <link rel="stylesheet" href="{% static "css/jquery.fileupload-ui.css" %}"/>
 
-        <link rel="stylesheet" href="{% static "css/com.podnoms.player.css" %}">
+        <link rel="stylesheet" href="{% static "css/peneloplay.css" %}">
         <link rel="stylesheet" href="{% static "css/toastr.css" %}">
 
         <link rel="stylesheet" href="{% static "css/dss.main.css" %}">
@@ -39,7 +39,7 @@
     {% block content %}
     {% endblock %}
 </div>
-<div id="side-content" class="col-md-3">
+<div id="side-content" class="col-md-3 hidden-phone">
     {% block sidecontent %}
     {% endblock %}
     <div id="sidebar"></div>
@@ -50,13 +50,7 @@
 <script src="{{ STATIC_URL }}js/lib/require.js" data-main="{{ STATIC_URL }}js/main.js"></script>
 
 {% compress js %}
-    {% if DEBUG %}
-        <script src="{{ STATIC_URL }}js/lib/sm/soundmanager2.js"></script>
-    {% else %}
-        <script src="{{ STATIC_URL }}js/lib/sm/soundmanager2-nodebug.js"></script>
-    {% endif %}
     <script src="{{ STATIC_URL }}js/com.podnoms.storage.js"></script>
-    <script src="{{ STATIC_URL }}js/com.podnoms.player.js"></script>
 {% endcompress %}
 {% block footerscripts %}
 {% endblock %}

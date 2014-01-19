@@ -1,22 +1,43 @@
-define ['app', 'marionette', 'vent', 'utils'],
-(App, Marionette, vent, utils) ->
+define ['app', 'marionette', 'vent', 'utils', 'soundmanager2', 'peneloplay'],
+(App, Marionette, vent, utils, soundManager, peneloplay) ->
     class AudioController extends Marionette.Controller
 
         initialize: (options) ->
             console.log "AudioController: initialize"
             @listenTo(vent, 'mix:init', @mixInit)
-            @listenTo(vent, 'mix:pause', @mixPause)
             @listenTo(vent, 'mix:play', @mixPlay)
+            @listenTo(vent, 'mix:pause', @mixPause)
+            @listenTo(vent, 'mix:resume', @mixResume)
             @listenTo(vent, 'live:play', @livePlay)
             @listenTo(vent, 'live:pause', @livePause)
 
-        mixInit: (model) =>
+            soundManager.setup
+                url: com.podnoms.settings.staticUrl + '/swf/sm/'
+                onready: ->
+                    console.log "Sound manager ready sir!"
+
+                debugFlash: com.podnoms.smDebugMode
+                preferFlash: true
+
+                defaultOptions:
+                    volume: com.podnoms.settings.volume
+
+        setupPlayer: (el, url) ->
+            peneloplay.setupPlayer el, url
+
+        setupPlayerEl: (el) ->
+            peneloplay.setupPlayer el
+            peneloplay.setupUIWidgets()
+
+        mixInit: (model, el) =>
             console.log "AudioController: mixInit"
-            id = model.get('id')
-            com.podnoms.player.stopPlaying()
-            $.getJSON "/ajax/mix_stream_url/" + id + "/", (data) =>
-                com.podnoms.settings.setupPlayerWrapper(id, data.stream_url)
-                com.podnoms.player.startPlaying
+            @id = model.get('id')
+            @duration = model.get("duration")
+            peneloplay.stopPlaying()
+            $.getJSON "/ajax/mix_stream_url/" + @id + "/", (data) =>
+                console.log("Setting up player: ", data.stream_url)
+                @setupPlayer el, data.stream_url
+                peneloplay.startPlaying
                     success: =>
                         vent.trigger("mix:play", model)
                         utils.checkPlayCount()
@@ -24,26 +45,36 @@ define ['app', 'marionette', 'vent', 'utils'],
                     error: =>
                         utils.showWarning "Ooops", "Error playing mix. If you have a flash blocker, please disable it for this site. Otherwise, do please try again."
                         return
-                com.podnoms.storage.setItem "now_playing", id
+                com.podnoms.storage.setItem "now_playing", @id
                 return
 
-        mixPlay: (model) ->
-            console.log("AudioController: mixPlay")
-            com.podnoms.player.resume();
+        isPlayingId: (id) ->
+            return id is @id
 
-        mixPause: (model) ->
+        getMixState: ->
+            return peneloplay.getMixState()
+
+        mixPlay: ->
+            console.log("AudioController: mixPlay")
+            peneloplay.resume();
+
+        mixPause: ->
             console.log("AudioController: mixPause")
-            com.podnoms.player.pause();
+            peneloplay.pause();
+
+        mixResume: ->
+            console.log("AudioController: mixResume")
+            peneloplay.resume();
 
         livePlay: ->
             console.log("AudioController: livePlay")
-            com.podnoms.player.playLive
+            peneloplay.playLive
                 success: ->
                     console.log("Live stream started")
                     vent.trigger('live:started')
-        livePause:->
+        livePause: ->
             console.log("AudioController: livePause")
-            com.podnoms.player.stopLive()
+            peneloplay.stopLive()
 
     AudioController
 

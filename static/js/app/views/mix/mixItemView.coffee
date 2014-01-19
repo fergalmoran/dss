@@ -1,16 +1,17 @@
-define ['moment', 'app', 'vent', 'marionette', 'utils',
-        'text!/tpl/MixListItemView'],
-(moment, App, vent, Marionette, utils,
+define ['underscore', 'moment', 'app', 'vent', 'app.lib/dssView', 'utils',
+        'text!/tpl/MixItemView'],
+(_, moment, App, vent, DssView, utils,
  Template) ->
-    class MixItemView extends Marionette.ItemView
+    class MixItemView extends DssView
         template: _.template(Template)
         tagName: @tagName or "li"
         className: @className or ""
 
         events: {
-            "click .play-button-small-start": "doStart",
-            "click .play-button-small-resume": "doResume",
-            "click .play-button-small-pause": "doPause",
+            "click .play": "mixPlay",
+            "click .pause": "mixPause",
+            "click .resume": "mixResume",
+
             "click .mix-link": "mixLink",
             "click .delete-button a": "mixDelete",
             "click .like-button a": "mixLike",
@@ -21,76 +22,80 @@ define ['moment', 'app', 'vent', 'marionette', 'utils',
         }
 
         ui: {
-            playButton: ".play-button-small"
+            playButton: ".mix-state-toggle",
+            playButtonIcon: ".mix-state-toggle i",
+            playerEl: ".pnp-instance"
         }
 
         initialize: =>
+            @mixState = 0
+
             @listenTo(@model, 'change:favourited', @render)
             @listenTo(@model, 'change:liked', @render)
             @listenTo(@model, 'nested-change', @render)
-            @listenTo(vent, 'mix:play', @mixPlay)
-            @listenTo(vent, 'mix:pause', @mixPause)
+            @listenTo(vent, 'mix:init', @onMixInit)
+            @listenTo(vent, 'mix:resume', @onMixStateChanged)
+            @listenTo(vent, 'mix:pause', @onMixStateChanged)
+
+            @app = require('app')
+
             true
 
         onRender: =>
-            id = @model.get('id')
-            if @model.get('duration')
-                $('#player-duration-' + id, this.el).text(@model.secondsToHms('duration'))
+            id = @model.get 'id'
+            data = @model.toJSON()
 
             window.scrollTo 0, 0
 
-            return
-
-        onShow: ->
+        onDomRefresh: ->
             #check if we're currently playing
-            if com.podnoms.player.isPlayingId @model.id
-                com.podnoms.settings.setupPlayerWrapper @model.get('id'), com.podnoms.player.getStreamUrl(), @el
-                @mixPlay(@model)
-            true
+            #
+            #marionette weirdness, apparently when rendered as part of a composite view
+            #the el has not been added to the DOM at this stage, so we'll check for the bounds
+            #and if zero, rely on the composite view to call into this in it's onDomRefresh
+            if @app.audioController.isPlayingId @model.id
+                console.log "Re-wrapping player"
+                @app.audioController.setupPlayerEl $(@el)
+                @ui.playButton.toggleClass("play", false).toggleClass("pause", false).toggleClass("resume", false)
+                @mixState = @app.audioController.getMixState()
+                @_setupStateUI()
 
-        doStart: =>
-            console.log("MixItemView: mixStart")
-            this.ui.playButton
-                .toggleClass('play-button-small-start', false)
-                .toggleClass('play-button-small-resume', false)
-                .toggleClass('play-button-small-pause', true)
-
-            vent.trigger('mix:init', @model)
+            #$(@el).on("resize", @app.audioController.setupPlayerEl($(@el)));
             return
 
-        doPause: ->
-            console.log("MixItemView: mixPause")
-            vent.trigger("mix:pause", @model);
-            true
+        onMixInit: ->
+            @mixState = 1
+            @_setupStateUI()
 
-        doResume: ->
-            console.log("MixItemView: mixResume")
-            vent.trigger("mix:play", @model);
-            true
+        onMixStateChanged: ->
+            console.log("***** state is " + @state)
+            if @app.audioController.isPlayingId @model.id
+                if @mixState is 0 #init
+                    @mixState = 1
+                else if @mixState is 1 #playing
+                    @mixState = 2
+                else if @mixState is 2 #paused
+                    @mixState = 1
+                @_setupStateUI()
 
-        mixPlay: (model) ->
-            if (@model.get('id') == model.get('id'))
-                this.ui.playButton
-                    .toggleClass('play-button-small-start', false)
-                    .toggleClass('play-button-small-resume', false)
-                    .toggleClass('play-button-small-pause', true)
-            return
+        _setupStateUI: ->
+            @ui.playButton.removeClass("play").removeClass("resume").removeClass("pause")
+            @ui.playButtonIcon.removeClass("icon-play").removeClass("icon-pause")
+            if @mixState is 1 #playing
+                @ui.playButton.addClass("pause")
+                @ui.playButtonIcon.removeClass("icon-play").addClass("icon-pause")
+            else if @mixState is 2 #paused
+                @ui.playButton.addClass("resume")
+                @ui.playButtonIcon.removeClass("icon-pause").addClass("icon-play")
 
-        mixPause: (model) ->
-            if (@model.get('id') == model.get('id'))
-                this.ui.playButton
-                    .toggleClass('play-button-small-start', false)
-                    .toggleClass('play-button-small-resume', true)
-                    .toggleClass('play-button-small-pause', false)
-            return
+        mixPlay: (button) ->
+            vent.trigger('mix:init', @model, $(@el))
 
-        mixStop: (model) ->
-            if (@model.get('id') == model.get('id'))
-                this.ui.playButton
-                    .toggleClass('play-button-small-start', true)
-                    .toggleClass('play-button-small-resume', false)
-                    .toggleClass('play-button-small-pause', false)
-            return
+        mixPause: ->
+            vent.trigger('mix:pause', @model, $(@el))
+
+        mixResume: ->
+            vent.trigger('mix:resume', @model, $(@el))
 
         mixFavourite: ->
             console.log("MixItemView: favouriteMix")

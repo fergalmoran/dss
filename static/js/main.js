@@ -29,6 +29,7 @@ requirejs.config({
         'ace-editable': 'lib/ace/uncompressed/x-editable/ace-editable',
         'bootstrap-editable': 'lib/ace/uncompressed/x-editable/bootstrap-editable',
         'facebook': '//connect.facebook.net/en_US/all',
+        soundmanager2: 'lib/sm/soundmanager2',
 
         /*File upload */
         /*TOOD: Move this to a shim */
@@ -100,6 +101,9 @@ requirejs.config({
         },
         utils: {
             deps: ['jquery', 'bootstrap']
+        },
+        'soundmanager2': {
+            exports: 'soundManager'
         }
     }
 });

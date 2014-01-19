@@ -1,0 +1,61 @@
+.pnp-instance {
+    height: 98px;
+    position: static;
+}
+
+.pnp-wrapper {
+    background: teal;
+    height: 98px;
+}
+
+.pnp-waveform {
+    width: 100%;
+    height: 100%;
+}
+
+.pnp-time-display-label {
+    background-color: rgb(64, 129, 64);
+    width: 32px;
+    position: absolute;
+    left: -500px;
+    top: -500px;
+    color: rgb(255, 255, 255);
+    font-size: 72%;
+    text-align: center;
+}
+
+.pnp-time-display-label-elapsed {
+    top: 0;
+}
+
+.pnp-time-display-label-duration {
+    top: 0;
+    right: 0;
+}
+
+.pnp-download-overlay {
+    position: absolute;
+    width: 0;
+    height: 90px;
+    display: block;
+    background: url('../img/pnp-download-overlay.png') top right;
+    -webkit-box-shadow: 0 0 4px rgba(255, 0, 140, 0.2);
+}
+
+.pnp-played-overlay {
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 90px;
+    display: block;
+    background: url(../img/pnp-played-overlay.png) 100% 0;
+    -webkit-box-shadow: rgba(255, 0, 140, 0.2) 0 0 4px;
+}
+
+.pnp-seekhead {
+    background: none 0 0 repeat scroll rgb(235, 12, 122);
+    position: absolute;
+    top: 0;
+    width: 1px;
+    z-index: 1001;
+}

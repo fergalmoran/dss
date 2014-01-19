@@ -40,7 +40,7 @@
                 <% print(download_allowed ? 'checked="checked"' : '') %>>
                 <span class="lbl" for="download_allowed"></span>
             </label>
-            {% if perms.spa.mix_add_homepage || user.is_staff %}
+            {% if perms.spa.mix_add_homepage or user.is_staff %}
             <label class="inline">
                 <small class="muted">Homepage:</small>
                 <input class="ace ace-switch ace-switch-7"
