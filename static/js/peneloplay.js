@@ -109,6 +109,7 @@ define(["jquery", "soundmanager2"], function ($, soundManager) {
                     ui.playedOverlay.css('width', percentageWidth);
                 }
             }
+            Peneloplay._hookupMouseEntryEvents();
         },
         startPlaying: function (success, error) {
             console.log("Starting to play");
