@@ -1,4 +1,4 @@
-Django==1.5.4
+Django==1.6.1
 PIL>=1.1.7
 south
 beautifulsoup4>=4.1.1

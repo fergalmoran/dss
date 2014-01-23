@@ -10,7 +10,7 @@ from core.utils import url
 from core.utils.audio import Mp3FileNotFoundException
 from core.utils.audio.mp3 import mp3_length, tag_mp3
 from core.utils.url import unique_slugify
-from spa.models.activity import ActivityDownload, ActivityPlay
+from spa.models.activity import ActivityDownload, ActivityPlay, ActivityFavourite, ActivityLike
 from spa.models.genre import Genre
 from dss import settings, localsettings
 from spa.models.userprofile import UserProfile
@@ -206,6 +206,7 @@ class Mix(_BaseModel):
             if user.is_authenticated():
                 if value:
                     if self.favourites.filter(user=user).count() == 0:
+                        ActivityFavourite(user=user.get_profile(), mix=self).save()
                         self.favourites.add(user.get_profile())
                         self.save()
                 else:
@@ -222,6 +223,7 @@ class Mix(_BaseModel):
             if user.is_authenticated():
                 if value:
                     if self.likes.filter(user=user).count() == 0:
+                        ActivityLike(user=user.get_profile(), mix=self).save()
                         self.likes.add(user.get_profile())
                         self.save()
                 else:

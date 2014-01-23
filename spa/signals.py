@@ -10,6 +10,8 @@ from spa.models.userprofile import UserProfile
 from spa.models.mix import Mix
 
 waveform_generated_signal = Signal()
+
+
 def _waveform_generated_callback(sender, **kwargs):
     print "Updating model with waveform"
     try:
@@ -23,9 +25,13 @@ def _waveform_generated_callback(sender, **kwargs):
     except ObjectDoesNotExist:
         print "Mix has still not been uploaded"
         pass
+
+
 waveform_generated_signal.connect(_waveform_generated_callback)
 
 update_user_geoip_signal = Signal()
+
+
 def _update_user_geoip_callback(sender, **kwargs):
     try:
         user = UserProfile.objects.get(pk=kwargs['profile_id'])
@@ -34,7 +40,10 @@ def _update_user_geoip_callback(sender, **kwargs):
         user.save()
     except ObjectDoesNotExist:
         pass
+
+
 update_user_geoip_signal.connect(_update_user_geoip_callback)
+
 
 def create_profile(sender, **kw):
     user = kw["instance"]
@@ -54,10 +63,14 @@ post_save.connect(create_profile, sender=User)
 
 def post_save_handler(**kwargs):
     instance = kwargs['instance']
+    #should save generate a notification to a target user
     if hasattr(instance, 'create_notification'):
         instance.create_notification()
-    if hasattr(instance, 'notify_activity'):
-        instance.notify_activity()
+    #should save post to the activity feed
+    if hasattr(instance, 'create_activity'):
+        instance.create_activity()
+
+    #try to get the user's geo profile
     if hasattr(instance, 'update_geo_info'):
         instance.update_geo_info()
 

@@ -14,16 +14,6 @@ ACTIVITYTYPES = (
     ('f', 'favourited'),
 )
 
-
-class ActivityThread(threading.Thread):
-    def __init__(self, instance, **kwargs):
-        self.instance = instance
-        super(ActivityThread, self).__init__(**kwargs)
-
-    def run(self):
-        post_activity(self.instance.get_activity_url())
-
-
 class Activity(_BaseModel):
     objects = InheritanceManager()
     user = models.ForeignKey(UserProfile, null=True, blank=True)
@@ -33,19 +23,20 @@ class Activity(_BaseModel):
         return "%s" % self.get_object_name()
 
     def create_notification(self):
-        notification = Notification()
-        notification.from_user = self.user
-        notification.to_user = self.get_target_user()
-        notification.notification_text = "%s %s %s" % (
-            self.user.get_nice_name() or "Anonymouse", self.get_verb_past(), self.get_object_name_for_notification())
+        try:
+            notification = Notification()
+            notification.from_user = self.user
+            notification.to_user = self.get_target_user()
+            notification.notification_text = "%s %s %s" % (
+                self.user.get_nice_name() or "Anonymouse", self.get_verb_past(), self.get_object_name_for_notification())
 
-        notification.notification_url = self.get_object_url()
-        notification.verb = self.get_verb_past()
-        notification.target = self.get_object_name()
-        notification.save()
-
-    def notify_activity(self):
-        ActivityThread(instance=self).start()
+            notification.notification_url = self.get_object_url()
+            notification.verb = self.get_verb_past()
+            notification.target = self.get_object_name()
+            notification.save()
+        except Exception, ex:
+            print "Error creating activity notification: %s" % ex.message
+            raise ex
 
     def get_activity_url(self):
         return '/api/v1/activity/%s' % self.id
@@ -109,7 +100,6 @@ class ActivityFavourite(Activity):
 
     def get_verb_past(self):
         return "favourited"
-
 
 class ActivityPlay(Activity):
     mix = models.ForeignKey('spa.Mix', related_name='activity_plays')
