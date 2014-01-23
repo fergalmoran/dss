@@ -183,7 +183,6 @@ LOGGING = logsettings.LOGGING
 FACEBOOK_APP_ID = '154504534677009'
 FACEBOOK_APP_SECRET = localsettings.FACEBOOK_APP_SECRET
 
-from celery_settings import *
 djcelery.setup_loader()
 
 SOCIALACCOUNT_AVATAR_SUPPORT = True
@@ -200,7 +199,6 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 AVATAR_STORAGE_DIR = MEDIA_ROOT + '/avatars/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-LOGIN_REDIRECT_URL = '/'
 
 DSS_TEMP_PATH = localsettings.DSS_TEMP_PATH
 DSS_LAME_PATH = localsettings.DSS_LAME_PATH
@@ -231,7 +229,6 @@ SENDFILE_ROOT = os.path.join(MEDIA_ROOT, 'mixes')
 SENDFILE_URL = '/media/mixes'
 
 import mimetypes
-
 mimetypes.add_type("text/xml", ".plist", False)
 
 HTML_MINIFY = not localsettings.DEBUG

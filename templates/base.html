@@ -29,10 +29,11 @@
 
     {% block headerscripts %}
     {% endblock %}
+    <!--if lt IE 9script(src='http://html5shim.googlecode.com/svn/trunk/html5.js')
+    -->
 </head>
 <body>
 {% include 'inc/analytics.html' %}
-{% include 'inc/ancient_browser.html' %}
 <div id="header"></div>
 <div class="space-6"></div>
 <div class="body-content col-md-9" id="content">
@@ -47,11 +48,12 @@
 </div>
 <div id="footer"></div>
 <script src="/js/settings/"></script>
-<script src="{{ STATIC_URL }}js/lib/require.js" data-main="{{ STATIC_URL }}js/main.js"></script>
-
 {% compress js %}
+    <script src="{{ STATIC_URL }}js/lib/respond.js"></script>
     <script src="{{ STATIC_URL }}js/com.podnoms.storage.js"></script>
 {% endcompress %}
+<script src="{{ STATIC_URL }}js/lib/require.js" data-main="{{ STATIC_URL }}js/main.js"></script>
+
 {% block footerscripts %}
 {% endblock %}
 </body>

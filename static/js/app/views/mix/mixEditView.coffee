@@ -70,11 +70,13 @@ define ['app.lib/editableView',
 	    			<span class="smaller-80 grey">(or click)</span> <br />
 		    		<i class="upload-icon icon-cloud-upload blue icon-3x"></i>'
 
+                drop: ->
+                    $('.progress', @el).show()
+
                 uploadprogress: (e, progress, bytesSent) =>
-                    $('.progress', @el).hide()
+                    $('.progress', @el).show()
                     @uploadState = 1
                     percentage = Math.round(progress)
-                    console.log("Progressing")
                     @ui.progress.css("width", percentage + "%").parent().attr "data-percent", percentage + "%"
 
                 complete: =>

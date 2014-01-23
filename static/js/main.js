@@ -53,8 +53,8 @@ requirejs.config({
         'tmpl': 'lib/tmpl',
         toastr: 'lib/toastr',
         'socket.io': [
-            com.podnoms.settings.SOCKET_IO_JS_URL,
-            'lib/socket.io'
+        com.podnoms.settings.SOCKET_IO_JS_URL,
+        'lib/socket.io'
         ]
     },
     shim: {
@@ -78,7 +78,7 @@ requirejs.config({
             deps: ['jquery']
         },
         'facebook': {
-            export: 'FB'
+            exports: 'FB'
         },
         'ace': {
             exports: 'ace',
@@ -111,6 +111,12 @@ requirejs.config({
 requirejs(['site', 'toastr', 'underscore', 'backbone', 'app'], function (site, toastr, _, Backbone, App) {
     'use strict'
 
-    console.log('Dss.Bootstrapper: primed');
+    console.log('Dss.Bootstrapper: primed')
+    if(typeof String.prototype.trim !== 'function') {
+        console.log("Fucking Microsoft!");
+        String.prototype.trim = function() {
+            return this.replace(/^\s+|\s+$/g, '');
+        }
+    }
     App.start();
 });
