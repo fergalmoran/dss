@@ -156,3 +156,21 @@ class ActivityDownload(Activity):
 
     def get_verb_past(self):
         return "downloaded"
+
+class ActivityComment(Activity):
+    mix = models.ForeignKey('spa.Mix', related_name='activity_comments')
+
+    def get_target_user(self):
+        return self.mix.user
+
+    def get_object_name(self):
+        return self.mix.title
+
+    def get_object_url(self):
+        return self.mix.get_absolute_url()
+
+    def get_object_singular(self):
+        return "mix"
+
+    def get_verb_past(self):
+        return "commented on"

@@ -5,6 +5,7 @@ from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.http import HttpBadRequest, HttpMethodNotAllowed, HttpUnauthorized, HttpApplicationError, HttpNotImplemented
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.models import Mix, UserProfile
+from spa.models.activity import ActivityComment
 from spa.models.comment import Comment
 
 
@@ -45,8 +46,10 @@ class CommentResource(BackboneCompatibleResource):
                 mix = Mix.objects.get_by_id_or_slug(bundle.data['mix_id'])
                 if mix is not None:
                     if bundle.request.user.is_authenticated():
+                        ActivityComment(user=bundle.request.user.get_profile(), mix=mix).save()
                         return super(CommentResource, self).obj_create(bundle, user=bundle.request.user or None, mix=mix)
                     else:
+                        ActivityComment(mix=mix).save()
                         return super(CommentResource, self).obj_create(bundle, mix=mix)
                 else:
                     return HttpBadRequest("Unable to find mix for supplied mix_id (candidate fields are slug & id).")
