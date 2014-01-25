@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
-from spa.models import _BaseModel, UserProfile
-from spa.models.notification import Notification
+
+from spa.models import _BaseModel
 from spa.models.mix import Mix
 
 

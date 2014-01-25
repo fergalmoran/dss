@@ -171,6 +171,7 @@ INSTALLED_APPS = (
     'django_jenkins',
     'dbbackup',
     'jfu',
+    'djrill',
     #'backbone_tastypie',
 )
 
@@ -229,16 +230,19 @@ SENDFILE_ROOT = os.path.join(MEDIA_ROOT, 'mixes')
 SENDFILE_URL = '/media/mixes'
 
 import mimetypes
+
 mimetypes.add_type("text/xml", ".plist", False)
 
 HTML_MINIFY = not localsettings.DEBUG
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = localsettings.EMAIL_HOST
 EMAIL_PORT = localsettings.EMAIL_PORT
 DEFAULT_FROM_EMAIL = 'DSS ChatBot <chatbot@deepsouthsounds.com>'
 DEFAULT_HTTP_PROTOCOL = 'http'
+
+EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
+MANDRILL_API_KEY = localsettings.MANDRILL_API_KEY
 
 if DEBUG:
     import mimetypes
@@ -270,5 +274,6 @@ if 'test' in sys.argv:
 
 GEOIP_PATH = localsettings.GEOIP_PATH
 from pipelinesettings import *
+
 
 

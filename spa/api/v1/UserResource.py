@@ -61,18 +61,6 @@ class UserResource(BackboneCompatibleResource):
 
         return semi_filtered
 
-    def _patch_resource(self, bundle):
-        #Handle the patched items from backbone
-        if 'is_following' in bundle.data:
-            if bundle.data['is_following']:
-                bundle.obj.add_follower(bundle.request.user.get_profile())
-                activity = ActivityFollow()
-                activity.user = bundle.request.user.get_profile()
-                activity.to_user = bundle.obj
-                activity.save()
-            else:
-                bundle.obj.remove_follower(bundle.request.user.get_profile())
-
     def obj_update(self, bundle, skip_errors=False, **kwargs):
 
         """

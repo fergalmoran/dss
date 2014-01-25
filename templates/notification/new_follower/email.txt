@@ -1,1 +1,0 @@
-{{ profile.get_nice_name }} has started following you.

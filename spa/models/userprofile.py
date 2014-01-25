@@ -7,15 +7,17 @@ from django.db import models
 from django.db.models import Count
 from django_gravatar.helpers import has_gravatar, get_gravatar_url
 from sorl.thumbnail import get_thumbnail
-
 from allauth.socialaccount.models import SocialAccount
-from core.utils.file import generate_save_file_name
-from core.utils.url import unique_slugify
-from dss import settings
-from spa.models._basemodel import _BaseModel
-from templated_email import send_templated_mail
 from sorl import thumbnail
 from sorl.thumbnail.helpers import ThumbnailError
+
+from core.utils.file import generate_save_file_name
+from core.utils.url import unique_slugify, wrap_full
+from dss import settings
+from spa.models.notification import Notification
+from spa.models._basemodel import _BaseModel
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -108,24 +110,6 @@ class UserProfile(_BaseModel):
                 self.favourites.model.delete(mix=mix)
         except Exception, ex:
             self.logger.error("Exception updating favourite: %s" % ex.message)
-
-    def add_follower(self, user):
-        self.followers.add(user)
-        user.following.add(self)
-
-        if not settings.DEBUG:
-            try:
-                send_templated_email([user.user], "notification/new_follower", {"profile": self.user})
-            except Exception, ex:
-                self.logger.error("Unable to send email for new follower")
-                self.logger.error("Exception: %s" % ex.message)
-                self.logger.error("Host: %s" % settings.EMAIL_HOST)
-                self.logger.error("Port: %s" % settings.EMAIL_PORT)
-                self.logger.error("Backend: %s" % settings.EMAIL_BACKEND)
-
-    def remove_follower(self, user):
-        if user in self.followers.all():
-            self.followers.remove(user)
 
     def is_follower(self, user):
         try:

@@ -1,10 +1,12 @@
 from django.contrib.sessions.models import Session
 from django.core import signals
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save, pre_save, m2m_changed
 from django.dispatch import Signal, receiver
 from django.contrib.auth.models import User
 from core.utils.audio.mp3 import mp3_length
+from core.utils.url import wrap_full
+from spa.models import Notification
 
 from spa.models.userprofile import UserProfile
 from spa.models.mix import Mix
@@ -97,3 +99,29 @@ def session_pre_save(sender, **kwargs):
             except ObjectDoesNotExist:
                 pass
 
+
+@receiver(m2m_changed, sender=UserProfile.following.through, dispatch_uid='user_followers_changed')
+def user_followers_changed(sender, **kwargs):
+    try:
+        if kwargs['action'] == 'post_add':
+            source_user = kwargs['instance']
+            if source_user:
+                for i in kwargs['pk_set']:
+                    target_user = UserProfile.objects.get(pk=i)
+                    if target_user:
+                        notification = Notification()
+                        notification.from_user = source_user
+                        notification.to_user = target_user
+                        notification.notification_text = "You have a new follower on Deep South Sounds"
+
+                        notification.notification_html = "<a href='%s'>%s</a> followed you on <a href='http://deepsouthsounds.com'>Deep South Sounds</a>" % (
+                            wrap_full(source_user.get_profile_url()),
+                            source_user.get_nice_name()
+                        )
+
+                        notification.notification_url = wrap_full(source_user.get_absolute_url())
+                        notification.verb = "followed"
+                        notification.target = "Lick my balls"
+                        notification.save()
+    except Exception, ex:
+        print "Error sending new follower: %s" % ex.message

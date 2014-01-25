@@ -1,12 +1,16 @@
 import urlparse
 import re
+from django.contrib.sites.models import Site
 from django.template.defaultfilters import slugify
 
 __author__ = 'fergalm'
+
+
 def urlclean(url):
     #remove double slashes
-    ret = urlparse.urljoin(url, urlparse.urlparse(url).path.replace('//','/'))
+    ret = urlparse.urljoin(url, urlparse.urlparse(url).path.replace('//', '/'))
     return ret
+
 
 def unique_slugify(instance, value, slug_field_name='slug', queryset=None, slug_separator='-'):
     """
@@ -44,7 +48,7 @@ def unique_slugify(instance, value, slug_field_name='slug', queryset=None, slug_
         slug = original_slug
         end = '%s%s' % (slug_separator, next)
         if slug_len and len(slug) + len(end) > slug_len:
-            slug = slug[:slug_len-len(end)]
+            slug = slug[:slug_len - len(end)]
             slug = _slug_strip(slug, slug_separator)
         slug = '%s%s' % (slug, end)
         next += 1
@@ -74,4 +78,13 @@ def _slug_strip(value, separator='-'):
         if separator != '-':
             re_sep = re.escape(separator)
         value = re.sub(r'^%s+|%s+$' % (re_sep, re_sep), '', value)
-    return value    
+    return value
+
+def is_absolute(url):
+    return bool(urlparse.urlparse(url).scheme)
+
+def wrap_full(url):
+    if not is_absolute(url):
+        url = "http://%s%s" % (Site.objects.get_current().domain, url)
+
+    return url

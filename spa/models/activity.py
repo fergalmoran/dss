@@ -1,11 +1,13 @@
-import threading
+import abc
+
 from django.db import models
 from model_utils.managers import InheritanceManager
-from core.realtime.activity import post_activity
+from core.utils.url import wrap_full
+
 from spa.models.notification import Notification
 from spa.models.userprofile import UserProfile
 from spa.models._basemodel import _BaseModel
-import abc
+
 
 ACTIVITYTYPES = (
     ('p', 'played'),
@@ -30,7 +32,15 @@ class Activity(_BaseModel):
             notification.notification_text = "%s %s %s" % (
                 self.user.get_nice_name() or "Anonymouse", self.get_verb_past(), self.get_object_name_for_notification())
 
-            notification.notification_url = self.get_object_url()
+            notification.notification_html = "<a href='%s'>%s</a> %s <a href='%s'>%s</a>" % (
+                wrap_full(self.user.get_profile_url() or "http://deepsounds.com"),
+                self.user.get_nice_name() or "Anonymouse",
+                self.get_verb_past(),
+                wrap_full(self.get_object_url()),
+                self.get_object_name_for_notification()
+            )
+
+            notification.notification_url = wrap_full(self.get_object_url())
             notification.verb = self.get_verb_past()
             notification.target = self.get_object_name()
             notification.save()
