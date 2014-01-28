@@ -121,7 +121,7 @@ def user_followers_changed(sender, **kwargs):
 
                         notification.notification_url = wrap_full(source_user.get_absolute_url())
                         notification.verb = "followed"
-                        notification.target = "Lick my balls"
+                        notification.target = target_user.get_nice_name()
                         notification.save()
     except Exception, ex:
         print "Error sending new follower: %s" % ex.message
