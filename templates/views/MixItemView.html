@@ -78,8 +78,8 @@
         <div class="row">
             <div class="player-footer">
                 <div class="play-button footer-button">
-                    <a class="mix-state-toggle play blue" data-bypass="true" style="">
-                        <i class="icon-play bigger-180"></i>
+                    <a id="play-button-<%= id %>" class="mix-state-toggle play blue" data-bypass="true" style="">
+                        <i id="play-state-icon-<%= id %>" class="icon-play bigger-180"></i>
                     </a>
                 </div>
                 {% if user.is_authenticated %}

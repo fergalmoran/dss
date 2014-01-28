@@ -91,14 +91,16 @@
       };
 
       MixItemView.prototype._setupStateUI = function() {
-        this.ui.playButton.removeClass("play").removeClass("resume").removeClass("pause");
-        this.ui.playButtonIcon.removeClass("icon-play").removeClass("icon-pause");
-        if (this.mixState === 1) {
-          this.ui.playButton.addClass("pause");
-          return this.ui.playButtonIcon.removeClass("icon-play").addClass("icon-pause");
-        } else if (this.mixState === 2) {
-          this.ui.playButton.addClass("resume");
-          return this.ui.playButtonIcon.removeClass("icon-pause").addClass("icon-play");
+        if (this.app.audioController.isPlayingId(this.model.id)) {
+          this.ui.playButton.removeClass("play").removeClass("resume").removeClass("pause");
+          this.ui.playButtonIcon.removeClass("icon-play").removeClass("icon-pause");
+          if (this.mixState === 1) {
+            this.ui.playButton.addClass("pause");
+            return this.ui.playButtonIcon.removeClass("icon-play").addClass("icon-pause");
+          } else if (this.mixState === 2) {
+            this.ui.playButton.addClass("resume");
+            return this.ui.playButtonIcon.removeClass("icon-pause").addClass("icon-play");
+          }
         }
       };
 
@@ -107,11 +109,15 @@
       };
 
       MixItemView.prototype.mixPause = function() {
-        return vent.trigger('mix:pause', this.model, $(this.el));
+        if (this.app.audioController.isPlayingId(this.model.id)) {
+          return vent.trigger('mix:pause', this.model, $(this.el));
+        }
       };
 
       MixItemView.prototype.mixResume = function() {
-        return vent.trigger('mix:resume', this.model, $(this.el));
+        if (this.app.audioController.isPlayingId(this.model.id)) {
+          return vent.trigger('mix:resume', this.model, $(this.el));
+        }
       };
 
       MixItemView.prototype.mixFavourite = function() {
