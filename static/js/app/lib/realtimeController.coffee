@@ -1,5 +1,5 @@
-require ['vent', 'socket.io'],
-    ((vent, SocketIO)  ->
+define ['vent', 'socket.io'],
+(vent, SocketIO)  ->
     class RealtimeController
         startSocketIO: ->
             console.log("RealtimeController: SocketIO starting on " + com.podnoms.settings.REALTIME_HOST)
@@ -35,5 +35,3 @@ require ['vent', 'socket.io'],
 
     RealtimeController
 
-, (err) ->
-    console.log("Error locating realtime server, push notification will be disabled")
