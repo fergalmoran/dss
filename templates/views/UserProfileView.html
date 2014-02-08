@@ -15,7 +15,7 @@
                     <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
                         <div class="inline position-relative">
                             <a href="#" class="user-title-label dropdown-toggle" data-toggle="dropdown">
-                                <i class="icon-circle light-green middle"></i>
+                                <i class="fa fa-circle light-green middle"></i>
                                 &nbsp;
                                 <span class="white"><%= display_name %></span>
                             </a>
@@ -23,21 +23,21 @@
                                 <li class="dropdown-header"> Change Status</li>
                                 <li>
                                     <a href="#">
-                                        <i class="icon-circle green"></i>
+                                        <i class="fa fa-circle green"></i>
                                         &nbsp;
                                         <span class="green">Available</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <i class="icon-circle red"></i>
+                                        <i class="fa fa-circle red"></i>
                                         &nbsp;
                                         <span class="red">Busy</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <i class="icon-circle grey"></i>
+                                        <i class="fa fa-circle grey"></i>
                                         &nbsp;
                                         <span class="grey">Invisible</span>
                                     </a>
@@ -51,12 +51,12 @@
                     <div class="profile-contact-links align-left">
                         {% if user.is_authenticated %}
                             <a  id="follow-button" class="btn btn-link <% if (is_following) { %> following-disabled <% } %>" data-bypass="true">
-                                <i class="icon-plus-sign bigger-120 <% if (is_following) { %>red<% } else { %>green <%}%>"></i>
+                                <i class="fa fa-plus-sign bigger-120 <% if (is_following) { %>red<% } else { %>green <%}%>"></i>
                                 <% if (is_following) { %>Unfollow<% } else { %>Follow<%}%>
                             </a>
                         {% else %}
                             <a  id="follow-button-login" class="btn btn-link" data-bypass="true">
-                                <i class="icon-plus-sign bigger-120 green"></i>
+                                <i class="fa fa-plus-sign bigger-120 green"></i>
                                 Login to follow
                             </a>
                         {% endif %}
@@ -64,12 +64,12 @@
                     <br>
                     {% comment %}
                     <a class="btn btn-link" href="#">
-                        <i class="icon-envelope bigger-120 pink"></i>
+                        <i class="fa fa-envelope bigger-120 pink"></i>
                         Send a message
                     </a>
                     {% endcomment %}
                     <a class="btn btn-link" href="<%= url %>">
-                        <i class="icon-globe bigger-125 blue"></i>
+                        <i class="fa fa-globe bigger-125 blue"></i>
                         Profile Link
                     </a>
                 </div>
@@ -77,15 +77,15 @@
                 {% comment %}
                 <div class="profile-social-links center">
                     <a href="#" class="tooltip-info" title="" data-original-title="Visit my Facebook">
-                        <i class="middle icon-facebook-sign icon-2x blue"></i>
+                        <i class="middle fa fa-facebook-sign fa fa-2x blue"></i>
                     </a>
 
                     <a href="#" class="tooltip-info" title="" data-original-title="Visit my Twitter">
-                        <i class="middle icon-twitter-sign icon-2x light-blue"></i>
+                        <i class="middle fa fa-twitter-sign fa fa-2x light-blue"></i>
                     </a>
 
                     <a href="#" class="tooltip-error" title="" data-original-title="Visit my Pinterest">
-                        <i class="middle icon-pinterest-sign icon-2x red"></i>
+                        <i class="middle fa fa-pinterest-sign fa fa-2x red"></i>
                     </a>
                 </div>
                 {% endcomment %}
@@ -95,27 +95,27 @@
         <div class="col-xs-12 col-sm-9">
             <div class="center">
                 <a href="/user/<%= slug %>/mixes" class="btn btn-app btn-sm btn-pink">
-                    <i class="icon-music bigger-230"></i>
+                    <i class="fa fa-music bigger-230"></i>
                     <span class="smaller-90">Mixes</span>
                     <span class="badge badge-warning"><%= mix_count%></span>
                 </a>
                 <a href="/user/<%= slug %>/favourites" class="btn btn-app btn-sm btn-danger">
-                    <i class="icon-star bigger-230"></i>
+                    <i class="fa fa-star bigger-230"></i>
                     <span class="smaller-90">Favourites</span>
                     <span class="badge badge-warning"><%= favourite_count %></span>
                 </a>
                 <a href="/user/<%= slug %>/likes" class="btn btn-app btn-sm btn-purple">
-                    <i class="icon-heart /bigger-230"></i>
+                    <i class="fa fa-heart /bigger-230"></i>
                     <span class="smaller-90">Likes</span>
                     <span class="badge badge-warning"><%= like_count %></span>
                 </a>
                 <a href="/user/<%= slug %>/followers" class="btn btn-app btn-sm btn-default">
-                    <i class="icon-check bigger-230"></i>
+                    <i class="fa fa-check bigger-230"></i>
                     <span class="smaller-90">Followers</span>
                     <span class="badge badge-warning"><%= followers.length %></span>
                 </a>
                 <a href="/user/<%= slug %>/following" class="btn btn-app btn-sm btn-warning">
-                    <i class="icon-share bigger-230"></i>
+                    <i class="fa fa-share bigger-230"></i>
                     <span class="smaller-90">Following</span>
                     <span class="badge badge-warning"><%= following.length %></span>
                 </a>
@@ -125,7 +125,7 @@
                 <div class="profile-info-row">
                     <div class="profile-info-name"> Location</div>
                     <div class="profile-info-value">
-                        <i class="icon-map-marker light-orange bigger-110"></i>
+                        <i class="fa fa-map-marker light-orange bigger-110"></i>
                         <span class="usereditable" id="city" style="display: inline;"><%= city %></span>
                         <span class="usereditable" id="country" style="display: inline;"><%= country %></span>
                     </div>

@@ -6,13 +6,13 @@
                     <button href="#"
                             id="follow-button"
                             class="follow-button btn btn-xs btn-primary icon  <% if (is_following) { %> disabled <% } %>">
-                        <i id="follow-icon" class="icon-eye-close"></i>Follow
+                        <i id="follow-icon" class="fa fa-eye-close"></i>Follow
                     </button>
                 {% else %}
                     <button href="#"
                             id="follow-button-login"
                             class="follow-button btn btn-xs btn-primary icon  <% if (is_following) { %> disabled <% } %>">
-                        <i id="follow-icon" class="icon-eye-close"></i>Follow
+                        <i id="follow-icon" class="fa fa-eye-close"></i>Follow
                     </button>
                 {% endif %}
             </li>
@@ -39,16 +39,16 @@
             <p></p>
 
             <p>
-                | <i class="icon-calendar"></i> Joined: <%= humanise(date_joined) %>
-                | <i class="icon-calendar"></i> Last Seen: <%= humanise(last_login) %>
+                | <i class="fa fa-calendar"></i> Joined: <%= humanise(date_joined) %>
+                | <i class="fa fa-calendar"></i> Last Seen: <%= humanise(last_login) %>
             </p>
 
             <p>
-                | <i class="icon-music"></i> <a href="/user/<%= slug %>"><%= mix_count%> Mixes</a>
-                | <i class="icon-heart"></i> <a href="/user/<%= slug %>/favourites"><%= favourite_count %> Favourites</a>
-                | <i class="icon-star-empty"></i> <a href="/user/<%= slug %>/likes"><%= like_count %> Likes</a>
-                | <i class="icon-check"></i> <a href="/user/<%= slug %>/followers"><%= followers.length %> Followers</a>
-                | <i class="icon-share"></i> <a href="/user/<%= slug %>/following"><%= following.length %> Following</a>
+                | <i class="fa fa-music"></i> <a href="/user/<%= slug %>"><%= mix_count%> Mixes</a>
+                | <i class="fa fa-heart"></i> <a href="/user/<%= slug %>/favourites"><%= favourite_count %> Favourites</a>
+                | <i class="fa fa-star-empty"></i> <a href="/user/<%= slug %>/likes"><%= like_count %> Likes</a>
+                | <i class="fa fa-check"></i> <a href="/user/<%= slug %>/followers"><%= followers.length %> Followers</a>
+                | <i class="fa fa-share"></i> <a href="/user/<%= slug %>/following"><%= following.length %> Following</a>
             </p>
         </div>
     </div>

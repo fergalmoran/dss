@@ -1,30 +1,30 @@
 <div class="col-sm-12">
     <h3 class="header blue smaller">
-        <i class="icon-user"></i>
+        <i class="fa fa-user"></i>
         <a href="/user/<%= slug %>"><%= display_name %></a>
         <span class="pull-right">
             <a class="btn btn-xs btn-success" href="/user/<%= slug %>/mixes">
-                <i class="icon-music"></i>
+                <i class="fa fa-music"></i>
                 Mixes
                 <span class="badge badge-purple"><%= mix_count%></span>
             </a>
             <a class="btn btn-xs btn-success" href="/user/<%= slug %>/favourites">
-                <i class="icon-star"></i>
+                <i class="fa fa-star"></i>
                 Favourites
                 <span class="badge badge-purple"><%= favourite_count %></span>
             </a>
             <a class="btn btn-xs btn-success" href="/user/<%= slug %>/likes">
-                <i class="icon-heart"></i>
+                <i class="fa fa-heart"></i>
                 Likes
                 <span class="badge badge-purple"><%= like_count %></span>
             </a>
             <a class="btn btn-xs btn-success" href="/user/<%= slug %>/followers">
-                <i class="icon-check"></i>
+                <i class="fa fa-check"></i>
                 Followers
                 <span class="badge badge-purple"><%= followers.length %></span>
             </a>
             <a class="btn btn-xs btn-success" href="/user/<%= slug %>/following">
-                <i class="icon-share"></i>
+                <i class="fa fa-share"></i>
                 Following
                 <span class="badge badge-purple"><%= following.length %></span>
             </a>
@@ -41,7 +41,7 @@
             <div class="inline position-relative">
                 <% if (isMe(id)) { %>
                 <a href="#" data-bypass="true" class="user-title-label dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-circle light-green middle"></i>
+                    <i class="fa fa-circle light-green middle"></i>
                     &nbsp;
                     <span class="white"><%= display_name %></span>
                 </a>
@@ -49,21 +49,21 @@
                     <li class="dropdown-header"> Change Status</li>
                     <li>
                         <a href="#" data-bypass="true">
-                            <i class="icon-circle green"></i>
+                            <i class="fa fa-circle green"></i>
                             &nbsp;
                             <span class="green">Available</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" data-bypass="true">
-                            <i class="icon-circle red"></i>
+                            <i class="fa fa-circle red"></i>
                             &nbsp;
                             <span class="red">Busy</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" data-bypass="true">
-                            <i class="icon-circle grey"></i>
+                            <i class="fa fa-circle grey"></i>
                             &nbsp;
                             <span class="grey">Invisible</span>
                         </a>
@@ -71,7 +71,7 @@
                 </ul>
                 <% } else { %>
                 <p class="user-title-label dropdown-toggle">
-                    <i class="icon-circle light-green middle"></i>
+                    <i class="fa fa-circle light-green middle"></i>
                     &nbsp;
                     <span class="white"><%= display_name %></span>
                 </p>
@@ -89,18 +89,18 @@
     </div>
     <div class="col-sm-9 pull-right">
         <div class="pull-right">
-            <i class="icon-calendar"></i>&nbsp;<span class="text-primary">Joined:</span><span class="text-muted">&nbsp;<%= humanise(date_joined) %></span>
-            <i class="icon-calendar"></i>&nbsp;<span class="text-primary">Last Seen:</span><span class="text-muted">&nbsp;<%= humanise(last_login) %></span>
+            <i class="fa fa-calendar"></i>&nbsp;<span class="text-primary">Joined:</span><span class="text-muted">&nbsp;<%= humanise(date_joined) %></span>
+            <i class="fa fa-calendar"></i>&nbsp;<span class="text-primary">Last Seen:</span><span class="text-muted">&nbsp;<%= humanise(last_login) %></span>
         </div>
         {% if user.is_authenticated %}
             <button id="follow-button" class="btn btn-xs <%= is_following ? 'btn-success' : 'btn-danger' %>">
-                <i class="<%= is_following ? 'icon-ok' : 'icon-eye-open' %>"></i>
+                <i class="<%= is_following ? 'fa fa-ok' : 'fa fa-eye-open' %>"></i>
                 <%= is_following == true ? 'Following' : 'Follow' %>
             </button>
         {% else %}
             <button id="follow-button-login"
                     class="follow-button btn btn-xs btn-danger icon">
-                <i id="follow-icon" class="icon-eye-close"></i>Login to Follow
+                <i id="follow-icon" class="fa fa-eye-close"></i>Login to Follow
             </button>
         {% endif %}
     </div>

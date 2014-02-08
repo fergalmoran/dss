@@ -7,7 +7,7 @@
         <div class="mix-profile-insert">
             <h6>
                 <a href="/<%= user_profile_url %>" id="<%= id %>">
-                    <i class="icon-user"></i>&nbsp;<%= user_name %>
+                    <i class="fa fa-user"></i>&nbsp;<%= user_name %>
                 </a>
             </h6>
         </div>
@@ -15,8 +15,8 @@
             <div class="footer-button">
                 <div class="btn-group">
                     <button class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
-                        <i class="icon-share"></i>Share
-                        <span class="icon-caret-down icon-on-right"></span>
+                        <i class="fa fa-share"></i>Share
+                        <span class="fa fa-caret-down fa fa-on-right"></span>
                     </button>
                     <ul class="dropdown-menu">
                         <li>
@@ -84,36 +84,36 @@
                     <div class="like-button footer-button">
                         <a class="btn <% if (liked) { %>btn-pink<% } else { %>btn-light<% } %> btn-xs" id="like-<%= id %>"
                            data-id="<%= id %>">
-                            <i class="icon-heart"></i> Like<% if (liked) { %>d<% } %></a>
+                            <i class="fa fa-heart"></i> Like<% if (liked) { %>d<% } %></a>
                     </div>
                     <div class="favourite-button footer-button">
                         <a class="btn <% if (favourited) { %>btn-pink<% } else { %>btn-light<% } %> btn-xs"
                            id="favourite-<%= id %>"
-                           data-id="<%= id %>"><i class="icon-star-empty"></i> Favourite<% if (favourited) { %>d<% } %></a>
+                           data-id="<%= id %>"><i class="fa fa-star-empty"></i> Favourite<% if (favourited) { %>d<% } %></a>
                     </div>
                 {% endif %}
                 <div class="footer-button">
                     <ul class="list-nostyle list-horiz">
                         <li title="<%= play_count %> Plays" class="stats-item bordered-right">
-                            <span class="icon-play-circle tooltip-success" data-rel="tooltip" data-placement="right"
+                            <span class="fa fa-play-circle tooltip-success" data-rel="tooltip" data-placement="right"
                                   title="" data-original-title="<%= play_count %> Plays">
                                 <%= play_count %>
                             </span>
                         </li>
                         <li title="<%= download_count %> Downloads" class="stats-item bordered-right">
-                            <span class="icon-download-alt tooltip-success" data-rel="tooltip" data-placement="right"
+                            <span class="fa fa-download-alt tooltip-success" data-rel="tooltip" data-placement="right"
                                   title="" data-original-title="<%= download_count %> Downloads">
                                 <%= download_count %>
                             </span>
                         </li>
                         <li title="<%= comment_count %> Comments" class="stats-item bordered-right">
-                            <span class="icon-comment tooltip-success" data-rel="tooltip" data-placement="right"
+                            <span class="fa fa-comment tooltip-success" data-rel="tooltip" data-placement="right"
                                   title="" data-original-title="<%= comment_count %> Comments">
                                 <%= comment_count %>
                             </span>
                         </li>
                         <li title="<%= like_count %> Likes" class="stats-item bordered-right">
-                            <span class="icon-heart tooltip-success" data-rel="tooltip" data-placement="right" title=""
+                            <span class="fa fa-heart tooltip-success" data-rel="tooltip" data-placement="right" title=""
                                   data-original-title="<%= like_count %> Likes">
                                 <%= like_count %>
                             </span>
@@ -123,23 +123,23 @@
                 <% if(can_edit) { %>
                 <div class="edit-button footer-button-right">
                     <a href="/mix/edit/<%= slug %>" class="btn btn-xs"
-                       data-id="<%= id %>"><i class="icon-edit"></i>Edit</a>
+                       data-id="<%= id %>"><i class="fa fa-edit"></i>Edit</a>
                 </div>
                 <div class="delete-button footer-button-right">
                     <a data-bypass="true" class="btn btn-xs btn-danger"
-                       data-id="<%= id %>"><i class="icon-trash"></i>Delete</a>
+                       data-id="<%= id %>"><i class="fa fa-trash"></i>Delete</a>
                 </div>
                 <% } %>
                 <% if (download_allowed) { %>
                 {% if user.is_authenticated %}
                     <div class="download-button footer-button-right">
                         <a class="btn btn-xs btn-success" data-id="<%= id %>">
-                            <i class="icon-download"></i> Download</a>
+                            <i class="fa fa-download"></i> Download</a>
                     </div>
                 {% else %}
                     <div class="login-download-button footer-button-right">
                         <a class="btn btn-xs btn-warning" data-id="<%= id %>">
-                            <i class="icon-download"></i> Login to download</a>
+                            <i class="fa fa-download"></i> Login to download</a>
                     </div>
                 {% endif %}
                 <% } %>

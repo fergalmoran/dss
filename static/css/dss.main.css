@@ -797,3 +797,9 @@ img.mix-listing-image {
 .dss-player-wrapper{
     margin-top: 4px;
 }
+
+[class^="fa-"] {
+  display: inline-block;
+  text-align: center;
+}
+
