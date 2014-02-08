@@ -1,4 +1,5 @@
 import requests
+import redis
 from core.serialisers import json
 from dss import localsettings
 # TODO(fergal.moran@gmail.com): refactor these out to classes to avoid duplicating constants below
@@ -6,8 +7,11 @@ HEADERS = {
     'content-type': 'application/json'
 }
 
+def post_notification(user, message):
+    r = redis.StrictRedis(host='localhost', port=6379, db=0)
+    r.publish('realtime', user.username + ': ' + message)
 
-def post_notification(notification_url, session=None):
+def _post_notification(notification_url, session=None):
     payload = {'message': notification_url}
 
     if session:

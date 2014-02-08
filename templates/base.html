@@ -27,6 +27,8 @@
 
     {% endcompress %}
 
+    {% block headerstyles %}
+    {% endblock %}
     {% block headerscripts %}
     {% endblock %}
     <!--if lt IE 9script(src='http://html5shim.googlecode.com/svn/trunk/html5.js')
@@ -36,6 +38,7 @@
 {% include 'inc/analytics.html' %}
 <div id="header"></div>
 <div class="space-6"></div>
+<div class="ua-message col-md-9">{{ ua_html|safe }}</div>
 <div class="body-content col-md-9" id="content">
     {% block content %}
     {% endblock %}
@@ -51,8 +54,11 @@
 {% compress js %}
     <script src="{{ STATIC_URL }}js/lib/respond.js"></script>
     <script src="{{ STATIC_URL }}js/com.podnoms.storage.js"></script>
+    <script type="text/javascript">
+        var burst = Date.now();
+    </script>
 {% endcompress %}
-<script src="{{ STATIC_URL }}js/lib/require.js" data-main="{{ STATIC_URL }}js/main.js"></script>
+<script src="{{ STATIC_URL }}js/lib/require.js" data-main="{{ STATIC_URL }}js/main.js?bust={{ bust }}"></script>
 
 {% block footerscripts %}
 {% endblock %}

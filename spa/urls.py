@@ -44,6 +44,7 @@ urlpatterns = patterns(
     url(r'_upload/', 'spa.ajax.upload', name='mix_upload'),
     url(r'^ajax/', include(ajax.urls)),
     url(r'^audio/', include(audio.urls)),
+    url(r'^st/events/', 'spa.static.get_events'),
     url(r'^api/', include(api.urls)),
     url(r'^comments/', include('django.contrib.comments.urls')),
     (r'^.*/$', 'spa.views.default')

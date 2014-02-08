@@ -1,9 +1,9 @@
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.db import models
-from tinymce import models as tinymce_models
 from spa.models import Recurrence
 from spa.models.venue import Venue
+
 
 class Event(models.Model):
     class Meta:
@@ -16,8 +16,8 @@ class Event(models.Model):
 
     date_created = models.DateField(default=datetime.now())
     event_title = models.CharField(max_length=250)
-    event_description = tinymce_models.HTMLField()
-    event_recurrence =  models.ForeignKey(Recurrence)
+    event_description = models.TextField()
+    event_recurrence = models.ForeignKey(Recurrence)
 
     attendees = models.ManyToManyField(User, related_name='attendees')
 

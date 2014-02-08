@@ -1,4 +1,5 @@
 import threading
+from django.conf import settings
 import mandrill
 
 from django.db import models
@@ -42,6 +43,7 @@ class Notification(_BaseModel):
              update_fields=None):
 
         self.send_notification_email()
+        post_notification(self.to_user, self.notification_text)
         return super(Notification, self).save(force_insert, force_update, using, update_fields)
 
     def send_notification_email(self):
@@ -62,7 +64,7 @@ class Notification(_BaseModel):
                 'headers': {'Reply-To': 'chatbot@deepsouthsounds.com'},
                 'metadata': {'website': 'www.deepsouthsounds.com'},
                 'subject': self.notification_text,
-                'to': [{'email': self.to_user.email,
+                'to': [{'email': 'fergal.moran@gmail.com' if settings.DEBUG else self.to_user.email,
                         'name': self.to_user.get_nice_name(),
                         'type': 'to'}],
                 'html': rendered,

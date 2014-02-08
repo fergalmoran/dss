@@ -1,15 +1,16 @@
 define ['backbone', 'marionette', 'vent', 'utils', 'underscore',
-        'app.lib/social', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/realtimeController', 'app.lib/audioController',
+        'app.lib/social', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/audioController',
         'models/user/userItem', 'models/mix/mixCollection',
         'views/widgets/headerView', 'views/sidebar/sidebarView'],
 (Backbone, Marionette, vent, utils, _,
- social, DssRouter, PanningRegion, RealtimeController, AudioController,
+ social, DssRouter, PanningRegion, AudioController,
  UserItem, MixCollection,
  HeaderView, SidebarView) ->
     App = new Marionette.Application();
     App.audioController = new AudioController();
-    App.realtimeController = new RealtimeController();
-    App.realtimeController.startSocketIO();
+
+    #App.realtimeController = new RealtimeController();
+    #App.realtimeController.startSocketIO();
 
     App.vent.on "routing:started", ->
         console.log "App(vent): routing:started"

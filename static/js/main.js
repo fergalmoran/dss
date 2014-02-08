@@ -51,11 +51,7 @@ requirejs.config({
         /*End file upload */
 
         'tmpl': 'lib/tmpl',
-        toastr: 'lib/toastr',
-        'socket.io': [
-        com.podnoms.settings.SOCKET_IO_JS_URL,
-        'lib/socket.io'
-        ]
+        toastr: 'lib/toastr'
     },
     shim: {
         jquery: {

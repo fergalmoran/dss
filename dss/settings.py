@@ -48,6 +48,12 @@ SITE_ROOT = here('')
 MEDIA_ROOT = localsettings.MEDIA_ROOT
 STATIC_ROOT = localsettings.STATIC_ROOT
 CACHE_ROOT = localsettings.CACHE_ROOT
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
 
 STATIC_URL = localsettings.STATIC_URL if hasattr(localsettings, 'STATIC_URL') else '/static/'
 
@@ -132,6 +138,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'spa.middleware.cors.XsSharingMiddleware',
     'htmlmin.middleware.HtmlMinifyMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
     #'spa.middleware.uploadify.SWFUploadMiddleware',
     #'spa.middleware.sqlprinter.SqlPrintingMiddleware' if DEBUG else None,
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -172,6 +179,8 @@ INSTALLED_APPS = (
     'dbbackup',
     'jfu',
     'djrill',
+    'paypal.standard.ipn',
+    'django_user_agents',
     #'backbone_tastypie',
 )
 
@@ -272,8 +281,7 @@ if 'test' in sys.argv:
     except ImportError:
         pass
 
+from paymentsettings import *
+
 GEOIP_PATH = localsettings.GEOIP_PATH
 from pipelinesettings import *
-
-
-

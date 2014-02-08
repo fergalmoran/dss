@@ -22,7 +22,6 @@ urlpatterns = patterns('',
                        (r'^grappelli/', include('grappelli.urls')),
                        url(r'^accounts/', include('allauth.urls')),
                        (r'^avatar/', include('avatar.urls')),
-                       (r'^tinymce/', include('tinymce.urls')),
                        url(r'^', include('spa.urls')),
 )
 handler500 = 'spa.views.debug_500'
