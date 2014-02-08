@@ -36,11 +36,11 @@ def app(request):
                     <i class="icon-ok green"></i>
                     Hello
                     <strong class="green">
-                        Firefox user.
+                        &nbsp;Firefox user.
                     </strong>
                     <br />
                     if you are having any problems with the site, please do a
-                    <a href="#" onclick="location.reload(true);">full refresh</a> (CTRL-F5)<br/>
+                    <a href="#" onclick="location.reload(true);">&nbsp;full refresh</a> (CTRL-F5)<br/>
                     if you're still having problems, please clear your cache (CTRL-SHIFT-DEL).
                 </div>"""
 
