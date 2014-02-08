@@ -29,17 +29,12 @@ def app(request):
 
     if request.user_agent.browser.family == 'Firefox':
         context['ua_html'] = \
-            """<div class="alert alert-block alert-success">
+            """<div class="alert alert-block alert-warning">
                     <button type="button" class="close" data-dismiss="alert">
                         <i class="icon-remove"></i>
                     </button>
                     <i class="icon-ok green"></i>
-                    Hello
-                    <strong class="green">
-                        &nbsp;Firefox user.
-                    </strong>
-                    <br />
-                    if you are having any problems with the site, please do a
+                    <strong>Hello Firefox user.</strong> If you are having any problems with the site, please do a
                     <a href="#" onclick="location.reload(true);">&nbsp;full refresh</a> (CTRL-F5)<br/>
                     if you're still having problems, please clear your cache (CTRL-SHIFT-DEL).
                 </div>"""
