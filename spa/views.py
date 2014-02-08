@@ -27,15 +27,16 @@ def app(request):
         'bust': uuid.uuid1()
     }
 
-    if request.user_agent.browser.family == 'Firefox':
+    if request.user_agent.browser.family != 'aaaFirefox':
         context['ua_html'] = \
             """<div class="alert alert-block alert-warning">
                     <button type="button" class="close" data-dismiss="alert">
                         <i class="icon-remove"></i>
                     </button>
-                    <i class="icon-ok green"></i>
+                    <i class="fa fa-eye"></i>
                     <strong>Hello Firefox user.</strong> If you are having any problems with the site, please do a
                     <a href="#" onclick="location.reload(true);">&nbsp;full refresh</a> (CTRL-F5)<br/>
+                    <i class="fa fa-ambulance"></i>
                     if you're still having problems, please clear your cache (CTRL-SHIFT-DEL).
                 </div>"""
 
