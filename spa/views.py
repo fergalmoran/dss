@@ -31,7 +31,7 @@ def app(request):
         context['ua_html'] = \
             """<div class="alert alert-block alert-warning">
                     <button type="button" class="close" data-dismiss="alert">
-                        <i class="fa fa-close"></i>
+                        <i class="fa fa-times"></i>
                     </button>
                     <i class="fa fa-eye"></i>
                     <strong>Hello Firefox user.</strong> If you are having any problems with the site, please do a
