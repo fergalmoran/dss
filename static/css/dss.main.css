@@ -662,7 +662,6 @@ img.flag {
     -webkit-border-top-right-radius: 4px;
 }
 
-
 div.player-body ul.player-controls a {
     display: block;
     overflow: hidden;
@@ -756,8 +755,8 @@ img.mix-listing-image {
 }
 
 .footer-button-right {
-   padding-right: 8px;
-   float: right;
+    padding-right: 8px;
+    float: right;
 }
 
 .audio-timeline-ruler {
@@ -794,12 +793,15 @@ img.mix-listing-image {
     height: .64em;
 }
 
-.dss-player-wrapper{
+.dss-player-wrapper {
     margin-top: 4px;
 }
 
-[class^="fa-"] {
-  display: inline-block;
-  text-align: center;
+.btn > .badge, .btn > .label {
+    top: -2px;
+    right: -2px;
+    padding: 1px 3px;
+    text-align: center;
+    font-size: 12px;
+    position: absolute;
 }
-
