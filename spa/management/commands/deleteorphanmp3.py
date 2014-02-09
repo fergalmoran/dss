@@ -1,15 +1,9 @@
 from dircache import listdir
-import logging
 import os
-import shutil
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import NoArgsCommand
 from os.path import isfile, join
 from dss import settings
 from spa.models import Mix
-
-logger = logging.getLogger('spa')
-
 
 class Command(NoArgsCommand):
     def handle(self, *args, **options):
@@ -27,5 +21,5 @@ class Command(NoArgsCommand):
                     os.rename(f, new_file)
                     print "Moved %s to %s" % (f, new_file)
         except Exception, ex:
-            logger.log(logger.WARNING, "Error: %s" % ex.message)
+            print "Error: %s" % ex.message
 
