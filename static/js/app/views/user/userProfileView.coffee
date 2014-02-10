@@ -17,17 +17,19 @@ define ['app', 'utils', 'moment', 'marionette', 'vent', 'app.lib/editableView', 
 
         onDomRefresh: ->
             console.log("UserProfileView: initialize")
-            @setupImageEditable
-                el: $("#avatar", @el)
-                url: "/ajax/upload_avatar_image/"
-                chooseMessage: "Choose profile image"
+
 
             $.fn.editable.defaults.mode = "inline"
             $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>"
-            $.fn.editableform.buttons = "<button type=\"submit\" class=\"btn btn-info editable-submit\"><i class=\"icon-ok icon-white\"></i></button>" + "<button type=\"button\" class=\"btn editable-cancel\"><i class=\"icon-remove\"></i></button>"
+            $.fn.editableform.buttons = "<button type=\"submit\" class=\"btn btn-info editable-submit\"><i class=\"fa fa-check fa-white\"></i></button>" + "<button type=\"button\" class=\"btn editable-cancel\"><i class=\"fa fa-times fa-white\"></i></button>"
 
             #editables
             if utils.isMe(@model.get("id"))
+                @setupImageEditable
+                    el: $("#avatar", @el)
+                    url: "/ajax/upload_avatar_image/"
+                    chooseMessage: "Choose profile image"
+
                 $("#about", @el).editable
                     mode: "inline"
                     type: "wysiwyg"

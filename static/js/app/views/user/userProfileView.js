@@ -39,15 +39,15 @@
       UserProfileView.prototype.onDomRefresh = function() {
         var _this = this;
         console.log("UserProfileView: initialize");
-        this.setupImageEditable({
-          el: $("#avatar", this.el),
-          url: "/ajax/upload_avatar_image/",
-          chooseMessage: "Choose profile image"
-        });
         $.fn.editable.defaults.mode = "inline";
         $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
-        $.fn.editableform.buttons = "<button type=\"submit\" class=\"btn btn-info editable-submit\"><i class=\"icon-ok icon-white\"></i></button>" + "<button type=\"button\" class=\"btn editable-cancel\"><i class=\"icon-remove\"></i></button>";
+        $.fn.editableform.buttons = "<button type=\"submit\" class=\"btn btn-info editable-submit\"><i class=\"fa fa-check fa-white\"></i></button>" + "<button type=\"button\" class=\"btn editable-cancel\"><i class=\"fa fa-times fa-white\"></i></button>";
         if (utils.isMe(this.model.get("id"))) {
+          this.setupImageEditable({
+            el: $("#avatar", this.el),
+            url: "/ajax/upload_avatar_image/",
+            chooseMessage: "Choose profile image"
+          });
           $("#about", this.el).editable({
             mode: "inline",
             type: "wysiwyg",
