@@ -166,6 +166,8 @@ class UserProfile(_BaseModel):
             return urlparse.urljoin(settings.MEDIA_URL, sized.name)
         except SuspiciousOperation:
             return UserProfile.get_default_avatar_image()
+        except Exception, ex:
+            return UserProfile.get_default_avatar_image()
 
     def get_avatar_image(self):
         avatar_type = self.avatar_type
