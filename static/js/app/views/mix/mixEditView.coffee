@@ -70,6 +70,8 @@ define ['app.lib/editableView',
 	    			<span class="smaller-80 grey">(or click)</span> <br />
 		    		<i class="upload-icon icon-cloud-upload blue icon-3x"></i>'
 
+                maxFilesize: 512
+
                 drop: ->
                     $('.progress', @el).show()
 

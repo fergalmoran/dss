@@ -82,6 +82,7 @@
           dictDefaultMessage: '<span class="bigger-150 bolder"><i class="icon-caret-right red"></i> Drop files</span> to upload\
 	    			<span class="smaller-80 grey">(or click)</span> <br />\
 		    		<i class="upload-icon icon-cloud-upload blue icon-3x"></i>',
+          maxFilesize: 512,
           drop: function() {
             return $('.progress', this.el).show();
           },
