@@ -74,6 +74,10 @@ class UserResource(BackboneCompatibleResource):
         if 'activity_sharing_comments' in kwargs: del kwargs['activity_sharing_comments']
 
         ret = super(UserResource, self).obj_update(bundle, skip_errors, **kwargs)
+
+        bundle.obj.update_follower(bundle.request.user,
+                                    bundle.data['favourited'])
+
         update_geo_info_task.delay(ip_address=bundle.request.META['REMOTE_ADDR'],
                                    profile_id=bundle.request.user.get_profile().id)
         return ret

@@ -59,12 +59,12 @@ define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView",
             $(@el).find("#track-description").attr "href", "#" + data.item_url
 
         trackPlaying: (data) ->
-            $(@el).find("#header-play-button-icon").removeClass "icon-play"
-            $(@el).find("#header-play-button-icon").addClass "icon-pause"
+            $(@el).find("#header-play-button-icon").removeClass "fa-play"
+            $(@el).find("#header-play-button-icon").addClass "fa-pause"
 
         trackPaused: (data) ->
-            $(@el).find("#header-play-button-icon").removeClass "icon-pause"
-            $(@el).find("#header-play-button-icon").addClass "icon-play"
+            $(@el).find("#header-play-button-icon").removeClass "fa-pause"
+            $(@el).find("#header-play-button-icon").addClass "fa-play"
 
         render: ->
             $(@el).html @template()

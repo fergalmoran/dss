@@ -91,13 +91,13 @@ Code provided under the BSD License:
       };
 
       HeaderView.prototype.trackPlaying = function(data) {
-        $(this.el).find("#header-play-button-icon").removeClass("icon-play");
-        return $(this.el).find("#header-play-button-icon").addClass("icon-pause");
+        $(this.el).find("#header-play-button-icon").removeClass("fa-play");
+        return $(this.el).find("#header-play-button-icon").addClass("fa-pause");
       };
 
       HeaderView.prototype.trackPaused = function(data) {
-        $(this.el).find("#header-play-button-icon").removeClass("icon-pause");
-        return $(this.el).find("#header-play-button-icon").addClass("icon-play");
+        $(this.el).find("#header-play-button-icon").removeClass("fa-pause");
+        return $(this.el).find("#header-play-button-icon").addClass("fa-play");
       };
 
       HeaderView.prototype.render = function() {

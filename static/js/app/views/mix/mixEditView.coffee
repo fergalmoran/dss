@@ -4,6 +4,8 @@ define ['app.lib/editableView',
         'ace', 'dropzone', 'wizard', 'ajaxfileupload','jquery.fileupload', 'lib/ace/uncompressed/select2'],
 (EditableView, vent, moment, utils, Syphon, Template, GenreCollection, jDataView) ->
     class MixEditView extends EditableView
+        @func = null
+
         template: _.template(Template)
         events:
             "click #login": "login"
@@ -15,7 +17,7 @@ define ['app.lib/editableView',
 
         initialize: ->
             @guid = utils.generateGuid()
-            @uploadState = 0
+            @uploadState = -1
             @detailsEntered = false
             @patch = false
 
@@ -41,49 +43,39 @@ define ['app.lib/editableView',
             wizard = $("#fuelux-wizard", @el).ace_wizard().on("change",(e, info) =>
                 if info.step is 1 and @uploadState is 0
                     console.log "MixEditView: No mix uploaded"
+                    @ui.uploadError.text("Please add a mix")
                     @ui.uploadError.fadeIn()
+                    false
+                else if @uploadState > 0
+                    true
+                else
                     $('#step1').addClass("alert-danger")
                     false
-                else
-                    true
             ).on("finished", (e) =>
                 console.log("Finished")
                 @saveChanges()
             )
 
             $("#mix-upload-form", @el).dropzone
-                previewTemplate: '<div class=\"dz-preview dz-file-preview\">\n
-                        <div class=\"dz-details\">\n
-                            <div class=\"dz-filename\"><span data-dz-name></span></div>\n
-                            <div class=\"dz-size\" data-dz-size></div>\n
-                            <img data-dz-thumbnail />\n
-                        </div>\n
-                        <div class=\"progress progress-small progress-striped active\">
-                            <div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div>
-                        </div>\n
-                        <div class=\"dz-success-mark\"><span></span></div>\n
-                        <div class=\"dz-error-mark\"><span></span></div>\n
-                        <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n
-                    </div>'
+                addRemoveLinks: true
 
-                dictDefaultMessage : '<span class="bigger-150 bolder"><i class="icon-caret-right red"></i> Drop files</span> to upload
-	    			<span class="smaller-80 grey">(or click)</span> <br />
-		    		<i class="upload-icon icon-cloud-upload blue icon-3x"></i>'
+                dictDefaultMessage: "<span class=\"bigger-150 bolder\"><i class=\"icon-caret-right red\"></i> Drop files</span> to upload \t\t\t\t<span class=\"smaller-80 grey\">(or click)</span> <br /> \t\t\t\t<i class=\"fa fa-cloud-upload fa-5x blue\"></i>"
 
                 maxFilesize: 512
 
-                drop: ->
+                sending: =>
                     $('.progress', @el).show()
+                    @uploadState = 1
 
                 uploadprogress: (e, progress, bytesSent) =>
                     $('.progress', @el).show()
-                    @uploadState = 1
                     percentage = Math.round(progress)
                     @ui.progress.css("width", percentage + "%").parent().attr "data-percent", percentage + "%"
 
-                complete: =>
-                    @uploadState = 2
-                    @checkRedirect()
+                complete: (file)=>
+                    if file.status != "error"
+                        @uploadState = 2
+                        @checkRedirect()
 
             $("#genres", @el).select2
                 placeholder: "Start typing and choose from list or create your own."

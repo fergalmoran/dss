@@ -81,13 +81,13 @@ define ['underscore', 'moment', 'app', 'vent', 'app.lib/dssView', 'utils',
         _setupStateUI: ->
             if @app.audioController.isPlayingId @model.id
                 @ui.playButton.removeClass("play").removeClass("resume").removeClass("pause")
-                @ui.playButtonIcon.removeClass("icon-play").removeClass("icon-pause")
+                @ui.playButtonIcon.removeClass("fa-play").removeClass("fa-pause")
                 if @mixState is 1 #playing
                     @ui.playButton.addClass("pause")
-                    @ui.playButtonIcon.removeClass("icon-play").addClass("icon-pause")
+                    @ui.playButtonIcon.removeClass("fa-play").addClass("fa-pause")
                 else if @mixState is 2 #paused
                     @ui.playButton.addClass("resume")
-                    @ui.playButtonIcon.removeClass("icon-pause").addClass("icon-play")
+                    @ui.playButtonIcon.removeClass("fa-pause").addClass("fa-play")
 
         mixPlay: (button) ->
             vent.trigger('mix:init', @model, $(@el))

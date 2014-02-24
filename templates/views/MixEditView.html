@@ -46,6 +46,15 @@
                         </ul>
                     </div>
 
+                    <div class="alert alert-danger row-fluid" id="mix-upload-error" style="display:none;">
+                        <strong>
+                            <i class="fa fa-remove"></i>
+                            Please add some audio!
+                        </strong>
+                        Drag & drop an mp3 above or click the image to browse
+                        <br>
+                    </div>
+
                     <div class="step-content position-relative" id="step-container">
                         <div class="step-pane active" id="step1">
                             {% include "views/_MixEditView_Step_Mix.html" %}
@@ -59,14 +68,6 @@
                         </div>
                     </div>
                     <div class="row-fluid wizard-actions">
-                        <div class="alert alert-danger pull-left" id="mix-upload-error" style="display:none;">
-                            <strong>
-                                <i class="fa fa-remove"></i>
-                                Please add some audio!
-                            </strong>
-                            Drag & drop an mp3 above or click the image to browse
-                            <br>
-                        </div>
                         <button class="btn btn-prev">
                             <i class="fa fa-arrow-left"></i>
                             Prev

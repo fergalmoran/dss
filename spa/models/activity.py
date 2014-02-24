@@ -14,6 +14,7 @@ ACTIVITYTYPES = (
     ('d', 'downloaded'),
     ('l', 'liked'),
     ('f', 'favourited'),
+    ('l', 'followed')
 )
 
 class Activity(_BaseModel):

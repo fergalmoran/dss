@@ -15,6 +15,8 @@
         return MixEditView.__super__.constructor.apply(this, arguments);
       }
 
+      MixEditView.func = null;
+
       MixEditView.prototype.template = _.template(Template);
 
       MixEditView.prototype.events = {
@@ -30,7 +32,7 @@
 
       MixEditView.prototype.initialize = function() {
         this.guid = utils.generateGuid();
-        this.uploadState = 0;
+        this.uploadState = -1;
         this.detailsEntered = false;
         return this.patch = false;
       };
@@ -55,47 +57,38 @@
         wizard = $("#fuelux-wizard", this.el).ace_wizard().on("change", function(e, info) {
           if (info.step === 1 && _this.uploadState === 0) {
             console.log("MixEditView: No mix uploaded");
+            _this.ui.uploadError.text("Please add a mix");
             _this.ui.uploadError.fadeIn();
+            return false;
+          } else if (_this.uploadState > 0) {
+            return true;
+          } else {
             $('#step1').addClass("alert-danger");
             return false;
-          } else {
-            return true;
           }
         }).on("finished", function(e) {
           console.log("Finished");
           return _this.saveChanges();
         });
         $("#mix-upload-form", this.el).dropzone({
-          previewTemplate: '<div class=\"dz-preview dz-file-preview\">\n\
-                        <div class=\"dz-details\">\n\
-                            <div class=\"dz-filename\"><span data-dz-name></span></div>\n\
-                            <div class=\"dz-size\" data-dz-size></div>\n\
-                            <img data-dz-thumbnail />\n\
-                        </div>\n\
-                        <div class=\"progress progress-small progress-striped active\">\
-                            <div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div>\
-                        </div>\n\
-                        <div class=\"dz-success-mark\"><span></span></div>\n\
-                        <div class=\"dz-error-mark\"><span></span></div>\n\
-                        <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n\
-                    </div>',
-          dictDefaultMessage: '<span class="bigger-150 bolder"><i class="icon-caret-right red"></i> Drop files</span> to upload\
-	    			<span class="smaller-80 grey">(or click)</span> <br />\
-		    		<i class="upload-icon icon-cloud-upload blue icon-3x"></i>',
+          addRemoveLinks: true,
+          dictDefaultMessage: "<span class=\"bigger-150 bolder\"><i class=\"icon-caret-right red\"></i> Drop files</span> to upload \t\t\t\t<span class=\"smaller-80 grey\">(or click)</span> <br /> \t\t\t\t<i class=\"fa fa-cloud-upload fa-5x blue\"></i>",
           maxFilesize: 512,
-          drop: function() {
-            return $('.progress', this.el).show();
+          sending: function() {
+            $('.progress', _this.el).show();
+            return _this.uploadState = 1;
           },
           uploadprogress: function(e, progress, bytesSent) {
             var percentage;
             $('.progress', _this.el).show();
-            _this.uploadState = 1;
             percentage = Math.round(progress);
             return _this.ui.progress.css("width", percentage + "%").parent().attr("data-percent", percentage + "%");
           },
-          complete: function() {
-            _this.uploadState = 2;
-            return _this.checkRedirect();
+          complete: function(file) {
+            if (file.status !== "error") {
+              _this.uploadState = 2;
+              return _this.checkRedirect();
+            }
           }
         });
         $("#genres", this.el).select2({

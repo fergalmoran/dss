@@ -5,6 +5,7 @@ from os.path import isfile, join
 from dss import settings
 from spa.models import Mix
 
+
 class Command(NoArgsCommand):
     def handle(self, *args, **options):
         try:
@@ -22,6 +23,9 @@ class Command(NoArgsCommand):
                     new_file = os.path.join(expired_path, f)
                     os.rename(os.path.join(mixes_path, f), new_file)
                     print "Moved %s to %s" % (f, new_file)
+                except Exception, ex:
+                    print "Error in file: %s" % ex.message
+
         except Exception, ex:
             print "Error: %s" % ex.message
 

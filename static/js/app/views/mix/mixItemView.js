@@ -93,13 +93,13 @@
       MixItemView.prototype._setupStateUI = function() {
         if (this.app.audioController.isPlayingId(this.model.id)) {
           this.ui.playButton.removeClass("play").removeClass("resume").removeClass("pause");
-          this.ui.playButtonIcon.removeClass("icon-play").removeClass("icon-pause");
+          this.ui.playButtonIcon.removeClass("fa-play").removeClass("fa-pause");
           if (this.mixState === 1) {
             this.ui.playButton.addClass("pause");
-            return this.ui.playButtonIcon.removeClass("icon-play").addClass("icon-pause");
+            return this.ui.playButtonIcon.removeClass("fa-play").addClass("fa-pause");
           } else if (this.mixState === 2) {
             this.ui.playButton.addClass("resume");
-            return this.ui.playButtonIcon.removeClass("icon-pause").addClass("icon-play");
+            return this.ui.playButtonIcon.removeClass("fa-pause").addClass("fa-play");
           }
         }
       };
