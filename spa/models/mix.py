@@ -94,7 +94,7 @@ class Mix(_BaseModel):
 
         super(Mix, self).save(force_insert, force_update, using, update_fields)
 
-    def create_mp3_tags(self):
+    def create_mp3_tags(self, prefix=""):
         try:
             image = get_thumbnail(self.mix_image, '300x300', crop='center')
             tag_mp3(
