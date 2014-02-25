@@ -108,7 +108,7 @@ class Mix(_BaseModel):
                 image_file=os.path.join(image.storage.base_location, image.name),
                 genre=self.genres)
         except Exception, ex:
-            self.logger.error("Mix: error creating tags: %s" % ex.message)
+            self.logger.exception("Mix: error creating tags: %s" % ex.message)
             pass
 
         return '%s/mixes/%s%s.%s' % (settings.MEDIA_ROOT, prefix, self.uid, self.filetype)
