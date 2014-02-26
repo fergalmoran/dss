@@ -60,6 +60,7 @@ class Mix(_BaseModel):
     is_featured = models.BooleanField(default=True)
     user = models.ForeignKey(UserProfile, editable=False, related_name='mixes')
     waveform_generated = models.BooleanField(default=False)
+    mp3tags_updated = models.BooleanField(default=False)
     uid = models.CharField(max_length=38, blank=True, unique=True)
     filetype = models.CharField(max_length=10, blank=False, default="mp3")
     download_allowed = models.BooleanField(default=False)
@@ -96,7 +97,6 @@ class Mix(_BaseModel):
 
     def create_mp3_tags(self, prefix=""):
         try:
-            image = get_thumbnail(self.mix_image, '300x300', crop='center')
             tag_mp3(
                 self.get_absolute_path(),
                 artist=self.user.get_nice_name(),
@@ -105,13 +105,15 @@ class Mix(_BaseModel):
                 album="Deep South Sounds Mixes",
                 year=self.upload_date.year,
                 comment=self.description,
-                image_file=os.path.join(image.storage.base_location, image.name),
-                genre=self.genres)
+                genres=self.get_nice_genres())
         except Exception, ex:
             self.logger.exception("Mix: error creating tags: %s" % ex.message)
             pass
 
         return '%s/mixes/%s%s.%s' % (settings.MEDIA_ROOT, prefix, self.uid, self.filetype)
+
+    def get_nice_genres(self):
+        return ", ".join(list(self.genres.all().values_list("description", flat=True)))
 
     def get_cache_path(self, prefix=""):
         return '%s/mixes/%s%s.%s' % (settings.CACHE_ROOT, prefix, self.uid, self.filetype)

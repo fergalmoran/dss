@@ -11,29 +11,19 @@ def mp3_length(source_file):
     except IOError:
         raise Mp3FileNotFoundException("Audio file not found: %s" % source_file)
 
-def tag_mp3(source_file, artist, title, url="", album="", year="", comment="", image_file="", genre=[]):
-    #mp3Object.tags.add(APIC(encoding=3, mime=image[1], type=3, desc=u'Cover', data=open(image[0]).read()))
 
+def tag_mp3(source_file, artist, title, url="", album="", year="", comment="", genres=""):
     try:
-        audio = ID3(source_file)
-    except mutagen.id3.error:
-        audio = ID3()
+        audio = EasyID3(source_file)
+    except mutagen.id3.ID3NoHeaderError:
+        audio = mutagen.File(source_file, easy=True)
+        audio.add_tags()
 
-    audio.add(TPE1(encoding=3, text=unicode(artist)))
-    audio.add(TIT2(encoding=3, text=unicode(title)))
-    audio.add(TALB(encoding=3, text=unicode(album)))
-    audio.add(TCON(encoding=3, text=unicode("Deep House")))
-    audio.add(TPE1(encoding=3, text=unicode(artist)))
-    audio.add(COMM(encoding=3, lang="eng", desc="", text=unicode(comment)))
-    audio.add(TDRC(encoding=3, text=unicode(year)))
+    audio["artist"] = artist
+    audio["title"] = title
+    audio["genre"] = genres
+    audio["website"] = url
+    audio["copyright"] = "Deep South Sounds"
+    audio["album"] = album
 
-    image = mutagen.id3.APIC(
-        encoding=3,
-        mime='image/jpeg',
-        type=2,
-        desc=u'Cover',
-        data=open(image_file, 'rb').read()
-    )
-    audio.add(image)
-    audio.save(source_file)
-
+    audio.save(v1=2)
