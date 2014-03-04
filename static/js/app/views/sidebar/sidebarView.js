@@ -25,6 +25,7 @@
         this.listenTo(vent, 'mix:play', this.mixPlay);
         this.listenTo(vent, 'mix:pause', this.mixPause);
         this.listenTo(vent, 'live:started', this.liveStarted);
+        this.listenTo(vent, 'live:stopped', this.liveStopped);
       };
 
       SidebarView.prototype.onRender = function() {};
@@ -45,8 +46,10 @@
         var _this = this;
         console.log("SidebarView: livePlay");
         $.getJSON("ajax/live_now_playing/", function(data) {
+          vent.trigger('mix:stop');
           $(_this.topRegion.el).show();
           return _this.topRegion.show(new NowPlayingView({
+            template: '',
             model: new Backbone.Model({
               mix_image: "/static/img/radio.jpg",
               item_url: "",
@@ -57,6 +60,10 @@
           }));
         });
         return true;
+      };
+
+      SidebarView.prototype.liveStopped = function() {
+        return this.topRegion.close();
       };
 
       return SidebarView;

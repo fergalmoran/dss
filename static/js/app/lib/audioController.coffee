@@ -8,6 +8,7 @@ define ['app', 'marionette', 'vent', 'utils', 'soundmanager2', 'peneloplay'],
             @listenTo(vent, 'mix:play', @mixPlay)
             @listenTo(vent, 'mix:pause', @mixPause)
             @listenTo(vent, 'mix:resume', @mixResume)
+            @listenTo(vent, 'playing:destroy', @playingDestroy)
             @listenTo(vent, 'live:play', @livePlay)
             @listenTo(vent, 'live:pause', @livePause)
 
@@ -66,15 +67,22 @@ define ['app', 'marionette', 'vent', 'utils', 'soundmanager2', 'peneloplay'],
             console.log("AudioController: mixResume")
             peneloplay.resume();
 
+        playingDestroy: ->
+            peneloplay.stopPlaying()
+
         livePlay: ->
             console.log("AudioController: livePlay")
+            vent.trigger('mix:stop')
             peneloplay.playLive
                 success: ->
                     console.log("Live stream started")
                     vent.trigger('live:started')
         livePause: ->
             console.log("AudioController: livePause")
-            peneloplay.stopLive()
+            peneloplay.stopLive
+                success: ->
+                    console.log("Live stream started")
+                    vent.trigger('live:stopped')
 
     AudioController
 

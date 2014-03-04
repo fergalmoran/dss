@@ -48,6 +48,9 @@ class Notification(_BaseModel):
 
     def send_notification_email(self):
         try:
+            if settings.DEBUG:
+                return
+
             t = loader.get_template('email/notification/new.html')
             c = Context({
                 'user_name': self.to_user.get_nice_name(),

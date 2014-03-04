@@ -21,6 +21,7 @@
         this.listenTo(vent, 'mix:play', this.mixPlay);
         this.listenTo(vent, 'mix:pause', this.mixPause);
         this.listenTo(vent, 'mix:resume', this.mixResume);
+        this.listenTo(vent, 'playing:destroy', this.playingDestroy);
         this.listenTo(vent, 'live:play', this.livePlay);
         this.listenTo(vent, 'live:pause', this.livePause);
         return soundManager.setup({
@@ -90,8 +91,13 @@
         return peneloplay.resume();
       };
 
+      AudioController.prototype.playingDestroy = function() {
+        return peneloplay.stopPlaying();
+      };
+
       AudioController.prototype.livePlay = function() {
         console.log("AudioController: livePlay");
+        vent.trigger('mix:stop');
         return peneloplay.playLive({
           success: function() {
             console.log("Live stream started");
@@ -102,7 +108,12 @@
 
       AudioController.prototype.livePause = function() {
         console.log("AudioController: livePause");
-        return peneloplay.stopLive();
+        return peneloplay.stopLive({
+          success: function() {
+            console.log("Live stream started");
+            return vent.trigger('live:stopped');
+          }
+        });
       };
 
       return AudioController;

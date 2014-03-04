@@ -34,6 +34,7 @@ define ['underscore', 'moment', 'app', 'vent', 'app.lib/dssView', 'utils',
             @listenTo(@model, 'change:liked', @render)
             @listenTo(@model, 'nested-change', @render)
             @listenTo(vent, 'mix:init', @onMixInit)
+            @listenTo(vent, 'mix:stop', @onMixStop)
             @listenTo(vent, 'mix:resume', @onMixStateChanged)
             @listenTo(vent, 'mix:pause', @onMixStateChanged)
 
@@ -67,8 +68,12 @@ define ['underscore', 'moment', 'app', 'vent', 'app.lib/dssView', 'utils',
             @mixState = 1
             @_setupStateUI()
 
+        onMixStop: ->
+            @mixState = 0
+            @ui.playButton.addClass("play").removeClass("resume").removeClass("pause")
+            @ui.playButtonIcon.addClass("fa-play").removeClass("fa-pause")
+
         onMixStateChanged: ->
-            console.log("***** state is " + @state)
             if @app.audioController.isPlayingId @model.id
                 if @mixState is 0 #init
                     @mixState = 1

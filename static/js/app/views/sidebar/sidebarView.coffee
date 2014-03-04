@@ -13,6 +13,7 @@ define ['underscore', 'backbone', 'marionette', 'vent', 'views/activity/activity
             this.listenTo(vent, 'mix:play', @mixPlay)
             this.listenTo(vent, 'mix:pause', @mixPause)
             this.listenTo(vent, 'live:started', @liveStarted)
+            this.listenTo(vent, 'live:stopped', @liveStopped)
             return
 
         onRender: ->
@@ -30,8 +31,10 @@ define ['underscore', 'backbone', 'marionette', 'vent', 'views/activity/activity
         liveStarted: ->
             console.log "SidebarView: livePlay"
             $.getJSON "ajax/live_now_playing/", (data) =>
+                vent.trigger('mix:stop')
                 $(@topRegion.el).show()
                 @topRegion.show(new NowPlayingView({
+                    template: ''
                     model: new Backbone.Model({
                         mix_image: "/static/img/radio.jpg",
                         item_url: "",
@@ -41,6 +44,9 @@ define ['underscore', 'backbone', 'marionette', 'vent', 'views/activity/activity
                     })
                 }))
             true
+
+        liveStopped: ->
+            @topRegion.close()
 
     SidebarView
 

@@ -9,7 +9,7 @@ from django.db import models
 from core.utils import url
 from core.utils.audio import Mp3FileNotFoundException
 from core.utils.audio.mp3 import mp3_length, tag_mp3
-from core.utils.url import unique_slugify
+from core.utils.url import unique_slugify, url_path_join
 from spa.models.activity import ActivityDownload, ActivityPlay, ActivityFavourite, ActivityLike
 from spa.models.genre import Genre
 from dss import settings, localsettings
@@ -167,7 +167,8 @@ class Mix(_BaseModel):
         return super(Mix, self).get_image_url(self.mix_image, settings.STATIC_URL + 'img/default-track.png')
 
     def get_stream_path(self):
-        return '%s/%s.mp3' % (localsettings.STREAM_URL, self.uid)
+        ret = url_path_join(localsettings.STREAM_URL, "%s.mp3" % self.uid)
+        return ret
 
     #used for podcast xml
     def get_date_as_rfc822(self):

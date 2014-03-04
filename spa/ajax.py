@@ -102,15 +102,15 @@ def get_mix_stream_url(request, mix_id):
         mix = Mix.objects.get(pk=mix_id)
         mix.add_play(request.user)
         data = {
-        'stream_url': mix.get_stream_path(),
-        'description': mix.description,
-        'item_url': mix.get_absolute_url(),
-        'title': mix.title
+            'stream_url': mix.get_stream_path(),
+            'description': mix.description,
+            'item_url': mix.get_absolute_url(),
+            'title': mix.title
         }
         return HttpResponse(simplejson.dumps(data), mimetype="application/json")
     except Exception, e:
         logger.exception("Error getting mix stream url")
-        return HttpResponse("Error getting mix stream url", status=401)
+        raise #HttpResponse("Error getting mix stream url", status=401)
 
 
 def live_now_playing(request):

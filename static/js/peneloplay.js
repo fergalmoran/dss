@@ -103,8 +103,8 @@ define(["jquery", "soundmanager2"], function ($, soundManager) {
             ui.playedOverlay.show();
             ui.playedOverlay.animate({top: ui.waveform.position().top, left: ui.waveform.position().left, height: ui.waveform.height()});
 
-            if (_player){
-                if (_player.paused){
+            if (_player) {
+                if (_player.paused) {
                     var percentageWidth = (bounds.waveformWidth / 100) * ((_player.position / Peneloplay._getCalculatedDuration()) * 100);
                     ui.playedOverlay.css('width', percentageWidth);
                 }
@@ -142,13 +142,33 @@ define(["jquery", "soundmanager2"], function ($, soundManager) {
             if (_player.paused)
                 _player.resume();
         },
-        getMixState: function(){
+        getMixState: function () {
             if (!_player || _player.playState === 0)
                 return 0;
             else if (_player.paused)
                 return 2;
 
             return 1;
+        },
+        playLive: function () {
+            var args = arguments;
+            Peneloplay.stopPlaying();
+            _player = soundManager.createSound({
+                id: 'com.podnoms.player-live',
+                url: com.podnoms.settings.liveStreamRoot,
+                volume: 50,
+                stream: true,
+                useMovieStar: true,
+            });
+            _player.play({
+                onplay: function () {
+                    args[0].success();
+                }
+            });
+        },
+        stopLive: function(){
+            Peneloplay.stopPlaying();
+            arguments[0].success();
         }
     };
     return Peneloplay;

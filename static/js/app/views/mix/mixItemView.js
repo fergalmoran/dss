@@ -48,6 +48,7 @@
         this.listenTo(this.model, 'change:liked', this.render);
         this.listenTo(this.model, 'nested-change', this.render);
         this.listenTo(vent, 'mix:init', this.onMixInit);
+        this.listenTo(vent, 'mix:stop', this.onMixStop);
         this.listenTo(vent, 'mix:resume', this.onMixStateChanged);
         this.listenTo(vent, 'mix:pause', this.onMixStateChanged);
         this.app = require('app');
@@ -76,8 +77,13 @@
         return this._setupStateUI();
       };
 
+      MixItemView.prototype.onMixStop = function() {
+        this.mixState = 0;
+        this.ui.playButton.addClass("play").removeClass("resume").removeClass("pause");
+        return this.ui.playButtonIcon.addClass("fa-play").removeClass("fa-pause");
+      };
+
       MixItemView.prototype.onMixStateChanged = function() {
-        console.log("***** state is " + this.state);
         if (this.app.audioController.isPlayingId(this.model.id)) {
           if (this.mixState === 0) {
             this.mixState = 1;
