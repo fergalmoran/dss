@@ -33,6 +33,7 @@ define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView",
 
         initialize: ->
             @render()
+            @listenTo vent, "live:stop", @liveStopped
             @listenTo vent, "mix:play", @trackPlaying
             @listenTo vent, "mix:pause", @trackPaused
 
@@ -72,16 +73,18 @@ define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView",
 
         playLive: ->
             console.log("HeaderView: playLive")
-            $(@ui.liveButton).toggleClass('btn-success', false)
-            .toggleClass('btn-danger', true)
+            $(@ui.liveButton).toggleClass('btn-success', false).toggleClass('btn-danger', true)
 
             vent.trigger('live:play')
 
         pauseLive: ->
             console.log("HeaderView: pauseLive")
-            $(@ui.liveButton).toggleClass('btn-success', true)
-            .toggleClass('btn-danger', false)
+            $(@ui.liveButton).toggleClass('btn-success', true).toggleClass('btn-danger', false)
 
             vent.trigger('live:pause')
+
+        liveStopped: ->
+            console.log("HeaderView: liveStopped")
+            $(@ui.liveButton).toggleClass('btn-success', true).toggleClass('btn-danger', false)
 
     HeaderView

@@ -41,6 +41,7 @@ define ['app', 'marionette', 'vent', 'utils', 'soundmanager2', 'peneloplay'],
                 peneloplay.startPlaying
                     success: =>
                         vent.trigger("mix:play", model)
+                        vent.trigger("live:stop")
                         utils.checkPlayCount()
                         return
                     error: =>

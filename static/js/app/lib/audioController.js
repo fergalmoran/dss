@@ -58,6 +58,7 @@
           peneloplay.startPlaying({
             success: function() {
               vent.trigger("mix:play", model);
+              vent.trigger("live:stop");
               utils.checkPlayCount();
             },
             error: function() {

@@ -17,6 +17,7 @@ ACTIVITYTYPES = (
     ('l', 'followed')
 )
 
+
 class Activity(_BaseModel):
     objects = InheritanceManager()
     user = models.ForeignKey(UserProfile, null=True, blank=True)
@@ -31,11 +32,13 @@ class Activity(_BaseModel):
             notification.from_user = self.user
             notification.to_user = self.get_target_user()
             notification.notification_text = "%s %s %s" % (
-                self.user.get_nice_name() or "Anonymouse", self.get_verb_past(), self.get_object_name_for_notification())
+                self.user.get_nice_name() if self.user is not None else "Anonymouse",
+                self.get_verb_past(),
+                self.get_object_name_for_notification())
 
             notification.notification_html = "<a href='%s'>%s</a> %s <a href='%s'>%s</a>" % (
-                wrap_full(self.user.get_profile_url() or "http://deepsounds.com"),
-                self.user.get_nice_name() or "Anonymouse",
+                wrap_full(self.user.get_profile_url() if self.user is not None else ""),
+                self.user.get_nice_name() if self.user is not None else "Anonymouse",
                 self.get_verb_past(),
                 wrap_full(self.get_object_url()),
                 self.get_object_name_for_notification()
@@ -112,6 +115,7 @@ class ActivityFavourite(Activity):
     def get_verb_past(self):
         return "favourited"
 
+
 class ActivityPlay(Activity):
     mix = models.ForeignKey('spa.Mix', related_name='activity_plays')
 
@@ -167,6 +171,7 @@ class ActivityDownload(Activity):
 
     def get_verb_past(self):
         return "downloaded"
+
 
 class ActivityComment(Activity):
     mix = models.ForeignKey('spa.Mix', related_name='activity_comments')

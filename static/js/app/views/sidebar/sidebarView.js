@@ -38,18 +38,18 @@
       SidebarView.prototype.mixInit = function(model) {
         $(this.topRegion.el).show();
         return this.topRegion.show(new NowPlayingView({
+          source: 'mix',
           model: model
         }));
       };
 
       SidebarView.prototype.liveStarted = function() {
         var _this = this;
-        console.log("SidebarView: livePlay");
-        $.getJSON("ajax/live_now_playing/", function(data) {
+        $(this.topRegion.el).show();
+        $.getJSON("/ajax/live_now_playing/", function(data) {
           vent.trigger('mix:stop');
-          $(_this.topRegion.el).show();
           return _this.topRegion.show(new NowPlayingView({
-            template: '',
+            source: 'live',
             model: new Backbone.Model({
               mix_image: "/static/img/radio.jpg",
               item_url: "",

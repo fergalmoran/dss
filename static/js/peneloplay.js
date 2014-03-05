@@ -111,11 +111,12 @@ define(["jquery", "soundmanager2"], function ($, soundManager) {
             }
             Peneloplay._hookupMouseEntryEvents();
         },
-        startPlaying: function (success, error) {
+        startPlaying: function () {
             console.log("Starting to play");
             Peneloplay.setupUIWidgets();
             //clear any existing sounds
             Peneloplay.stopPlaying();
+            var args = arguments;
             _player = soundManager.createSound({
                 id: 'pnp-current-sound',
                 url: _src,
@@ -130,8 +131,11 @@ define(["jquery", "soundmanager2"], function ($, soundManager) {
                     ui.timeElapsed.text(_secondsToHms(_player.position / 1000));
                 }
             });
-            _player.play();
-
+            _player.play({
+                onplay: function () {
+                    args[0].success();
+                }
+            });
             Peneloplay._hookupMouseEntryEvents();
         },
         pause: function () {

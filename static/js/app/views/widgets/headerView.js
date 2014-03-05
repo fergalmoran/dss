@@ -57,6 +57,7 @@ Code provided under the BSD License:
 
       HeaderView.prototype.initialize = function() {
         this.render();
+        this.listenTo(vent, "live:stop", this.liveStopped);
         this.listenTo(vent, "mix:play", this.trackPlaying);
         return this.listenTo(vent, "mix:pause", this.trackPaused);
       };
@@ -115,6 +116,11 @@ Code provided under the BSD License:
         console.log("HeaderView: pauseLive");
         $(this.ui.liveButton).toggleClass('btn-success', true).toggleClass('btn-danger', false);
         return vent.trigger('live:pause');
+      };
+
+      HeaderView.prototype.liveStopped = function() {
+        console.log("HeaderView: liveStopped");
+        return $(this.ui.liveButton).toggleClass('btn-success', true).toggleClass('btn-danger', false);
       };
 
       return HeaderView;

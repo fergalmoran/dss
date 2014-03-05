@@ -26,15 +26,17 @@ define ['underscore', 'backbone', 'marionette', 'vent', 'views/activity/activity
 
         mixInit: (model) ->
             $(@topRegion.el).show()
-            @topRegion.show(new NowPlayingView({model: model}))
+            @topRegion.show(new NowPlayingView({
+                source: 'mix',
+                model: model
+            }))
 
         liveStarted: ->
-            console.log "SidebarView: livePlay"
-            $.getJSON "ajax/live_now_playing/", (data) =>
+            $(@topRegion.el).show()
+            $.getJSON "/ajax/live_now_playing/", (data) =>
                 vent.trigger('mix:stop')
-                $(@topRegion.el).show()
                 @topRegion.show(new NowPlayingView({
-                    template: ''
+                    source: 'live'
                     model: new Backbone.Model({
                         mix_image: "/static/img/radio.jpg",
                         item_url: "",

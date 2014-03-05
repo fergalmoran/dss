@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['marionette', 'vent', 'text!/tpl/NowPlayingView'], function(Marionette, vent, Template) {
+  define(['marionette', 'vent', 'text!/tpl/NowPlayingView', 'text!/tpl/LiveNowPlayingView'], function(Marionette, vent, MixTemplate, LiveTemplate) {
     var NowPlayingView;
     NowPlayingView = (function(_super) {
 
@@ -13,8 +13,6 @@
         return NowPlayingView.__super__.constructor.apply(this, arguments);
       }
 
-      NowPlayingView.prototype.template = _.template(Template);
-
       NowPlayingView.prototype.className = "now-playing";
 
       NowPlayingView.prototype.events = {
@@ -22,8 +20,14 @@
         "click #now-playing-pause": "doPause"
       };
 
-      NowPlayingView.prototype.initialize = function() {
-        console.log("NowPlayingView: initialize");
+      NowPlayingView.prototype.initialize = function(options) {
+        console.log("NowPlayingView: initialize " + options.source);
+        this.source = options.source;
+        if (options.source === 'mix') {
+          this.template = _.template(MixTemplate);
+        } else {
+          this.template = _.template(LiveTemplate);
+        }
         this.listenTo(vent, 'mix:play', this.mixPlay);
         this.listenTo(vent, 'mix:pause', this.mixPause);
         $('#now-playing-pause', this.el).hide();

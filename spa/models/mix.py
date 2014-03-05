@@ -134,14 +134,12 @@ class Mix(_BaseModel):
         return os.path.join(settings.MEDIA_ROOT, "waveforms/", "%s.%s" % (self.uid, "png"))
 
     def get_waveform_url(self):
-        waveform_path = self.get_waveform_path()
-        if self.waveform_generated and os.path.exists(waveform_path):
+        if self.waveform_generated:
             waveform_root = localsettings.WAVEFORM_URL if hasattr(localsettings,
                     'WAVEFORM_URL') else "%swaveforms" % settings.MEDIA_URL
 
             ret = "%s/%s.%s" % (waveform_root, self.uid, "png")
             return url.urlclean(ret)
-
         else:
             return urlparse.urljoin(settings.STATIC_URL, "img/waveform-processing.gif")
 
@@ -159,6 +157,7 @@ class Mix(_BaseModel):
             ret = get_thumbnail(self.mix_image, size, crop='center')
             return "%s/%s" % (settings.MEDIA_URL, ret.name)
         except Exception, ex:
+            import ipdb; ipdb.set_trace()
             self.logger.error("Mix: error getting mix image %s" % ex.message)
             social_image = self._get_social_image()
             if social_image:

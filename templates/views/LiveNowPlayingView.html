@@ -1,0 +1,31 @@
+<div class="widget-header widget-header-flat widget-header-small">
+    <h5>
+        <i class="fa fa-music icon-animated-music"></i>
+        Deep South Sounds Radio
+    </h5>
+</div>
+
+<div class="widget-body">
+    <div class="profile-activity clearfix">
+        <div>
+            <%= title %>
+            <div class="time">
+                <i class="fa fa-headphones icon-animated-headphones bigger-110"></i>
+                <%= user_name %>
+            </div>
+        </div>
+        {% comment %}
+        <a id="now-playing-playing-toggle" class="now-playing-play player-button">
+            <span class="accessible-description">Play Button</span>
+        </a>
+        {% endcomment %}
+        <div class="now-playing-tools action-buttons">
+            <a id="now-playing-play" href="#" class="blue" data-bypass="true">
+                <i class="fa fa-play bigger-125"></i>
+            </a>
+            <a id="now-playing-pause" href="#" class="red" data-bypass="true">
+                <i class="fa fa-pause bigger-125"></i>
+            </a>
+        </div>
+    </div>
+</div>

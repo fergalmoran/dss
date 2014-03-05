@@ -1,8 +1,7 @@
-define ['marionette', 'vent', 'text!/tpl/NowPlayingView'],
-(Marionette, vent, Template) ->
+define ['marionette', 'vent', 'text!/tpl/NowPlayingView', 'text!/tpl/LiveNowPlayingView'],
+(Marionette, vent, MixTemplate, LiveTemplate) ->
 
     class NowPlayingView extends Marionette.ItemView
-        template: _.template(Template)
         className: "now-playing"
 
         events: {
@@ -10,8 +9,14 @@ define ['marionette', 'vent', 'text!/tpl/NowPlayingView'],
             "click #now-playing-pause": "doPause"
         }
 
-        initialize: ->
-            console.log "NowPlayingView: initialize"
+        initialize: (options)->
+            console.log "NowPlayingView: initialize " + options.source
+            @source = options.source
+            if options.source is 'mix'
+                @template = _.template(MixTemplate)
+            else
+                @template = _.template(LiveTemplate)
+
             @listenTo(vent, 'mix:play', @mixPlay)
             @listenTo(vent, 'mix:pause', @mixPause)
             $('#now-playing-pause', @el).hide()
