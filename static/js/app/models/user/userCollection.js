@@ -13,14 +13,22 @@
         return UserCollection.__super__.constructor.apply(this, arguments);
       }
 
+      UserCollection.prototype.model = UserItem;
+
       UserCollection.prototype.page = 0;
 
       UserCollection.prototype.limit = 20;
 
-      UserCollection.prototype.model = UserItem;
-
       UserCollection.prototype.url = function() {
         return com.podnoms.settings.urlRoot + "user/?limit=" + this.limit + "&offset=" + Math.max(this.page - 1, 0) * this.limit;
+      };
+
+      UserCollection.prototype.initialize = function() {
+        console.clear();
+        if (!UserItem) {
+          this.model = require('models/user/userItem');
+        }
+        return console.log("Argle bargle");
       };
 
       return UserCollection;

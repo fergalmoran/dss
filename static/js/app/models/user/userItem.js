@@ -15,6 +15,15 @@
 
       UserItem.prototype.urlRoot = com.podnoms.settings.urlRoot + "user/";
 
+      UserItem.prototype.relations = [
+        {
+          type: Backbone.Many,
+          key: "followers",
+          relatedModel: Backbone.Self,
+          collectionType: UserCollection
+        }
+      ];
+
       return UserItem;
 
     })(DssModel);

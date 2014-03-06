@@ -105,7 +105,7 @@ requirejs.config({
 });
 
 requirejs(['site', 'toastr', 'underscore', 'backbone', 'app'], function (site, toastr, _, Backbone, App) {
-    'use strict'
+    'use strict';
 
     console.log('Dss.Bootstrapper: primed')
     if(typeof String.prototype.trim !== 'function') {
