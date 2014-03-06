@@ -157,7 +157,6 @@ class Mix(_BaseModel):
             ret = get_thumbnail(self.mix_image, size, crop='center')
             return "%s/%s" % (settings.MEDIA_URL, ret.name)
         except Exception, ex:
-            import ipdb; ipdb.set_trace()
             self.logger.error("Mix: error getting mix image %s" % ex.message)
             social_image = self._get_social_image()
             if social_image:
