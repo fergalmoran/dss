@@ -3,7 +3,7 @@ import os
 DEBUG = True
 if os.name == 'posix':
     DSS_TEMP_PATH = "/tmp/"
-    DSS_LAME_PATH = "lame"
+    DSS_LAME_PATH = "sox"
     DSS_WAVE_PATH = "wav2png"
 else:
     DSS_TEMP_PATH = "d:\\temp\\"

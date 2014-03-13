@@ -4,13 +4,21 @@ import uuid
 import os
 from dss import settings
 
+
 def generate_waveform(input_file, output_file):
     print "Generating waveform"
     try:
         working_file = "%s%s.wav" % (settings.DSS_TEMP_PATH, uuid.uuid1())
         try:
-            print "Starting decode : %s\nInput File: %s\nOutput File: %s" % (settings.DSS_LAME_PATH, input_file, working_file)
-            p = subprocess.call([settings.DSS_LAME_PATH, "--decode", input_file, working_file])
+            print "Starting decode : %s\nInput File: %s\nOutput File: %s" % \
+                (settings.DSS_LAME_PATH, input_file, working_file)
+            #sox f679a81a-ea14-4385-a677-c663559d1e4b.mp3 -c 1 -t wav -
+            #| /srv/dss/bin/wav2png -w 800 -h 120 -o song.png /dev/stdin
+            convert = subprocess.Popen("%s %s -c 1 -t wav" % (settings.DSS_LAME_PATH, input_file),
+                                 shell=True, stdout=subprocess.PIPE)
+
+            waveform = subprocess.Popen("%s -w 800 -h 120 -o %s" % (settings.DSS_WAVE_PATH, working_file),
+                                        shell=True, stdout=subprocess.PIPE)
             print "Finished decode"
             if os.path.exists(working_file):
                 print "Starting waveform generation"
