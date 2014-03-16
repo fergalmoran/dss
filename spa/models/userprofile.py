@@ -151,9 +151,9 @@ class UserProfile(_BaseModel):
                 image = "%s%s" % (settings.MEDIA_URL, get_thumbnail(image, "32x32", crop='center').name)
                 return image
         except SuspiciousOperation, ex:
-            self.logger.error("Error getting small profile image: %s", ex.message)
+            self.logger.exception("Error getting small profile image")
         except IOError, ex:
-            self.logger.error("Error getting small profile image: %s", ex.message)
+            self.logger.exception("Error getting small profile image")
         except ThumbnailError:
             pass
 
