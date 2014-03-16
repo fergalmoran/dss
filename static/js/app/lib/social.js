@@ -28,7 +28,7 @@
             return FB.ui({
               method: "feed",
               name: "Check out this mix on Deep South Sounds",
-              display: "popup",
+              display: "iframe",
               link: "http://" + window.location.host + "/" + model.get("item_url"),
               picture: com.podnoms.settings.staticUrl + model.get("mix_image"),
               caption: model.get("title"),
@@ -36,8 +36,6 @@
             }, function(response) {
               if (response && response.post_id) {
                 return utils.showAlert("Success", "Post shared to facebook");
-              } else {
-                return utils.showError("Error", "Failure sharing post");
               }
             });
           } else {

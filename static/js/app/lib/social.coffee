@@ -31,7 +31,7 @@ define ['jquery', 'utils', 'facebook'], ($, utils) ->
                 FB.ui
                     method: "feed"
                     name: "Check out this mix on Deep South Sounds"
-                    display: "popup"
+                    display: "iframe"
                     link: "http://" + window.location.host + "/" + model.get("item_url")
                     picture: com.podnoms.settings.staticUrl + model.get("mix_image")
                     caption: model.get("title")
@@ -39,8 +39,6 @@ define ['jquery', 'utils', 'facebook'], ($, utils) ->
                 , (response) ->
                     if response and response.post_id
                         utils.showAlert "Success", "Post shared to facebook"
-                    else
-                        utils.showError "Error", "Failure sharing post"
             else
                 utils.showError "Error", "Failure sharing post"
 
