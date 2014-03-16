@@ -33,7 +33,7 @@ define ['jquery', 'utils', 'facebook'], ($, utils) ->
                     name: "Check out this mix on Deep South Sounds"
                     display: "iframe"
                     link: "http://" + window.location.host + "/" + model.get("item_url")
-                    picture: com.podnoms.settings.staticUrl + model.get("mix_image")
+                    picture: model.get("mix_image")
                     caption: model.get("title")
                     description: model.get("description")
                 , (response) ->
