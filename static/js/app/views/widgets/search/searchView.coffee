@@ -12,20 +12,21 @@ define ['jquery', 'underscore', 'marionette', 'vent',
 
         events:
             'keyup #search-text': 'doSearch'
-
+            'blur #search-text': 'closeSearch'
         engine:
             compile: (template) ->
                 compiled = _.template(template)
                 render: (context) ->
                     compiled context
 
+        closeSearch: () ->
+            $("#suggestions").fadeOut()
 
         doSearch: () ->
             inputString = @ui.searchText.val()
             if inputString.length is 0
-                $("#suggestions").fadeOut() # Hide the suggestions box
+                $("#suggestions").fadeOut()
             else
-#               $.get "/api/v1/mix/?limit=3&title__icontains=" + inputString
                 results = new MixCollection()
                 results.fetch
                     data: $.param(

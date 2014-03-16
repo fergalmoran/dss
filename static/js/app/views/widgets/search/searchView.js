@@ -20,7 +20,8 @@
       };
 
       SearchView.prototype.events = {
-        'keyup #search-text': 'doSearch'
+        'keyup #search-text': 'doSearch',
+        'blur #search-text': 'closeSearch'
       };
 
       SearchView.prototype.engine = {
@@ -33,6 +34,10 @@
             }
           };
         }
+      };
+
+      SearchView.prototype.closeSearch = function() {
+        return $("#suggestions").fadeOut();
       };
 
       SearchView.prototype.doSearch = function() {
