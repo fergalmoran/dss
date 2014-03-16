@@ -4,43 +4,17 @@
         <div class="mix-image-container">
             <img alt="mix-logo" class="mix-image-image img-rounded img-polaroid" src="<%= mix_image %>"/>
         </div>
-        <div class="mix-profile-insert">
-            <h6>
+        <span class="msg-body">
+            <span class="mix-title">
                 <a href="/<%= user_profile_url %>" id="<%= id %>">
                     <i class="fa fa-user"></i>&nbsp;<%= user_name %>
                 </a>
-            </h6>
-        </div>
-        <div class="mix-share-button">
-            <div class="footer-button">
-                <div class="btn-group">
-                    <button class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-share"></i>Share
-                        <span class="fa fa-caret-down fa fa-on-right"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a data-mode="facebook"
-                               class="share-button share-button-facebook">
-                                Facebook
-                            </a>
-                        </li>
-                        <li>
-                            <a data-mode="twitter"
-                               class="share-button share-button-twitter">
-                                Twitter
-                            </a>
-                        </li>
-                        <li>
-                            <a data-mode="embed"
-                               class="share-button share-button-embed">
-                                Embed
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+            </span>
+            <span class="mix-time">
+                <i class="fa fa-clock-o"></i>
+                <span><%= humanise(upload_date) %></span>
+            </span>
+        </span>
     </div>
     <div class="col-md-10 mix-container" id="mix-container-<%= id %>">
         <div class="row orange">
@@ -68,7 +42,8 @@
                          src="<%= waveform_url %>">
 
                     <div class="pnp-time-display-label pnp-time-display-label-elapsed"></div>
-                    <div class="pnp-time-display-label pnp-time-display-label-duration"><%= secondsToHms(duration) %></div>
+                    <div class="pnp-time-display-label pnp-time-display-label-duration"><%= secondsToHms(duration) %>
+                    </div>
                     <div class="pnp-download-overlay"></div>
                     <div class="pnp-played-overlay"></div>
                     <div class="pnp-seekhead"></div>
@@ -81,6 +56,34 @@
                     <a id="play-button-<%= id %>" class="mix-state-toggle play blue" data-bypass="true" style="">
                         <i id="play-state-fa fa-<%= id %>" class="fa fa-play bigger-180"></i>
                     </a>
+                </div>
+                <div class="footer-button">
+                    <div class="btn-group">
+                        <button class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-share"></i>Share
+                            <span class="fa fa-caret-down fa fa-on-right"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a data-mode="facebook"
+                                   class="share-button share-button-facebook">
+                                    Facebook
+                                </a>
+                            </li>
+                            <li>
+                                <a data-mode="twitter"
+                                   class="share-button share-button-twitter">
+                                    Twitter
+                                </a>
+                            </li>
+                            <li>
+                                <a data-mode="embed"
+                                   class="share-button share-button-embed">
+                                    Embed
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 {% if user.is_authenticated %}
                     <div class="like-button footer-button">
@@ -151,8 +154,3 @@
     </div>
 </div>
 <hr>
-
-
-{% comment %}
-{% include 'views/_MixItemInsert.html' %}
-{% endcomment %}

@@ -773,3 +773,14 @@ img.mix-listing-image {
     position: static !important;
     vertical-align: baseline !important;
 }
+
+.mix-title {
+    display: inline-block;
+    line-height: 14px;
+}
+
+.mix-time {
+    display: block;
+    font-size: 11px;
+    color: #777;
+}
