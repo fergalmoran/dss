@@ -10,7 +10,6 @@ define ['backbone', 'models/user/userItem', 'app.lib/backbone.dss.model.collecti
             console.clear()
             if not UserItem
                 @model = require('models/user/userItem')
-            console.log("Argle bargle")
 
     UserCollection
 

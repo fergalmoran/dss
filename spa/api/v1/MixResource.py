@@ -40,6 +40,7 @@ class MixResource(BackboneCompatibleResource):
                      'genres': ALL_WITH_RELATIONS,
                      'favourites': ALL_WITH_RELATIONS,
                      'likes': ALL_WITH_RELATIONS,
+                     'title': ALL_WITH_RELATIONS,
                      'slug': ALL_WITH_RELATIONS, }
         authorization = Authorization()
 

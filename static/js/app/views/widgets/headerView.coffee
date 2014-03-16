@@ -6,7 +6,7 @@
 Copyright (c) 2012, Fergal Moran. All rights reserved.
 Code provided under the BSD License:
 ###
-define ["underscore", "marionette", "vent", "utils", "views/widgets/searchView",
+define ["underscore", "marionette", "vent", "utils", "views/widgets/search/searchView",
         "views/notifications/notificationsListView", "text!/tpl/HeaderView"],
 (_, Marionette, vent, utils, SearchView, NotificationsListView, Template) ->
     class HeaderView extends Marionette.Layout

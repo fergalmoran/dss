@@ -1,5 +1,6 @@
 import logging
 import os
+from datetime import datetime
 from django.db import models
 from django.utils import simplejson
 from core.utils import url
@@ -8,6 +9,11 @@ from dss import localsettings, settings
 
 class _BaseModel(models.Model):
     logger = logging.getLogger(__name__)
+
+    """
+    object_created = models.DateTimeField(auto_now_add=True, default=datetime.now())
+    object_updated = models.DateTimeField(auto_now=True, default=datetime.now(), db_index=True)
+    """
 
     class Meta:
         abstract = True

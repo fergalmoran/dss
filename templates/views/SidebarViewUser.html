@@ -5,17 +5,17 @@
         <li><h5>{{ profile.display_name }}</h5></li>
 {% endverbatim %}
         {% if user.is_authenticated %}
-        <li>
-            <p>
-                <button href="#"
-                   id="follow-button"
-                   class="btn btn-xs">
-                   <i id="follow-icon" class="fa fa-eye-close"></i>Following
-                </button>
-            </p>
-        </li>
+            <li>
+                <p>
+                    <button href="#"
+                            id="follow-button"
+                            class="btn btn-xs">
+                        <i id="follow-icon" class="fa fa-eye-close"></i>Following
+                    </button>
+                </p>
+            </li>
         {% endif %}
-{% verbatim %}
+        {% verbatim %}
     </ul>
     <img src="{{ profile.avatar_image }}" class="img-polaroid">
 

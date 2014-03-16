@@ -1,0 +1,59 @@
+{% extends 'views/debug/index.html' %}
+{% block content %}
+    <div class="example-countries">
+        <input class="typeahead" type="text" placeholder="countries">
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var users = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            limit: 10,
+            remote: {
+                url: '/api/v1/user/?limit=3&display_name__icontains=%QUERY',
+                filter: function (list) {
+                    return $.map(list.objects, function (user) {
+                        return user;
+                    });
+                }
+            }
+        });
+
+        var mixes = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            limit: 10,
+            remote: {
+                url: '/api/v1/mix/?limit=3&title__icontains=%QUERY',
+                filter: function (list) {
+                    return $.map(list.objects, function (mix) {
+                        return mix;
+                    });
+                }
+            }
+        });
+
+        users.initialize();
+        mixes.initialize();
+
+        $('.typeahead').typeahead({
+                    highlight: true
+                },
+                {
+                    name: 'mixes',
+                    source: mixes.ttAdapter(),
+                    templates: {
+                        suggestion: _.template('<p>Mix: <%= title %></p>')
+                    }
+                },
+                {
+                    name: 'users',
+                    source: users.ttAdapter(),
+                    templates: {
+                        suggestion: _.template('<p>User: <%= display_name %></p>')
+                    }
+                });
+    </script>
+{% endblock %}

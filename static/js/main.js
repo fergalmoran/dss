@@ -22,7 +22,7 @@ requirejs.config({
         moment: 'lib/moment',
         ajaxfileupload: 'lib/ajaxfileupload',
         ace: 'lib/ace/uncompressed/ace',
-        typeahead: 'lib/ace/typeahead-bs2.min',
+        typeahead: 'lib/typeahead',
         wysiwyg: 'lib/ace/uncompressed/bootstrap-wysiwyg',
         wizard: 'lib/ace/uncompressed/fuelux/fuelux.wizard',
         dropzone: 'lib/ace/uncompressed/dropzone',
@@ -57,6 +57,12 @@ requirejs.config({
         jquery: {
             exports: '$'
         },
+/*
+        typeahead: {
+            exports: '$',
+            deps: ['lib/bloodhound']
+        },
+*/
         ajaxfileupload: {
             exports: '$',
             deps: ['jquery']

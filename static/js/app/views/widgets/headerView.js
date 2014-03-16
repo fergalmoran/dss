@@ -14,7 +14,7 @@ Code provided under the BSD License:
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(["underscore", "marionette", "vent", "utils", "views/widgets/searchView", "views/notifications/notificationsListView", "text!/tpl/HeaderView"], function(_, Marionette, vent, utils, SearchView, NotificationsListView, Template) {
+  define(["underscore", "marionette", "vent", "utils", "views/widgets/search/searchView", "views/notifications/notificationsListView", "text!/tpl/HeaderView"], function(_, Marionette, vent, utils, SearchView, NotificationsListView, Template) {
     var HeaderView;
     HeaderView = (function(_super) {
       var NowrapRegion;

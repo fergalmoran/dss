@@ -26,9 +26,8 @@
       UserCollection.prototype.initialize = function() {
         console.clear();
         if (!UserItem) {
-          this.model = require('models/user/userItem');
+          return this.model = require('models/user/userItem');
         }
-        return console.log("Argle bargle");
       };
 
       return UserCollection;

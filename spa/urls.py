@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, url, include
 from tastypie.api import Api
+from spa import debug
 from spa.ajax import AjaxHandler
 from spa.api.v1.DebugResource import DebugResource
 from spa.api.v1.NotificationResource import NotificationResource
@@ -43,6 +44,7 @@ urlpatterns = patterns(
     url(r'^embed/', include('spa.embedding.urls')),
     url(r'_upload/', 'spa.ajax.upload', name='mix_upload'),
     url(r'^ajax/', include(ajax.urls)),
+    url(r'^debug/', include(debug.urls)),
     url(r'^audio/', include(audio.urls)),
     url(r'^st/events/', 'spa.static.get_events'),
     url(r'^api/', include(api.urls)),

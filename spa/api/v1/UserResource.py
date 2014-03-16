@@ -32,6 +32,7 @@ class UserResource(BackboneCompatibleResource):
         ordering = ['mix_count']
         filtering = {
             'slug': ALL,
+            'display_name': ALL,
             'following': ALL_WITH_RELATIONS,
             'followers': ALL_WITH_RELATIONS,
         }
