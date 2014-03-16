@@ -11,36 +11,6 @@
                 </a>
             </h6>
         </div>
-        <div class="mix-share-button">
-            <div class="footer-button">
-                <div class="btn-group">
-                    <button class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-share"></i>Share
-                        <span class="fa fa-caret-down fa fa-on-right"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a data-mode="facebook"
-                               class="share-button share-button-facebook">
-                                Facebook
-                            </a>
-                        </li>
-                        <li>
-                            <a data-mode="twitter"
-                               class="share-button share-button-twitter">
-                                Twitter
-                            </a>
-                        </li>
-                        <li>
-                            <a data-mode="embed"
-                               class="share-button share-button-embed">
-                                Embed
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="col-md-10 mix-container" id="mix-container-<%= id %>">
         <div class="row orange">
@@ -54,7 +24,8 @@
             <div class="pull-right title-bar-item">
                 <div id="genre-list" class="pull-right">
                     <% _.each(genres, function(i) { %>
-                        <a href="/mixes/genre/<%= i.slug %>" class="label label-info arrowed-right arrowed-in"><%= i.description %></a>
+                    <a href="/mixes/genre/<%= i.slug %>" class="label label-info arrowed-right arrowed-in"><%=
+                        i.description %></a>
                     <% }); %>
                 </div>
             </div>
@@ -80,9 +51,38 @@
                 <div class="play-button footer-button">
                     <button class="play-button-small play-button-small-start"></button>
                 </div>
+                    <div class="footer-button">
+                        <div class="btn-group">
+                            <button class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-share"></i>Share
+                                <span class="fa fa-caret-down fa fa-on-right"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a data-mode="facebook"
+                                       class="share-button share-button-facebook">
+                                        Facebook
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-mode="twitter"
+                                       class="share-button share-button-twitter">
+                                        Twitter
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-mode="embed"
+                                       class="share-button share-button-embed">
+                                        Embed
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 {% if user.is_authenticated %}
                     <div class="like-button footer-button">
-                        <a class="btn <% if (liked) { %>btn-pink<% } else { %>btn-light<% } %> btn-xs" id="like-<%= id %>"
+                        <a class="btn <% if (liked) { %>btn-pink<% } else { %>btn-light<% } %> btn-xs"
+                           id="like-<%= id %>"
                            data-id="<%= id %>">
                             <i class="fa fa-heart"></i> Like<% if (liked) { %>d<% } %></a>
                     </div>
