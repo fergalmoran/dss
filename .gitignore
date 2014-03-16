@@ -28,3 +28,4 @@ dsskeys
 *.map
 ./dds.sublime-project
 ./dds.sublime-workspace
+reload

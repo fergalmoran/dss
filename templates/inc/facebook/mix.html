@@ -1,16 +1,21 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:og="http://ogp.me/ns#"
-      xmlns:fb="https://www.facebook.com/2008/fbml">
-<head>
-    <meta property="fb:app_id" content="{{ app_id }}" />
-    <meta property="og:url" content="{{ mix_url }}/" />
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml">
+    <head>
+        <meta property="fb:app_id" content="{{ app_id }}" />
+        <meta property="og:url" content="{{ mix_url }}/" />
 
-    <meta property="og:type"   content="deepsouthsounds:song" />
-    <meta property="og:title"  content="{{ title }}" />
-    <meta property="og:description"  content="{{ description }}" />
-    <meta property="og:image"  content="{{ image_url }}" />
-</head>
-<body>
-</body>
+        <meta property="og:site_name" content="Deep South Sounds"/>
+        <meta property="og:type"   content="music.song" />
+        {% comment %}
+        <meta property="og:audio" content="{{ audio_url }}">
+        <meta property="og:audio:type" content="audio/mpeg">
+        {% endcomment %}
+        <meta property="og:title"  content="{{ title }}" />
+        <meta property="og:description"  content="{{ description }}" />
+        <meta property="og:image"  content="{{ image_url }}" />
+    </head>
+    <body>
+    </body>
 </html>
