@@ -154,7 +154,8 @@ class MixResource(BackboneCompatibleResource):
                 user__in=request.user.get_profile().following.all())
         if f_user is not None:
             semi_filtered = semi_filtered.filter(user__slug=f_user)
-        else:
+
+        if len(applicable_filters) == 0:
             semi_filtered = semi_filtered.filter(is_featured=True)
 
         return semi_filtered
@@ -184,7 +185,7 @@ class MixResource(BackboneCompatibleResource):
 
         if bundle.request.user.is_authenticated():
             bundle.data['can_edit'] = bundle.request.user.is_staff or \
-                bundle.obj.user_id == bundle.request.user.id
+                bundle.obj.user_id == bundle.request.user.get_profile().id
         else:
             bundle.data['can_edit'] = False
 
