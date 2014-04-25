@@ -48,6 +48,7 @@ define ['backbone', 'marionette', 'vent', 'utils', 'underscore',
 
     App.addInitializer ->
         @listenTo vent, "app:login", ->
+            console.log "App(vent): app:login"
             utils.modal "/dlg/LoginView"
             true
 

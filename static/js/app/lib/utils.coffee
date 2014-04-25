@@ -1,5 +1,6 @@
 define ['jquery', 'bootstrap', 'toastr'], ($, bootstrap, toastr) ->
     modal: (url) ->
+        return if $('#modal-header').length
         if url
             if url.indexOf("#") is 0
                 $(url).modal "open"
@@ -7,9 +8,6 @@ define ['jquery', 'bootstrap', 'toastr'], ($, bootstrap, toastr) ->
                 $.get(url,(data) ->
                     $(data).modal().on "hidden", ->
                         $(this).remove()
-                        true
-                    $(data).proceed().on "hidden", ->
-                        alert("Go on so")
                         true
                 ).success ->
                     $("input:text:visible:first").focus()

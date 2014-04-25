@@ -47,6 +47,7 @@
     });
     App.addInitializer(function() {
       this.listenTo(vent, "app:login", function() {
+        console.log("App(vent): app:login");
         utils.modal("/dlg/LoginView");
         return true;
       });

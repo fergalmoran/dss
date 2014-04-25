@@ -18,6 +18,10 @@
 
       MixListView.prototype.className = "mix-listing audio-listing";
 
+      MixListView.prototype.emptyView = Marionette.ItemView.extend({
+        template: "#mix-empty-view"
+      });
+
       MixListView.prototype.itemView = MixItemView;
 
       MixListView.prototype.itemViewContainer = "#mix-list-container-ul";

@@ -4,17 +4,16 @@
   define(['jquery', 'bootstrap', 'toastr'], function($, bootstrap, toastr) {
     return {
       modal: function(url) {
+        if ($('#modal-header').length) {
+          return;
+        }
         if (url) {
           if (url.indexOf("#") === 0) {
             $(url).modal("open");
           } else {
             $.get(url, function(data) {
-              $(data).modal().on("hidden", function() {
+              return $(data).modal().on("hidden", function() {
                 $(this).remove();
-                return true;
-              });
-              return $(data).proceed().on("hidden", function() {
-                alert("Go on so");
                 return true;
               });
             }).success(function() {

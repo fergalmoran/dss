@@ -7,9 +7,11 @@ from django.template.loader import render_to_string
 from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL_WITH_RELATIONS
+from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.fields import ToOneField
-from tastypie.http import HttpGone
+from tastypie.http import HttpGone, HttpUnauthorized
 from tastypie.utils import trailing_slash
+
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.api.v1.CommentResource import CommentResource
 from spa.api.v1.ActivityResource import ActivityResource
@@ -150,6 +152,10 @@ class MixResource(BackboneCompatibleResource):
         f_user = request.GET.get('user', None)
 
         if request.GET.get('stream'):
+            if request.user.is_anonymous():
+                raise ImmediateHttpResponse(
+                    HttpUnauthorized("Only logged in users have a stream")
+                )
             semi_filtered = semi_filtered.filter(
                 user__in=request.user.get_profile().following.all())
         if f_user is not None:
