@@ -4,7 +4,7 @@ from django.db import models
 from spa.models import Recurrence
 from spa.models.venue import Venue
 
-
+"""
 class Event(models.Model):
     class Meta:
         app_label = 'spa'
@@ -26,3 +26,4 @@ class Event(models.Model):
 
     def __unicode__(self):
         return self.event_title
+"""

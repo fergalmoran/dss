@@ -27,6 +27,7 @@
         "chat": "showChat",
         "random": "showRandomMix",
         "stream": "showStreamList",
+        "schedule": "showSchedule",
         "login": "doLogin",
         "users": "showUserList",
         "user/:slug/favourites": "showUserFavourites",

@@ -27,7 +27,7 @@ def app(request):
         'bust': uuid.uuid1()
     }
 
-    if request.user_agent.browser.family == 'Firefox':
+    if request.user_agent.browser.family == '___Firefox___':
         context['ua_html'] = \
             """<div class="alert alert-block alert-warning">
                     <button type="button" class="close" data-dismiss="alert">

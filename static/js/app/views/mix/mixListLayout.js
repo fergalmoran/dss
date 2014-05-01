@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['marionette', 'vent', 'models/user/userItem', 'models/mix/mixCollection', 'views/widgets/mixTabHeaderView', 'views/user/userItemView', 'views/mix/mixListView', 'text!/tpl/MixListLayoutView'], function(Marionette, vent, UserItem, MixCollection, MixTabHeaderView, UserItemView, MixListView, Template) {
+  define(['marionette', 'vent', 'models/user/userItem', 'models/mix/mixCollection', 'views/widgets/mixTabHeaderView', 'views/user/userItemView', 'views/mix/mixListView', 'views/genericView', 'text!/tpl/MixListLayoutView'], function(Marionette, vent, UserItem, MixCollection, MixTabHeaderView, UserItemView, MixListView, GenericView, Template) {
     var MixListLayout;
     MixListLayout = (function(_super) {
 
@@ -20,25 +20,33 @@
         bodyRegion: "#mix-list-body"
       };
 
-      MixListLayout.prototype.initialize = function(options) {
+      MixListLayout.prototype.initialize = function(options, emptyTemplate) {
         this.listenTo(vent, "mix:showlist", this.showMixList);
         this.listenTo(vent, "user:showdetail", this.showUserView);
-        return this.showMixList(options);
+        return this.showMixList(options, emptyTemplate);
       };
 
       MixListLayout.prototype.onShow = function() {
         return this.headerRegion.show(new MixTabHeaderView());
       };
 
-      MixListLayout.prototype.showMixList = function(options) {
+      MixListLayout.prototype.showMixList = function(options, emptyTemplate) {
         var _this = this;
         this.collection = new MixCollection();
         return this.collection.fetch({
           data: options,
           success: function(collection) {
-            return _this.bodyRegion.show(new MixListView({
-              collection: collection
-            }));
+            if (collection.length > 0) {
+              return _this.bodyRegion.show(new MixListView({
+                collection: collection
+              }));
+            } else {
+              return $.get(emptyTemplate, function(data) {
+                return _this.bodyRegion.show(new GenericView({
+                  template: data
+                }));
+              });
+            }
           }
         });
       };

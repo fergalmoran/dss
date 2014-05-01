@@ -12,9 +12,8 @@ from sorl import thumbnail
 from sorl.thumbnail.helpers import ThumbnailError
 
 from core.utils.file import generate_save_file_name
-from core.utils.url import unique_slugify, wrap_full
+from core.utils.url import unique_slugify
 from dss import settings
-from spa.models.notification import Notification
 from spa.models._basemodel import _BaseModel
 
 

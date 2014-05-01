@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app', 'marionette', 'vent', 'utils', 'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView', 'views/mix/mixEditView', 'views/user/userProfileView', 'views/user/userListView', 'views/user/userEditView', 'models/mix/mixCollection', 'models/mix/mixItem', 'models/user/userItem'], function(App, Marionette, vent, utils, MixListLayout, MixListView, MixDetailView, MixEditView, UserProfileView, UserListView, UserEditView, MixCollection, MixItem, UserItem) {
+  define(['app', 'marionette', 'vent', 'utils', 'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView', 'views/schedule/scheduleView', 'views/mix/mixEditView', 'views/user/userProfileView', 'views/user/userListView', 'views/user/userEditView', 'models/mix/mixCollection', 'models/mix/mixItem', 'models/user/userItem'], function(App, Marionette, vent, utils, MixListLayout, MixListView, MixDetailView, ScheduleView, MixEditView, UserProfileView, UserListView, UserEditView, MixCollection, MixItem, UserItem) {
     var DssController;
     DssController = (function(_super) {
 
@@ -26,12 +26,19 @@
         return vent.trigger('app:login');
       };
 
-      DssController.prototype.showMixList = function(options) {
+      DssController.prototype.showSchedule = function() {
+        var app;
+        app = require('app');
+        app.contentRegion.show(new ScheduleView());
+        return vent.trigger('schedule:show');
+      };
+
+      DssController.prototype.showMixList = function(options, emptyTemplate) {
         var app;
         app = require('app');
         app.contentRegion.show(new MixListLayout(options || {
           order_by: 'latest'
-        }));
+        }, emptyTemplate));
         return vent.trigger('mix:showlist', options || {
           order_by: 'latest'
         });
@@ -40,7 +47,7 @@
       DssController.prototype.showStreamList = function() {
         return this.showMixList({
           stream: true
-        });
+        }, '/tpl/EmptyTemplate');
       };
 
       DssController.prototype.showMixListType = function(type) {

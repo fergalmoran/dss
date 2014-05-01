@@ -16,6 +16,7 @@ define ['marionette', 'vent', 'app.lib/controller'],
             "chat": "showChat",
             "random": "showRandomMix",
             "stream": "showStreamList",
+            "schedule": "showSchedule",
 
             "login": "doLogin"
 

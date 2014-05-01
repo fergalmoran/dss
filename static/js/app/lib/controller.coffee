@@ -1,15 +1,17 @@
-define ['app', 'marionette', 'vent', 'utils'
-        'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView'
+define ['app', 'marionette', 'vent', 'utils',
+        'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView',
+        'views/schedule/scheduleView',
         'views/mix/mixEditView', 'views/user/userProfileView', 'views/user/userListView', 'views/user/userEditView',
         'models/mix/mixCollection', 'models/mix/mixItem', 'models/user/userItem'],
 (App, Marionette, vent, utils,
  MixListLayout, MixListView, MixDetailView,
+ ScheduleView,
  MixEditView, UserProfileView, UserListView, UserEditView,
  MixCollection, MixItem, UserItem)->
     class DssController extends Marionette.Controller
 
         initialize: ->
-          @listenTo(vent, "mix:random", @showRandomMix)
+            @listenTo(vent, "mix:random", @showRandomMix)
 
         home: ->
             console.log "Controller: home"
@@ -18,13 +20,18 @@ define ['app', 'marionette', 'vent', 'utils'
         doLogin: ->
             vent.trigger('app:login')
 
-        showMixList: (options) ->
+        showSchedule: ->
             app = require('app')
-            app.contentRegion.show(new MixListLayout(options or {order_by: 'latest'}))
+            app.contentRegion.show(new ScheduleView())
+            vent.trigger('schedule:show')
+
+        showMixList: (options, emptyTemplate) ->
+            app = require('app')
+            app.contentRegion.show(new MixListLayout(options or {order_by: 'latest'}, emptyTemplate))
             vent.trigger('mix:showlist', options or {order_by: 'latest'})
 
         showStreamList: () ->
-          @showMixList({stream: true})
+            @showMixList({stream: true}, '/tpl/EmptyTemplate')
 
         showMixListType: (type) ->
             @showMixList({order_by: type})

@@ -41,7 +41,7 @@ class SqlPrintingMiddleware(object):
 
         indentation = 2
         if len(connection.queries) > 0 and settings.DEBUG:
-            width = terminal_width()
+            width = 10000 #terminal_width()
             total_time = 0.0
             for query in connection.queries:
                 nice_sql = query['sql'].replace('"', '').replace(',', ', ')

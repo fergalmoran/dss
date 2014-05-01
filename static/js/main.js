@@ -5,6 +5,7 @@ requirejs.config({
     paths: {
         site: 'app/site',
         jquery: 'lib/jquery',
+        'jquery-ui': 'lib/ace/uncompressed/jquery-ui-1.10.3.custom',
         backbone: 'lib/backbone',
         'backbone-associations': 'lib/backbone.associations',
         'backbone.syphon': 'lib/backbone.syphon',
@@ -26,6 +27,7 @@ requirejs.config({
         wysiwyg: 'lib/ace/uncompressed/bootstrap-wysiwyg',
         wizard: 'lib/ace/uncompressed/fuelux/fuelux.wizard',
         dropzone: 'lib/ace/uncompressed/dropzone',
+        fullcalendar: 'lib/ace/uncompressed/fullcalendar',
         'ace-editable': 'lib/ace/uncompressed/x-editable/ace-editable',
         'bootstrap-editable': 'lib/ace/uncompressed/x-editable/bootstrap-editable',
         'facebook': '//connect.facebook.net/en_US/all',
@@ -81,6 +83,10 @@ requirejs.config({
         },
         'facebook': {
             exports: 'FB'
+        },
+        'fullcalendar': {
+            exports: 'fullCalendar',
+            deps: ['jquery', 'jquery-ui']
         },
         'ace': {
             exports: 'ace',

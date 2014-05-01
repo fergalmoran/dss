@@ -33,8 +33,20 @@ DATABASES = {
         'USER': localsettings.DATABASE_USER if hasattr(localsettings, 'DATABASE_USER') else 'deepsouthsounds',
         'PASSWORD': localsettings.DATABASE_PASSWORD if hasattr(localsettings, 'DATABASE_PASSWORD') else '',
         'HOST': localsettings.DATABASE_HOST if hasattr(localsettings, 'DATABASE_HOST') else 'localhost',
+    },
+    'test': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'test_deepsouthsounds',
+        'ADMINUSER': 'postgres',
+        'USER': localsettings.DATABASE_USER if hasattr(localsettings, 'DATABASE_USER') else 'deepsouthsounds',
+        'PASSWORD': localsettings.DATABASE_PASSWORD if hasattr(localsettings, 'DATABASE_PASSWORD') else '',
+        'HOST': localsettings.DATABASE_HOST if hasattr(localsettings, 'DATABASE_HOST') else 'localhost',
     }
 }
+import sys
+if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+    print "Testing"
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
 ROOT_URLCONF = 'dss.urls'
 TIME_ZONE = 'Europe/Dublin'
@@ -107,10 +119,10 @@ STATICFILES_DIRS = (
 SECRET_KEY = localsettings.SECRET_KEY
 
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-    'django.template.loaders.eggs.Loader',
-    #'django.template.loaders.app_directories.load_template_source',
+    ('django.template.loaders.cached.Loader', (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+    )),
 )
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django_facebook.context_processors.facebook',
@@ -140,7 +152,7 @@ MIDDLEWARE_CLASSES = (
     'htmlmin.middleware.HtmlMinifyMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     #'spa.middleware.uploadify.SWFUploadMiddleware',
-    #'spa.middleware.sqlprinter.SqlPrintingMiddleware' if DEBUG else None,
+    'spa.middleware.sqlprinter.SqlPrintingMiddleware' if DEBUG else None,
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
@@ -159,6 +171,7 @@ INSTALLED_APPS = (
     'django_facebook',
     'django_extensions',
     'django_gravatar',
+    'schedule',
     'compressor',
     'notification',
     'djcelery',

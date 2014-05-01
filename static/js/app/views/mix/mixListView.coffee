@@ -4,7 +4,6 @@ define ['marionette', 'vent', 'models/mix/mixCollection', 'views/mix/mixItemView
 
         template: _.template(Template)
         className: "mix-listing audio-listing"
-        emptyView: Marionette.ItemView.extend(template: "#mix-empty-view")
         itemView: MixItemView
         itemViewContainer: "#mix-list-container-ul"
 

@@ -7,12 +7,13 @@ from spa.api.v1.NotificationResource import NotificationResource
 from spa.audio import AudioHandler
 from spa.api.v1.ChatResource import ChatResource
 from spa.api.v1.CommentResource import CommentResource
-from spa.api.v1.EventResource import EventResource
+#from spa.api.v1.EventResource import EventResource
 from spa.api.v1.MixResource import MixResource
 from spa.api.v1.ReleaseAudioResource import ReleaseAudioResource
 from spa.api.v1.ReleaseResource import ReleaseResource
 from spa.api.v1.UserResource import UserResource
 from spa.api.v1.ActivityResource import ActivityResource
+from spa.api.v1.ShowResource import ShowResource
 
 api = Api(api_name='v1')
 api.register(ChatResource())
@@ -20,10 +21,11 @@ api.register(CommentResource())
 api.register(MixResource())
 api.register(ReleaseResource())
 api.register(ReleaseAudioResource())
-api.register(EventResource())
+#api.register(EventResource())
 api.register(UserResource())
 api.register(ActivityResource())
 api.register(NotificationResource())
+api.register(ShowResource())
 api.register(DebugResource())
 
 ajax = AjaxHandler()
@@ -35,7 +37,6 @@ urlpatterns = patterns(
     url(r'^tpl/(?P<template_name>\w+)/$', 'spa.templates.get_template'),
     url(r'^dlg/(?P<dialog_name>\w+)/$', 'spa.templates.get_dialog'),
     url(r'^dlg/embed/(?P<slug>[\w\d_.-]+)/$', 'spa.templates.get_embed_codes_dialog'),
-
     url(r'^js/(?P<template_name>\w+)/$', 'spa.templates.get_javascript'),
     url(r'^tplex/(?P<template_name>\w+)/$', 'spa.templates.get_template_ex'),
     url(r'^podcast', 'spa.podcast.get_default_podcast'),
@@ -51,5 +52,3 @@ urlpatterns = patterns(
     url(r'^comments/', include('django.contrib.comments.urls')),
     (r'^.*/$', 'spa.views.default')
 )
-
-
