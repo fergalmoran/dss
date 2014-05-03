@@ -40,7 +40,7 @@ def download(request, mix_id):
                 response = HttpResponse(FileWrapper(open(audio_file)),
                                         content_type=mimetypes.guess_type(audio_file)[0])
                 response['Content-Length'] = os.path.getsize(audio_file)
-                response['Content-Disposition'] = "attachment; filename=Deep South Sounds - %s%s" % (
+                response['Content-Disposition'] = "attachment; filename=\"Deep South Sounds - %s%s\"" % (
                     mix.title, extension)
                 return response
             else:
@@ -49,7 +49,7 @@ def download(request, mix_id):
     except Exception, ex:
         print ex
 
-    return Http404("Mix not found")
+    raise Http404("Mix not found")
 
 
 def start_streaming(request, mix_id):
