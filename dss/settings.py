@@ -132,7 +132,7 @@ MIDDLEWARE_CLASSES = (
     'htmlmin.middleware.HtmlMinifyMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     #'spa.middleware.uploadify.SWFUploadMiddleware',
-    'spa.middleware.sqlprinter.SqlPrintingMiddleware' if DEBUG else None,
+    #'spa.middleware.sqlprinter.SqlPrintingMiddleware' if DEBUG else None,
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
