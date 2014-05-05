@@ -1,11 +1,11 @@
 Django==1.6.1
-PIL>=1.1.7
+#PIL>=1.1.7 #install PIL manually
 south
 beautifulsoup4>=4.1.1
 decorator>=3.3.3
 django-allauth>=0.7.0
 django-annoying>=0.7.6
-django-celery>=3.0.4
+django-celery
 django-gravatar2>=1.0.6
 django-socialauth>=0.1.2c
 django-tastypie>=0.9.11
@@ -19,9 +19,11 @@ git+git://github.com/hpoul/sct-communitytools.git#django-sct
 git+git://github.com/jefftriplett/django-podcast.git#django-podcast
 git+git://github.com/etianen/django-require.git#django-require
 git+git://github.com/spookylukey/django-paypal.git#django-paypal
+git+git://github.com/llazzaro/django-scheduler.git#django-scheduler
 django-templated-email
 django-grappelli
 humanize
+mandrill
 django-debug-toolbar
 sorl-thumbnail
 django_extensions

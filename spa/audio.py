@@ -49,30 +49,6 @@ def download(request, mix_id):
                             mix.title, extension
                         )
                     )
-                """
-                signer = UriSigner(settings.DOWNLOAD_SIGNING_KEY)
-                response_url = urlparse.urljoin(
-                    settings.DOWNLOAD_HOST,
-                    signer.sign('/mixes/%s%s' % (mix.uid, extension)))
-
-                response = HttpResponse(response_url,
-                                        content_type=mimetypes.guess_type(audio_file)[0],
-                                        mimetype='application/force-download')
-                response['Content-Length'] = os.path.getsize(audio_file)
-                response['Content-Disposition'] = \
-                    "attachment; filename=\"Deep South Sounds - %s%s\"" % (
-                        mix.title, extension
-                    )
-                mix.add_download(request.user)
-                return HttpResponse(
-                    json.dumps({
-                        'url': response_url,
-                        'filename': "Deep South Sounds - %s%s\"" % (
-                            mix.title, extension
-                        )
-                    })
-                )
-                """
             else:
                 return HttpResponse('Downloads not allowed for this mix', status=401)
 
