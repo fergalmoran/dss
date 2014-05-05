@@ -1,4 +1,5 @@
-define ['jquery', 'bootstrap', 'toastr'], ($, bootstrap, toastr) ->
+define ['jquery', 'lib/jquery.filedownload', 'bootstrap', 'toastr'],
+  ($, filedownload, bootstrap, toastr) ->
     modal: (url) ->
         return if $('#modal-header').length
         if url
@@ -83,14 +84,24 @@ define ['jquery', 'bootstrap', 'toastr'], ($, bootstrap, toastr) ->
             v.toString 16
 
     downloadURL: (url) ->
-        iframe = document.getElementById("hiddenDownloader")
+        """
+        $.getJSON url, (data) =>
+            $.fileDownload(data.url)
+            successCallback: (url) ->
+                alert "You just got a file download dialog or ribbon for this URL :" + url
+                return
+
+            failCallback: (html, url) ->
+                alert "Your file download just failed for this URL:" + url + "\r\n" + "Here was the resulting error HTML: \r\n" + html
+                return
+        """
+        iframe = document.getElementById("if_dl_misecure")
         if iframe is null
             iframe = document.createElement("iframe")
-            iframe.id = "hiddenDownloader"
+            iframe.id = "if_dl_misecure"
             iframe.style.visibility = "hidden"
             document.body.appendChild iframe
         iframe.src = url
         true
-
     isMe: (id) ->
         id == com.podnoms.settings.currentUser

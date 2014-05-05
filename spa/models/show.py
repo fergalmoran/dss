@@ -13,6 +13,7 @@ class Show(Event):
         """
             throw an exception if event overlaps with another event
         """
+        import ipdb; ipdb.set_trace()
         overlaps = Show.objects.filter(
             Q(start__gte=self.start, end__lte=self.start) |
             Q(start__gte=self.end, end__lte=self.end)

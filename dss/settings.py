@@ -1,19 +1,18 @@
 #e Django settings for dss project.
-from datetime import timedelta
 import os
-
+import mimetypes
 from django.core.urlresolvers import reverse_lazy
 import djcelery
 from django.conf import global_settings
-import sys
 
-from dss import localsettings
 from dss import logsettings
 from utils import here
 
+from localsettings import *
+from pipelinesettings import *
+from paymentsettings import *
 
-DEBUG = localsettings.DEBUG
-DEVELOPMENT = localsettings.DEBUG
+DEVELOPMENT = DEBUG
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -24,23 +23,15 @@ ADMINS = (
 MANAGERS = ADMINS
 AUTH_PROFILE_MODULE = 'spa.UserProfile'
 
-ALLOWED_HOSTS = ['*']  #localsettings.ALLOWED_HOSTS if hasattr(localsettings, 'ALLOWED_HOSTS') else []
+ALLOWED_HOSTS = ['*']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'deepsouthsounds',
         'ADMINUSER': 'postgres',
-        'USER': localsettings.DATABASE_USER if hasattr(localsettings, 'DATABASE_USER') else 'deepsouthsounds',
-        'PASSWORD': localsettings.DATABASE_PASSWORD if hasattr(localsettings, 'DATABASE_PASSWORD') else '',
-        'HOST': localsettings.DATABASE_HOST if hasattr(localsettings, 'DATABASE_HOST') else 'localhost',
-    },
-    'test': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'test_deepsouthsounds',
-        'ADMINUSER': 'postgres',
-        'USER': localsettings.DATABASE_USER if hasattr(localsettings, 'DATABASE_USER') else 'deepsouthsounds',
-        'PASSWORD': localsettings.DATABASE_PASSWORD if hasattr(localsettings, 'DATABASE_PASSWORD') else '',
-        'HOST': localsettings.DATABASE_HOST if hasattr(localsettings, 'DATABASE_HOST') else 'localhost',
+        'USER': DATABASE_USER,
+        'PASSWORD': DATABASE_PASSWORD,
+        'HOST': DATABASE_HOST,
     }
 }
 import sys
@@ -57,22 +48,13 @@ USE_L10N = True
 s = True
 
 SITE_ROOT = here('')
-MEDIA_ROOT = localsettings.MEDIA_ROOT
-STATIC_ROOT = localsettings.STATIC_ROOT
-CACHE_ROOT = localsettings.CACHE_ROOT
+
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
         'LOCATION': '127.0.0.1:11211',
     }
 }
-
-STATIC_URL = localsettings.STATIC_URL if hasattr(localsettings, 'STATIC_URL') else '/static/'
-
-if DEBUG:
-    MEDIA_URL = localsettings.MEDIA_URL if hasattr(localsettings, 'MEDIA_URL') else '/media/'
-else:
-    MEDIA_URL = localsettings.MEDIA_URL if hasattr(localsettings, 'MEDIA_URL') else '/static/'
 
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 
@@ -116,8 +98,6 @@ STATICFILES_DIRS = (
     here('static'),
 )
 
-SECRET_KEY = localsettings.SECRET_KEY
-
 TEMPLATE_LOADERS = (
     ('django.template.loaders.cached.Loader', (
         'django.template.loaders.filesystem.Loader',
@@ -158,6 +138,7 @@ MIDDLEWARE_CLASSES = (
 
 WSGI_APPLICATION = 'dss.wsgi.application'
 TEMPLATE_DIRS = (here('templates'),)
+
 INSTALLED_APPS = (
     'grappelli',
     'django.contrib.admin',
@@ -204,13 +185,6 @@ LOGOUT_URL = reverse_lazy('home')
 LOGGING = logsettings.LOGGING
 
 FACEBOOK_APP_ID = '154504534677009'
-FACEBOOK_APP_SECRET = localsettings.FACEBOOK_APP_SECRET
-
-BROKER_HOST = localsettings.BROKER_HOST
-BROKER_PORT = localsettings.BROKER_PORT
-BROKER_VHOST = localsettings.BROKER_VHOST
-BROKER_USER = localsettings.BROKER_USER
-BROKER_PASSWORD = localsettings.BROKER_PASSWORD
 
 djcelery.setup_loader()
 
@@ -229,11 +203,7 @@ SOCIALACCOUNT_PROVIDERS = {
 AVATAR_STORAGE_DIR = MEDIA_ROOT + '/avatars/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
-DSS_TEMP_PATH = localsettings.DSS_TEMP_PATH
-DSS_LAME_PATH = localsettings.DSS_LAME_PATH
-DSS_WAVE_PATH = localsettings.DSS_WAVE_PATH
-
-PIPELINE_YUI_BINARY = localsettings.PIPELINE_YUI_BINARY
+PIPELINE_YUI_BINARY = ""
 PIPELINE = False
 PIPELINE_CSS = {
     'defaults': {
@@ -248,29 +218,21 @@ PIPELINE_CSS = {
 }
 INTERNAL_IPS = ('127.0.0.1', '86.44.166.21', '192.168.1.111')
 
-GOOGLE_ANALYTICS_CODE = localsettings.GOOGLE_ANALYTICS_CODE
-
 TASTYPIE_DATETIME_FORMATTING = 'rfc-2822'
 TASTYPIE_ALLOW_MISSING_SLASH = True
 
-SENDFILE_BACKEND = localsettings.SENDFILE_BACKEND
 SENDFILE_ROOT = os.path.join(MEDIA_ROOT, 'mixes')
 SENDFILE_URL = '/media/mixes'
 
-import mimetypes
-
 mimetypes.add_type("text/xml", ".plist", False)
 
-HTML_MINIFY = not localsettings.DEBUG
+HTML_MINIFY = not DEBUG
 
 
-EMAIL_HOST = localsettings.EMAIL_HOST
-EMAIL_PORT = localsettings.EMAIL_PORT
 DEFAULT_FROM_EMAIL = 'DSS ChatBot <chatbot@deepsouthsounds.com>'
 DEFAULT_HTTP_PROTOCOL = 'http'
 
 EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
-MANDRILL_API_KEY = localsettings.MANDRILL_API_KEY
 
 if DEBUG:
     import mimetypes
@@ -282,17 +244,9 @@ if DEBUG:
     mimetypes.add_type("font/ttf", ".ttf", True)
     mimetypes.add_type("font/otf", ".otf", True)
 
-# TODO(fergal.moran@gmail.com): #import localsettings - so all localsettings are part of import settings
-
 REALTIME_HEADERS = {
     'content-type': 'application/json'
 }
-
-DBBACKUP_STORAGE = localsettings.DBBACKUP_STORAGE
-DBBACKUP_TOKENS_FILEPATH = localsettings.DBBACKUP_TOKENS_FILEPATH
-DBBACKUP_DROPBOX_APP_KEY = localsettings.DBBACKUP_DROPBOX_APP_KEY
-DBBACKUP_DROPBOX_APP_SECRET = localsettings.DBBACKUP_DROPBOX_APP_SECRET
-DBBACKUP_CLEANUP_KEEP = 5
 
 if 'test' in sys.argv:
     try:
@@ -300,7 +254,3 @@ if 'test' in sys.argv:
     except ImportError:
         pass
 
-from paymentsettings import *
-
-GEOIP_PATH = localsettings.GEOIP_PATH
-from pipelinesettings import *

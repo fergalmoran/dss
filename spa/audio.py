@@ -1,10 +1,13 @@
 import mimetypes
 import os
 import logging
+import urlparse
 
 from django.conf.urls import url
+import json
 from django.http import Http404, HttpResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.core.servers.basehttp import FileWrapper
+from nginx_signing.signing import UriSigner
 from sendfile import sendfile
 
 from dss import settings
@@ -34,22 +37,49 @@ def download(request, mix_id):
         mix = Mix.objects.get(pk=mix_id)
         if mix is not None:
             if mix.download_allowed:
-                mix.add_download(request.user)
                 audio_file = mix.get_absolute_path()
                 filename, extension = os.path.splitext(audio_file)
-                response = HttpResponse(FileWrapper(open(audio_file)),
-                                        content_type=mimetypes.guess_type(audio_file)[0])
+
+                if os.path.exists(audio_file):
+                    return sendfile(
+                        request,
+                        audio_file,
+                        attachment=True,
+                        attachment_filename='Deep South Sounds - %s%s' % (
+                            mix.title, extension
+                        )
+                    )
+                """
+                signer = UriSigner(settings.DOWNLOAD_SIGNING_KEY)
+                response_url = urlparse.urljoin(
+                    settings.DOWNLOAD_HOST,
+                    signer.sign('/mixes/%s%s' % (mix.uid, extension)))
+
+                response = HttpResponse(response_url,
+                                        content_type=mimetypes.guess_type(audio_file)[0],
+                                        mimetype='application/force-download')
                 response['Content-Length'] = os.path.getsize(audio_file)
-                response['Content-Disposition'] = "attachment; filename=Deep South Sounds - %s%s" % (
-                    mix.title, extension)
-                return response
+                response['Content-Disposition'] = \
+                    "attachment; filename=\"Deep South Sounds - %s%s\"" % (
+                        mix.title, extension
+                    )
+                mix.add_download(request.user)
+                return HttpResponse(
+                    json.dumps({
+                        'url': response_url,
+                        'filename': "Deep South Sounds - %s%s\"" % (
+                            mix.title, extension
+                        )
+                    })
+                )
+                """
             else:
                 return HttpResponse('Downloads not allowed for this mix', status=401)
 
     except Exception, ex:
         print ex
 
-    return Http404("Mix not found")
+    raise Http404("Mix not found")
 
 
 def start_streaming(request, mix_id):
@@ -58,7 +88,7 @@ def start_streaming(request, mix_id):
         mix = Mix.objects.get(pk=mix_id)
         if mix is not None:
             mix.add_play(request.user)
-            #logger.debug('Found the mix (old method): %s' % mix.uid)
+            # logger.debug('Found the mix (old method): %s' % mix.uid)
             logger.debug('Found the mix (new method) %s' % mix.uid)
             filename = "%s/mixes/%s.mp3" % (here(settings.MEDIA_ROOT), mix.uid)
             logger.debug('Serving file: %s' % filename)
