@@ -49,13 +49,6 @@ s = True
 
 SITE_ROOT = here('')
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
-}
-
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 
 TINYMCE_JS_URL = os.path.join(STATIC_ROOT, "js/libs/tiny_mce/tiny_mce.js")

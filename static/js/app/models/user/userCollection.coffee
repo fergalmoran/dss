@@ -7,7 +7,6 @@ define ['backbone', 'models/user/userItem', 'app.lib/backbone.dss.model.collecti
         url: ->
             com.podnoms.settings.urlRoot + "user/?limit=" + @limit + "&offset=" + Math.max(@page-1, 0) * @limit
         initialize: ->
-            console.clear()
             if not UserItem
                 @model = require('models/user/userItem')
 

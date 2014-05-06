@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app', 'marionette', 'vent', 'utils', 'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView', 'views/schedule/scheduleView', 'views/mix/mixEditView', 'views/user/userProfileView', 'views/user/userListView', 'views/user/userEditView', 'models/mix/mixCollection', 'models/mix/mixItem', 'models/user/userItem'], function(App, Marionette, vent, utils, MixListLayout, MixListView, MixDetailView, ScheduleView, MixEditView, UserProfileView, UserListView, UserEditView, MixCollection, MixItem, UserItem) {
+  define(['app', 'marionette', 'vent', 'utils', 'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView', 'views/show/scheduleShowLayout', 'views/mix/mixEditView', 'views/user/userProfileView', 'views/user/userListView', 'views/user/userEditView', 'models/mix/mixCollection', 'models/mix/mixItem', 'models/user/userItem'], function(App, Marionette, vent, utils, MixListLayout, MixListView, MixDetailView, ScheduleShowLayout, MixEditView, UserProfileView, UserListView, UserEditView, MixCollection, MixItem, UserItem) {
     var DssController;
     DssController = (function(_super) {
 
@@ -29,8 +29,8 @@
       DssController.prototype.showSchedule = function() {
         var app;
         app = require('app');
-        app.contentRegion.show(new ScheduleView());
-        return vent.trigger('schedule:show');
+        app.contentRegion.show(new ScheduleShowLayout());
+        return vent.trigger('show:schedule:show');
       };
 
       DssController.prototype.showMixList = function(options, emptyTemplate) {

@@ -1,34 +1,33 @@
-define ['app', 'vent', 'marionette', 'fullcalendar', 'text!/tpl/ScheduleView'],
-(App, vent, Marionette, fullcalendar, Template)->
-    class ScheduleView extends Marionette.ItemView
+define ['app', 'vent', 'marionette', 'fullcalendar',
+        'views/show/scheduleShowMixListView',
+        'models/show/showCollection',
+        'models/mix/mixCollection',
+        'text!/tpl/ShowScheduleLayout'],
+(App, vent, Marionette, fullcalendar,
+ ScheduleShowMixList,
+ ScheduleCollection,
+ MixCollection,
+ Template)->
+    class ScheduleShowLayout extends Marionette.Layout
         template: _.template(Template)
+        regions:
+            availableMixes: "#external-events"
+
+        initialize: (options)->
+            @collection = new ScheduleCollection()
+            @options = options
+
+            @collection = new MixCollection()
+            @collection.fetch
+                data: options
+                success: (collection)=>
+                    @availableMixes.show(new ScheduleShowMixList({collection: collection}))
+            return
 
         onShow: ->
+            @calendar = $("#calendar").fullCalendar(
+                default: "agendaDay"
 
-            $("#external-events div.external-event").each ->
-
-                # create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-                # it doesn't need to have a start or end
-                eventObject =
-                    title: $.trim($(this).text()) # use the element's text as the event title
-
-                # store the Event Object in the DOM element so we can get to it later
-                $(this).data "eventObject", eventObject
-
-                # make the event draggable using jQuery UI
-                $(this).draggable
-                    zIndex: 999
-                    revert: true # will cause the event to go back to its
-                    revertDuration: 0 #  original position after the drag
-
-                return
-
-            date = new Date()
-            d = date.getDate()
-            m = date.getMonth()
-            y = date.getFullYear()
-            calendar = $("#calendar").fullCalendar(
-                #isRTL: true,
                 buttonText:
                     prev: "<i class=\"ace-icon fa fa-chevron-left\"></i>"
                     next: "<i class=\"ace-icon fa fa-chevron-right\"></i>"
@@ -38,27 +37,9 @@ define ['app', 'vent', 'marionette', 'fullcalendar', 'text!/tpl/ScheduleView'],
                     center: "title"
                     right: "month,agendaWeek,agendaDay"
 
-                events: [
-                    {
-                        title: "All Day Event"
-                        start: new Date(y, m, 1)
-                        className: "label-important"
-                    }
-                    {
-                        title: "Long Event"
-                        start: new Date(y, m, d - 5)
-                        end: new Date(y, m, d - 2)
-                        className: "label-success"
-                    }
-                    {
-                        title: "Some Event"
-                        start: new Date(y, m, d - 3, 16, 0)
-                        allDay: false
-                    }
-                ]
                 editable: true
                 droppable: true # this allows things to be dropped onto the calendar !!!
-                drop: (date, allDay) -> # this function is called when something is dropped
+                drop: (date, allDay, jsEvent, ui) -> # this function is called when something is dropped
 
                     # retrieve the dropped element's stored Event Object
                     originalEventObject = $(this).data("eventObject")
@@ -76,8 +57,7 @@ define ['app', 'vent', 'marionette', 'fullcalendar', 'text!/tpl/ScheduleView'],
                     # the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
                     $("#calendar").fullCalendar "renderEvent", copiedEventObject, true
 
-                    # is the "remove after drop" checkbox checked?
-
+                    # is the "remove after drop" checbox checked?
                     # if so, remove the element from the "Draggable Events" list
                     $(this).remove()  if $("#drop-remove").is(":checked")
                     return
@@ -85,15 +65,12 @@ define ['app', 'vent', 'marionette', 'fullcalendar', 'text!/tpl/ScheduleView'],
                 selectable: true
                 selectHelper: true
                 select: (start, end, allDay) ->
-                    bootbox.prompt "New Event Title:", (title) ->
-                        if title isnt null
-                            calendar.fullCalendar "renderEvent",
-                                title: title
-                                start: start
-                                end: end
-                                allDay: allDay
-                            , true # make the event "stick"
-                        return
+                    calendar.fullCalendar "renderEvent",
+                        title: title
+                        start: start
+                        end: end
+                        allDay: allDay
+                    , true # make the event "stick"
 
                     calendar.fullCalendar "unselect"
                     return
@@ -123,8 +100,22 @@ define ['app', 'vent', 'marionette', 'fullcalendar', 'text!/tpl/ScheduleView'],
 
                     return
             )
-        true
 
-    ScheduleView
+            @collection.fetch(
+                data: @options
+                success: =>
+                    console.log("ScheduleView: Collection fetched")
+                    @collection.each (model, index, context) =>
+                        $("#calendar").fullCalendar("renderEvent", {
+                            title: model.get("description"),
+                            start: model.get("start"),
+                            end: model.get("end"),
+                            allDay: false,
+                            className: "label-important"
+                        })
+                    return
+            )
+        true
+    ScheduleShowLayout
 
 

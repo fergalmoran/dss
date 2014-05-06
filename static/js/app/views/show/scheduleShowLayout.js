@@ -3,37 +3,41 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['app', 'vent', 'marionette', 'fullcalendar', 'text!/tpl/ScheduleView'], function(App, vent, Marionette, fullcalendar, Template) {
-    var ScheduleView;
-    ScheduleView = (function(_super) {
+  define(['app', 'vent', 'marionette', 'fullcalendar', 'views/show/scheduleShowMixListView', 'models/show/showCollection', 'models/mix/mixCollection', 'text!/tpl/ShowScheduleLayout'], function(App, vent, Marionette, fullcalendar, ScheduleShowMixList, ScheduleCollection, MixCollection, Template) {
+    var ScheduleShowLayout;
+    ScheduleShowLayout = (function(_super) {
 
-      __extends(ScheduleView, _super);
+      __extends(ScheduleShowLayout, _super);
 
-      function ScheduleView() {
-        return ScheduleView.__super__.constructor.apply(this, arguments);
+      function ScheduleShowLayout() {
+        return ScheduleShowLayout.__super__.constructor.apply(this, arguments);
       }
 
-      ScheduleView.prototype.template = _.template(Template);
+      ScheduleShowLayout.prototype.template = _.template(Template);
 
-      ScheduleView.prototype.onShow = function() {
-        var calendar, d, date, m, y;
-        $("#external-events div.external-event").each(function() {
-          var eventObject;
-          eventObject = {
-            title: $.trim($(this).text())
-          };
-          $(this).data("eventObject", eventObject);
-          $(this).draggable({
-            zIndex: 999,
-            revert: true,
-            revertDuration: 0
-          });
+      ScheduleShowLayout.prototype.regions = {
+        availableMixes: "#external-events"
+      };
+
+      ScheduleShowLayout.prototype.initialize = function(options) {
+        var _this = this;
+        this.collection = new ScheduleCollection();
+        this.options = options;
+        this.collection = new MixCollection();
+        this.collection.fetch({
+          data: options,
+          success: function(collection) {
+            return _this.availableMixes.show(new ScheduleShowMixList({
+              collection: collection
+            }));
+          }
         });
-        date = new Date();
-        d = date.getDate();
-        m = date.getMonth();
-        y = date.getFullYear();
-        return calendar = $("#calendar").fullCalendar({
+      };
+
+      ScheduleShowLayout.prototype.onShow = function() {
+        var _this = this;
+        this.calendar = $("#calendar").fullCalendar({
+          "default": "agendaDay",
           buttonText: {
             prev: "<i class=\"ace-icon fa fa-chevron-left\"></i>",
             next: "<i class=\"ace-icon fa fa-chevron-right\"></i>"
@@ -43,25 +47,9 @@
             center: "title",
             right: "month,agendaWeek,agendaDay"
           },
-          events: [
-            {
-              title: "All Day Event",
-              start: new Date(y, m, 1),
-              className: "label-important"
-            }, {
-              title: "Long Event",
-              start: new Date(y, m, d - 5),
-              end: new Date(y, m, d - 2),
-              className: "label-success"
-            }, {
-              title: "Some Event",
-              start: new Date(y, m, d - 3, 16, 0),
-              allDay: false
-            }
-          ],
           editable: true,
           droppable: true,
-          drop: function(date, allDay) {
+          drop: function(date, allDay, jsEvent, ui) {
             var $extraEventClass, copiedEventObject, originalEventObject;
             originalEventObject = $(this).data("eventObject");
             $extraEventClass = $(this).attr("data-class");
@@ -79,16 +67,12 @@
           selectable: true,
           selectHelper: true,
           select: function(start, end, allDay) {
-            bootbox.prompt("New Event Title:", function(title) {
-              if (title !== null) {
-                calendar.fullCalendar("renderEvent", {
-                  title: title,
-                  start: start,
-                  end: end,
-                  allDay: allDay
-                }, true);
-              }
-            });
+            calendar.fullCalendar("renderEvent", {
+              title: title,
+              start: start,
+              end: end,
+              allDay: allDay
+            }, true);
             calendar.fullCalendar("unselect");
           },
           eventClick: function(calEvent, jsEvent, view) {
@@ -112,14 +96,29 @@
             });
           }
         });
+        return this.collection.fetch({
+          data: this.options,
+          success: function() {
+            console.log("ScheduleView: Collection fetched");
+            _this.collection.each(function(model, index, context) {
+              return $("#calendar").fullCalendar("renderEvent", {
+                title: model.get("description"),
+                start: model.get("start"),
+                end: model.get("end"),
+                allDay: false,
+                className: "label-important"
+              });
+            });
+          }
+        });
       };
 
       true;
 
-      return ScheduleView;
+      return ScheduleShowLayout;
 
-    })(Marionette.ItemView);
-    return ScheduleView;
+    })(Marionette.Layout);
+    return ScheduleShowLayout;
   });
 
 }).call(this);
