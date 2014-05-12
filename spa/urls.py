@@ -7,7 +7,6 @@ from spa.api.v1.NotificationResource import NotificationResource
 from spa.audio import AudioHandler
 from spa.api.v1.ChatResource import ChatResource
 from spa.api.v1.CommentResource import CommentResource
-#from spa.api.v1.EventResource import EventResource
 from spa.api.v1.MixResource import MixResource
 from spa.api.v1.ReleaseAudioResource import ReleaseAudioResource
 from spa.api.v1.ReleaseResource import ReleaseResource
@@ -21,7 +20,6 @@ api.register(CommentResource())
 api.register(MixResource())
 api.register(ReleaseResource())
 api.register(ReleaseAudioResource())
-#api.register(EventResource())
 api.register(UserResource())
 api.register(ActivityResource())
 api.register(NotificationResource())
@@ -34,7 +32,7 @@ audio = AudioHandler()
 urlpatterns = patterns(
     '',
     url(r'^$', 'spa.views.app', name='home'),
-    url(r'^tpl/(?P<template_name>\w+)/$', 'spa.templates.get_template'),
+    url(r'^tpl/(?P<template_name>\w+)', 'spa.templates.get_template'),
     url(r'^dlg/(?P<dialog_name>\w+)/$', 'spa.templates.get_dialog'),
     url(r'^dlg/embed/(?P<slug>[\w\d_.-]+)/$', 'spa.templates.get_embed_codes_dialog'),
     url(r'^js/(?P<template_name>\w+)/$', 'spa.templates.get_javascript'),

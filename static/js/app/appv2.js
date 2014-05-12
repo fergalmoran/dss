@@ -18,6 +18,7 @@
     });
     App.addRegions({
       headerRegion: "#header",
+      fullContentRegion: "#full-content",
       contentRegion: {
         selector: "#content"
       },

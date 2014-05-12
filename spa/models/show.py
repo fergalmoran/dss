@@ -1,10 +1,15 @@
-from django.db.models import Q
+from django.db.models import Q, ForeignKey
 from schedule.models import Event
+from spa.models import Mix
+
 
 class ShowOverlapException(Exception):
     pass
 
+
 class Show(Event):
+    mix = ForeignKey(Mix, related_name='show')
+
     class Meta:
         app_label = 'spa'
 
@@ -13,7 +18,6 @@ class Show(Event):
         """
             throw an exception if event overlaps with another event
         """
-        import ipdb; ipdb.set_trace()
         overlaps = Show.objects.filter(
             Q(start__gte=self.start, end__lte=self.start) |
             Q(start__gte=self.end, end__lte=self.end)

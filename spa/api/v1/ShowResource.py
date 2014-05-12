@@ -1,3 +1,4 @@
+from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.http import HttpBadRequest
@@ -11,10 +12,14 @@ DATE_FORMAT = '%d/%m/%Y %H:%M:%S'
 
 
 class ShowResource(BackboneCompatibleResource):
+    mix = fields.ToOneField('spa.api.v1.MixResource.MixResource',
+                            'mix', null=False, full=False)
+
     class Meta:
         queryset = Show.objects.all()
         authorization = Authorization()
-        resource_name = 'schedules'
+        resource_name = 'show'
+        always_return_data = True
 
     def obj_create(self, bundle, **kwargs):
         try:
@@ -22,5 +27,9 @@ class ShowResource(BackboneCompatibleResource):
         except ShowOverlapException:
             raise ImmediateHttpResponse(
                 HttpBadRequest("This event overlaps with an existing event")
+            )
+        except Exception, ex:
+            raise ImmediateHttpResponse(
+                HttpBadRequest(ex.message)
             )
 

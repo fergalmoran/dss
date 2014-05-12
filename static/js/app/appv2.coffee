@@ -25,6 +25,7 @@ define ['backbone', 'marionette', 'vent', 'utils', 'underscore',
 
     App.addRegions
         headerRegion: "#header"
+        fullContentRegion: "#full-content"
         contentRegion:
             selector: "#content"
         footerRegion: "#footer"

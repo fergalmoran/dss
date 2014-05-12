@@ -1,11 +1,11 @@
 define ['app', 'marionette', 'vent', 'utils',
         'views/mix/mixListLayout', 'views/mix/mixListView', 'views/mix/mixDetailView',
-        'views/schedule/scheduleView',
+        'views/show/scheduleShowLayout',
         'views/mix/mixEditView', 'views/user/userProfileView', 'views/user/userListView', 'views/user/userEditView',
         'models/mix/mixCollection', 'models/mix/mixItem', 'models/user/userItem'],
 (App, Marionette, vent, utils,
  MixListLayout, MixListView, MixDetailView,
- ScheduleView,
+ ScheduleShowLayout,
  MixEditView, UserProfileView, UserListView, UserEditView,
  MixCollection, MixItem, UserItem)->
     class DssController extends Marionette.Controller
@@ -22,8 +22,8 @@ define ['app', 'marionette', 'vent', 'utils',
 
         showSchedule: ->
             app = require('app')
-            app.contentRegion.show(new ScheduleView())
-            vent.trigger('schedule:show')
+            app.contentRegion.show(new ScheduleShowLayout())
+            vent.trigger('show:schedule:show')
 
         showMixList: (options, emptyTemplate) ->
             app = require('app')

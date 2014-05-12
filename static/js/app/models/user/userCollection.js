@@ -24,7 +24,6 @@
       };
 
       UserCollection.prototype.initialize = function() {
-        console.clear();
         if (!UserItem) {
           return this.model = require('models/user/userItem');
         }

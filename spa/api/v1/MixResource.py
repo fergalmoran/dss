@@ -16,6 +16,7 @@ from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.api.v1.CommentResource import CommentResource
 from spa.api.v1.ActivityResource import ActivityResource
 from spa.models.mix import Mix
+from spa.models.show import Show
 
 
 class MixResource(BackboneCompatibleResource):
@@ -158,6 +159,9 @@ class MixResource(BackboneCompatibleResource):
                 )
             semi_filtered = semi_filtered.filter(
                 user__in=request.user.get_profile().following.all())
+        if request.GET.get('for_show'):
+            semi_filtered = semi_filtered.filter(show__isnull=True)
+
         if f_user is not None:
             semi_filtered = semi_filtered.filter(user__slug=f_user)
 
