@@ -5,6 +5,7 @@ com.podnoms.settings = {
     REALTIME_HOST: "{{ REALTIME_HOST }}",
     SOCKET_IO_JS_URL: "{{ SOCKET_IO_JS_URL }}",
     urlRoot: '{{ API_URL }}',
+    liveEnabled: {{ LIVE_ENABLED }}',
     liveStreamRoot: 'http://{{ LIVE_STREAM_URL }}:{{ LIVE_STREAM_PORT }}/{{ LIVE_STREAM_MOUNT }}',
     streamInfoUrl: 'http://{{ LIVE_STREAM_INFO_URL }}',
     volume: '{{ DEFAULT_AUDIO_VOLUME }}',
