@@ -1,11 +1,11 @@
-define ['app', 'vent', 'utils', 'marionette', 'fullcalendar',
+define ['app', 'vent', 'marionette', 'fullcalendar',
         'views/show/scheduleShowMixListView',
-        'models/show/showCollection', 'models/show/showItem',
+        'models/show/showCollection',
         'models/mix/mixCollection',
         'text!/tpl/ShowScheduleLayout'],
-(App, vent, utils, Marionette, fullcalendar,
+(App, vent, Marionette, fullcalendar,
  ScheduleShowMixList,
- ShowCollection, ShowItem,
+ ScheduleCollection,
  MixCollection,
  Template)->
     class ScheduleShowLayout extends Marionette.Layout
@@ -14,17 +14,17 @@ define ['app', 'vent', 'utils', 'marionette', 'fullcalendar',
             availableMixes: "#external-events"
 
         initialize: (options)->
-            @collection = new ShowCollection()
+            @collection = new ScheduleCollection()
             @options = options
 
-            @mixCollection = new MixCollection()
-            @mixCollection.fetch
-                data: {for_show: true, order_by: 'latest'}
+            @collection = new MixCollection()
+            @collection.fetch
+                data: options
                 success: (collection)=>
                     @availableMixes.show(new ScheduleShowMixList({collection: collection}))
             return
 
-        onShow: =>
+        onShow: ->
             @calendar = $("#calendar").fullCalendar(
                 editable: true
                 droppable: true
@@ -57,6 +57,20 @@ define ['app', 'vent', 'utils', 'marionette', 'fullcalendar',
                             utils.showError(response.responseText)
                     return
 
+
+                selectable: true
+                selectHelper: true
+                select: (start, end, allDay) ->
+                    calendar.fullCalendar "renderEvent",
+                        title: title
+                        start: start
+                        end: end
+                        allDay: allDay
+                    , true # make the event "stick"
+
+                    calendar.fullCalendar "unselect"
+                    return
+
                 eventClick: (calEvent, jsEvent, view) ->
 
                     #display a modal
@@ -82,26 +96,21 @@ define ['app', 'vent', 'utils', 'marionette', 'fullcalendar',
 
                     return
             )
-            @_fetchEvents()
 
-        _fetchEvents: ->
             @collection.fetch(
                 data: @options
                 success: =>
                     console.log("ScheduleView: Collection fetched")
-                    @collection.each (model) =>
-                        @_renderEvent(model)
+                    @collection.each (model, index, context) =>
+                        $("#calendar").fullCalendar("renderEvent", {
+                            title: model.get("description"),
+                            start: model.get("start"),
+                            end: model.get("end"),
+                            allDay: false,
+                            className: "label-important"
+                        })
                     return
             )
-
-        _renderEvent: (model) ->
-            $("#calendar").fullCalendar("renderEvent", {
-                title: model.get("description").substring(0, 15),
-                start: model.get("start"),
-                end: model.get("end"),
-                allDay: false,
-                className: "label-important"
-            })
         true
     ScheduleShowLayout
 

@@ -5,7 +5,7 @@ define ['backbone', 'models/show/showItem', 'app.lib/backbone.dss.model.collecti
         page: 0
         limit: 20
         url: ->
-            com.podnoms.settings.urlRoot + "show/?limit=" + @limit + "&offset=" + Math.max(@page-1, 0) * @limit
+            com.podnoms.settings.urlRoot + "shows/?limit=" + @limit + "&offset=" + Math.max(@page-1, 0) * @limit
 
         initialize: ->
             if not ShowItem

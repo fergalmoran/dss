@@ -20,7 +20,7 @@
       ScheduleCollection.prototype.limit = 20;
 
       ScheduleCollection.prototype.url = function() {
-        return com.podnoms.settings.urlRoot + "show/?limit=" + this.limit + "&offset=" + Math.max(this.page - 1, 0) * this.limit;
+        return com.podnoms.settings.urlRoot + "shows/?limit=" + this.limit + "&offset=" + Math.max(this.page - 1, 0) * this.limit;
       };
 
       ScheduleCollection.prototype.initialize = function() {

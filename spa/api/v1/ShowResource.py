@@ -18,8 +18,7 @@ class ShowResource(BackboneCompatibleResource):
     class Meta:
         queryset = Show.objects.all()
         authorization = Authorization()
-        resource_name = 'show'
-        always_return_data = True
+        resource_name = 'shows'
 
     def obj_create(self, bundle, **kwargs):
         try:
