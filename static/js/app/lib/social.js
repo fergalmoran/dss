@@ -5,7 +5,7 @@
     return {
       postFacebookLike: function(mixId) {
         return $.getJSON("social/like/" + mixId + "/", function(data) {
-          return com.podnoms.utils.showAlert("Posted your like to facebook, you can stop this in your settings page.", "Cheers feen");
+          return utils.showAlert("Posted your like to facebook, you can stop this in your settings page.", "Cheers feen");
         });
       },
       generateEmbedCode: function(model) {

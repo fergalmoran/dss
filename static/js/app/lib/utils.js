@@ -55,7 +55,7 @@
       checkPlayCount: function() {
         var _this = this;
         if (document.cookie.indexOf("sessionId")) {
-          $.getJSON("/ajax/session_play_count", function(data) {
+          $.getJSON("/ajax/session_play_count/", function(data) {
             console.log("utils: got playcount");
             if (data.play_count !== "0" && ((data.play_count % com.podnoms.settings.nag_count) === 0)) {
               return _this.modal("/dlg/PlayCountLoginAlert");

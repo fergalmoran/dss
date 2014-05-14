@@ -12,15 +12,20 @@
             <li><a href="/mixes"><i class="fa fa-music fa fa-white"></i>Mixes</a></li>
             <li><a href="/users"><i class="fa fa-user fa fa-white"></i>Users</a></li>
             {% if user.is_authenticated %}
-            <li><a href="/stream" title="Show mixes from people you follow" id="header-stream-button"><i class="fa fa-dot-circle-o fa-white"></i>Stream</a></li>
+                <li><a href="/stream" title="Show mixes from people you follow" id="header-stream-button"><i
+                        class="fa fa-dot-circle-o fa-white"></i>Stream</a></li>
             {% endif %}
-            <li><a data-bypass="true" title="Show random mix from our vaults" id="header-random-button"><i class="fa fa-cogs fa fa-white"></i>Random</a></li>
-            <li><a data-bypass="true" target="_blank" href="/podcast"><i class="fa fa-rss fa fa-white"></i>Podcast</a></li>
-            <li class="purple">
-                <a data-bypass="true" class="btn-success" id="header-live-button">&nbsp;Listen Live
-                    <i class="fa fa-headphones fa fa-white" id="header-live-icon"></i>
-                </a>
+            <li><a data-bypass="true" title="Show random mix from our vaults" id="header-random-button"><i
+                    class="fa fa-cogs fa fa-white"></i>Random</a></li>
+            <li><a data-bypass="true" target="_blank" href="/podcast"><i class="fa fa-rss fa fa-white"></i>Podcast</a>
             </li>
+            {% if live_enabled %}
+                <li class="purple">
+                    <a data-bypass="true" class="btn-success" id="header-live-button">&nbsp;Listen Live
+                        <i class="fa fa-headphones fa fa-white" id="header-live-icon"></i>
+                    </a>
+                </li>
+            {% endif %}
             {% if user.is_authenticated %}
                 <li class="purple">
                     <a href="/mix/upload" id='upload'>Upload
@@ -33,7 +38,8 @@
     <div class="navbar-header pull-right" role="navigation">
         <ul class="nav ace-nav">
             <li id="header-search"></li>
-            <li><a class="btn-danger" data-bypass="true" id="header-donate-button"><i class="fa fa-euro" />Donate</a></li>
+            <li><a class="btn-danger" data-bypass="true" id="header-donate-button"><i class="fa fa-euro"/>Donate</a>
+            </li>
             <li class="nav ace-nav" id="header-notifications">
                 <!-- End Notifications li -->
             </li>

@@ -27,10 +27,11 @@
         return soundManager.setup({
           url: com.podnoms.settings.staticUrl + '/swf/sm/',
           onready: function() {
-            return console.log("Sound manager ready sir!");
+            vent.trigger('peneloplay:ready');
+            return console.log("Sound manager ready!");
           },
           debugFlash: com.podnoms.smDebugMode,
-          preferFlash: true,
+          preferFlash: false,
           defaultOptions: {
             volume: com.podnoms.settings.volume
           }

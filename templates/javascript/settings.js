@@ -5,7 +5,7 @@ com.podnoms.settings = {
     REALTIME_HOST: "{{ REALTIME_HOST }}",
     SOCKET_IO_JS_URL: "{{ SOCKET_IO_JS_URL }}",
     urlRoot: '{{ API_URL }}',
-    liveEnabled: {{ LIVE_ENABLED }}',
+    liveEnabled: {{ LIVE_ENABLED }},
     liveStreamRoot: 'http://{{ LIVE_STREAM_URL }}:{{ LIVE_STREAM_PORT }}/{{ LIVE_STREAM_MOUNT }}',
     streamInfoUrl: 'http://{{ LIVE_STREAM_INFO_URL }}',
     volume: '{{ DEFAULT_AUDIO_VOLUME }}',
@@ -18,18 +18,5 @@ com.podnoms.settings = {
     currentUser: {{ CURRENT_USER_ID }},
     userName: "{{ CURRENT_USER_NAME }}",
     userUrl: "{{ CURRENT_USER_URL }}",
-    avatarImage: "{{ AVATAR_IMAGE }}",
-    /** simple helper to take an api JSON object and initialise a player item */
-    setupPlayerWrapper: function (id, stream_url, el) {
-        com.podnoms.player.setupPlayer({
-            id: id,
-            boundingEl: $('#mix-container-' + id, el),
-            waveFormEl: $('#waveform-' + id, el),
-            playHeadEl: $('#playhead-player-' + id, el),
-            loadingEl: $('#progress-player-' + id, el),
-            seekHeadEl: $('#player-seekhead', el),
-            playButtonEl: $('#play-pause-button-small-' + id, el),
-            url: stream_url || ""
-        });
-    }
+    avatarImage: "{{ AVATAR_IMAGE }}"
 };

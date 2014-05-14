@@ -3,7 +3,7 @@ define ['jquery', 'utils', 'facebook'], ($, utils) ->
 
         #first off, find if the current user has allowed facebook likes
         $.getJSON "social/like/" + mixId + "/", (data) ->
-            com.podnoms.utils.showAlert "Posted your like to facebook, you can stop this in your settings page.", "Cheers feen"
+            utils.showAlert "Posted your like to facebook, you can stop this in your settings page.", "Cheers feen"
 
 
     generateEmbedCode: (model) ->

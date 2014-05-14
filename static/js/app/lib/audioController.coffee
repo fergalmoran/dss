@@ -15,10 +15,11 @@ define ['app', 'marionette', 'vent', 'utils', 'soundmanager2', 'peneloplay'],
             soundManager.setup
                 url: com.podnoms.settings.staticUrl + '/swf/sm/'
                 onready: ->
-                    console.log "Sound manager ready sir!"
+                    vent.trigger('peneloplay:ready')
+                    console.log "Sound manager ready!"
 
                 debugFlash: com.podnoms.smDebugMode
-                preferFlash: true
+                preferFlash: false
 
                 defaultOptions:
                     volume: com.podnoms.settings.volume
