@@ -15,7 +15,6 @@ class Command(NoArgsCommand):
             files = [f for f in listdir(mixes_path) if isfile(join(mixes_path, f))]
 
             for f in files:
-                print "Got a file: %s" % f
                 uid = os.path.splitext(f)[0]
                 try:
                     Mix.objects.get(uid=uid)

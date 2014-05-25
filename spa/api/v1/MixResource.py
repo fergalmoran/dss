@@ -159,13 +159,13 @@ class MixResource(BackboneCompatibleResource):
                 )
             semi_filtered = semi_filtered.filter(
                 user__in=request.user.get_profile().following.all())
+
         if request.GET.get('for_show'):
             semi_filtered = semi_filtered.filter(show__isnull=True)
 
         if f_user is not None:
             semi_filtered = semi_filtered.filter(user__slug=f_user)
-
-        if len(applicable_filters) == 0:
+        elif len(applicable_filters) == 0:
             semi_filtered = semi_filtered.filter(is_featured=True)
 
         return semi_filtered
@@ -175,6 +175,7 @@ class MixResource(BackboneCompatibleResource):
 
     def dehydrate(self, bundle):
         bundle.data['waveform_url'] = bundle.obj.get_waveform_url()
+        bundle.data['audio_src'] = bundle.obj.get_stream_path()
         bundle.data['user_name'] = bundle.obj.user.get_nice_name()
         bundle.data['user_profile_url'] = bundle.obj.user.get_absolute_url()
         bundle.data['user_profile_image'] = \
