@@ -86,7 +86,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
-STATICFILES_STORAGE = 'require.storage.OptimizedStaticFilesStorage'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 STATICFILES_DIRS = (
     here('static'),
 )
@@ -145,6 +145,7 @@ INSTALLED_APPS = (
     'djcelery',
     'sorl.thumbnail',
     'south',
+    'pipeline',
     'avatar',
     'spa',
     'spa.signals',
@@ -190,19 +191,6 @@ SOCIALACCOUNT_PROVIDERS = {
 AVATAR_STORAGE_DIR = MEDIA_ROOT + '/avatars/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
-PIPELINE_YUI_BINARY = ""
-PIPELINE = False
-PIPELINE_CSS = {
-    'defaults': {
-        'source_filenames': (
-            'static/css/*.css',
-        ),
-        'output_filename': 'css/dss.css',
-        'extra_context': {
-            'media': 'screen,projection',
-        },
-    },
-}
 INTERNAL_IPS = ('127.0.0.1', '86.44.166.21', '192.168.1.111')
 
 TASTYPIE_DATETIME_FORMATTING = 'rfc-2822'

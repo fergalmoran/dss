@@ -1,15 +1,206 @@
-// Uses AMD or browser globals to create a jQuery plugin.
-(function (factory) {
-  if (typeof define === 'function' && define.amd) {
-      // AMD. Register as an anonymous module.
-      define(['jquery'], factory);
-  } else {
-      // Browser globals
-      factory(jQuery);
-  }
-} (function (jQuery) {
-    var module = { exports: { } }; // Fake component
+;(function(){
 
+/**
+ * Require the given path.
+ *
+ * @param {String} path
+ * @return {Object} exports
+ * @api public
+ */
+
+function require(path, parent, orig) {
+  var resolved = require.resolve(path);
+
+  // lookup failed
+  if (null == resolved) {
+    orig = orig || path;
+    parent = parent || 'root';
+    var err = new Error('Failed to require "' + orig + '" from "' + parent + '"');
+    err.path = orig;
+    err.parent = parent;
+    err.require = true;
+    throw err;
+  }
+
+  var module = require.modules[resolved];
+
+  // perform real require()
+  // by invoking the module's
+  // registered function
+  if (!module._resolving && !module.exports) {
+    var mod = {};
+    mod.exports = {};
+    mod.client = mod.component = true;
+    module._resolving = true;
+    module.call(this, mod.exports, require.relative(resolved), mod);
+    delete module._resolving;
+    module.exports = mod.exports;
+  }
+
+  return module.exports;
+}
+
+/**
+ * Registered modules.
+ */
+
+require.modules = {};
+
+/**
+ * Registered aliases.
+ */
+
+require.aliases = {};
+
+/**
+ * Resolve `path`.
+ *
+ * Lookup:
+ *
+ *   - PATH/index.js
+ *   - PATH.js
+ *   - PATH
+ *
+ * @param {String} path
+ * @return {String} path or null
+ * @api private
+ */
+
+require.resolve = function(path) {
+  if (path.charAt(0) === '/') path = path.slice(1);
+
+  var paths = [
+    path,
+    path + '.js',
+    path + '.json',
+    path + '/index.js',
+    path + '/index.json'
+  ];
+
+  for (var i = 0; i < paths.length; i++) {
+    var path = paths[i];
+    if (require.modules.hasOwnProperty(path)) return path;
+    if (require.aliases.hasOwnProperty(path)) return require.aliases[path];
+  }
+};
+
+/**
+ * Normalize `path` relative to the current path.
+ *
+ * @param {String} curr
+ * @param {String} path
+ * @return {String}
+ * @api private
+ */
+
+require.normalize = function(curr, path) {
+  var segs = [];
+
+  if ('.' != path.charAt(0)) return path;
+
+  curr = curr.split('/');
+  path = path.split('/');
+
+  for (var i = 0; i < path.length; ++i) {
+    if ('..' == path[i]) {
+      curr.pop();
+    } else if ('.' != path[i] && '' != path[i]) {
+      segs.push(path[i]);
+    }
+  }
+
+  return curr.concat(segs).join('/');
+};
+
+/**
+ * Register module at `path` with callback `definition`.
+ *
+ * @param {String} path
+ * @param {Function} definition
+ * @api private
+ */
+
+require.register = function(path, definition) {
+  require.modules[path] = definition;
+};
+
+/**
+ * Alias a module definition.
+ *
+ * @param {String} from
+ * @param {String} to
+ * @api private
+ */
+
+require.alias = function(from, to) {
+  if (!require.modules.hasOwnProperty(from)) {
+    throw new Error('Failed to alias "' + from + '", it does not exist');
+  }
+  require.aliases[to] = from;
+};
+
+/**
+ * Return a require function relative to the `parent` path.
+ *
+ * @param {String} parent
+ * @return {Function}
+ * @api private
+ */
+
+require.relative = function(parent) {
+  var p = require.normalize(parent, '..');
+
+  /**
+   * lastIndexOf helper.
+   */
+
+  function lastIndexOf(arr, obj) {
+    var i = arr.length;
+    while (i--) {
+      if (arr[i] === obj) return i;
+    }
+    return -1;
+  }
+
+  /**
+   * The relative require() itself.
+   */
+
+  function localRequire(path) {
+    var resolved = localRequire.resolve(path);
+    return require(resolved, parent, path);
+  }
+
+  /**
+   * Resolve relative to the parent.
+   */
+
+  localRequire.resolve = function(path) {
+    var c = path.charAt(0);
+    if ('/' == c) return path.slice(1);
+    if ('.' == c) return require.normalize(p, path);
+
+    // resolve deps by returning
+    // the dep in the nearest "deps"
+    // directory
+    var segs = parent.split('/');
+    var i = lastIndexOf(segs, 'deps') + 1;
+    if (!i) i = 0;
+    path = segs.slice(0, i + 1).join('/') + '/deps/' + path;
+    return path;
+  };
+
+  /**
+   * Check if module is defined at `path`.
+   */
+
+  localRequire.exists = function(path) {
+    return require.modules.hasOwnProperty(localRequire.resolve(path));
+  };
+
+  return localRequire;
+};
+require.register("component-emitter/index.js", function(exports, require, module){
 
 /**
  * Expose `Emitter`.
@@ -51,8 +242,7 @@ function mixin(obj) {
  * @api public
  */
 
-Emitter.prototype.on =
-Emitter.prototype.addEventListener = function(event, fn){
+Emitter.prototype.on = function(event, fn){
   this._callbacks = this._callbacks || {};
   (this._callbacks[event] = this._callbacks[event] || [])
     .push(fn);
@@ -78,7 +268,7 @@ Emitter.prototype.once = function(event, fn){
     fn.apply(this, arguments);
   }
 
-  on.fn = fn;
+  fn._off = on;
   this.on(event, on);
   return this;
 };
@@ -95,17 +285,8 @@ Emitter.prototype.once = function(event, fn){
 
 Emitter.prototype.off =
 Emitter.prototype.removeListener =
-Emitter.prototype.removeAllListeners =
-Emitter.prototype.removeEventListener = function(event, fn){
+Emitter.prototype.removeAllListeners = function(event, fn){
   this._callbacks = this._callbacks || {};
-
-  // all
-  if (0 == arguments.length) {
-    this._callbacks = {};
-    return this;
-  }
-
-  // specific event
   var callbacks = this._callbacks[event];
   if (!callbacks) return this;
 
@@ -116,14 +297,8 @@ Emitter.prototype.removeEventListener = function(event, fn){
   }
 
   // remove specific handler
-  var cb;
-  for (var i = 0; i < callbacks.length; i++) {
-    cb = callbacks[i];
-    if (cb === fn || cb.fn === fn) {
-      callbacks.splice(i, 1);
-      break;
-    }
-  }
+  var i = callbacks.indexOf(fn._off || fn);
+  if (~i) callbacks.splice(i, 1);
   return this;
 };
 
@@ -175,6 +350,17 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
+});
+require.register("dropzone/index.js", function(exports, require, module){
+
+
+/**
+ * Exposing dropzone
+ */
+module.exports = require("./lib/dropzone.js");
+
+});
+require.register("dropzone/lib/dropzone.js", function(exports, require, module){
 /*
 #
 # More info at [www.dropzonejs.com](http://www.dropzonejs.com)
@@ -673,7 +859,9 @@ Emitter.prototype.hasListeners = function(event){
             },
             "dragover": function(e) {
               var efct;
-              efct = e.dataTransfer.effectAllowed;
+              try {
+                efct = e.dataTransfer.effectAllowed;
+              } catch (_error) {}
               e.dataTransfer.dropEffect = 'move' === efct || 'linkMove' === efct ? 'move' : 'copy';
               noPropagation(e);
               return _this.emit("dragover", e);
@@ -687,10 +875,6 @@ Emitter.prototype.hasListeners = function(event){
             },
             "dragend": function(e) {
               return _this.emit("dragend", e);
-            },
-            "paste": function(e) {
-              noPropagation(e);
-              return _this.paste(e);
             }
           }
         }
@@ -896,7 +1080,6 @@ Emitter.prototype.hasListeners = function(event){
 
     Dropzone.prototype.paste = function(e) {
       var items, _ref;
-      return;
       if ((e != null ? (_ref = e.clipboardData) != null ? _ref.items : void 0 : void 0) == null) {
         return;
       }
@@ -1382,7 +1565,7 @@ Emitter.prototype.hasListeners = function(event){
 
   })(Em);
 
-  Dropzone.version = "4.0.0-dev";
+  Dropzone.version = "3.8.4";
 
   Dropzone.options = {};
 
@@ -1724,5 +1907,13 @@ Emitter.prototype.hasListeners = function(event){
 
 }).call(this);
 
-    return module.exports;
-}));
+});
+require.alias("component-emitter/index.js", "dropzone/deps/emitter/index.js");
+require.alias("component-emitter/index.js", "emitter/index.js");
+if (typeof exports == "object") {
+  module.exports = require("dropzone");
+} else if (typeof define == "function" && define.amd) {
+  define(function(){ return require("dropzone"); });
+} else {
+  this["Dropzone"] = require("dropzone");
+}})();

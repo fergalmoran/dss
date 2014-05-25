@@ -9,6 +9,7 @@ define [
  Template) ->
     class MixListLayout extends Marionette.Layout
         template: _.template(Template)
+
         regions: {
             headerRegion: "#mix-list-heading"
             bodyRegion: "#mix-list-body"

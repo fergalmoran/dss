@@ -1,20 +1,12 @@
-define ['backbone', 'marionette', 'vent', 'utils', 'underscore',
-        'app.lib/social', 'app.lib/router', 'app.lib/panningRegion', 'app.lib/audioController',
-        'models/user/userItem', 'models/mix/mixCollection',
-        'views/widgets/headerView', 'views/sidebar/sidebarView'],
-(Backbone, Marionette, vent, utils, _,
- social, DssRouter, PanningRegion, AudioController,
- UserItem, MixCollection,
- HeaderView, SidebarView) ->
-    App = new Marionette.Application();
-    App.audioController = new AudioController();
+@DssApplication = do(Backbone, Marionette) ->
 
-    #App.realtimeController = new RealtimeController();
-    #App.realtimeController.startSocketIO();
+    App = new Marionette.Application()
+    #App.realtimeController = new RealtimeController()
+    #App.realtimeController.startSocketIO()
 
     App.vent.on "routing:started", ->
         console.log "App(vent): routing:started"
-        enablePushState = true;
+        enablePushState = true
         #Disable for older browsers
         pushState = !!(enablePushState && window.history && window.history.pushState)
         Backbone.history.start({
@@ -32,17 +24,17 @@ define ['backbone', 'marionette', 'vent', 'utils', 'underscore',
         sidebarRegion: "#sidebar"
 
     App.addInitializer ->
-        console.log("App: routing starting");
-        App.Router = new DssRouter();
-        App.vent.trigger("routing:started");
+        console.log("App: routing starting")
+        App.Router = new DssRouter()
+        App.vent.trigger("routing:started")
 
     App.addInitializer ->
         $(document).on("click", "a[href]:not([data-bypass])", (evt) ->
-            href = { prop: $(this).prop("href"), attr: $(this).attr("href") };
-            root = location.protocol + "//" + location.host + (App.root || '/');
+            href = { prop: $(this).prop("href"), attr: $(this).attr("href") }
+            root = location.protocol + "//" + location.host + (App.root || '/')
             if (href.prop.slice(0, root.length) == root)
-                evt.preventDefault();
-                App.Router.navigate(href.attr, true);
+                evt.preventDefault()
+                App.Router.navigate(href.attr, true)
                 true
         )
         true
@@ -112,15 +104,15 @@ define ['backbone', 'marionette', 'vent', 'utils', 'underscore',
         @listenTo vent, "mix:share", (mode, model) ->
             console.log "App(vent): mix:share (" + mode + ")"
             if (mode == "facebook")
-                social.sharePageToFacebook(model);
+                social.sharePageToFacebook(model)
             else if (mode == "twitter")
-                social.sharePageToTwitter(model);
+                social.sharePageToTwitter(model)
             else if (mode == "embed")
                 social.generateEmbedCode(model)
 
             true
-    App.headerRegion.show(new HeaderView());
-    sidebarView = new SidebarView();
+    App.headerRegion.show(new HeaderView())
+    sidebarView = new SidebarView()
     App.sidebarRegion.show(sidebarView)
 
-    return App;
+    App

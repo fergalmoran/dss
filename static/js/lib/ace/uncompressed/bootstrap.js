@@ -1,32 +1,22 @@
 /*!
- * Jasny Bootstrap v3.0.1-p7, maintained by @ArnoldDaniels
- * Copyright 2013 Twitter, Inc
- * Licensed under http://www.apache.org/licenses/LICENSE-2.0
+ * Bootstrap v3.1.1 (http://getbootstrap.com)
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
-if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery") }
+if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript requires jQuery') }
 
 /* ========================================================================
- * Bootstrap: transition.js v3.0.0
+ * Bootstrap: transition.js v3.1.1
  * http://getbootstrap.com/javascript/#transitions
  * ========================================================================
- * Copyright 2013 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  'use strict';
 
   // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
   // ============================================================
@@ -35,10 +25,10 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     var el = document.createElement('bootstrap')
 
     var transEndEventNames = {
-      'WebkitTransition' : 'webkitTransitionEnd'
-    , 'MozTransition'    : 'transitionend'
-    , 'OTransition'      : 'oTransitionEnd otransitionend'
-    , 'transition'       : 'transitionend'
+      'WebkitTransition' : 'webkitTransitionEnd',
+      'MozTransition'    : 'transitionend',
+      'OTransition'      : 'oTransitionEnd otransitionend',
+      'transition'       : 'transitionend'
     }
 
     for (var name in transEndEventNames) {
@@ -46,6 +36,8 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
         return { end: transEndEventNames[name] }
       }
     }
+
+    return false // explicit for ie8 (  ._.)
   }
 
   // http://blog.alexmaccaw.com/css-transitions
@@ -61,29 +53,19 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     $.support.transition = transitionEnd()
   })
 
-}(window.jQuery);
+}(jQuery);
 
 /* ========================================================================
- * Bootstrap: alert.js v3.0.0
+ * Bootstrap: alert.js v3.1.1
  * http://getbootstrap.com/javascript/#alerts
  * ========================================================================
- * Copyright 2013 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  'use strict';
 
   // ALERT CLASS DEFINITION
   // ======================
@@ -160,36 +142,27 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
   $(document).on('click.bs.alert.data-api', dismiss, Alert.prototype.close)
 
-}(window.jQuery);
+}(jQuery);
 
 /* ========================================================================
- * Bootstrap: button.js v3.0.0
+ * Bootstrap: button.js v3.1.1
  * http://getbootstrap.com/javascript/#buttons
  * ========================================================================
- * Copyright 2013 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  'use strict';
 
   // BUTTON PUBLIC CLASS DEFINITION
   // ==============================
 
   var Button = function (element, options) {
-    this.$element = $(element)
-    this.options  = $.extend({}, Button.DEFAULTS, options)
+    this.$element  = $(element)
+    this.options   = $.extend({}, Button.DEFAULTS, options)
+    this.isLoading = false
   }
 
   Button.DEFAULTS = {
@@ -209,24 +182,31 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     $el[val](data[state] || this.options[state])
 
     // push to event loop to allow forms to submit
-    setTimeout(function () {
-      state == 'loadingText' ?
-        $el.addClass(d).attr(d, d) :
-        $el.removeClass(d).removeAttr(d);
-    }, 0)
+    setTimeout($.proxy(function () {
+      if (state == 'loadingText') {
+        this.isLoading = true
+        $el.addClass(d).attr(d, d)
+      } else if (this.isLoading) {
+        this.isLoading = false
+        $el.removeClass(d).removeAttr(d)
+      }
+    }, this), 0)
   }
 
   Button.prototype.toggle = function () {
+    var changed = true
     var $parent = this.$element.closest('[data-toggle="buttons"]')
 
     if ($parent.length) {
       var $input = this.$element.find('input')
-        .prop('checked', !this.$element.hasClass('active'))
-        .trigger('change')
-      if ($input.prop('type') === 'radio') $parent.find('.active').removeClass('active')
+      if ($input.prop('type') == 'radio') {
+        if ($input.prop('checked') && this.$element.hasClass('active')) changed = false
+        else $parent.find('.active').removeClass('active')
+      }
+      if (changed) $input.prop('checked', !this.$element.hasClass('active')).trigger('change')
     }
 
-    this.$element.toggleClass('active')
+    if (changed) this.$element.toggleClass('active')
   }
 
 
@@ -270,29 +250,19 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     e.preventDefault()
   })
 
-}(window.jQuery);
+}(jQuery);
 
 /* ========================================================================
- * Bootstrap: carousel.js v3.0.0
+ * Bootstrap: carousel.js v3.1.1
  * http://getbootstrap.com/javascript/#carousel
  * ========================================================================
- * Copyright 2013 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  'use strict';
 
   // CAROUSEL CLASS DEFINITION
   // =========================
@@ -313,9 +283,9 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   }
 
   Carousel.DEFAULTS = {
-    interval: 5000
-  , pause: 'hover'
-  , wrap: true
+    interval: 5000,
+    pause: 'hover',
+    wrap: true
   }
 
   Carousel.prototype.cycle =  function (e) {
@@ -343,7 +313,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
     if (pos > (this.$items.length - 1) || pos < 0) return
 
-    if (this.sliding)       return this.$element.one('slid', function () { that.to(pos) })
+    if (this.sliding)       return this.$element.one('slid.bs.carousel', function () { that.to(pos) })
     if (activeIndex == pos) return this.pause().cycle()
 
     return this.slide(pos > activeIndex ? 'next' : 'prev', $(this.$items[pos]))
@@ -352,7 +322,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   Carousel.prototype.pause = function (e) {
     e || (this.paused = true)
 
-    if (this.$element.find('.next, .prev').length && $.support.transition.end) {
+    if (this.$element.find('.next, .prev').length && $.support.transition) {
       this.$element.trigger($.support.transition.end)
       this.cycle(true)
     }
@@ -385,25 +355,25 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
       $next = this.$element.find('.item')[fallback]()
     }
 
+    if ($next.hasClass('active')) return this.sliding = false
+
+    var e = $.Event('slide.bs.carousel', { relatedTarget: $next[0], direction: direction })
+    this.$element.trigger(e)
+    if (e.isDefaultPrevented()) return
+
     this.sliding = true
 
     isCycling && this.pause()
 
-    var e = $.Event('slide.bs.carousel', { relatedTarget: $next[0], direction: direction })
-
-    if ($next.hasClass('active')) return
-
     if (this.$indicators.length) {
       this.$indicators.find('.active').removeClass('active')
-      this.$element.one('slid', function () {
+      this.$element.one('slid.bs.carousel', function () {
         var $nextIndicator = $(that.$indicators.children()[that.getActiveIndex()])
         $nextIndicator && $nextIndicator.addClass('active')
       })
     }
 
     if ($.support.transition && this.$element.hasClass('slide')) {
-      this.$element.trigger(e)
-      if (e.isDefaultPrevented()) return
       $next.addClass(type)
       $next[0].offsetWidth // force reflow
       $active.addClass(direction)
@@ -413,16 +383,14 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
           $next.removeClass([type, direction].join(' ')).addClass('active')
           $active.removeClass(['active', direction].join(' '))
           that.sliding = false
-          setTimeout(function () { that.$element.trigger('slid') }, 0)
+          setTimeout(function () { that.$element.trigger('slid.bs.carousel') }, 0)
         })
-        .emulateTransitionEnd(600)
+        .emulateTransitionEnd($active.css('transition-duration').slice(0, -1) * 1000)
     } else {
-      this.$element.trigger(e)
-      if (e.isDefaultPrevented()) return
       $active.removeClass('active')
       $next.addClass('active')
       this.sliding = false
-      this.$element.trigger('slid')
+      this.$element.trigger('slid.bs.carousel')
     }
 
     isCycling && this.cycle()
@@ -488,29 +456,19 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     })
   })
 
-}(window.jQuery);
+}(jQuery);
 
 /* ========================================================================
- * Bootstrap: collapse.js v3.0.0
+ * Bootstrap: collapse.js v3.1.1
  * http://getbootstrap.com/javascript/#collapse
  * ========================================================================
- * Copyright 2013 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  'use strict';
 
   // COLLAPSE PUBLIC CLASS DEFINITION
   // ================================
@@ -561,7 +519,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     var complete = function () {
       this.$element
         .removeClass('collapsing')
-        .addClass('in')
+        .addClass('collapse in')
         [dimension]('auto')
       this.transitioning = 0
       this.$element.trigger('shown.bs.collapse')
@@ -629,6 +587,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
       var data    = $this.data('bs.collapse')
       var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
+      if (!data && options.toggle && option == 'show') option = !option
       if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
       if (typeof option == 'string') data[option]()
     })
@@ -668,29 +627,19 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     $target.collapse(option)
   })
 
-}(window.jQuery);
+}(jQuery);
 
 /* ========================================================================
- * Bootstrap: dropdown.js v3.0.0
+ * Bootstrap: dropdown.js v3.1.1
  * http://getbootstrap.com/javascript/#dropdowns
  * ========================================================================
- * Copyright 2013 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  'use strict';
 
   // DROPDOWN CLASS DEFINITION
   // =========================
@@ -698,7 +647,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   var backdrop = '.dropdown-backdrop'
   var toggle   = '[data-toggle=dropdown]'
   var Dropdown = function (element) {
-    var $el = $(element).on('click.bs.dropdown', this.toggle)
+    $(element).on('click.bs.dropdown', this.toggle)
   }
 
   Dropdown.prototype.toggle = function (e) {
@@ -713,17 +662,18 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
     if (!isActive) {
       if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
-        // if mobile we we use a backdrop because click events don't delegate
+        // if mobile we use a backdrop because click events don't delegate
         $('<div class="dropdown-backdrop"/>').insertAfter($(this)).on('click', clearMenus)
       }
 
-      $parent.trigger(e = $.Event('show.bs.dropdown'))
+      var relatedTarget = { relatedTarget: this }
+      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
 
       if (e.isDefaultPrevented()) return
 
       $parent
         .toggleClass('open')
-        .trigger('shown.bs.dropdown')
+        .trigger('shown.bs.dropdown', relatedTarget)
 
       $this.focus()
     }
@@ -749,7 +699,8 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
       return $this.click()
     }
 
-    var $items = $('[role=menu] li:not(.divider):visible a', $parent)
+    var desc = ' li:not(.divider):visible a'
+    var $items = $parent.find('[role=menu]' + desc + ', [role=listbox]' + desc)
 
     if (!$items.length) return
 
@@ -757,19 +708,20 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
     if (e.keyCode == 38 && index > 0)                 index--                        // up
     if (e.keyCode == 40 && index < $items.length - 1) index++                        // down
-    if (!~index)                                      index=0
+    if (!~index)                                      index = 0
 
     $items.eq(index).focus()
   }
 
-  function clearMenus() {
+  function clearMenus(e) {
     $(backdrop).remove()
-    $(toggle).each(function (e) {
+    $(toggle).each(function () {
       var $parent = getParent($(this))
+      var relatedTarget = { relatedTarget: this }
       if (!$parent.hasClass('open')) return
-      $parent.trigger(e = $.Event('hide.bs.dropdown'))
+      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
       if (e.isDefaultPrevented()) return
-      $parent.removeClass('open').trigger('hidden.bs.dropdown')
+      $parent.removeClass('open').trigger('hidden.bs.dropdown', relatedTarget)
     })
   }
 
@@ -778,7 +730,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
     if (!selector) {
       selector = $this.attr('href')
-      selector = selector && /#/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
+      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
     }
 
     var $parent = selector && $(selector)
@@ -795,9 +747,9 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   $.fn.dropdown = function (option) {
     return this.each(function () {
       var $this = $(this)
-      var data  = $this.data('dropdown')
+      var data  = $this.data('bs.dropdown')
 
-      if (!data) $this.data('dropdown', (data = new Dropdown(this)))
+      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
       if (typeof option == 'string') data[option].call($this)
     })
   }
@@ -820,32 +772,22 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   $(document)
     .on('click.bs.dropdown.data-api', clearMenus)
     .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
+    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+    .on('keydown.bs.dropdown.data-api', toggle + ', [role=menu], [role=listbox]', Dropdown.prototype.keydown)
 
-}(window.jQuery);
+}(jQuery);
 
 /* ========================================================================
- * Bootstrap: modal.js v3.0.0
+ * Bootstrap: modal.js v3.1.1
  * http://getbootstrap.com/javascript/#modals
  * ========================================================================
- * Copyright 2013 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  'use strict';
 
   // MODAL CLASS DEFINITION
   // ======================
@@ -856,13 +798,19 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     this.$backdrop =
     this.isShown   = null
 
-    if (this.options.remote) this.$element.load(this.options.remote)
+    if (this.options.remote) {
+      this.$element
+        .find('.modal-content')
+        .load(this.options.remote, $.proxy(function () {
+          this.$element.trigger('loaded.bs.modal')
+        }, this))
+    }
   }
 
   Modal.DEFAULTS = {
-      backdrop: true
-    , keyboard: true
-    , show: true
+    backdrop: true,
+    keyboard: true,
+    show: true
   }
 
   Modal.prototype.toggle = function (_relatedTarget) {
@@ -881,7 +829,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
     this.escape()
 
-    this.$element.on('click.dismiss.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
+    this.$element.on('click.dismiss.bs.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
 
     this.backdrop(function () {
       var transition = $.support.transition && that.$element.hasClass('fade')
@@ -890,7 +838,9 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
         that.$element.appendTo(document.body) // don't move modals dom position
       }
 
-      that.$element.show()
+      that.$element
+        .show()
+        .scrollTop(0)
 
       if (transition) {
         that.$element[0].offsetWidth // force reflow
@@ -932,7 +882,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     this.$element
       .removeClass('in')
       .attr('aria-hidden', true)
-      .off('click.dismiss.modal')
+      .off('click.dismiss.bs.modal')
 
     $.support.transition && this.$element.hasClass('fade') ?
       this.$element
@@ -976,7 +926,6 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   }
 
   Modal.prototype.backdrop = function (callback) {
-    var that    = this
     var animate = this.$element.hasClass('fade') ? 'fade' : ''
 
     if (this.isShown && this.options.backdrop) {
@@ -985,7 +934,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
       this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
         .appendTo(document.body)
 
-      this.$element.on('click.dismiss.modal', $.proxy(function (e) {
+      this.$element.on('click.dismiss.bs.modal', $.proxy(function (e) {
         if (e.target !== e.currentTarget) return
         this.options.backdrop == 'static'
           ? this.$element[0].focus.call(this.$element[0])
@@ -1007,7 +956,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     } else if (!this.isShown && this.$backdrop) {
       this.$backdrop.removeClass('in')
 
-      $.support.transition && this.$element.hasClass('fade')?
+      $.support.transition && this.$element.hasClass('fade') ?
         this.$backdrop
           .one($.support.transition.end, callback)
           .emulateTransitionEnd(150) :
@@ -1055,9 +1004,9 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     var $this   = $(this)
     var href    = $this.attr('href')
     var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
-    var option  = $target.data('modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
+    var option  = $target.data('bs.modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
 
-    e.preventDefault()
+    if ($this.is('a')) e.preventDefault()
 
     $target
       .modal(option, this)
@@ -1067,33 +1016,23 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   })
 
   $(document)
-    .on('show.bs.modal',  '.modal', function () { $(document.body).addClass('modal-open') })
+    .on('show.bs.modal', '.modal', function () { $(document.body).addClass('modal-open') })
     .on('hidden.bs.modal', '.modal', function () { $(document.body).removeClass('modal-open') })
 
-}(window.jQuery);
+}(jQuery);
 
 /* ========================================================================
- * Bootstrap: tooltip.js v3.0.0
+ * Bootstrap: tooltip.js v3.1.1
  * http://getbootstrap.com/javascript/#tooltip
  * Inspired by the original jQuery.tipsy by Jason Frame
  * ========================================================================
- * Copyright 2013 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  'use strict';
 
   // TOOLTIP PUBLIC CLASS DEFINITION
   // ===============================
@@ -1110,15 +1049,15 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   }
 
   Tooltip.DEFAULTS = {
-    animation: true
-  , placement: 'top'
-  , selector: false
-  , template: '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
-  , trigger: 'hover focus'
-  , title: ''
-  , delay: 0
-  , html: false
-  , container: false
+    animation: true,
+    placement: 'top',
+    selector: false,
+    template: '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+    trigger: 'hover focus',
+    title: '',
+    delay: 0,
+    html: false,
+    container: false
   }
 
   Tooltip.prototype.init = function (type, element, options) {
@@ -1135,8 +1074,8 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
       if (trigger == 'click') {
         this.$element.on('click.' + this.type, this.options.selector, $.proxy(this.toggle, this))
       } else if (trigger != 'manual') {
-        var eventIn  = trigger == 'hover' ? 'mouseenter' : 'focus'
-        var eventOut = trigger == 'hover' ? 'mouseleave' : 'blur'
+        var eventIn  = trigger == 'hover' ? 'mouseenter' : 'focusin'
+        var eventOut = trigger == 'hover' ? 'mouseleave' : 'focusout'
 
         this.$element.on(eventIn  + '.' + this.type, this.options.selector, $.proxy(this.enter, this))
         this.$element.on(eventOut + '.' + this.type, this.options.selector, $.proxy(this.leave, this))
@@ -1157,8 +1096,8 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
     if (options.delay && typeof options.delay == 'number') {
       options.delay = {
-        show: options.delay
-      , hide: options.delay
+        show: options.delay,
+        hide: options.delay
       }
     }
 
@@ -1207,12 +1146,13 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   }
 
   Tooltip.prototype.show = function () {
-    var e = $.Event('show.bs.'+ this.type)
+    var e = $.Event('show.bs.' + this.type)
 
     if (this.hasContent() && this.enabled) {
       this.$element.trigger(e)
 
       if (e.isDefaultPrevented()) return
+      var that = this;
 
       var $tip = this.tip()
 
@@ -1262,11 +1202,21 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
       var calculatedOffset = this.getCalculatedOffset(placement, pos, actualWidth, actualHeight)
 
       this.applyPlacement(calculatedOffset, placement)
-      this.$element.trigger('shown.bs.' + this.type)
+      this.hoverState = null
+
+      var complete = function() {
+        that.$element.trigger('shown.bs.' + that.type)
+      }
+
+      $.support.transition && this.$tip.hasClass('fade') ?
+        $tip
+          .one($.support.transition.end, complete)
+          .emulateTransitionEnd(150) :
+        complete()
     }
   }
 
-  Tooltip.prototype.applyPlacement = function(offset, placement) {
+  Tooltip.prototype.applyPlacement = function (offset, placement) {
     var replace
     var $tip   = this.tip()
     var width  = $tip[0].offsetWidth
@@ -1283,9 +1233,18 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     offset.top  = offset.top  + marginTop
     offset.left = offset.left + marginLeft
 
-    $tip
-      .offset(offset)
-      .addClass('in')
+    // $.fn.offset doesn't round pixel values
+    // so we use setOffset directly with our own function B-0
+    $.offset.setOffset($tip[0], $.extend({
+      using: function (props) {
+        $tip.css({
+          top: Math.round(props.top),
+          left: Math.round(props.left)
+        })
+      }
+    }, offset), 0)
+
+    $tip.addClass('in')
 
     // check to see if placing tip in new offset caused the tip to resize itself
     var actualWidth  = $tip[0].offsetWidth
@@ -1317,8 +1276,8 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     if (replace) $tip.offset(offset)
   }
 
-  Tooltip.prototype.replaceArrow = function(delta, dimension, position) {
-    this.arrow().css(position, delta ? (50 * (1 - delta / dimension) + "%") : '')
+  Tooltip.prototype.replaceArrow = function (delta, dimension, position) {
+    this.arrow().css(position, delta ? (50 * (1 - delta / dimension) + '%') : '')
   }
 
   Tooltip.prototype.setContent = function () {
@@ -1336,6 +1295,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
     function complete() {
       if (that.hoverState != 'in') $tip.detach()
+      that.$element.trigger('hidden.bs.' + that.type)
     }
 
     this.$element.trigger(e)
@@ -1350,7 +1310,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
         .emulateTransitionEnd(150) :
       complete()
 
-    this.$element.trigger('hidden.bs.' + this.type)
+    this.hoverState = null
 
     return this
   }
@@ -1369,8 +1329,8 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   Tooltip.prototype.getPosition = function () {
     var el = this.$element[0]
     return $.extend({}, (typeof el.getBoundingClientRect == 'function') ? el.getBoundingClientRect() : {
-      width: el.offsetWidth
-    , height: el.offsetHeight
+      width: el.offsetWidth,
+      height: el.offsetHeight
     }, this.$element.offset())
   }
 
@@ -1426,6 +1386,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   }
 
   Tooltip.prototype.destroy = function () {
+    clearTimeout(this.timeout)
     this.hide().$element.off('.' + this.type).removeData('bs.' + this.type)
   }
 
@@ -1441,6 +1402,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
       var data    = $this.data('bs.tooltip')
       var options = typeof option == 'object' && option
 
+      if (!data && option == 'destroy') return
       if (!data) $this.data('bs.tooltip', (data = new Tooltip(this, options)))
       if (typeof option == 'string') data[option]()
     })
@@ -1457,29 +1419,19 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     return this
   }
 
-}(window.jQuery);
+}(jQuery);
 
 /* ========================================================================
- * Bootstrap: popover.js v3.0.0
+ * Bootstrap: popover.js v3.1.1
  * http://getbootstrap.com/javascript/#popovers
  * ========================================================================
- * Copyright 2013 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  'use strict';
 
   // POPOVER PUBLIC CLASS DEFINITION
   // ===============================
@@ -1490,11 +1442,11 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
   if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
 
-  Popover.DEFAULTS = $.extend({} , $.fn.tooltip.Constructor.DEFAULTS, {
-    placement: 'right'
-  , trigger: 'click'
-  , content: ''
-  , template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+  Popover.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
+    placement: 'right',
+    trigger: 'click',
+    content: '',
+    template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
   })
 
 
@@ -1515,7 +1467,9 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     var content = this.getContent()
 
     $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
-    $tip.find('.popover-content')[this.options.html ? 'html' : 'text'](content)
+    $tip.find('.popover-content')[ // we use append for html objects to maintain js events
+      this.options.html ? (typeof content == 'string' ? 'html' : 'append') : 'text'
+    ](content)
 
     $tip.removeClass('fade top bottom left right in')
 
@@ -1559,6 +1513,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
       var data    = $this.data('bs.popover')
       var options = typeof option == 'object' && option
 
+      if (!data && option == 'destroy') return
       if (!data) $this.data('bs.popover', (data = new Popover(this, options)))
       if (typeof option == 'string') data[option]()
     })
@@ -1575,29 +1530,19 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     return this
   }
 
-}(window.jQuery);
+}(jQuery);
 
 /* ========================================================================
- * Bootstrap: scrollspy.js v3.0.0
+ * Bootstrap: scrollspy.js v3.1.1
  * http://getbootstrap.com/javascript/#scrollspy
  * ========================================================================
- * Copyright 2013 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  'use strict';
 
   // SCROLLSPY CLASS DEFINITION
   // ==========================
@@ -1637,7 +1582,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
       .map(function () {
         var $el   = $(this)
         var href  = $el.data('target') || $el.attr('href')
-        var $href = /^#\w/.test(href) && $(href)
+        var $href = /^#./.test(href) && $(href)
 
         return ($href
           && $href.length
@@ -1664,6 +1609,10 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
       return activeTarget != (i = targets.last()[0]) && this.activate(i)
     }
 
+    if (activeTarget && scrollTop <= offsets[0]) {
+      return activeTarget != (i = targets[0]) && this.activate(i)
+    }
+
     for (i = offsets.length; i--;) {
       activeTarget != targets[i]
         && scrollTop >= offsets[i]
@@ -1676,24 +1625,24 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     this.activeTarget = target
 
     $(this.selector)
-      .parents('.active')
+      .parentsUntil(this.options.target, '.active')
       .removeClass('active')
 
-    var selector = this.selector
-      + '[data-target="' + target + '"],'
-      + this.selector + '[href="' + target + '"]'
+    var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
 
     var active = $(selector)
       .parents('li')
       .addClass('active')
 
-    if (active.parent('.dropdown-menu').length)  {
+    if (active.parent('.dropdown-menu').length) {
       active = active
         .closest('li.dropdown')
         .addClass('active')
     }
 
-    active.trigger('activate')
+    active.trigger('activate.bs.scrollspy')
   }
 
 
@@ -1735,29 +1684,19 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     })
   })
 
-}(window.jQuery);
+}(jQuery);
 
 /* ========================================================================
- * Bootstrap: tab.js v3.0.0
+ * Bootstrap: tab.js v3.1.1
  * http://getbootstrap.com/javascript/#tabs
  * ========================================================================
- * Copyright 2013 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  'use strict';
 
   // TAB CLASS DEFINITION
   // ====================
@@ -1792,8 +1731,8 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     this.activate($this.parent('li'), $ul)
     this.activate($target, $target.parent(), function () {
       $this.trigger({
-        type: 'shown.bs.tab'
-      , relatedTarget: previous
+        type: 'shown.bs.tab',
+        relatedTarget: previous
       })
     })
   }
@@ -1871,29 +1810,19 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     $(this).tab('show')
   })
 
-}(window.jQuery);
+}(jQuery);
 
 /* ========================================================================
- * Bootstrap: affix.js v3.0.0
+ * Bootstrap: affix.js v3.1.1
  * http://getbootstrap.com/javascript/#affix
  * ========================================================================
- * Copyright 2013 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  'use strict';
 
   // AFFIX CLASS DEFINITION
   // ======================
@@ -1904,9 +1833,10 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
       .on('scroll.bs.affix.data-api', $.proxy(this.checkPosition, this))
       .on('click.bs.affix.data-api',  $.proxy(this.checkPositionWithEventLoop, this))
 
-    this.$element = $(element)
-    this.affixed  =
-    this.unpin    = null
+    this.$element     = $(element)
+    this.affixed      =
+    this.unpin        =
+    this.pinnedOffset = null
 
     this.checkPosition()
   }
@@ -1915,6 +1845,14 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
   Affix.DEFAULTS = {
     offset: 0
+  }
+
+  Affix.prototype.getPinnedOffset = function () {
+    if (this.pinnedOffset) return this.pinnedOffset
+    this.$element.removeClass(Affix.RESET).addClass('affix')
+    var scrollTop = this.$window.scrollTop()
+    var position  = this.$element.offset()
+    return (this.pinnedOffset = position.top - scrollTop)
   }
 
   Affix.prototype.checkPositionWithEventLoop = function () {
@@ -1931,9 +1869,11 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     var offsetTop    = offset.top
     var offsetBottom = offset.bottom
 
+    if (this.affixed == 'top') position.top += scrollTop
+
     if (typeof offset != 'object')         offsetBottom = offsetTop = offset
-    if (typeof offsetTop == 'function')    offsetTop    = offset.top()
-    if (typeof offsetBottom == 'function') offsetBottom = offset.bottom()
+    if (typeof offsetTop == 'function')    offsetTop    = offset.top(this.$element)
+    if (typeof offsetBottom == 'function') offsetBottom = offset.bottom(this.$element)
 
     var affix = this.unpin   != null && (scrollTop + this.unpin <= position.top) ? false :
                 offsetBottom != null && (position.top + this.$element.height() >= scrollHeight - offsetBottom) ? 'bottom' :
@@ -1942,13 +1882,23 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     if (this.affixed === affix) return
     if (this.unpin) this.$element.css('top', '')
 
-    this.affixed = affix
-    this.unpin   = affix == 'bottom' ? position.top - scrollTop : null
+    var affixType = 'affix' + (affix ? '-' + affix : '')
+    var e         = $.Event(affixType + '.bs.affix')
 
-    this.$element.removeClass(Affix.RESET).addClass('affix' + (affix ? '-' + affix : ''))
+    this.$element.trigger(e)
+
+    if (e.isDefaultPrevented()) return
+
+    this.affixed = affix
+    this.unpin = affix == 'bottom' ? this.getPinnedOffset() : null
+
+    this.$element
+      .removeClass(Affix.RESET)
+      .addClass(affixType)
+      .trigger($.Event(affixType.replace('affix', 'affixed')))
 
     if (affix == 'bottom') {
-      this.$element.offset({ top: document.body.offsetHeight - offsetBottom - this.$element.height() })
+      this.$element.offset({ top: scrollHeight - offsetBottom - this.$element.height() })
     }
   }
 
@@ -1998,925 +1948,4 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     })
   })
 
-}(window.jQuery);
-
-/* ========================================================================
- * Bootstrap: offcanvas.js v3.0.0-p7
- * http://jasny.github.io/bootstrap/javascript.html#offcanvas
- * 
- * Based on Boostrap collapse.js by Twitter, Inc. 
- * ========================================================================
- * Copyright 2013 Jasny, BV.
- *
- * Licensed under the Apache License, Version 2.0 (the "License")
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ======================================================================== */
-
-+function ($) { "use strict";
-
-  // OFFCANVAS PUBLIC CLASS DEFINITION
-  // ================================
-
-  var OffCanvas = function (element, options) {
-    this.$element      = $(element)
-    this.$canvas       = options.canvas ? $(options.canvas) : this.$element
-    this.options       = $.extend({}, OffCanvas.DEFAULTS, options)
-    this.transitioning = null
-    
-    this.calcTransform()
-
-    // If transform or transition aren't supported just slide the element
-    if (!this.transform) this.$canvas = this.$element
-
-    if (this.options.placement === 'auto')
-      this.options.placement = this.calcPlacement()
-
-    if (this.options.recalc) {
-      this.calcClone()
-      $(window).on('resize.bs.offcanvas', $.proxy(this.recalc, this))
-    }
-    
-    if (this.options.autohide)
-      $(document).on('click.bs.offcanvas', $.proxy(this.autohide, this))
-
-    // Workaround: IE doesn't move fixed elements with translate
-    var isIE = window.navigator.appName == 'Microsoft Internet Explorer'
-    if (isIE && this.$canvas !== this.$element) {
-      var elems = this.$canvas.find('*').filter(function() {
-        return $(this).css("position") === 'fixed'
-      })
-      this.$canvas = this.$canvas.add(elems)
-    }
-
-    if (this.options.toggle) this.toggle()
-  }
-
-  OffCanvas.DEFAULTS = {
-    toggle: true,
-    placement: 'auto',
-    autohide: true,
-    recalc: true
-  }
-
-  OffCanvas.prototype.calcTransform = function() {
-    this.transform = false
-
-    // Don't use transform with jQuery animations just to move the element
-    if (!$.support.transition && this.$canvas === this.$element) return
-
-    var $el = $('<div style="visibility: hidden"></div>'),
-        props = {
-          'transform':'transform',
-          'webkitTransform':'-webkit-transform',
-          'OTransform':'-o-transform',
-          'msTransform':'-ms-transform',
-          'MozTransform':'-moz-transform'
-        }
-
-    // Add it to the body to get the computed style.
-    $el.appendTo($('body'))
-
-    for (var prop in props) {
-      if ($el[0].style[prop] === undefined) continue
-
-      $el[0].style[prop] = "translate3d(1px,1px,1px)"
-      var m = window.getComputedStyle($el[0]).getPropertyValue(props[prop])
-      this.transform = props[prop]
-      this.translate = m.match(/^matrix3d/) ? 'translate3d' : 'translate'
-      break
-    }
-
-    $el.remove()
-  }
-
-  OffCanvas.prototype.calcPlacement = function () {
-    var horizontal = $(window).width() / this.$element.width(),
-        vertical = $(window).height() / this.$element.height(),
-        $element = this.$element
-    
-    function ab(a, b) {
-      if ($element.css(b) === 'auto') return a
-      if ($element.css(a) === 'auto') return b
-      
-      var size_a = parseInt($element.css(a), 10),
-          size_b = parseInt($element.css(b), 10)
-  
-      return size_a > size_b ? b : a
-    }
-    
-    return horizontal > vertical ? ab('left', 'right') : ab('top', 'bottom')
-  }
-
-  OffCanvas.prototype.offset = function () {
-    switch (this.options.placement) {
-      case 'left':
-      case 'right':  return this.$element.outerWidth()
-      case 'top':
-      case 'bottom': return this.$element.outerHeight()
-    }
-  }
-
-  OffCanvas.prototype.slideTransform = function (offset, callback) {
-    var placement = this.options.placement,
-        prop = this.transform
-
-    offset *= (placement === 'right' || placement === 'bottom' ? -1 : 1)
-
-    var css = placement === 'left' || placement === 'right' ?
-        "{}px, 0" : "0, {}px"
-    if (this.translate === 'translate3d') css += ', 0'
-    css = this.translate + "(" + css + ")"
-
-    // Use jQuery animation if CSS transitions aren't supported
-    if (!$.support.transition) {
-      return this.$canvas.animate({ borderSpacing: offset }, {
-        step: function(now, fx) {
-          $(this).css(prop, css.replace('{}', now))
-        },
-        complete: callback,
-        duration: 350
-      })
-    }
-
-    this.$canvas.css(prop, css.replace('{}', offset))
-
-    this.$element
-      .one($.support.transition.end, callback)
-      .emulateTransitionEnd(350)
-  }
-
-  OffCanvas.prototype.slidePosition = function (offset, callback) {
-    // Use jQuery animation if CSS transitions aren't supported
-    if (!$.support.transition) {
-      var anim = {}
-      anim[this.options.placement] = offset
-      return this.$canvas.animate(anim, 350, callback)
-    }
-
-    this.$canvas.css(this.options.placement, offset)
-
-    this.$element
-      .one($.support.transition.end, callback)
-      .emulateTransitionEnd(350)
-  }
-
-  OffCanvas.prototype.show = function () {
-    if (this.transitioning || this.$canvas.hasClass('canvas-slid')) return
-
-    var startEvent = $.Event('show.bs.offcanvas')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    var complete = function () {
-      this.$canvas
-        .addClass('canvas-slid')
-        .removeClass('canvas-sliding')
-
-      this.transitioning = 0
-      this.$element.trigger('shown.bs.offcanvas')
-    }
-    
-    if (!this.$element.is(':visible') || !this.transform)
-      this.$element.css(this.options.placement, -1 * this.offset() + "px")
-    this.$element.addClass('in')
-
-    this.$canvas.addClass('canvas-sliding')
-    if (this.$canvas != this.$element) $('body').css('overflow-x', 'hidden')
-
-    this.transitioning = 1
-
-    if (this.transform) this.slideTransform(this.offset(), $.proxy(complete, this))
-    else this.slidePosition(0, $.proxy(complete, this))
-  }
-
-  OffCanvas.prototype.hide = function (fast) {
-    if (this.transitioning || !this.$canvas.hasClass('canvas-slid')) return
-
-    var startEvent = $.Event('hide.bs.offcanvas')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    var complete = function () {
-      this.transitioning = 0
-
-      this.$element
-        .removeClass('in')
-        .css('left', '').css('right', '').css('top', '').css('bottom', '')
-
-      this.$canvas
-        .removeClass('canvas-sliding canvas-slid')
-        .css('transform', '')
-
-      $('body').css('overflow-x', '')
-      
-      this.$element.trigger('hidden.bs.offcanvas')
-    }
-
-    if (fast) return complete.call(this)
-
-    this.$canvas.removeClass('canvas-slid').addClass('canvas-sliding')
-
-    this.transitioning = 1
-
-    if (this.transform) this.slideTransform(0, $.proxy(complete, this))
-    else this.slidePosition(-1 * this.offset(), $.proxy(complete, this))
-  }
-
-  OffCanvas.prototype.toggle = function () {
-    this[this.$canvas.hasClass('canvas-slid') ? 'hide' : 'show']()
-  }
-
-  OffCanvas.prototype.calcClone = function() {
-    this.$calcClone = this.$element.clone()
-      .html('')
-      .addClass('offcanvas-clone').removeClass('in')
-      .appendTo($('body'))
-  }
-
-  OffCanvas.prototype.recalc = function () {
-    if (this.$calcClone.css('display') !== 'none') this.hide(true)
-  }
-  
-  OffCanvas.prototype.autohide = function (e) {
-    if ($(e.target).closest(this.$element).length === 0) this.hide()
-  }
-
-  // OFFCANVAS PLUGIN DEFINITION
-  // ==========================
-
-  var old = $.fn.offcanvas
-
-  $.fn.offcanvas = function (option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.offcanvas')
-      var options = $.extend({}, OffCanvas.DEFAULTS, $this.data(), typeof option == 'object' && option)
-
-      if (!data) $this.data('bs.offcanvas', (data = new OffCanvas(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  $.fn.offcanvas.Constructor = OffCanvas
-
-
-  // OFFCANVAS NO CONFLICT
-  // ====================
-
-  $.fn.offcanvas.noConflict = function () {
-    $.fn.offcanvas = old
-    return this
-  }
-
-
-  // OFFCANVAS DATA-API
-  // =================
-
-  $(document).on('click.bs.offcanvas.data-api', '[data-toggle=offcanvas]', function (e) {
-    var $this   = $(this), href
-    var target  = $this.attr('data-target')
-        || e.preventDefault()
-        || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
-    var $canvas = $(target)
-    var data    = $canvas.data('bs.offcanvas')
-    var option  = data ? 'toggle' : $this.data()
-
-    e.stopPropagation()
-
-    if (data) data.toggle()
-      else $canvas.offcanvas(option)
-  })
-
-}(window.jQuery);
-
-/* ============================================================
- * Bootstrap: rowlink.js v3.0.0-p7
- * http://jasny.github.io/bootstrap/javascript.html#rowlink
- * ============================================================
- * Copyright 2012 Jasny BV, Netherlands.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ============================================================ */
-
-+function ($) { "use strict";
-
-  var Rowlink = function (element, options) {
-    this.$element = $(element)
-    this.options = $.extend({}, Rowlink.DEFAULTS, options)
-    
-    this.$element.on('click.bs.rowlink', 'td:not(.rowlink-skip)', $.proxy(this.click, this))
-  }
-
-  Rowlink.DEFAULTS = {
-    target: "a"
-  }
-
-  Rowlink.prototype.click = function(e) {
-    var target = $(e.currentTarget).closest('tr').find(this.options.target)[0]
-    if ($(e.target)[0] === target) return
-    
-    e.preventDefault();
-    
-    if (target.click) {
-      target.click()
-    } else if(document.createEvent) {
-      var evt = document.createEvent("MouseEvents"); 
-      evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null); 
-      target.dispatchEvent(evt);
-    }
-  }
-
-  
-  // ROWLINK PLUGIN DEFINITION
-  // ===========================
-
-  $.fn.rowlink = function (options) {
-    return this.each(function () {
-      var $this = $(this)
-      var data = $this.data('rowlink')
-      if (!data) $this.data('rowlink', (data = new Rowlink(this, options)))
-    })
-  }
-
-  $.fn.rowlink.Constructor = Rowlink
-
-
-  // ROWLINK NO CONFLICT
-  // ====================
-
-  $.fn.rowlink.noConflict = function () {
-    $.fn.inputmask = old
-    return this
-  }
-
-
-  // ROWLINK DATA-API
-  // ==================
-
-  $(document).on('click.bs.rowlink.data-api', '[data-link="row"]', function (e) {
-    var $this = $(this)
-    if ($this.data('rowlink')) return
-    $this.rowlink($this.data())
-    $(e.target).trigger('click.bs.rowlink')
-  })
-  
-}(window.jQuery);
-
-/* ===========================================================
- * Bootstrap: inputmask.js v3.0.0-p7
- * http://jasny.github.io/bootstrap/javascript.html#inputmask
- * Based on Masked Input plugin by Josh Bush (digitalbush.com)
- * ===========================================================
- * Copyright 2012 Jasny BV, Netherlands.
- *
- * Licensed under the Apache License, Version 2.0 (the "License")
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ========================================================== */
-
-+function ($) { "use strict";
-
-  var isIphone = (window.orientation !== undefined)
-  var isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1
-  var isIE = window.navigator.appName == 'Microsoft Internet Explorer'
-
-  // INPUTMASK PUBLIC CLASS DEFINITION
-  // =================================
-
-  var Inputmask = function (element, options) {
-    if (isAndroid) return // No support because caret positioning doesn't work on Android
-    
-    this.$element = $(element)
-    this.options = $.extend({}, Inputmask.DEFAULS, options)
-    this.mask = String(this.options.mask)
-    
-    this.init()
-    this.listen()
-        
-    this.checkVal() //Perform initial check for existing values
-  }
-
-  Inputmask.DEFAULS = {
-    mask: "",
-    placeholder: "_",
-    definitions: {
-      '9': "[0-9]",
-      'a': "[A-Za-z]",
-      '?': "[A-Za-z0-9]",
-      '*': "."
-    }
-  }
-
-  Inputmask.prototype.init = function() {
-    var defs = this.options.definitions
-    var len = this.mask.length
-
-    this.tests = [] 
-    this.partialPosition = this.mask.length
-    this.firstNonMaskPos = null
-
-    $.each(this.mask.split(""), $.proxy(function(i, c) {
-      if (c == '?') {
-        len--
-        this.partialPosition = i
-      } else if (defs[c]) {
-        this.tests.push(new RegExp(defs[c]))
-        if(this.firstNonMaskPos === null)
-          this.firstNonMaskPos =  this.tests.length - 1
-      } else {
-        this.tests.push(null)
-      }
-    }, this))
-
-    this.buffer = $.map(this.mask.split(""), $.proxy(function(c, i) {
-      if (c != '?') return defs[c] ? this.options.placeholder : c
-    }, this))
-
-    this.focusText = this.$element.val()
-
-    this.$element.data("rawMaskFn", $.proxy(function() {
-      return $.map(this.buffer, function(c, i) {
-        return this.tests[i] && c != this.options.placeholder ? c : null
-      }).join('')
-    }, this))
-  }
-    
-  Inputmask.prototype.listen = function() {
-    if (this.$element.attr("readonly")) return
-
-    var pasteEventName = (isIE ? 'paste' : 'input') + ".mask"
-
-    this.$element
-      .on("unmask.bs.inputmask", $.proxy(this.unmask, this))
-
-      .on("focus.bs.inputmask", $.proxy(this.focusEvent, this))
-      .on("blur.bs.inputmask", $.proxy(this.blurEvent, this))
-
-      .on("keydown.bs.inputmask", $.proxy(this.keydownEvent, this))
-      .on("keypress.bs.inputmask", $.proxy(this.keypressEvent, this))
-
-      .on(pasteEventName, $.proxy(this.pasteEvent, this))
-  }
-
-  //Helper Function for Caret positioning
-  Inputmask.prototype.caret = function(begin, end) {
-    if (this.$element.length === 0) return
-    if (typeof begin == 'number') {
-      end = (typeof end == 'number') ? end : begin
-      return this.$element.each(function() {
-        if (this.setSelectionRange) {
-          this.setSelectionRange(begin, end)
-        } else if (this.createTextRange) {
-          var range = this.createTextRange()
-          range.collapse(true)
-          range.moveEnd('character', end)
-          range.moveStart('character', begin)
-          range.select()
-        }
-      })
-    } else {
-      if (this.$element[0].setSelectionRange) {
-        begin = this.$element[0].selectionStart
-        end = this.$element[0].selectionEnd
-      } else if (document.selection && document.selection.createRange) {
-        var range = document.selection.createRange()
-        begin = 0 - range.duplicate().moveStart('character', -100000)
-        end = begin + range.text.length
-      }
-      return {
-        begin: begin, 
-        end: end
-      }
-    }
-  }
-  
-  Inputmask.prototype.seekNext = function(pos) {
-    var len = this.mask.length
-    while (++pos <= len && !this.tests[pos]);
-
-    return pos
-  }
-  
-  Inputmask.prototype.seekPrev = function(pos) {
-    while (--pos >= 0 && !this.tests[pos]);
-
-    return pos
-  }
-
-  Inputmask.prototype.shiftL = function(begin,end) {
-    var len = this.mask.length
-
-    if(begin<0) return
-
-    for (var i = begin,j = this.seekNext(end); i < len; i++) {
-      if (this.tests[i]) {
-        if (j < len && this.tests[i].test(this.buffer[j])) {
-          this.buffer[i] = this.buffer[j]
-          this.buffer[j] = this.options.placeholder
-        } else
-          break
-        j = this.seekNext(j)
-      }
-    }
-    this.writeBuffer()
-    this.caret(Math.max(this.firstNonMaskPos, begin))
-  }
-
-  Inputmask.prototype.shiftR = function(pos) {
-    var len = this.mask.length
-
-    for (var i = pos, c = this.options.placeholder; i < len; i++) {
-      if (this.tests[i]) {
-        var j = this.seekNext(i)
-        var t = this.buffer[i]
-        this.buffer[i] = c
-        if (j < len && this.tests[j].test(t))
-          c = t
-        else
-          break
-      }
-    }
-  },
-
-  Inputmask.prototype.unmask = function() {
-    this.$element
-      .unbind(".mask")
-      .removeData("inputmask")
-  }
-
-  Inputmask.prototype.focusEvent = function() {
-    this.focusText = this.$element.val()
-    var len = this.mask.length 
-    var pos = this.checkVal()
-    this.writeBuffer()
-
-    var that = this
-    var moveCaret = function() {
-      if (pos == len)
-        that.caret(0, pos)
-      else
-        that.caret(pos)
-    }
-
-    moveCaret()
-    setTimeout(moveCaret, 50)
-  }
-
-  Inputmask.prototype.blurEvent = function() {
-    this.checkVal()
-    if (this.$element.val() !== this.focusText)
-      this.$element.trigger('change')
-  }
-
-  Inputmask.prototype.keydownEvent = function(e) {
-    var k=e.which
-
-    //backspace, delete, and escape get special treatment
-    if (k == 8 || k == 46 || (isIphone && k == 127)) {
-      var pos = this.caret(),
-      begin = pos.begin,
-      end = pos.end
-
-      if (end-begin === 0) {
-        begin = k!=46 ? this.seekPrev(begin) : (end=this.seekNext(begin-1))
-        end = k==46 ? this.seekNext(end) : end
-      }
-      this.clearBuffer(begin, end)
-      this.shiftL(begin,end-1)
-
-      return false
-    } else if (k == 27) {//escape
-      this.$element.val(this.focusText)
-      this.caret(0, this.checkVal())
-      return false
-    }
-  }
-
-  Inputmask.prototype.keypressEvent = function(e) {
-    var len = this.mask.length
-
-    var k = e.which,
-    pos = this.caret()
-
-    if (e.ctrlKey || e.altKey || e.metaKey || k<32)  {//Ignore
-      return true
-    } else if (k) {
-      if (pos.end - pos.begin !== 0) {
-        this.clearBuffer(pos.begin, pos.end)
-        this.shiftL(pos.begin, pos.end-1)
-      }
-
-      var p = this.seekNext(pos.begin - 1)
-      if (p < len) {
-        var c = String.fromCharCode(k)
-        if (this.tests[p].test(c)) {
-          this.shiftR(p)
-          this.buffer[p] = c
-          this.writeBuffer()
-          var next = this.seekNext(p)
-          this.caret(next)
-        }
-      }
-      return false
-    }
-  }
-
-  Inputmask.prototype.pasteEvent = function() {
-    var that = this
-
-    setTimeout(function() {
-      that.caret(that.checkVal(true))
-    }, 0)
-  }
-
-  Inputmask.prototype.clearBuffer = function(start, end) {
-    var len = this.mask.length
-
-    for (var i = start; i < end && i < len; i++) {
-      if (this.tests[i])
-        this.buffer[i] = this.options.placeholder
-    }
-  }
-
-  Inputmask.prototype.writeBuffer = function() {
-    return this.$element.val(this.buffer.join('')).val()
-  }
-
-  Inputmask.prototype.checkVal = function(allow) {
-    var len = this.mask.length
-    //try to place characters where they belong
-    var test = this.$element.val()
-    var lastMatch = -1
-
-    for (var i = 0, pos = 0; i < len; i++) {
-      if (this.tests[i]) {
-        this.buffer[i] = this.options.placeholder
-        while (pos++ < test.length) {
-          var c = test.charAt(pos - 1)
-          if (this.tests[i].test(c)) {
-            this.buffer[i] = c
-            lastMatch = i
-            break
-          }
-        }
-        if (pos > test.length)
-          break
-      } else if (this.buffer[i] == test.charAt(pos) && i != this.partialPosition) {
-        pos++
-        lastMatch = i
-      }
-    }
-    if (!allow && lastMatch + 1 < this.partialPosition) {
-      this.$element.val("")
-      this.clearBuffer(0, len)
-    } else if (allow || lastMatch + 1 >= this.partialPosition) {
-      this.writeBuffer()
-      if (!allow) this.$element.val(this.$element.val().substring(0, lastMatch + 1))
-    }
-    return (this.partialPosition ? i : this.firstNonMaskPos)
-  }
-
-  
-  // INPUTMASK PLUGIN DEFINITION
-  // ===========================
-
-  var old = $.fn.inputmask
-  
-  $.fn.inputmask = function (options) {
-    return this.each(function () {
-      var $this = $(this)
-      var data = $this.data('inputmask')
-      
-      if (!data) $this.data('inputmask', (data = new Inputmask(this, options)))
-    })
-  }
-
-  $.fn.inputmask.Constructor = Inputmask
-
-
-  // INPUTMASK NO CONFLICT
-  // ====================
-
-  $.fn.inputmask.noConflict = function () {
-    $.fn.inputmask = old
-    return this
-  }
-
-
-  // INPUTMASK DATA-API
-  // ==================
-
-  $(document).on('focus.bs.inputmask.data-api', '[data-mask]', function (e) {
-    var $this = $(this)
-    if ($this.data('inputmask')) return
-    $this.inputmask($this.data())
-  })
-
-}(window.jQuery);
-
-/* ===========================================================
- * Bootstrap: fileinput.js v3.0.0-p7
- * http://jasny.github.com/bootstrap/javascript.html#fileinput
- * ===========================================================
- * Copyright 2012 Jasny BV, Netherlands.
- *
- * Licensed under the Apache License, Version 2.0 (the "License")
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ========================================================== */
-
-+function ($) { "use strict";
-
-  var isIE = window.navigator.appName == 'Microsoft Internet Explorer'
-
-  // FILEUPLOAD PUBLIC CLASS DEFINITION
-  // =================================
-
-  var Fileupload = function (element, options) {
-    this.$element = $(element)
-      
-    this.$input = this.$element.find(':file')
-    if (this.$input.length === 0) return
-
-    this.name = this.$input.attr('name') || options.name
-
-    this.$hidden = this.$element.find('input[type=hidden][name="'+this.name+'"]')
-    if (this.$hidden.length === 0) {
-      this.$hidden = $('<input type="hidden" />')
-      this.$element.prepend(this.$hidden)
-    }
-
-    this.$preview = this.$element.find('.fileinput-preview')
-    var height = this.$preview.css('height')
-    if (this.$preview.css('display') != 'inline' && height != '0px' && height != 'none') this.$preview.css('line-height', height)
-
-    this.original = {
-      exists: this.$element.hasClass('fileinput-exists'),
-      preview: this.$preview.html(),
-      hiddenVal: this.$hidden.val()
-    }
-    
-    this.listen()
-  }
-  
-  Fileupload.prototype.listen = function() {
-    this.$input.on('change.bs.fileinput', $.proxy(this.change, this))
-    $(this.$input[0].form).on('reset.bs.fileinput', $.proxy(this.reset, this))
-    
-    this.$element.find('[data-trigger="fileinput"]').on('click.bs.fileinput', $.proxy(this.trigger, this))
-    this.$element.find('[data-dismiss="fileinput"]').on('click.bs.fileinput', $.proxy(this.clear, this))
-  },
-
-  Fileupload.prototype.change = function(e) {
-    if (e.target.files === undefined) e.target.files = e.target && e.target.value ? [ {name: e.target.value.replace(/^.+\\/, '')} ] : []
-    if (e.target.files.length === 0) return
-
-    this.$hidden.val('')
-    this.$hidden.attr('name', '')
-    this.$input.attr('name', this.name)
-
-    var file = e.target.files[0]
-
-    if (this.$preview.length > 0 && (typeof file.type !== "undefined" ? file.type.match('image.*') : file.name.match(/\.(gif|png|jpe?g)$/i)) && typeof FileReader !== "undefined") {
-      var reader = new FileReader()
-      var preview = this.$preview
-      var element = this.$element
-
-      reader.onload = function(re) {
-        var $img = $('<img>').attr('src', re.target.result)
-        e.target.files[0].result = re.target.result
-        
-        element.find('.fileinput-filename').text(file.name)
-        
-        // if parent has max-height, using `(max-)height: 100%` on child doesn't take padding and border into account
-        if (preview.css('max-height') != 'none') $img.css('max-height', parseInt(preview.css('max-height'), 10) - parseInt(preview.css('padding-top'), 10) - parseInt(preview.css('padding-bottom'), 10)  - parseInt(preview.css('border-top'), 10) - parseInt(preview.css('border-bottom'), 10))
-        
-        preview.html($img)
-        element.addClass('fileinput-exists').removeClass('fileinput-new')
-
-        element.trigger('change.bs.fileinput', e.target.files)
-      }
-
-      reader.readAsDataURL(file)
-    } else {
-      this.$element.find('.fileinput-filename').text(file.name)
-      this.$preview.text(file.name)
-      
-      this.$element.addClass('fileinput-exists').removeClass('fileinput-new')
-      
-      this.$element.trigger('change.bs.fileinput')
-    }
-  },
-
-  Fileupload.prototype.clear = function(e) {
-    if (e) e.preventDefault()
-    
-    this.$hidden.val('')
-    this.$hidden.attr('name', this.name)
-    this.$input.attr('name', '')
-
-    //ie8+ doesn't support changing the value of input with type=file so clone instead
-    if (isIE) { 
-      var inputClone = this.$input.clone(true);
-      this.$input.after(inputClone);
-      this.$input.remove();
-      this.$input = inputClone;
-    } else {
-      this.$input.val('')
-    }
-
-    this.$preview.html('')
-    this.$element.find('.fileinput-filename').text('')
-    this.$element.addClass('fileinput-new').removeClass('fileinput-exists')
-    
-    if (e !== false) {
-      this.$input.trigger('change')
-      this.$element.trigger('clear.bs.fileinput')
-    }
-  },
-
-  Fileupload.prototype.reset = function() {
-    this.clear(false)
-
-    this.$hidden.val(this.original.hiddenVal)
-    this.$preview.html(this.original.preview)
-    this.$element.find('.fileinput-filename').text('')
-
-    if (this.original.exists) this.$element.addClass('fileinput-exists').removeClass('fileinput-new')
-     else this.$element.addClass('fileinput-new').removeClass('fileinput-exists')
-    
-    this.$element.trigger('reset.bs.fileinput')
-  },
-
-  Fileupload.prototype.trigger = function(e) {
-    this.$input.trigger('click')
-    e.preventDefault()
-  }
-
-  
-  // FILEUPLOAD PLUGIN DEFINITION
-  // ===========================
-
-  $.fn.fileinput = function (options) {
-    return this.each(function () {
-      var $this = $(this)
-      , data = $this.data('fileinput')
-      if (!data) $this.data('fileinput', (data = new Fileupload(this, options)))
-      if (typeof options == 'string') data[options]()
-    })
-  }
-
-  $.fn.fileinput.Constructor = Fileupload
-
-
-  // FILEUPLOAD DATA-API
-  // ==================
-
-  $(document).on('click.fileinput.data-api', '[data-provides="fileinput"]', function (e) {
-    var $this = $(this)
-    if ($this.data('fileinput')) return
-    $this.fileinput($this.data())
-      
-    var $target = $(e.target).closest('[data-dismiss="fileinput"],[data-trigger="fileinput"]');
-    if ($target.length > 0) {
-      e.preventDefault()
-      $target.trigger('click.bs.fileinput')
-    }
-  })
-
-}(window.jQuery);
+}(jQuery);

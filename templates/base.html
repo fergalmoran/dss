@@ -4,6 +4,7 @@
     <title>Deep South Sounds</title>
     {% include 'inc/meta.html' %}
     {% load compress %}
+    {% load compressed %}
     {% load static %}
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300"/>
     <link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
@@ -61,13 +62,24 @@
 <div id="footer"></div>
 <script src="/js/settings/"></script>
 {% compress js %}
-    <script src="{{ STATIC_URL }}js/lib/respond.js"></script>
-    <script src="{{ STATIC_URL }}js/com.podnoms.storage.js"></script>
     <script type="text/javascript">
         var burst = Date.now();
     </script>
 {% endcompress %}
-<script src="{{ STATIC_URL }}js/lib/require.js" data-main="{{ STATIC_URL }}js/main.js?bust={{ bust }}"></script>
+
+<script src="//connect.facebook.net/en_US/all.js"></script>
+
+<!--- start RemoveAMD -->
+{% compressed_js 'backbone' %}
+{% compressed_js 'lib' %}
+{% compressed_js 'site' %}
+{% compressed_js 'templates' %}
+
+<script type="application/javascript">
+    $(function(){
+       Dss.start();
+    });
+</script>
 
 {% block footerscripts %}
 {% endblock %}

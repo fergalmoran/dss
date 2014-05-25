@@ -1,3 +1,2 @@
-define ['marionette'], () ->
-    new Backbone.Wreqr.EventAggregator
+new Backbone.Wreqr.EventAggregator
 

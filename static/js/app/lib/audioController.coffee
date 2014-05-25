@@ -1,5 +1,4 @@
-define ['app', 'marionette', 'vent', 'utils', 'soundmanager2', 'peneloplay'],
-(App, Marionette, vent, utils, soundManager, peneloplay) ->
+@DssApplication.module "AudioController", (AudioController) ->
     class AudioController extends Marionette.Controller
 
         initialize: (options) ->
@@ -87,4 +86,3 @@ define ['app', 'marionette', 'vent', 'utils', 'soundmanager2', 'peneloplay'],
                     vent.trigger('live:stopped')
 
     AudioController
-

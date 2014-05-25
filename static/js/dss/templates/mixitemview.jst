@@ -1,0 +1,163 @@
+<div class="row">
+    <div class="col-md-2 mix-profile-container">
+        <div class="mix-image-container">
+            <img alt="mix-logo" class="mix-image-image img-rounded img-polaroid" src="<%= mix_image %>"/>
+        </div>
+        <span class="msg-body">
+            <span class="mix-title">
+                <a href="/<%= user_profile_url %>" id="<%= id %>">
+                    <i class="fa fa-user"></i>&nbsp;<%= user_name %>
+                </a>
+            </span>
+            <span class="mix-time">
+                <i class="fa fa-clock-o"></i>
+                <span><%= humanise(upload_date) %></span>
+            </span>
+        </span>
+    </div>
+    <div class="col-md-10 mix-container" id="mix-container-<%= id %>">
+        <div class="row orange">
+            <div class="pull-left title-bar-item">
+                <a class="mix-link"
+                   id="mix-link-<%= id %>"
+                   href="<%= item_url %>"
+                   title="<%= title %>"><%= title %>
+                </a>
+            </div>
+            <div class="pull-right title-bar-item">
+                <div id="genre-list" class="pull-right">
+                    <% _.each(genres, function(i) { %>
+                    <a href="/mixes/genre/<%= i.slug %>" class="label label-info arrowed-right arrowed-in"><%=
+                            i.description %></a>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+        <div class="row dss-player-wrapper">
+            <!-- TODO: refactor the player into a template -->
+            <div class="pnp-instance">
+                <div class="pnp-wrapper">
+                    <img class="pnp-waveform img-responsive" alt="mix waveform"
+                         src="<%= waveform_url %>">
+
+                    <div class="pnp-time-display-label pnp-time-display-label-elapsed"></div>
+                    <div class="pnp-time-display-label pnp-time-display-label-duration"><%= secondsToHms(duration) %>
+                    </div>
+                    <div class="pnp-download-overlay"></div>
+                    <div class="pnp-played-overlay"></div>
+                    <div class="pnp-seekhead"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="player-footer">
+                <div class="play-button footer-button">
+                    <a id="play-button-<%= id %>" class="mix-state-toggle play blue" data-bypass="true" style="">
+                        <i id="play-state-fa fa-<%= id %>" class="fa fa-play bigger-180"></i>
+                    </a>
+                </div>
+                <div class="footer-button">
+                    <div class="btn-group">
+                        <button class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-share"></i>Share
+                            <span class="fa fa-caret-down fa fa-on-right"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a data-mode="facebook"
+                                   class="share-button share-button-facebook">
+                                    Facebook
+                                </a>
+                            </li>
+                            <li>
+                                <a data-mode="twitter"
+                                   class="share-button share-button-twitter">
+                                    Twitter
+                                </a>
+                            </li>
+                            <li>
+                                <a data-mode="embed"
+                                   class="share-button share-button-embed">
+                                    Embed
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <% if (utils.isAuth()) { %>
+                <div class="like-button footer-button">
+                    <a class="btn <% if (liked) { %>btn-pink<% } else { %>btn-light<% } %> btn-xs"
+                       id="like-<%= id %>"
+                       data-id="<%= id %>">
+                        <i class="fa fa-heart"></i> Like
+                        <% if (liked) { %>
+                        d
+                        <% } %>
+                    </a>
+                </div>
+                <div class="favourite-button footer-button">
+                    <a class="btn <% if (favourited) { %>btn-pink<% } else { %>btn-light<% } %> btn-xs"
+                       id="favourite-<%= id %>"
+                       data-id="<%= id %>"><i class="fa fa-star-empty"></i> Favourite
+                        <% if (favourited) { %>
+                        d
+                        <% } %>
+                    </a>
+                </div>
+                <% } %>
+                <div class="footer-button">
+                    <ul class="list-nostyle list-horiz">
+                        <li title="<%= play_count %> Plays" class="stats-item bordered-right">
+                            <span class="fa fa-play-circle tooltip-success" data-rel="tooltip" data-placement="right"
+                                  title="" data-original-title="<%= play_count %> Plays">
+                                <%= play_count %>
+                            </span>
+                        </li>
+                        <li title="<%= download_count %> Downloads" class="stats-item bordered-right">
+                            <span class="fa fa-download tooltip-success" data-rel="tooltip" data-placement="right"
+                                  title="" data-original-title="<%= download_count %> Downloads">
+                                <%= download_count %>
+                            </span>
+                        </li>
+                        <li title="<%= comment_count %> Comments" class="stats-item bordered-right">
+                            <span class="fa fa-comment tooltip-success" data-rel="tooltip" data-placement="right"
+                                  title="" data-original-title="<%= comment_count %> Comments">
+                                <%= comment_count %>
+                            </span>
+                        </li>
+                        <li title="<%= like_count %> Likes" class="stats-item bordered-right">
+                            <span class="fa fa-heart tooltip-success" data-rel="tooltip" data-placement="right" title=""
+                                  data-original-title="<%= like_count %> Likes">
+                                <%= like_count %>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <% if(can_edit) { %>
+                <div class="edit-button footer-button-right">
+                    <a href="/mix/edit/<%= slug %>" class="btn btn-xs"
+                       data-id="<%= id %>"><i class="fa fa-edit"></i>Edit</a>
+                </div>
+                <div class="delete-button footer-button-right">
+                    <a data-bypass="true" class="btn btn-xs btn-danger"
+                       data-id="<%= id %>"><i class="fa fa-trash"></i>Delete</a>
+                </div>
+                <% } %>
+                <% if (download_allowed) { %>
+                    <% if (utils.isAuth()) { %>
+                        <div class="download-button footer-button-right">
+                            <a class="btn btn-xs btn-success" data-id="<%= id %>">
+                                <i class="fa fa-download"></i> Download</a>
+                        </div>
+                    <% }else { %>
+                        <div class="login-download-button footer-button-right">
+                            <a class="btn btn-xs btn-warning" data-id="<%= id %>">
+                                <i class="fa fa-download"></i> Login to download</a>
+                        </div>
+                    <% } %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+<hr/>

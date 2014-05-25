@@ -1,8 +1,64 @@
-from dss import localsettings
+PIPELINE_TEMPLATE_FUNC = "_.template"
 
-COMPRESS_ENABLED = localsettings.COMPRESS_ENABLED
-REQUIRE_BASE_URL = "js"
-REQUIRE_JS = "lib/require.js"
-REQUIRE_DEBUG = localsettings.DEBUG
-REQUIRE_ENVIRONMENT = "auto"
-REQUIRE_BUILD_PROFILE = "app.build.js"
+PIPELINE_COMPILERS = (
+    'pipeline.compilers.coffee.CoffeeScriptCompiler',
+)
+
+PIPELINE_JS = {
+    'templates': {
+        'source_filenames': (
+            'js/dss/templates/*.jst',
+        )
+    },
+    'backbone': {
+        'source_filenames': (
+            'js/lib/jquery.js',
+            'js/lib/underscore.js',
+            'js/lib/underscore.templatehelpers.js',
+            'js/lib/backbone.js',
+            'js/lib/backbone.associations.js',
+            'js/lib/backbone.marionette.js',
+        )
+    },
+    'lib': {
+        'source_filenames': (
+            'js/lib/ace/uncompressed/jquery-ui.js',
+            'js/lib/backbone.associations.js',
+            'js/lib/backbone.syphon.js',
+            'js/lib/ace/uncompressed/bootstrap.js',
+            'js/lib/moment.js',
+            'js/lib/ajaxfileupload.js',
+            'js/lib/ace/uncompressed/ace.js',
+            'js/lib/typeahead.js',
+
+            'js/lib/ace/uncompressed/bootstrap-wysiwyg.js',
+            'js/lib/ace/uncompressed/fuelux/fuelux.wizard.js',
+            'js/lib/ace/uncompressed/dropzone.js',
+            'js/lib/ace/uncompressed/fullcalendar.js',
+            'js/lib/ace/uncompressed/x-editable/bootstrap-editable.js',
+            'js/lib/ace/uncompressed/x-editable/ace-editable.js',
+
+            'js/lib/sm/soundmanager2.js',
+
+            'js/lib/jquery.fileupload.js',
+            'js/lib/jquery.fileupload-process.js',
+            'js/lib/jquery.fileupload-audio.js',
+            'js/lib/jquery.fileupload-video.js',
+            'js/lib/jquery.fileupload-validate.js',
+            'js/lib/jquery.fileupload-ui.js',
+            'js/lib/jquery.fileupload-image.js',
+            'js/lib/jquery.iframe-transport.js',
+            'js/lib/jquery.ui.widget.js',
+            'js/lib/toastr.js',
+        ),
+        'output_filename': 'js/lib.js',
+    },
+    'site': {
+        'source_filenames': (
+            'js/dss/*.coffee',
+            'js/dss/**/*.coffee',
+            'js/dss/apps/**/**/*.coffee',
+        ),
+        'output_filename': 'js/site.js',
+    }
+}
