@@ -46,6 +46,7 @@
 		}
 		
 		this.$stepContainer = $(this.$element.data('target') || 'body');//ACE
+        console.log(this.$stepContainer);
 	};
 
 	Wizard.prototype = {

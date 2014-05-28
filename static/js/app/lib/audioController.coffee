@@ -47,7 +47,6 @@
                     error: =>
                         utils.showWarning "Ooops", "Error playing mix. If you have a flash blocker, please disable it for this site. Otherwise, do please try again."
                         return
-                com.podnoms.storage.setItem "now_playing", @id
                 return
 
         isPlayingId: (id) ->

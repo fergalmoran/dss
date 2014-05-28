@@ -14,3 +14,6 @@ _.addTemplateHelpers
 
     secondsToHms: (d) ->
         utils.secondsToHms d
+
+    canHomepage: () ->
+        return com.podnoms.settings.canHomepage

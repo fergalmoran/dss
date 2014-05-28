@@ -99,7 +99,10 @@ define(["jquery", "soundmanager2"], function ($, soundManager) {
             ui.timeDuration.show();
             ui.timeDuration.animate({ top: ui.waveform.position().top, left: (ui.waveform.position().left + ui.waveform.width()) - ui.timeDuration.width() });
 
-            ui.downloadOverlay.animate({top: ui.waveform.position().top, left: ui.waveform.position().left, height: ui.waveform.height()});
+            if soundManager.html5.mp3
+                ui.downloadOverlay.hide()
+            else
+                ui.downloadOverlay.animate({top: ui.waveform.position().top, left: ui.waveform.position().left, height: ui.waveform.height()});
             ui.playedOverlay.show();
             ui.playedOverlay.animate({top: ui.waveform.position().top, left: ui.waveform.position().left, height: ui.waveform.height()});
 

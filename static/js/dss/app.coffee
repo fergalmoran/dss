@@ -15,6 +15,7 @@
 
     App.addInitializer ->
         @headerRegion.show(new App.HeaderApp.Views.Header())
+        @sidebarRegion.show(new App.SidebarApp.Views.SidebarView())
 
     App.addInitializer ->
         $(document).on("click", "a[href]:not([data-bypass])", (evt) ->
@@ -60,7 +61,7 @@
 
         @listenTo @vent, "user:follow", (model)->
             console.log "App(vent): user:follow"
-            user = new UserItem({id: com.podnoms.settings.currentUser })
+            user = new App.UserApp.Models.UserItem({id: com.podnoms.settings.currentUser })
             target = com.podnoms.settings.urlRoot + "user/" + model.get("id") + "/"
             user.fetch(
                 success: =>

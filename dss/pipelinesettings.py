@@ -12,23 +12,26 @@ PIPELINE_JS = {
     },
     'backbone': {
         'source_filenames': (
-            'js/lib/jquery.js',
             'js/lib/underscore.js',
             'js/lib/underscore.templatehelpers.js',
             'js/lib/backbone.js',
+            'js/lib/backbone.syphon.js',
             'js/lib/backbone.associations.js',
             'js/lib/backbone.marionette.js',
         )
     },
     'lib': {
         'source_filenames': (
+            'js/lib/ace/uncompressed/jquery.js',
             'js/lib/ace/uncompressed/jquery-ui.js',
-            'js/lib/backbone.associations.js',
-            'js/lib/backbone.syphon.js',
             'js/lib/ace/uncompressed/bootstrap.js',
             'js/lib/moment.js',
             'js/lib/ajaxfileupload.js',
             'js/lib/ace/uncompressed/ace.js',
+            'js/lib/ace/uncompressed/ace-elements.js',
+            'js/lib/ace/uncompressed/select2.js',
+            'js/lib/ace/uncompressed/fuelux/fuelux.wizard.js',
+            'js/lib/ace/ace/elements.wizard.js',
             'js/lib/typeahead.js',
 
             'js/lib/ace/uncompressed/bootstrap-wysiwyg.js',
@@ -40,6 +43,7 @@ PIPELINE_JS = {
 
             'js/lib/sm/soundmanager2.js',
 
+            'js/lib/jasny.fileinput.js',
             'js/lib/jquery.fileupload.js',
             'js/lib/jquery.fileupload-process.js',
             'js/lib/jquery.fileupload-audio.js',

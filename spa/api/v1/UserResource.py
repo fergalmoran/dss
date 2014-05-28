@@ -78,13 +78,12 @@ class UserResource(BackboneCompatibleResource):
 
         ret = super(UserResource, self).obj_update(bundle, skip_errors, **kwargs)
 
-        """
-        bundle.obj.update_follower(bundle.request.user,
-                                   bundle.data['favourited'])
-        """
+        try:
+            update_geo_info_task.delay(ip_address=bundle.request.META['REMOTE_ADDR'],
+                                       profile_id=bundle.request.user.get_profile().id)
+        except:
+            pass
 
-        update_geo_info_task.delay(ip_address=bundle.request.META['REMOTE_ADDR'],
-                                   profile_id=bundle.request.user.get_profile().id)
         return ret
 
     def dehydrate_description(self, bundle):
@@ -122,6 +121,7 @@ class UserResource(BackboneCompatibleResource):
         bundle.data['date_joined'] = bundle.obj.user.date_joined
         bundle.data['last_login'] = bundle.obj.user.last_login
         bundle.data['mix_count'] = bundle.obj.mix_count
+        bundle.data['thumbnail'] = bundle.obj.get_small_profile_image()
 
         return bundle
 

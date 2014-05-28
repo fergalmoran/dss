@@ -40,14 +40,13 @@
                 @setupPlayer el, data.stream_url
                 peneloPlay.startPlaying
                     success: =>
-                        vent.trigger("mix:play", model)
-                        vent.trigger("live:stop")
+                        App.vent.trigger("mix:play", model)
+                        App.vent.trigger("live:stop")
                         utils.checkPlayCount()
                         return
                     error: =>
                         utils.showWarning "Ooops", "Error playing mix. If you have a flash blocker, please disable it for this site. Otherwise, do please try again."
                         return
-                com.podnoms.storage.setItem "now_playing", @id
                 return
 
         isPlayingId: (id) ->

@@ -43,14 +43,12 @@
             <% if (com.podnoms.settings.currentUser != -1) { %>
                 <li class="light-blue">
                     <a data-toggle="dropdown" data-bypass="true" href="#" class="dropdown-toggle">
-                        {% thumbnail user|avatar_image "36x36" crop="center" as im %}
-                            <img id="nav-profile-image" class="nav-user-photo"
-                                 src="{{ im.url }}"
-                                 alt="AAProfileImg"/>
-                        {% endthumbnail %}
+                        <img id="nav-profile-image" class="nav-user-photo"
+                             src="<%= com.podnoms.settings.avatarImage %>"
+                             alt="AAProfileImg"/>
                         <span class="user-info">
                             <small>Welcome,</small>
-                            {{ user.first_name }}
+                            <%= com.podnoms.settings.userName %>
                         </span>
                         <i class="fa fa-caret-down"></i>
                     </a>
@@ -62,7 +60,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ user|profile_url }}">
+                            <a href="<%= com.podnoms.settings.userUrl %>">
                                 <i class="fa fa-user"></i>
                                 Profile
                             </a>

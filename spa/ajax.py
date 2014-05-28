@@ -11,7 +11,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from annoying.decorators import render_to
 from django.shortcuts import render_to_response
 from django.utils import simplejson
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.views.decorators.http import require_POST
 from jfu.http import upload_receive, UploadResponse
 
@@ -234,6 +234,7 @@ def upload_avatar_image(request):
 
 @require_POST
 @login_required
+@csrf_protect
 def upload(request):
     # The assumption here is that jQuery File Upload
     # has been configured to send files one at a time.
@@ -242,16 +243,22 @@ def upload(request):
     try:
         uid = request.POST['upload-hash']
         in_file = request.FILES['file'] if request.FILES else None
-        fileName, extension = os.path.splitext(in_file.name)
+        file_name, extension = os.path.splitext(in_file.name)
 
         file_storage = FileSystemStorage(location=os.path.join(settings.CACHE_ROOT, "mixes"))
         cache_file = file_storage.save("%s%s" % (uid, extension), ContentFile(in_file.read()))
+        response = ''
 
-        create_waveform_task.delay(in_file=os.path.join(file_storage.base_location, cache_file), uid=uid)
+        try:
+            create_waveform_task.delay(in_file=os.path.join(file_storage.base_location, cache_file), uid=uid)
+        except:
+            logger.debug("Unable to connect to celery")
+            response = 'Unable to connect to waveform generation task, there may be a delay in getting your mix online'
 
         file_dict = {
-        'size': in_file.size,
-        'uid': uid
+            'response': response,
+            'size': in_file.size,
+            'uid': uid
         }
 
         return UploadResponse(request, file_dict)

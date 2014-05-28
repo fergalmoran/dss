@@ -47,14 +47,12 @@
             #the el has not been added to the DOM at this stage, so we'll check for the bounds
             #and if zero, rely on the composite view to call into this in it's onDomRefresh
 
-            """
             if App.audioController.isPlayingId @model.id
                 console.log "Re-wrapping player"
                 App.audioController.setupPlayerEl $(@el)
                 @ui.playButton.toggleClass("play", false).toggleClass("pause", false).toggleClass("resume", false)
                 @mixState = App.audioController.getMixState()
                 @_setupStateUI()
-            """
             #$(@el).on("resize", App.audioController.setupPlayerEl($(@el)));
             return
 
@@ -101,7 +99,6 @@
 
         mixFavourite: ->
             console.log("MixItemView: favouriteMix")
-            app = require('app')
             App.vent.trigger("mix:favourite", @model)
             true
 

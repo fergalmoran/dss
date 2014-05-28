@@ -6,7 +6,7 @@
 
   define(['app.lib/dssView', 'utils', 'ace-editable', 'typeahead'], function(DssView, utils) {
     var EditableView;
-    EditableView = (function(_super) {
+    return EditableView = (function(_super) {
 
       __extends(EditableView, _super);
 
@@ -201,7 +201,6 @@
       return EditableView;
 
     })(DssView);
-    return EditableView;
   });
 
 }).call(this);

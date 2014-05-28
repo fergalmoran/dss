@@ -54,7 +54,7 @@
                 download_allowed: true,
                 is_featured: false
             });
-            App.contentRegion.show(new MixEditView({model: mix}))
+            App.contentRegion.show(new App.MixApp.Views.MixEditView({model: mix}))
             true
 
         editMix: (slug) ->
@@ -62,7 +62,7 @@
             mix = new App.MixApp.Models.MixItem({id: slug})
             mix.fetch(
                 success: ->
-                    App.contentRegion.show(new MixEditView(model: mix))
+                    App.contentRegion.show(new App.MixApp.Views.MixEditView(model: mix))
             )
             true
 

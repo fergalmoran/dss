@@ -16,7 +16,9 @@ com.podnoms.settings = {
     staticUrl: '{{ STATIC_URL }}',
     urlArgs: {{ IS_DEBUG }} ? "" : "bust="+ (new Date()).getTime(),
     currentUser: {{ CURRENT_USER_ID }},
+    canHomepage: "{{ CURRENT_USER_CANHOMEPAGE }}",
     userName: "{{ CURRENT_USER_NAME }}",
+    userSlug: "{{ CURRENT_USER_SLUG }}",
     userUrl: "{{ CURRENT_USER_URL }}",
-    avatarImage: "{{ AVATAR_IMAGE }}"
+    avatarImage: "{{ AVATAR_IMAGE }}",
 };

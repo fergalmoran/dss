@@ -164,4 +164,3 @@ define ['app.lib/dssView', 'utils', 'ace-editable', 'typeahead'],
 
             deferred.promise()
 
-    EditableView

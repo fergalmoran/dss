@@ -49,46 +49,25 @@
                 <div class="space-6"></div>
                 <div class="profile-contact-info">
                     <div class="profile-contact-links align-left">
-                        {% if user.is_authenticated %}
+                        <% if (utils.isAuth()) {%>
                             <a  id="follow-button" class="btn btn-link <% if (is_following) { %> following-disabled <% } %>" data-bypass="true">
                                 <i class="fa fa-plus-sign bigger-120 <% if (is_following) { %>red<% } else { %>green <%}%>"></i>
                                 <% if (is_following) { %>Unfollow<% } else { %>Follow<%}%>
                             </a>
-                        {% else %}
+                        <% }else { %>
                             <a  id="follow-button-login" class="btn btn-link" data-bypass="true">
                                 <i class="fa fa-plus-sign bigger-120 green"></i>
                                 Login to follow
                             </a>
-                        {% endif %}
+                        <% }%>
 
                     <br>
-                    {% comment %}
-                    <a class="btn btn-link" href="#">
-                        <i class="fa fa-envelope bigger-120 pink"></i>
-                        Send a message
-                    </a>
-                    {% endcomment %}
                     <a class="btn btn-link" href="<%= url %>">
                         <i class="fa fa-globe bigger-125 blue"></i>
                         Profile Link
                     </a>
                 </div>
                 <div class="space-6"></div>
-                {% comment %}
-                <div class="profile-social-links center">
-                    <a href="#" class="tooltip-info" title="" data-original-title="Visit my Facebook">
-                        <i class="middle fa fa-facebook-sign fa fa-2x blue"></i>
-                    </a>
-
-                    <a href="#" class="tooltip-info" title="" data-original-title="Visit my Twitter">
-                        <i class="middle fa fa-twitter-sign fa fa-2x light-blue"></i>
-                    </a>
-
-                    <a href="#" class="tooltip-error" title="" data-original-title="Visit my Pinterest">
-                        <i class="middle fa fa-pinterest-sign fa fa-2x red"></i>
-                    </a>
-                </div>
-                {% endcomment %}
             </div>
         </div>
 

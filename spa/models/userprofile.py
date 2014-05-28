@@ -139,10 +139,6 @@ class UserProfile(_BaseModel):
         except IOError, ex:
             self.logger.warn("Error getting medium profile image: %s", ex.message)
 
-    def get_small_profile_image_2(self):
-        ret = self.get_small_profile_image()
-        return ret
-
     def get_small_profile_image(self):
         try:
             if self.avatar_type == 'custom':

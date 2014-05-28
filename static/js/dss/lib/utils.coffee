@@ -1,4 +1,20 @@
 @utils = do ->
+    getCookie: (name) ->
+        cookieValue = null
+        if document.cookie and document.cookie isnt ""
+            cookies = document.cookie.split(";")
+            i = 0
+
+            while i < cookies.length
+                cookie = jQuery.trim(cookies[i])
+
+                # Does this cookie string begin with the name we want?
+                if cookie.substring(0, name.length + 1) is (name + "=")
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
+                    break
+                i++
+        cookieValue
+
     modal: (url) ->
         return if $('#modal-header').length
         if url
@@ -109,3 +125,87 @@
     isMe: (id) ->
         id == com.podnoms.settings.currentUser
 
+$(document).ready ->
+    window.location.hash = ""  if window.location.hash is "#_=_"
+    Backbone.history.navigate "/"  if window.location.hash is "upload#"
+    unless Array::indexOf
+        console.log "Shimming indexOf for IE8"
+        Array::indexOf = (searchElement) -> #, fromIndex
+            "use strict"
+            throw new TypeError()  unless this?
+            n = undefined
+            k = undefined
+            t = Object(this)
+            len = t.length >>> 0
+            return -1  if len is 0
+            n = 0
+            if arguments_.length > 1
+                n = Number(arguments_[1])
+                unless n is n # shortcut for verifying if it's NaN
+                    n = 0
+                else n = (n > 0 or -1) * Math.floor(Math.abs(n))  if n isnt 0 and n isnt Infinity and n isnt -Infinity
+            return -1  if n >= len
+            k = (if n >= 0 then n else Math.max(len - Math.abs(n), 0))
+            while k < len
+                return k  if k of t and t[k] is searchElement
+                k++
+            -1
+    return
+
+$(document).ajaxSend (event, xhr, settings) ->
+    getCookie = (name) ->
+        cookieValue = null
+        if document.cookie and document.cookie isnt ""
+            cookies = document.cookie.split(";")
+            i = 0
+
+            while i < cookies.length
+                cookie = jQuery.trim(cookies[i])
+
+                # Does this cookie string begin with the name we want?
+                if cookie.substring(0, name.length + 1) is (name + "=")
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
+                    break
+                i++
+        cookieValue
+    sameOrigin = (url) ->
+
+        # url could be relative or scheme relative or absolute
+        host = document.location.host # host + port
+        protocol = document.location.protocol
+        sr_origin = "//" + host
+        origin = protocol + sr_origin
+
+        # Allow absolute or scheme relative URLs to same origin
+
+        # or any other URL that isn't scheme relative or absolute i.e relative.
+        (url is origin or url.slice(0, origin.length + 1) is origin + "/") or (url is sr_origin or url.slice(0,
+                sr_origin.length + 1) is sr_origin + "/") or not (/^(\/\/|http:|https:).*/.test(url))
+    safeMethod = (method) ->
+        /^(GET|HEAD|OPTIONS|TRACE)$/.test method
+    xhr.setRequestHeader "X-CSRFToken", getCookie("csrftoken")  if typeof (xhr.setRequestHeader) is typeof (Function)  if not safeMethod(settings.type) and sameOrigin(settings.url)
+    return
+
+$.ajaxSetup
+    beforeSend: (xhr, settings) ->
+
+        # Only send the token to relative URLs i.e. locally.
+        xhr.setRequestHeader "X-CSRFToken", utils.getCookie("csrftoken")  unless /^http:.*/.test(settings.url) or /^https:.*/.test(settings.url)
+        return
+
+    statusCode:
+        401: ->
+            vent.trigger "app:login"
+            window.location.replace "/"
+            return
+
+        403: ->
+            vent.trigger "app:denied"
+            window.location.replace "/"
+            return
+
+unless com.podnoms.settings.isDebug
+
+    #console.log("Looking under the hood? Check us out on github https://github.com/fergalmoran/dss");
+    console = {}
+    console.log = (message) ->

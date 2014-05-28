@@ -25,7 +25,7 @@
         onShow: ->
             @searchRegion.show(new App.SearchApp.Views.SearchView())
             if com.podnoms.settings.currentUser != -1
-                @notificationsRegion.show(new NotificationsListView())
+                @notificationsRegion.show(new App.NotificationApp.Views.NotificationsListView())
 
         showRandom: ->
             console.log("headerView: showRandom")
