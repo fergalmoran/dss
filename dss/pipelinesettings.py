@@ -8,7 +8,8 @@ PIPELINE_JS = {
     'templates': {
         'source_filenames': (
             'js/dss/templates/*.jst',
-        )
+        ),
+        'output_filename': 'js/templates.jst',
     },
     'backbone': {
         'source_filenames': (
@@ -18,7 +19,8 @@ PIPELINE_JS = {
             'js/lib/backbone.syphon.js',
             'js/lib/backbone.associations.js',
             'js/lib/backbone.marionette.js',
-        )
+        ),
+        'output_filename': 'js/backbone.js',
     },
     'lib': {
         'source_filenames': (

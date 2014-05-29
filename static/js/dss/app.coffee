@@ -103,6 +103,7 @@
 
     App.on "initialize:after", ->
         if Backbone.history
-            Backbone.history.start()
+            Backbone.history.start
+                pushState: true
 
     App
