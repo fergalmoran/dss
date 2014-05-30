@@ -3,7 +3,6 @@ PIPELINE_TEMPLATE_FUNC = "_.template"
 PIPELINE_COMPILERS = (
     'pipeline.compilers.coffee.CoffeeScriptCompiler',
 )
-PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 
 PIPELINE_CSS = {
     'css': {
