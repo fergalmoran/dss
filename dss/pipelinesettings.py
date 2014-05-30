@@ -3,7 +3,10 @@ PIPELINE_TEMPLATE_FUNC = "_.template"
 PIPELINE_COMPILERS = (
     'pipeline.compilers.coffee.CoffeeScriptCompiler',
 )
-PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
+
+PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.cssmin.CSSMinCompressor'
+PIPELINE_CSSMIN_BINARY = 'cssmin'
+PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.slimit.SlimItCompressor'
 
 PIPELINE_CSS = {
     'css': {
@@ -32,6 +35,7 @@ PIPELINE_JS = {
         'source_filenames': (
             'js/dss/templates/*.jst',
         ),
+        'variant': 'datauri',
         'output_filename': 'js/t.js',
     },
 

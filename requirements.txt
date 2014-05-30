@@ -51,3 +51,6 @@ ua-parser
 user-agents
 django-user-agents
 nginx_signing
+cssmin
+slimit
+
