@@ -3,6 +3,7 @@ PIPELINE_TEMPLATE_FUNC = "_.template"
 PIPELINE_COMPILERS = (
     'pipeline.compilers.coffee.CoffeeScriptCompiler',
 )
+PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 
 PIPELINE_CSS = {
     'css': {
@@ -31,9 +32,10 @@ PIPELINE_JS = {
         'source_filenames': (
             'js/dss/templates/*.jst',
         ),
-        'output_filename': 'js/templates.jst',
+        'output_filename': 'js/t.js',
     },
-    'backbone': {
+
+    'lib': {
         'source_filenames': (
             'js/lib/underscore.js',
             'js/lib/underscore.templatehelpers.js',
@@ -41,11 +43,8 @@ PIPELINE_JS = {
             'js/lib/backbone.syphon.js',
             'js/lib/backbone.associations.js',
             'js/lib/backbone.marionette.js',
-        ),
-        'output_filename': 'js/backbone.js',
-    },
-    'lib': {
-        'source_filenames': (
+
+
             'js/lib/ace/uncompressed/jquery.js',
             'js/lib/ace/uncompressed/jquery-ui.js',
             'js/lib/ace/uncompressed/bootstrap.js',
@@ -78,15 +77,12 @@ PIPELINE_JS = {
             'js/lib/jquery.iframe-transport.js',
             'js/lib/jquery.ui.widget.js',
             'js/lib/toastr.js',
-        ),
-        'output_filename': 'js/lib.js',
-    },
-    'site': {
-        'source_filenames': (
+
+
             'js/dss/*.coffee',
             'js/dss/**/*.coffee',
             'js/dss/apps/**/**/*.coffee',
         ),
-        'output_filename': 'js/site.js',
+        'output_filename': 'js/a.js',
     },
 }
