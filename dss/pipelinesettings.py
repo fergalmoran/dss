@@ -4,6 +4,28 @@ PIPELINE_COMPILERS = (
     'pipeline.compilers.coffee.CoffeeScriptCompiler',
 )
 
+PIPELINE_CSS = {
+    'css': {
+        'source_filenames': (
+            'css/dss.overrides.css',
+            'css/ace/uncompressed/bootstrap.css',
+            'css/jasny-bootstrap.css',
+            'css/ace/uncompressed/fullcalendar.css',
+            'css/ace/uncompressed/dropzone.css',
+            'css/ace/uncompressed/ace.css',
+            'css/ace/uncompressed/ace-skins.css',
+            'css/ace/uncompressed/font-awesome.css',
+            'css/select2.css',
+            'css/ace/uncompressed/bootstrap-editable.css',
+            'css/jquery.fileupload-ui.css',
+            'css/peneloplay.css',
+            'css/toastr.css',
+            'css/dss.main.css',
+        ),
+        'output_filename': 'css/site.css'
+    }
+}
+
 PIPELINE_JS = {
     'templates': {
         'source_filenames': (
@@ -66,5 +88,5 @@ PIPELINE_JS = {
             'js/dss/apps/**/**/*.coffee',
         ),
         'output_filename': 'js/site.js',
-    }
+    },
 }

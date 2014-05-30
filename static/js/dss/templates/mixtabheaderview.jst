@@ -1,0 +1,10 @@
+<ul class="mix-toggle nav nav-pills" id="mix-tab">
+    <li id="li-latest"><a href="/mixes" id='latest'>Latest</a></li>
+    <li id="li-toprated"><a href="/mixes/toprated" id='toprated'>Top Rated</a></li>
+    <li id="li-mostplayed"><a href="/mixes/mostplayed" id='mostplayed'>Most Played</a></li>
+    <li id="li-mostactive"><a href="/mixes/mostactive" id='mostactive'>Most Active</a></li>
+    <li id="li-recommended"><a href="/mixes/recommended" id='recommended'>Recommended</a></li>
+    <% if (com.podnoms.settings.currentUser != -1) { %>
+        <li id="li-favourites"><a href="/mixes/favourites" id='favourites'>Favourites</a></li>
+    <% } %>
+</ul>
