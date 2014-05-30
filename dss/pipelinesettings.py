@@ -47,7 +47,6 @@ PIPELINE_JS = {
             'js/lib/backbone.associations.js',
             'js/lib/backbone.marionette.js',
 
-
             'js/lib/ace/uncompressed/bootstrap.js',
             'js/lib/moment.js',
             'js/lib/ajaxfileupload.js',
