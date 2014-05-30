@@ -37,6 +37,9 @@ PIPELINE_JS = {
 
     'lib': {
         'source_filenames': (
+            'js/lib/ace/uncompressed/jquery.js',
+            'js/lib/ace/uncompressed/jquery-ui.js',
+
             'js/lib/underscore.js',
             'js/lib/underscore.templatehelpers.js',
             'js/lib/backbone.js',
@@ -45,8 +48,6 @@ PIPELINE_JS = {
             'js/lib/backbone.marionette.js',
 
 
-            'js/lib/ace/uncompressed/jquery.js',
-            'js/lib/ace/uncompressed/jquery-ui.js',
             'js/lib/ace/uncompressed/bootstrap.js',
             'js/lib/moment.js',
             'js/lib/ajaxfileupload.js',
