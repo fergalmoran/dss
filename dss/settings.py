@@ -85,7 +85,10 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
+    'pipeline.finders.PipelineFinder',
+    'pipeline.finders.CachedFileFinder',
 )
+
 STATICFILES_STORAGE = 'pipeline.storage.NonPackagingPipelineCachedStorage'
 STATICFILES_DIRS = (
     here('static'),
