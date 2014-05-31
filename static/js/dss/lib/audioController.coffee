@@ -18,6 +18,8 @@
                     console.log "Sound manager ready!"
 
                 debugFlash: com.podnoms.smDebugMode
+                debugMode: com.podnoms.smDebugMode
+                useHTML5Audio: true
                 preferFlash: false
 
                 defaultOptions:

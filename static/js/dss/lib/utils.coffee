@@ -204,8 +204,4 @@ $.ajaxSetup
             window.location.replace "/"
             return
 
-unless com.podnoms.settings.isDebug
 
-    #console.log("Looking under the hood? Check us out on github https://github.com/fergalmoran/dss");
-    console = {}
-    console.log = (message) ->
