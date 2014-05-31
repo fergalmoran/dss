@@ -1,11 +1,3 @@
-/*!
- * jQuery Validation Plugin v1.12.0
- *
- * http://jqueryvalidation.org/
- *
- * Copyright (c) 2014 Jörn Zaefferer
- * Released under the MIT license
- */
 (function() {
 
 	function stripHtml(value) {
