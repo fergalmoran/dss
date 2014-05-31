@@ -128,10 +128,9 @@
 
             #Might not need the progress overlay if firefucks get their act together
             whileloading: =>
-                if true #not soundManager.html5.mp3
-                    percentageFinished = (_player.bytesLoaded / _player.bytesTotal) * 100
-                    percentageWidth = (bounds.waveformWidth / 100) * percentageFinished
-                    ui.downloadOverlay.css "width", percentageWidth
+                percentageFinished = (_player.bytesLoaded / _player.bytesTotal) * 100
+                percentageWidth = (bounds.waveformWidth / 100) * percentageFinished
+                ui.downloadOverlay.css "width", percentageWidth
                 return
 
             whileplaying: =>

@@ -1,7 +1,11 @@
 @Dss = do(Backbone, Marionette) ->
-
     App = new Marionette.Application
 
+    App.addInitializer ->
+        unless com.podnoms.settings.isDebug
+            console.log "Looking under the hood? Check us out on github https://github.com/fergalmoran/dss"
+            if window.console
+                window.console = { log: -> }
 
     App.addRegions
         headerRegion: "#header"
@@ -29,12 +33,6 @@
         true
 
     App.addInitializer ->
-        unless com.podnoms.settings.isDebug
-            console.log("Looking under the hood? Check us out on github https://github.com/fergalmoran/dss");
-            console = {}
-            console.log = (message) ->
-
-    App.addInitializer ->
         @listenTo @vent, "app:login", ->
             console.log "App(vent): app:login"
             utils.modal "/dlg/LoginView"
@@ -58,12 +56,12 @@
         @listenTo @vent, "mix:delete", (model) ->
             console.log "App(vent): mix:like"
             utils.messageBox "/dlg/DeleteMixConfirm"
-              yes: ->
-                console.log("Controller: mixDeleteYES!!")
-                mix.destroy()
-                Backbone.history.navigate "/", trigger: true
-              no: ->
-                console.log("Controller: mixDeleteNO!!")
+                yes: ->
+                    console.log("Controller: mixDeleteYES!!")
+                    mix.destroy()
+                    Backbone.history.navigate "/", trigger: true
+                no: ->
+                    console.log("Controller: mixDeleteNO!!")
 
         @listenTo @vent, "user:follow", (model)->
             console.log "App(vent): user:follow"
@@ -75,8 +73,7 @@
                         newFollowers = user.get("following").concat([target])
                         user.save(
                             "following": newFollowers
-                            "is_following": true
-                            ,
+                            "is_following": true,
                             patch: true
                         )
                         model.set("is_following", true)
@@ -85,8 +82,7 @@
                         f.splice(f.indexOf(target), 1)
                         user.save(
                             "following": f
-                            "is_following": false
-                            ,
+                            "is_following": false,
                             patch: true
                         )
                         model.set("is_following", false)
