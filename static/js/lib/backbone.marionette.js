@@ -7,16 +7,6 @@
 //
 // http://marionettejs.com
 
-
-
-/*!
- * Includes BabySitter
- * https://github.com/marionettejs/backbone.babysitter/
- *
- * Includes Wreqr
- * https://github.com/marionettejs/backbone.wreqr/
- */
-
 // Backbone.BabySitter
 // -------------------
 // v0.0.6
