@@ -20,6 +20,7 @@ git+git://github.com/jefftriplett/django-podcast.git#django-podcast
 git+git://github.com/etianen/django-require.git#django-require
 git+git://github.com/spookylukey/django-paypal.git#django-paypal
 git+git://github.com/llazzaro/django-scheduler.git#django-scheduler
+git+git://github.com/cyberdelia/django-pipeline.git#django-pipeline
 django-templated-email
 django-grappelli
 humanize
@@ -45,7 +46,6 @@ django-dbbackup
 dropbox
 django-jfu
 six
-django-require
 pyyaml
 ua-parser
 user-agents
@@ -53,4 +53,4 @@ django-user-agents
 nginx_signing
 cssmin
 slimit
-
+djrill
