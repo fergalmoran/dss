@@ -107,7 +107,7 @@
 
         editUser: ->
             console.log("Controller: editUser")
-            user = new UserItem({id: com.podnoms.settings.currentUser })
+            user = new App.UserApp.Models.UserItem({id: com.podnoms.settings.currentUser })
             user.fetch(
                 success: ->
                     App.contentRegion.show(new App.UserApp.Views.UserEditView(model: user))
