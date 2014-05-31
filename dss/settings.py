@@ -89,7 +89,7 @@ STATICFILES_FINDERS = (
     'pipeline.finders.CachedFileFinder',
 )
 
-STATICFILES_STORAGE = 'pipeline.storage.NonPackagingPipelineCachedStorage'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 STATICFILES_DIRS = (
     here('static'),
 )
