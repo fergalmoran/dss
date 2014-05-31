@@ -117,6 +117,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'spa.middleware.cors.XsSharingMiddleware',
     'htmlmin.middleware.HtmlMinifyMiddleware',
+    'htmlmin.middleware.MarkRequestMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     #'spa.middleware.uploadify.SWFUploadMiddleware',
     #'spa.middleware.sqlprinter.SqlPrintingMiddleware' if DEBUG else None,
