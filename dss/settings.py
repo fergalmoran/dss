@@ -89,7 +89,7 @@ STATICFILES_FINDERS = (
     'pipeline.finders.CachedFileFinder',
 )
 
-STATICFILES_STORAGE = 'dss.storage.AzureStorage'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 STATICFILES_DIRS = (
     here('static'),
 )
@@ -166,6 +166,7 @@ INSTALLED_APPS = (
     'djrill',
     'paypal.standard.ipn',
     'django_user_agents',
+     'storages',
     #'backbone_tastypie',
 )
 

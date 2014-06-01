@@ -19,6 +19,16 @@
 </head>
 <body>
 {% include 'inc/analytics.html' %}
+<div id="fb-root"></div>
+<script>
+    (function () {
+        var e = document.createElement('script');
+        e.async = true;
+        e.src = document.location.protocol +
+                '//connect.facebook.net/en_US/all.js';
+        document.getElementById('fb-root').appendChild(e);
+    }());
+</script>
 <div id="header"></div>
 <div class="space-6"></div>
 <div class="col-md-12" id="full-content">
@@ -51,8 +61,8 @@
 {% compressed_js 'templates' %}
 
 <script type="application/javascript">
-    $(function(){
-       Dss.start();
+    $(function () {
+        Dss.start();
     });
 </script>
 
