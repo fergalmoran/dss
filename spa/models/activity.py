@@ -31,12 +31,23 @@ class Activity(_BaseModel):
 
     def post_social(self):
         try:
+            verb = self.get_verb_past()
+            object = self.get_object_singular()
+            if verb == "favourited":
+                action_type = "deepsouthsounds:favourite"
+            if verb == "liked":
+                action_type = "like"
+            if verb == "followed":
+                action_type = "og.follows"
+            else:
+                action_type = "deepsouthsounds:play"
+
             social_account = SocialToken.objects.filter(account__user=self.user.user, account__provider='facebook')[0]
             facebook = OpenFacebook(social_account.token)
             notification_html = {
-                'mix': wrap_full(self.get_object_url())
+                object: wrap_full(self.get_object_url())
             }
-            result = facebook.set('me/deepsouthsounds:play', notification_html)
+            result = facebook.set('me/%s' % action_type, notification_html)
             print result
         except Exception, ex:
             print ex.message

@@ -70,6 +70,11 @@ class UserProfile(_BaseModel):
             self.slug = unique_slugify(self, self.get_username())
             print "Slugified: %s" % self.slug
 
+        """
+        Check if follower has been added
+        """
+        l = self.get_dirty_fields()
+
         return super(UserProfile, self).save(force_insert, force_update, using, update_fields)
 
     def get_username(self):

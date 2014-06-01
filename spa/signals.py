@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from core.utils.audio.mp3 import mp3_length
 from core.utils.url import wrap_full
 from spa.models import Notification
+from spa.models.activity import ActivityFollow
 
 from spa.models.userprofile import UserProfile
 from spa.models.mix import Mix
@@ -111,6 +112,8 @@ def user_followers_changed(sender, **kwargs):
                 for i in kwargs['pk_set']:
                     target_user = UserProfile.objects.get(pk=i)
                     if target_user:
+                        ActivityFollow(user=source_user, to_user=target_user).save()
+
                         notification = Notification()
                         notification.from_user = source_user
                         notification.to_user = target_user

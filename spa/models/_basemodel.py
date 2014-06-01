@@ -1,13 +1,14 @@
 import logging
 import os
 from datetime import datetime
+from dirtyfields import DirtyFieldsMixin
 from django.db import models
 from django.utils import simplejson
 from core.utils import url
 from dss import localsettings, settings
 
 
-class _BaseModel(models.Model):
+class _BaseModel(DirtyFieldsMixin, models.Model):
     logger = logging.getLogger(__name__)
 
     """

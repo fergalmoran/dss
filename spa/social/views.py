@@ -9,6 +9,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 import requests
 from allauth.socialaccount.models import SocialToken
+from core.utils.url import wrap_full
 
 from dss import settings
 from spa.models.mix import Mix
@@ -69,7 +70,7 @@ def user(request, args):
     default = _getPayload(request)
     extras = {
         "description": user.get_nice_name,
-        "profile_url": profile_url,
+        "profile_url": wrap_full(profile_url),
         "image_url": image,
     }
     payload = dict(default.items() + extras.items())

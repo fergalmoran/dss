@@ -153,6 +153,7 @@ INSTALLED_APPS = (
     'spa',
     'spa.signals',
     'core',
+    'dirtyfields',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
