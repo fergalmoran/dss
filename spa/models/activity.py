@@ -30,16 +30,18 @@ class Activity(_BaseModel):
         return "%s" % self.get_object_name()
 
     def post_social(self):
-        return
-        """
-        social_account = SocialToken.objects.filter(account__user=self.user.user, account__provider='facebook')[0]
-        facebook = OpenFacebook(social_account.token)
-        notification_html = {
-            'mix': self.get_object_url()
-        }
-        result = facebook.set('me/deepsouthsounds:play?', message=notification_html)
-        print "Here"
-        """
+        try:
+            social_account = SocialToken.objects.filter(account__user=self.user.user, account__provider='facebook')[0]
+            facebook = OpenFacebook(social_account.token)
+            notification_html = {
+                'mix': wrap_full(self.get_object_url())
+            }
+            result = facebook.set('me/deepsouthsounds:play', notification_html)
+            print result
+        except Exception, ex:
+            print ex.message
+            pass
+
     def create_notification(self):
         try:
             notification = Notification()
