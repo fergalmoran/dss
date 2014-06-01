@@ -22,10 +22,7 @@
         window.open "http://twitter.com/share?url=" + "http://" + window.location.host + "/" + model.get("item_url") + "&amp;text=" + model.get("title"), "twitterwindow", "height=450, width=550, top=" + ($(window).height() / 2 - 225) + ", left=" + $(window).width() / 2 + ", toolbar=0, location=0, menubar=0, directories=0, scrollbars=0"
 
     sharePageToFacebook: (model) ->
-        FB.init({
-            appId : '154504534677009',
-            xfbml : true
-        });
+        FB.fbAsyncInit('154504534677009');
         FB.getLoginStatus (oResponse) ->
             if oResponse.status is "connected"
                 FB.ui

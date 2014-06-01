@@ -20,15 +20,6 @@
 <body>
 {% include 'inc/analytics.html' %}
 <div id="fb-root"></div>
-<script>
-    (function () {
-        var e = document.createElement('script');
-        e.async = true;
-        e.src = document.location.protocol +
-                '//connect.facebook.net/en_US/all.js';
-        document.getElementById('fb-root').appendChild(e);
-    }());
-</script>
 <div id="header"></div>
 <div class="space-6"></div>
 <div class="col-md-12" id="full-content">
@@ -63,7 +54,21 @@
         Dss.start();
     });
 </script>
-
+<script>
+    jQuery(window).load(function (appId) {
+        window.fbAsyncInit = function () {
+            FB.init({appId: appId, status: true, cookie: true, xfbml: true});
+        };
+        (function () {
+            var e = document.createElement('script');
+            e.async = true;
+            e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+            document.getElementById('fb-root').appendChild(e);
+        }());
+        //Write Facebook FBML code to fb-root div
+        document.getElementById("fb-root").innerHTML = '<fb:like-box href="http://www.facebook.com/platform" width="300" stream="false"></fb:like-box>';
+    });
+</script>
 {% block footerscripts %}
 {% endblock %}
 </body>
