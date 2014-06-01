@@ -69,7 +69,7 @@ class Mix(_BaseModel):
 
     genres = models.ManyToManyField(Genre)
 
-    #activity based stuff
+    # activity based stuff
     favourites = models.ManyToManyField(UserProfile, related_name='favourites', blank=True, null=True)
     likes = models.ManyToManyField(UserProfile, related_name='likes', blank=True, null=True)
 
@@ -136,7 +136,7 @@ class Mix(_BaseModel):
     def get_waveform_url(self):
         if self.waveform_generated:
             waveform_root = localsettings.WAVEFORM_URL if hasattr(localsettings,
-                    'WAVEFORM_URL') else "%swaveforms" % settings.MEDIA_URL
+                                                                  'WAVEFORM_URL') else "%swaveforms" % settings.MEDIA_URL
 
             ret = "%s/%s.%s" % (waveform_root, self.uid, "png")
             return url.urlclean(ret)
