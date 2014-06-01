@@ -45,6 +45,7 @@ urlpatterns = patterns(
     url(r'^ajax/', include(ajax.urls)),
     url(r'^debug/', include(debug.urls)),
     url(r'^audio/', include(audio.urls)),
+    url(r'^logout/', 'spa.views.logout_user'),
     url(r'^st/events/', 'spa.static.get_events'),
     url(r'^api/', include(api.urls)),
     url(r'^comments/', include('django.contrib.comments.urls')),

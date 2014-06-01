@@ -21,7 +21,7 @@
             if url.indexOf("#") is 0
                 $(url).modal "open"
             else
-                $.get(url,(data) ->
+                $.get(url, (data) ->
                     $(data).modal().on "hidden", ->
                         $(this).remove()
                         true
@@ -45,7 +45,7 @@
             if url.indexOf("#") is 0
                 $(url).modal "open"
             else
-                $.get(url,(data) ->
+                $.get(url, (data) ->
                     $(data).modal('show').on("shown.bs.modal", (e) ->
                         $(this).find("#yes-no-positive").click ->
                             success()
@@ -64,18 +64,18 @@
 
     toastOptions: ->
         toastr.options =
-          closeButton: true
-          debug: false
-          positionClass: "toast-bottom-left"
-          onclick: null
-          showDuration: "300"
-          hideDuration: "1000"
-          timeOut: "5000"
-          extendedTimeOut: "1000"
-          showEasing: "swing"
-          hideEasing: "linear"
-          showMethod: "fadeIn"
-          hideMethod: "fadeOut"
+            closeButton: true
+            debug: false
+            positionClass: "toast-bottom-left"
+            onclick: null
+            showDuration: "300"
+            hideDuration: "1000"
+            timeOut: "5000"
+            extendedTimeOut: "1000"
+            showEasing: "swing"
+            hideEasing: "linear"
+            showMethod: "fadeIn"
+            hideMethod: "fadeOut"
 
     showError: (title, message) ->
         @toastOptions()
@@ -203,5 +203,16 @@ $.ajaxSetup
             vent.trigger "app:denied"
             window.location.replace "/"
             return
+
+$(document).on "submit", "form[method=post]", ->
+    console.log("Submitting form")
+    unless document.cookie.match("csrftoken=([a-zA-Z0-9]{32})")
+        c = ""
+        while c.length < 32
+            c += "abcdefghijklmnopqrstuvwxyz".charAt(Math.random() * 26)
+        document.cookie = "csrftoken=" + c + "; path=/"
+    $(this).append "<input type=\"hidden\" name=\"csrfmiddlewaretoken\">"  unless @csrfmiddlewaretoken
+    $(@csrfmiddlewaretoken).val document.cookie.match("csrftoken=([a-zA-Z0-9]{32})")[1]
+    return
 
 

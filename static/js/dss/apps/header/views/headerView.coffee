@@ -6,6 +6,7 @@
             "click #header-random-button": "showRandom"
             "click #header-play-pause-button": "togglePlayState"
             "click #header-login-button": "login"
+            "click #header-logout-button": "logout"
             "click #header-donate-button": "donate"
             "click #header-live-button.btn-success": "playLive"
             "click #header-live-button.btn-danger": "pauseLive"
@@ -34,11 +35,11 @@
         login: ->
             App.vent.trigger('app:login')
 
+        logout: ->
+            App.vent.trigger('app:logout')
+
         donate: ->
             App.vent.trigger('app:donate')
-
-        logout: ->
-            utils.showAlert "Success", "You are now logged out"
 
         trackChanged: (data) ->
             $(@el).find("#track-description").text data.title

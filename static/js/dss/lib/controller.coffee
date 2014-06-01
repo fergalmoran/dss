@@ -11,6 +11,9 @@
         doLogin: ->
             App.vent.trigger('app:login')
 
+        doLogout: ->
+            App.vent.trigger('app:logout')
+
         showSchedule: ->
             App.contentRegion.show(new ScheduleShowLayout())
             App.vent.trigger('show:schedule:show')

@@ -38,6 +38,13 @@
             utils.modal "/dlg/LoginView"
             true
 
+        @listenTo @vent, "app:logout", ->
+            console.log "App(vent): app:logout"
+            $.get "/logout", (data) ->
+                window.location.reload();
+                return
+            true
+
         @listenTo @vent, "app:donate", ->
             console.log("App: donate")
             utils.modal "/dlg/Donate"

@@ -18,6 +18,7 @@
             "schedule": "showSchedule",
 
             "login": "doLogin"
+            "logout": "doLogout"
 
             "users": "showUserList"
             "user/:slug/favourites": "showUserFavourites"

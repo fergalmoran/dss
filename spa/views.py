@@ -1,6 +1,7 @@
 import logging
 import uuid
-from django.http import HttpResponseServerError
+from django.contrib.auth import logout
+from django.http import HttpResponseServerError, HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
 from django.template import loader, Context
 from django.template.context import RequestContext
@@ -46,6 +47,10 @@ def app(request):
         context_instance=RequestContext(request))
 
 
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect("/")
+
 def default(request):
     if 'HTTP_USER_AGENT' in request.META and request.META['HTTP_USER_AGENT'].startswith('facebookexternalhit'):
         return social_redirect(request)
@@ -67,6 +72,6 @@ def debug_500(request, template_name='debug_500.html'):
      """
     t = loader.get_template(template_name)  # You need to create a 500.html template.
     ltype, lvalue, ltraceback = sys.exc_info()
-    sys.exc_clear()  #for fun, and to point out I only -think- this hasn't happened at
-    #this point in the process already
+    sys.exc_clear()  # for fun, and to point out I only -think- this hasn't happened at
+    # this point in the process already
     return HttpResponseServerError(t.render(Context({'type': ltype, 'value': lvalue, 'traceback': ltraceback})))

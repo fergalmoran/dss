@@ -16,7 +16,7 @@
                     class="fa fa-cogs fa fa-white"></i>Random</a></li>
             <li><a data-bypass="true" target="_blank" href="/podcast"><i class="fa fa-rss fa fa-white"></i>Podcast</a>
             </li>
-            <% if (com.podnoms.settings.liveEnabled != -1) { %>
+            <% if (com.podnoms.settings.liveEnabled ) { %>
                 <li class="purple">
                     <a data-bypass="true" class="btn-success" id="header-live-button">&nbsp;Listen Live
                         <i class="fa fa-headphones fa fa-white" id="header-live-icon"></i>
@@ -67,12 +67,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <form id="logout-form" method="post" action="{% url "account_logout" %}"
-                                  style="display: none">
-                                {% csrf_token %}
-                            </form>
-                            <a data-bypass="true" id="header-logout-button"
-                               onclick="document.getElementById('logout-form').submit();">
+                            <a data-bypass="true" id="header-logout-button">
                                 <i class="fa fa-off"></i>
                                 Logout
                             </a>
