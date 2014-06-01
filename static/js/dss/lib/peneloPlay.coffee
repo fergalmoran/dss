@@ -94,7 +94,7 @@
             top: ui.waveform.position().top
             left: (ui.waveform.position().left + ui.waveform.width()) - ui.timeDuration.width()
 
-        if soundManager.html5.mp3
+        if false #soundManager.html5.mp3
             ui.downloadOverlay.hide()
         else
             ui.downloadOverlay.animate
