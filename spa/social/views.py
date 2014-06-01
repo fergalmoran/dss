@@ -69,7 +69,8 @@ def user(request, args):
     profile_url = user.get_profile_url()
     default = _getPayload(request)
     extras = {
-        "description": user.get_nice_name,
+        "title": user.get_nice_name(),
+        "description": user.get_profile_description(),
         "profile_url": wrap_full(profile_url),
         "image_url": image,
     }
