@@ -1,8 +1,10 @@
 import abc
-from allauth.socialaccount.models import SocialAccount
+from allauth.socialaccount.models import SocialAccount, SocialToken
+from allauth.socialaccount.providers.facebook.provider import FacebookAccount
 
 from django.db import models
 from model_utils.managers import InheritanceManager
+from open_facebook import OpenFacebook
 from core.utils.url import wrap_full
 
 from spa.models.notification import Notification
@@ -28,11 +30,16 @@ class Activity(_BaseModel):
         return "%s" % self.get_object_name()
 
     def post_social(self):
-        social_account = SocialAccount.objects.filter(user=self.user)[0]
-        if social_account:
-            provider = social_account.get_provider_account()
-            print "Here"
-
+        return
+        """
+        social_account = SocialToken.objects.filter(account__user=self.user.user, account__provider='facebook')[0]
+        facebook = OpenFacebook(social_account.token)
+        notification_html = {
+            'mix': self.get_object_url()
+        }
+        result = facebook.set('me/deepsouthsounds:play?', message=notification_html)
+        print "Here"
+        """
     def create_notification(self):
         try:
             notification = Notification()
