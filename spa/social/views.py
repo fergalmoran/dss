@@ -70,7 +70,7 @@ def user(request, args):
     default = _getPayload(request)
     extras = {
         "title": user.get_nice_name(),
-        "description": user.get_profile_description(),
+        "description": user.get_profile_description().replace('<br>', '\n'),
         "profile_url": wrap_full(profile_url),
         "image_url": image,
     }
