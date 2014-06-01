@@ -47,7 +47,7 @@ def get_javascript(request, template_name):
         'CURRENT_USER_NAME': request.user.get_profile().get_nice_name() if not request.user.is_anonymous() else -1,
         'CURRENT_USER_URL': request.user.get_profile().get_profile_url() if not request.user.is_anonymous() else -1,
         'CURRENT_USER_SLUG': request.user.get_profile().slug if not request.user.is_anonymous() else -1,
-        'CURRENT_USER_CANHOMEPAGE': request.user.has_perm('spa.mix_add_homepage') or request.user.user.is_staff() if not request.user.is_anonymous() else False,
+        'CURRENT_USER_CANHOMEPAGE': request.user.has_perm('spa.mix_add_homepage') or request.user.is_staff if not request.user.is_anonymous() else False,
         'AVATAR_IMAGE': request.user.get_profile().get_small_profile_image() if not request.user.is_anonymous() else ""
     })
     return render_to_response(

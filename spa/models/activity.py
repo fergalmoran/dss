@@ -1,4 +1,5 @@
 import abc
+from allauth.socialaccount.models import SocialAccount
 
 from django.db import models
 from model_utils.managers import InheritanceManager
@@ -25,6 +26,12 @@ class Activity(_BaseModel):
 
     def __unicode__(self):
         return "%s" % self.get_object_name()
+
+    def post_social(self):
+        social_account = SocialAccount.objects.filter(user=self.user)[0]
+        if social_account:
+            provider = social_account.get_provider_account()
+            print "Here"
 
     def create_notification(self):
         try:

@@ -66,6 +66,8 @@ post_save.connect(create_profile, sender=User)
 def post_save_handler(**kwargs):
     instance = kwargs['instance']
     #should save generate a notification to a target user
+    if hasattr(instance, 'post_social'):
+        instance.post_social()
     if hasattr(instance, 'create_notification'):
         instance.create_notification()
     #should save post to the activity feed
