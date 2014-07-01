@@ -12,7 +12,7 @@
             </span>
             <span class="mix-time">
                 <i class="fa fa-clock-o"></i>
-                <span><%= humanise(upload_date) %></span>
+                <span><%= humanise(date_createdasdas) %></span>
             </span>
         </span>
     </div>
@@ -28,8 +28,7 @@
             <div class="pull-right title-bar-item">
                 <div id="genre-list" class="pull-right">
                     <% _.each(genres, function(i) { %>
-                    <a href="/mixes/genre/<%= i.slug %>" class="label label-info arrowed-right arrowed-in"><%=
-                        i.description %></a>
+                        <a href="/mixes/genre/<%= i.slug %>" class="label label-info arrowed-right arrowed-in"><%= i.description %></a>
                     <% }); %>
                 </div>
             </div>

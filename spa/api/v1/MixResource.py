@@ -11,12 +11,14 @@ from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.fields import ToOneField
 from tastypie.http import HttpGone, HttpUnauthorized
 from tastypie.utils import trailing_slash
+from dss import settings
 
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.api.v1.CommentResource import CommentResource
 from spa.api.v1.ActivityResource import ActivityResource
 from spa.models.mix import Mix
 from spa.models.show import Show
+from spa.models.userprofile import UserProfile
 
 
 class MixResource(BackboneCompatibleResource):
@@ -105,10 +107,16 @@ class MixResource(BackboneCompatibleResource):
         if 'download_allowed' not in bundle.data:
             bundle.data['download_allowed'] = False
 
-        bundle.data['user'] = bundle.request.user.get_profile()
+        #AAAAAH - STOP BEING LAZY AND REMOVE THIS
+
+        if settings.DEBUG and bundle.request.user.is_anonymous():
+            bundle.data['user'] = UserProfile.objects.get(pk=2)
+        else:
+            bundle.data['user'] = bundle.request.user.get_profile()
+
         ret = super(MixResource, self).obj_create(
             bundle,
-            user=bundle.request.user.get_profile(),
+            user=bundle.data['user'],
             uid=bundle.data['upload-hash'],
             extension=bundle.data['upload-extension'])
 

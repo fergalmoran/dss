@@ -9,13 +9,8 @@
         initialize: =>
             @listenTo(@model, 'change:is_following', @render)
 
-        templateHelpers:
-            humanise: (date)->
-                moment(date).fromNow()
-
         onDomRefresh: ->
             console.log("UserProfileView: initialize")
-
 
             $.fn.editable.defaults.mode = "inline"
             $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>"

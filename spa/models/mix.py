@@ -54,7 +54,7 @@ class Mix(_BaseModel):
 
     title = models.CharField(max_length=150)
     description = models.TextField()
-    upload_date = models.DateTimeField(default=datetime.now())
+    upload_date = models.DateTimeField(auto_now_add=True)
     mix_image = models.ImageField(max_length=1024, blank=True, upload_to=mix_image_name)
     is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=True)
@@ -72,9 +72,6 @@ class Mix(_BaseModel):
     # activity based stuff
     favourites = models.ManyToManyField(UserProfile, related_name='favourites', blank=True, null=True)
     likes = models.ManyToManyField(UserProfile, related_name='likes', blank=True, null=True)
-
-    class ImmutableMeta:
-        immutable = ['upload_date']
 
     def __unicode__(self):
         return self.title

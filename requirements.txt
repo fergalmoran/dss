@@ -54,3 +54,6 @@ nginx_signing
 cssmin
 slimit
 djrill
+python-shout
+django-dirtyfields
+django-storages
