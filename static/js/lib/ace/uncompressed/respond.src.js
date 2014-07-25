@@ -1,3 +1,5 @@
+/*! matchMedia() polyfill - Test a CSS media type/query in JS. Authors & copyright (c) 2012: Scott Jehl, Paul Irish, Nicholas Zakas. Dual MIT/BSD license */
+/*! NOTE: If you're already including a window.matchMedia polyfill via Modernizr or otherwise, you don't need this part */
 (function(w) {
   "use strict";
   w.matchMedia = w.matchMedia || function(doc, undefined) {
@@ -19,6 +21,7 @@
   }(w.document);
 })(this);
 
+/*! Respond.js v1.4.0: min/max-width media query polyfill. (c) Scott Jehl. MIT Lic. j.mp/respondjs  */
 (function(w) {
   "use strict";
   var respond = {};

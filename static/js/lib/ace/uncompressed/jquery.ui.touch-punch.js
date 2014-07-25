@@ -1,3 +1,13 @@
+/*!
+ * jQuery UI Touch Punch 0.2.3
+ *
+ * Copyright 2011–2014, Dave Furfero
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ *
+ * Depends:
+ *  jquery.ui.widget.js
+ *  jquery.ui.mouse.js
+ */
 (function ($) {
 
   // Detect touch support
@@ -18,14 +28,14 @@
    * @param {Object} event A touch event
    * @param {String} simulatedType The corresponding mouse event
    */
-  function simulateMouseEvent (event, simulatedType) {
+  function simulateMouseEvent (event, simulatedType, prevent) {
 
     // Ignore multi-touch events
     if (event.originalEvent.touches.length > 1) {
       return;
     }
 
-    event.preventDefault();
+    if(prevent !== false) event.preventDefault();//ACE
 
     var touch = event.originalEvent.changedTouches[0],
         simulatedEvent = document.createEvent('MouseEvents');
@@ -73,13 +83,13 @@
     self._touchMoved = false;
 
     // Simulate the mouseover event
-    simulateMouseEvent(event, 'mouseover');
+    simulateMouseEvent(event, 'mouseover', false);//ACE
 
     // Simulate the mousemove event
-    simulateMouseEvent(event, 'mousemove');
+    simulateMouseEvent(event, 'mousemove', false);//ACE
 
     // Simulate the mousedown event
-    simulateMouseEvent(event, 'mousedown');
+    simulateMouseEvent(event, 'mousedown', false);//ACE
   };
 
   /**

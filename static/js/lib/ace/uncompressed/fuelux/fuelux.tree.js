@@ -6,8 +6,6 @@
  * Licensed under the MIT license.
  */
 
-//ADDED some options and modifications
- 
 //define(['require','jquery'],function(require) {
 (function($ , undefined) {//ACE
 
@@ -56,6 +54,12 @@
 
 						if('icon-class' in value)
 							header.find('i').addClass(value['icon-class']);
+						
+						if('additionalParameters' in value
+							&& 'item-selected' in value.additionalParameters 
+								&& value.additionalParameters['item-selected'] == true) {
+								setTimeout(function(){header.trigger('click')}, 0);
+						}
 					} else if (value.type === "item") {
 						$entity = self.$element.find('.tree-item:eq(0)').clone().show();
 						$entity.find('.tree-item-name').html(value.name);
@@ -130,8 +134,7 @@
 				});
 			} else if ($all[0] !== $el[0]) {
 				$all.removeClass('tree-selected')
-					//.find('i').removeClass('icon-ok').addClass('tree-dot');
-					.find('i').removeClass(this.options['selected-icon']).addClass(this.options['unselected-icon']);//ACE
+					.find('i').removeClass('icon-ok').addClass('tree-dot');
 				data.push($el.data());
 			}
 
@@ -139,12 +142,10 @@
 			if($el.hasClass('tree-selected')) {
 				eventType = 'unselected';
 				$el.removeClass('tree-selected');
-				//$el.find('i').removeClass('icon-ok').addClass('tree-dot');
-				$el.find('i').removeClass(this.options['selected-icon']).addClass(this.options['unselected-icon']);//ACE
+				$el.find('i').removeClass('icon-ok').addClass('tree-dot');
 			} else {
 				$el.addClass ('tree-selected');
-				//$el.find('i').removeClass('tree-dot').addClass('icon-ok');
-				$el.find('i').removeClass(this.options['unselected-icon']).addClass(this.options['selected-icon']);//ACE
+				$el.find('i').removeClass('tree-dot').addClass('icon-ok');
 				if (this.options.multiSelect) {
 					data.push( $el.data() );
 				}
@@ -202,6 +203,7 @@
 			//$parent.find(classToTarget).eq(0)
 				//.removeClass('icon-folder-close icon-folder-open')
 				//.addClass(classToAdd);
+			//ACE
 			$parent.find(target).eq(0)
 				.removeClass(classToTarget)
 				.addClass(classToAdd);
@@ -224,14 +226,11 @@
 			var cacheItems = this.options.cacheItems;
 
 			// find open folders
-			//this.$element.find('.icon-folder-open').each(function () {
-			this.$element.find('.'+this.options['open-icon']).each(function () {
+			this.$element.find('.icon-folder-open').each(function () {
 				// update icon class
 				var $this = $(this)
-					//.removeClass('icon-folder-close icon-folder-open')
-					//.addClass('icon-folder-close');
-					.removeClass(this.options['open-icon'])
-					.addClass(this.options['close-icon']);
+					.removeClass('icon-folder-close icon-folder-open')
+					.addClass('icon-folder-close');
 
 				// "close" or empty folder contents
 				var $parent = $this.parent().parent();

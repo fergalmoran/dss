@@ -4,6 +4,7 @@
 
 ace.submenu = {
  show : function(sub, duration) {
+	var $ = window.jQuery;
 	var $sub = $(sub);
 
 	var event;
@@ -35,6 +36,7 @@ ace.submenu = {
  }
  ,
  hide : function(sub, duration) {
+	var $ = window.jQuery;
 	var $sub = $(sub);
 		
 	var event;

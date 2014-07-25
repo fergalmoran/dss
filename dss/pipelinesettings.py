@@ -11,7 +11,7 @@ PIPELINE_CSS = {
             'css/ace/uncompressed/bootstrap.css',
             'css/jasny-bootstrap.css',
             'css/ace/uncompressed/fullcalendar.css',
-            'css/ace/uncompressed/dropzone.css',
+            'css/ace/dropzone.css',
             'css/ace/uncompressed/ace.css',
             'css/ace/uncompressed/ace-skins.css',
             'css/ace/uncompressed/font-awesome.css',

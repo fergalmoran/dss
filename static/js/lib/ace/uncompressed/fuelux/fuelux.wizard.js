@@ -34,7 +34,7 @@
 		this.$prevBtn.on('click', $.proxy(this.previous, this));
 		this.$nextBtn.on('click', $.proxy(this.next, this));
 		this.$element.on('click', 'li.complete', $.proxy(this.stepclicked, this));
-		
+
 		if(this.currentStep > 1) {
 			this.selectedItem(this.options.selectedItem);
 		}
@@ -46,7 +46,6 @@
 		}
 		
 		this.$stepContainer = $(this.$element.data('target') || 'body');//ACE
-        console.log(this.$stepContainer);
 	};
 
 	Wizard.prototype = {
@@ -106,7 +105,6 @@
 			this.$element.find('.steps').first().attr('style','margin-left: 0');
 
 			// check if the steps are wider than the container div
-			
 			var totalWidth = 0;
 			this.$element.find('.steps > li').each(function () {
 				totalWidth += $(this).outerWidth();
@@ -118,11 +116,11 @@
 				containerWidth = this.$element.width();
 			}
 			if (totalWidth > containerWidth) {
-			
+
 				// set the position so that the last step is on the right
 				var newMargin = totalWidth - containerWidth;
 				this.$element.find('.steps').first().attr('style','margin-left: -' + newMargin + 'px');
-				
+
 				// set the position so that the active step is in a good
 				// position if it has been moved out of view
 				if (this.$element.find('li.active').first().position().left < 200) {
@@ -136,7 +134,7 @@
 			}
 			*/
 
-			this.$element.trigger('changed');
+			this.$element.trigger('changed', { currentStep: this.currentStep });
 		},
 
 		stepclicked: function (e) {

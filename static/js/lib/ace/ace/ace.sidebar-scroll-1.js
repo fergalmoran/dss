@@ -4,15 +4,15 @@
  Except when in mobile view and menu toggle button is not in the navbar.
 */
 
-ace.sidebar_scrollable = function($ , scroll_to_active, include_shortcuts, include_toggle, smooth_scroll, scrollbars_outside) {
+ace.sidebar_scrollable = function($ , options) {
 	if( !$.fn.ace_scroll ) return;
+	
 
 	var old_safari = ace.vars['safari'] && navigator.userAgent.match(/version\/[1-5]/i)
 	//NOTE
 	//Safari on windows has not been updated for a long time.
 	//And it has a problem when sidebar is fixed&scrollable and there is a CSS3 animation inside page content.
 	//Very probably windows users of safari have migrated to another browser by now!
-
 
 	var $sidebar = $('.sidebar'),
 		$navbar = $('.navbar'),
@@ -36,10 +36,16 @@ ace.sidebar_scrollable = function($ , scroll_to_active, include_shortcuts, inclu
 	var is_scrolling = false,
 		_initiated = false;
 		
-	var scroll_to_active = scroll_to_active || false,
-		include_shortcuts = include_shortcuts || false,
-		include_toggle = include_toggle || false,
+	
+		
+	var scroll_to_active = options.scroll_to_active || false,
+		include_shortcuts = options.include_shortcuts || false,
+		include_toggle = options.include_toggle || false,
+		smooth_scroll = options.smooth_scroll || false,
+		scrollbars_outside = options.outside || false,
 		only_if_fixed = true;
+		
+		
 		
 	var is_sidebar_fixed =
 	'getComputedStyle' in window ?
@@ -118,22 +124,30 @@ ace.sidebar_scrollable = function($ , scroll_to_active, include_shortcuts, inclu
 				return scroll_div.trigger(event);
 			});
 
-			
+
+			/**$(document.body).on('touchmove.nav', function(event) {
+				if( is_scrolling && $.contains(sidebar, event.target) ) {
+					event.preventDefault();
+					return false;
+				}
+			});*/
+
 			//you can also use swipe event in a similar way //swipe.nav
 			var content = scroll_content.get(0);
 			$nav.on('ace_drag.nav', function(event) {
-				if(!is_scrolling) return;
-			
+				if( !is_scrolling ) {
+					event.retval.cancel = true;
+					return;
+				}
+
 				if(event.direction == 'up' || event.direction == 'down') {
-					//event.stopPropagation();
 					
 					ace_scroll.move_bar(true);
-					move_nav = false;//update "nav.style.top" here no need to do this on('scroll.nav')!
 					
 					var distance = event.dy;
 					
-					//distance = parseInt(Math.min($avail_height, distance))
-					if(Math.abs(distance) > 20) distance = distance * 2;
+					distance = parseInt(Math.min($avail_height, distance))
+					if(Math.abs(distance) > 2) distance = distance * 2;
 					
 					if(distance != 0) {
 						content.scrollTop = content.scrollTop + distance;
@@ -141,17 +155,16 @@ ace.sidebar_scrollable = function($ , scroll_to_active, include_shortcuts, inclu
 					}
 				}
 			});
+			
 
 			//for drag only
 			if(smooth_scroll) {
-				$nav.on('ace_dragStart.nav', function(event) {
-					event.stopPropagation();
-					
+				$nav
+				.on('touchstart.nav MSPointerDown.nav pointerdown.nav', function(event) {
 					$nav.css('transition-property', 'none');
 					bar.css('transition-property', 'none');
-				}).on('ace_dragEnd.nav', function(event) {
-					event.stopPropagation();
-					
+				})
+				.on('touchend.nav touchcancel.nav MSPointerUp.nav MSPointerCancel.nav pointerup.nav pointercancel.nav', function(event) {
 					$nav.css('transition-property', 'top');
 					bar.css('transition-property', 'top');
 				});
@@ -173,32 +186,8 @@ ace.sidebar_scrollable = function($ , scroll_to_active, include_shortcuts, inclu
 			if(on_page_load == true) {
 				scrollbars.reset();//try resetting at first
 
-				if( scroll_to_active && ace_scroll.is_active() ) {
-					var $active;
-
-					var nav_list = $sidebar.find('.nav-list')
-					if(ace.vars['minimized'] && !ace.vars['collapsible']) {
-						$active = nav_list.find('> .active')
-					}
-					else {
-						$active = $nav.find('> .active.hover')
-						if($active.length == 0)	$active = $nav.find('.active:not(.open)')
-					}
-
-					var top = $active.outerHeight();
-
-					nav_list = nav_list.get(0);
-					var active = $active.get(0);
-					while(active != nav_list) {
-						top += active.offsetTop;
-						active = active.parentNode;
-					}
-
-					var scroll_amount = top - scroll_div.height();
-					if(scroll_amount > 0) {
-						nav.style.top = -scroll_amount + 'px';
-						scroll_content.scrollTop(scroll_amount);
-					}
+				if( scroll_to_active ) {
+					scrollbars.scroll_to_active();
 				}
 				scroll_to_active = false;
 			}
@@ -244,6 +233,38 @@ ace.sidebar_scrollable = function($ , scroll_to_active, include_shortcuts, inclu
 
 		},
 		
+		scroll_to_active: function() {
+			if( !ace_scroll || !ace_scroll.is_active() ) return;
+			try {
+				//sometimes there's no active item or not 'offsetTop' property
+				var $active;
+
+				var nav_list = $sidebar.find('.nav-list')
+				if(ace.vars['minimized'] && !ace.vars['collapsible']) {
+					$active = nav_list.find('> .active')
+				}
+				else {
+					$active = $nav.find('> .active.hover')
+					if($active.length == 0)	$active = $nav.find('.active:not(.open)')
+				}
+
+			
+				var top = $active.outerHeight();
+				nav_list = nav_list.get(0);
+				var active = $active.get(0);
+				while(active != nav_list) {
+					top += active.offsetTop;
+					active = active.parentNode;
+				}
+
+				var scroll_amount = top - scroll_div.height();
+				if(scroll_amount > 0) {
+					nav.style.top = -scroll_amount + 'px';
+					scroll_content.scrollTop(scroll_amount);
+				}
+			}catch(e){}
+		},
+		
 		reset: function() {
 			if( !sidebar_fixed ) {
 				scrollbars.disable();
@@ -275,7 +296,9 @@ ace.sidebar_scrollable = function($ , scroll_to_active, include_shortcuts, inclu
 			if( !enable_scroll || !ace_scroll.is_active() ) {
 				if(is_scrolling) scrollbars.disable();
 			}
-			else $sidebar.addClass('sidebar-scroll');
+			else {
+				$sidebar.addClass('sidebar-scroll');
+			}
 
 			//return is_scrolling;
 		},
@@ -313,6 +336,11 @@ ace.sidebar_scrollable = function($ , scroll_to_active, include_shortcuts, inclu
 
 				nav.style.top = (-1 * scroll_top) + 'px';
 			}
+		},
+		_reset: function() {
+			if(ace.vars['webkit']) 
+				setTimeout(function() { scrollbars.reset() } , 0);
+			else scrollbars.reset();
 		}
 	}
 	scrollbars.initiate(true);//true = on_page_load
@@ -347,8 +375,7 @@ ace.sidebar_scrollable = function($ , scroll_to_active, include_shortcuts, inclu
 
 		if(!ace.vars['minimized']) {
 			//webkit has a little bit of a glitch!!!
-			if(ace.vars['webkit']) setTimeout(function() { scrollbars.reset() } , 0);
-			else scrollbars.reset();
+			scrollbars._reset();
 		}
 	});
 

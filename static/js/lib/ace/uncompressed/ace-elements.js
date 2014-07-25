@@ -95,11 +95,11 @@
 
 			if(settings.mouseWheel) {
 				var lock = settings.mouseWheelLock;
-				var lock_anyway = !settings.lockAnyway;
+				var lock_anyway = settings.lockAnyway;
 
 				this.$element.on('mousewheel.ace_scroll DOMMouseScroll.ace_scroll', function(event) {
 					if(disabled) return;
-					if(!active) return lock_anyway;
+					if(!active) return !lock_anyway;
 
 					if(mouse_track) {
 						mouse_track = false;
@@ -122,7 +122,7 @@
 					var step = parseInt(Math.round(Math.min(Math.max(clientSize / 8 , 54)) , self.size )) + 1;
 					content_wrap[scroll_direction] = scrollAmount - (delta * step);
 
-					return scrollEnd && lock_anyway;
+					return scrollEnd && !lock_anyway;
 				})
 			}
 			
@@ -133,6 +133,16 @@
 			if(touchDrag/** || ($.fn.swipe && settings.touchSwipe)*/) {
 				var dir = '', event_name = touchDrag ? 'ace_drag' : 'swipe';
 				this.$element.on(event_name + '.ace_scroll', function(event) {
+					if(disabled) {
+						event.retval.cancel = true;
+						return;
+					}
+					if(!active) {
+						event.retval.cancel = lock_anyway;
+						return;
+					}
+
+				
 					dir = event.direction;
 					if( (vertical && (dir == 'up' || dir == 'down'))
 						||
@@ -147,10 +157,7 @@
 							self.move_bar(true);
 							content_wrap[scroll_direction] = content_wrap[scroll_direction] + distance;
 						}
-						
-						//if(event.retval) event.retval['cancel'] = true;//prevents document scroll
 					}
-					//else if(event.retval) event.retval['cancel'] = false;//allows document scroll
 					
 				})
 			}
@@ -572,6 +579,8 @@
 		this.$element
 		.off('change.ace_inner_call')
 		.on('change.ace_inner_call', function(e , ace_inner_call){
+			if(self.disabled) return;
+		
 			if(ace_inner_call === true) return;//this change event is called from above drop event and extra checkings are taken care of there
 			return handle_on_change.call(self);
 			//if(ret === false) e.preventDefault();
@@ -774,6 +783,7 @@
 
 	var enable_drop_functionality = function() {
 		var self = this;
+		
 		var dropbox = this.$element.parent();
 		dropbox
 		.off('dragenter')
@@ -791,6 +801,8 @@
 			e.preventDefault();
 			e.stopPropagation();
 
+			if(self.disabled) return;
+		
 			var dt = e.originalEvent.dataTransfer;
 			var file_list = dt.files;
 			if(!self.multi && file_list.length > 1) {//single file upload, but dragged multiple files
@@ -1140,7 +1152,7 @@
 
   var Typeahead = function (element, options) {
     this.$element = $(element)
-    this.options = $.extend({}, $.fn.typeahead.defaults, options)
+    this.options = $.extend({}, $.fn.bs_typeahead.defaults, options)
     this.matcher = this.options.matcher || this.matcher
     this.sorter = this.options.sorter || this.sorter
     this.highlighter = this.options.highlighter || this.highlighter
@@ -1403,19 +1415,19 @@
   /* TYPEAHEAD PLUGIN DEFINITION
    * =========================== */
 
-  var old = $.fn.typeahead
+  var old = $.fn.bs_typeahead
 
-  $.fn.typeahead = function (option) {
+  $.fn.bs_typeahead = function (option) {
     return this.each(function () {
       var $this = $(this)
-        , data = $this.data('typeahead')
+        , data = $this.data('bs_typeahead')
         , options = typeof option == 'object' && option
-      if (!data) $this.data('typeahead', (data = new Typeahead(this, options)))
+      if (!data) $this.data('bs_typeahead', (data = new Typeahead(this, options)))
       if (typeof option == 'string') data[option]()
     })
   }
 
-  $.fn.typeahead.defaults = {
+  $.fn.bs_typeahead.defaults = {
     source: []
   , items: 8
   , menu: '<ul class="typeahead dropdown-menu"></ul>'
@@ -1423,14 +1435,14 @@
   , minLength: 1
   }
 
-  $.fn.typeahead.Constructor = Typeahead
+  $.fn.bs_typeahead.Constructor = Typeahead
 
 
  /* TYPEAHEAD NO CONFLICT
   * =================== */
 
-  $.fn.typeahead.noConflict = function () {
-    $.fn.typeahead = old
+  $.fn.bs_typeahead.noConflict = function () {
+    $.fn.bs_typeahead = old
     return this
   }
 
@@ -1438,10 +1450,10 @@
  /* TYPEAHEAD DATA-API
   * ================== */
 
-  $(document).on('focus.typeahead.data-api', '[data-provide="typeahead"]', function (e) {
+  $(document).on('focus.bs_typeahead.data-api', '[data-provide="bs_typeahead"]', function (e) {
     var $this = $(this)
-    if ($this.data('typeahead')) return
-    $this.typeahead($this.data())
+    if ($this.data('bs_typeahead')) return
+    $this.bs_typeahead($this.data())
   })
 
 }(window.jQuery);

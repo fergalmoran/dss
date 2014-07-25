@@ -58,7 +58,9 @@
             $("#mix-upload-form", @el).dropzone
                 addRemoveLinks: true
 
-                dictDefaultMessage: "<span class=\"bigger-150 bolder\"><i class=\"icon-caret-right red\"></i> Drop files</span> to upload \t\t\t\t<span class=\"smaller-80 grey\">(or click)</span> <br /> \t\t\t\t<i class=\"fa fa-cloud-upload fa-5x blue\"></i>"
+                dictDefaultMessage : '<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload
+                                      <span class="smaller-80 grey">(or click)</span> <br />
+                                      <i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>'
 
                 maxFilesize: 512
 
@@ -125,6 +127,8 @@
 
         saveChanges: =>
             console.log("MixEditView: saveChanges")
+            $('#step3', @el).hide()
+
             @model.set Backbone.Syphon.serialize($("#mix-details-form", @el)[0])
             flair = Backbone.Syphon.serialize $("#mix-flair-form", @el)[0],
                 exclude: ["...", ""]
