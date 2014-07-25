@@ -117,7 +117,6 @@ INSTALLED_APPS = (
     'notification',
     'djcelery',
     'django_nose',
-    'tinymce',
     'sorl.thumbnail',
     'south',
     'pipeline',
