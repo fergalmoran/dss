@@ -42,7 +42,12 @@ PIPELINE_JS = {
     'lib': {
         'source_filenames': (
             'js/lib/jquery.js',
-            'js/lib/ace/uncompressed/jquery-ui.js',
+
+            'js/lib/moment.js',
+            'js/lib/typeahead.js',
+
+            'js/lib/sm/soundmanager2.js',
+
             'js/lib/ace/uncompressed/bootstrap.js',
             'js/lib/ace/uncompressed/ace.js',
             'js/lib/ace/uncompressed/ace-elements.js',
@@ -56,20 +61,7 @@ PIPELINE_JS = {
             'js/lib/ace/uncompressed/x-editable/bootstrap-editable.js',
             'js/lib/ace/uncompressed/x-editable/ace-editable.js',
 
-
-            'js/lib/underscore.js',
-            'js/lib/underscore.templatehelpers.js',
-            'js/lib/backbone.js',
-            'js/lib/backbone.syphon.js',
-            'js/lib/backbone.associations.js',
-            'js/lib/backbone.marionette.js',
-
-            'js/lib/moment.js',
             'js/lib/ajaxfileupload.js',
-            'js/lib/typeahead.js',
-
-            'js/lib/sm/soundmanager2.js',
-
             'js/lib/jasny.fileinput.js',
             'js/lib/jquery.fileupload.js',
             'js/lib/jquery.fileupload-process.js',
@@ -81,6 +73,14 @@ PIPELINE_JS = {
             'js/lib/jquery.iframe-transport.js',
             'js/lib/jquery.ui.widget.js',
             'js/lib/toastr.js',
+
+            'js/lib/underscore.js',
+            'js/lib/underscore.templatehelpers.js',
+            'js/lib/backbone.js',
+            'js/lib/backbone.syphon.js',
+            'js/lib/backbone.associations.js',
+            'js/lib/backbone.marionette.js',
+
 
 
             'js/dss/*.coffee',
