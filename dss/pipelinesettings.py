@@ -8,15 +8,19 @@ PIPELINE_CSS = {
     'css': {
         'source_filenames': (
             'css/dss.overrides.css',
+
             'css/ace/uncompressed/bootstrap.css',
-            'css/jasny-bootstrap.css',
-            'css/ace/uncompressed/fullcalendar.css',
-            'css/ace/dropzone.css',
             'css/ace/uncompressed/ace.css',
+            'css/ace/uncompressed/ace-ie.css',
             'css/ace/uncompressed/ace-skins.css',
             'css/ace/uncompressed/font-awesome.css',
-            'css/select2.css',
+            'css/ace/uncompressed/fullcalendar.css',
             'css/ace/uncompressed/bootstrap-editable.css',
+
+            'css/ace/dropzone.css',
+
+            'css/jasny-bootstrap.css',
+            'css/select2.css',
             'css/jquery.fileupload-ui.css',
             'css/peneloplay.css',
             'css/toastr.css',
@@ -37,8 +41,21 @@ PIPELINE_JS = {
 
     'lib': {
         'source_filenames': (
-            'js/lib/ace/uncompressed/jquery.js',
+            'js/lib/jquery.js',
             'js/lib/ace/uncompressed/jquery-ui.js',
+            'js/lib/ace/uncompressed/bootstrap.js',
+            'js/lib/ace/uncompressed/ace.js',
+            'js/lib/ace/uncompressed/ace-elements.js',
+            'js/lib/ace/uncompressed/select2.js',
+            'js/lib/ace/uncompressed/fuelux/fuelux.wizard.js',
+            'js/lib/ace/ace/elements.wizard.js',
+            'js/lib/ace/uncompressed/bootstrap-wysiwyg.js',
+            'js/lib/ace/uncompressed/fuelux/fuelux.wizard.js',
+            'js/lib/ace/uncompressed/dropzone.js',
+            'js/lib/ace/uncompressed/fullcalendar.js',
+            'js/lib/ace/uncompressed/x-editable/bootstrap-editable.js',
+            'js/lib/ace/uncompressed/x-editable/ace-editable.js',
+
 
             'js/lib/underscore.js',
             'js/lib/underscore.templatehelpers.js',
@@ -47,22 +64,9 @@ PIPELINE_JS = {
             'js/lib/backbone.associations.js',
             'js/lib/backbone.marionette.js',
 
-            'js/lib/ace/uncompressed/bootstrap.js',
             'js/lib/moment.js',
             'js/lib/ajaxfileupload.js',
-            'js/lib/ace/uncompressed/ace.js',
-            'js/lib/ace/uncompressed/ace-elements.js',
-            'js/lib/ace/uncompressed/select2.js',
-            'js/lib/ace/uncompressed/fuelux/fuelux.wizard.js',
-            'js/lib/ace/ace/elements.wizard.js',
             'js/lib/typeahead.js',
-
-            'js/lib/ace/uncompressed/bootstrap-wysiwyg.js',
-            'js/lib/ace/uncompressed/fuelux/fuelux.wizard.js',
-            'js/lib/ace/uncompressed/dropzone.js',
-            'js/lib/ace/uncompressed/fullcalendar.js',
-            'js/lib/ace/uncompressed/x-editable/bootstrap-editable.js',
-            'js/lib/ace/uncompressed/x-editable/ace-editable.js',
 
             'js/lib/sm/soundmanager2.js',
 
