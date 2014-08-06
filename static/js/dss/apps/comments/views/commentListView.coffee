@@ -3,7 +3,6 @@
         template: "commentlistview"
         tagName: "ul"
         className: "activity-listing media-list"
-        itemView: Views.CommentItemView
-        itemViewContainer: "#comment-list-container"
+        childView: Views.CommentItemView
+        childViewContainer: "#comment-list-container"
 
-    Views.CommentListView

@@ -1,8 +1,8 @@
 from spa.models.mix import Mix
-from spa.models._basemodel import _BaseModel
+from spa.models.basemodel import BaseModel
 from django.db import models
 
-class Tracklist(_BaseModel):
+class Tracklist(BaseModel):
     mix = models.ForeignKey(Mix, related_name='tracklist')
     index = models.SmallIntegerField()
     timeindex = models.TimeField(null=True)

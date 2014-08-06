@@ -11,7 +11,7 @@ from tastypie_msgpack import Serializer
 
 from dss import settings
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
-from spa.models.activity import ActivityFollow
+from spa.api.v1.PlaylistResource import PlaylistResource
 from spa.models.userprofile import UserProfile
 from spa.models.mix import Mix
 from core.tasks import update_geo_info_task
@@ -21,12 +21,15 @@ class UserResource(BackboneCompatibleResource):
     following = fields.ToManyField(to='self', attribute='following', related_name='following', null=True)
     followers = fields.ToManyField(to='self', attribute='followers', related_name='followers', null=True)
 
+    favourites = fields.ToManyField('spa.api.v1.MixResource.MixResource', 'favourites', null=True)
+    playlists = fields.ToManyField('spa.api.v1.PlaylistResource.PlaylistResource', 'playlists',
+                                   related_name='user', null=True, full=True)
+
     class Meta:
         queryset = UserProfile.objects.all().annotate(mix_count=Count('mixes')).order_by('-mix_count')
         serializer = Serializer()
-
-        favourites = fields.ToManyField('spa.api.v1.MixResource.MixResource', 'favourites', null=True)
         resource_name = 'user'
+
         if not settings.DEBUG:
             excludes = ['is_active', 'is_staff', 'is_superuser', 'password']
         ordering = ['mix_count']
@@ -35,11 +38,15 @@ class UserResource(BackboneCompatibleResource):
             'display_name': ALL,
             'following': ALL_WITH_RELATIONS,
             'followers': ALL_WITH_RELATIONS,
+            'favourites': ALL_WITH_RELATIONS,
+            'playlists': ALL_WITH_RELATIONS,
         }
         authorization = Authorization()
         authentication = Authentication()
 
-    def _hydrateBitmapOption(self, source, comparator):
+
+    @staticmethod
+    def _hydrate_bitmap_opt(source, comparator):
         return True if (source & comparator) != 0 else False
 
     def prepend_urls(self):
@@ -64,6 +71,9 @@ class UserResource(BackboneCompatibleResource):
 
         return semi_filtered
 
+    def obj_create(self, bundle, **kwargs):
+        return super(UserResource, self).obj_create(bundle, **kwargs)
+
     def obj_update(self, bundle, skip_errors=False, **kwargs):
 
         """
@@ -86,6 +96,22 @@ class UserResource(BackboneCompatibleResource):
 
         return ret
 
+    def _create_playlist(self, request):
+        pass
+
+    def get_playlists(self, request, **kwargs):
+        if request.method == 'POST':
+            return self._create_playlist(request)
+        try:
+            basic_bundle = self.build_bundle(request=request)
+            obj = self.cached_obj_get(bundle=basic_bundle,
+                                      **self.remove_api_resource_names(kwargs))
+        except ObjectDoesNotExist:
+            return HttpGone()
+
+        child_resource = PlaylistResource()
+        return child_resource.get_list(request, mix=obj)
+
     def dehydrate_description(self, bundle):
         return bundle.obj.get_profile_description()
 
@@ -99,22 +125,22 @@ class UserResource(BackboneCompatibleResource):
             bundle.data['first_name'] = bundle.obj.first_name
             bundle.data['last_name'] = bundle.obj.last_name
             bundle.data['activity_sharing_likes'] = \
-                self._hydrateBitmapOption(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_LIKES)
+                self._hydrate_bitmap_opt(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_LIKES)
             bundle.data['activity_sharing_favourites'] = \
-                self._hydrateBitmapOption(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_FAVOURITES)
+                self._hydrate_bitmap_opt(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_FAVOURITES)
             bundle.data['activity_sharing_comments'] = \
-                self._hydrateBitmapOption(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_COMMENTS)
+                self._hydrate_bitmap_opt(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_COMMENTS)
 
             bundle.data['activity_sharing_networks_facebook'] = \
-                self._hydrateBitmapOption(bundle.obj.activity_sharing_networks,
-                                          UserProfile.ACTIVITY_SHARE_NETWORK_FACEBOOK)
+                self._hydrate_bitmap_opt(bundle.obj.activity_sharing_networks,
+                                         UserProfile.ACTIVITY_SHARE_NETWORK_FACEBOOK)
             bundle.data['activity_sharing_networks_twitter'] = \
-                self._hydrateBitmapOption(bundle.obj.activity_sharing_networks,
-                                          UserProfile.ACTIVITY_SHARE_NETWORK_TWITTER)
+                self._hydrate_bitmap_opt(bundle.obj.activity_sharing_networks,
+                                         UserProfile.ACTIVITY_SHARE_NETWORK_TWITTER)
 
         bundle.data['like_count'] = Mix.objects.filter(likes__user=bundle.obj).count()
         bundle.data['favourite_count'] = Mix.objects.filter(favourites__user=bundle.obj).count()
-        #bundle.data['follower_count'] = bundle.obj.followers.count()
+        # bundle.data['follower_count'] = bundle.obj.followers.count()
         bundle.data['following_count'] = bundle.obj.following.count()
         bundle.data['is_following'] = bundle.obj.is_follower(bundle.request.user)
         bundle.data['url'] = bundle.obj.get_profile_url()

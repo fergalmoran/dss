@@ -13,6 +13,7 @@ from spa.api.v1.ReleaseResource import ReleaseResource
 from spa.api.v1.UserResource import UserResource
 from spa.api.v1.ActivityResource import ActivityResource
 from spa.api.v1.ShowResource import ShowResource
+from spa.api.v1.PlaylistResource import PlaylistResource
 
 api = Api(api_name='v1')
 api.register(ChatResource())
@@ -24,6 +25,7 @@ api.register(UserResource())
 api.register(ActivityResource())
 api.register(NotificationResource())
 api.register(ShowResource())
+api.register(PlaylistResource())
 api.register(DebugResource())
 
 ajax = AjaxHandler()

@@ -4,8 +4,8 @@ from tastypie.authorization import Authorization
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
 from spa.models.recurrence import Recurrence
 """
-from spa.models.venue import Venue
-from spa.models.event import  Event
+from spa.views.venue import Venue
+from spa.views.event import  Event
 class EventResource(BackboneCompatibleResource):
     class Meta:
         queryset = Event.objects.all()

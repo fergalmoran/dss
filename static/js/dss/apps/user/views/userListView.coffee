@@ -9,8 +9,8 @@
             searchText: "#search-text"
 
         className: "row"
-        itemView: Views.UserItemView
-        itemViewContainer: "#user-table"
+        childView: Views.UserItemView
+        childViewContainer: "#user-table"
         initialize: (options) =>
             console.log "UserListView: initialize"
             @collection = new App.UserApp.Models.UserCollection()

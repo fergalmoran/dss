@@ -5,3 +5,11 @@
 .nav-search {
     top: 6px !important;
 }
+
+.playlist-add-dropdown {
+    width: 320px !important;
+}
+
+.profile-feed{
+    cursor: pointer !important;
+}

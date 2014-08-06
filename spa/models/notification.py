@@ -7,7 +7,7 @@ from django.template import loader, Context
 
 from core.realtime.notification import post_notification
 from dss import localsettings
-from spa.models import _BaseModel
+from spa.models import BaseModel
 
 
 class NotificationThread(threading.Thread):
@@ -22,7 +22,7 @@ class NotificationThread(threading.Thread):
             post_notification(notification_url=self._instance.get_notification_url(), session=session)
 
 
-class Notification(_BaseModel):
+class Notification(BaseModel):
     to_user = models.ForeignKey('spa.UserProfile', related_name='to_notications')
     from_user = models.ForeignKey('spa.UserProfile', related_name='notifications', null=True, blank=True)
     date = models.DateTimeField(auto_now=True)

@@ -6,7 +6,11 @@
 
         home: ->
             console.log "Controller: home"
+            #@showDebug()
             @showMixList()
+
+        showDebug: ->
+            App.contentRegion.show(new App.PlaylistApp.Views.PlaylistLayout())
 
         doLogin: ->
             App.vent.trigger('app:login')

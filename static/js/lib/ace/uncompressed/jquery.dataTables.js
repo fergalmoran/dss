@@ -8681,8 +8681,8 @@ function( window, document, undefined ) {
 	DataTable.settings = [];
 
 	/**
-	 * Object models container, for the various models that DataTables has
-	 * available to it. These models define the objects that are used to hold
+	 * Object views container, for the various views that DataTables has
+	 * available to it. These views define the objects that are used to hold
 	 * the active state and configuration of the table.
 	 *  @namespace
 	 */

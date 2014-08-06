@@ -1,12 +1,12 @@
 from django.contrib.auth.models import User
 from django.db import models
 from core.utils.file import generate_save_file_name
-from spa.models._basemodel import _BaseModel
+from spa.models.basemodel import BaseModel
 
 def venue_image_name(instance, filename):
     return generate_save_file_name('venue-images', filename)
 
-class Venue(_BaseModel):
+class Venue(BaseModel):
     class Meta:
         app_label = 'spa'
 

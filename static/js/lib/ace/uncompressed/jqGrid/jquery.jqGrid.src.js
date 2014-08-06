@@ -10923,7 +10923,7 @@ $.jgrid.extend({
 			});
 		});
 	},
-	// NS ,adjacency models
+	// NS ,adjacency views
 	getRootNodes : function() {
 		var result = [];
 		this.each(function(){

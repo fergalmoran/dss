@@ -2,8 +2,8 @@
     class Views.MixListView extends Marionette.CompositeView
         template: "mixlistview"
         className: "mix-listing audio-listing"
-        itemView: Views.MixItemView
-        itemViewContainer: "#mix-list-container-ul"
+        childView: Views.MixItemView
+        childViewContainer: "#mix-list-container-ul"
 
         currentMix = -1
 

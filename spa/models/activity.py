@@ -9,7 +9,7 @@ from core.utils.url import wrap_full
 
 from spa.models.notification import Notification
 from spa.models.userprofile import UserProfile
-from spa.models._basemodel import _BaseModel
+from spa.models.basemodel import BaseModel
 
 
 ACTIVITYTYPES = (
@@ -21,7 +21,7 @@ ACTIVITYTYPES = (
 )
 
 
-class Activity(_BaseModel):
+class Activity(BaseModel):
     objects = InheritanceManager()
     user = models.ForeignKey(UserProfile, null=True, blank=True)
     date = models.DateTimeField(auto_now=True)

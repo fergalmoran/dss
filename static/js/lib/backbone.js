@@ -582,16 +582,16 @@
   // Backbone.Collection
   // -------------------
 
-  // If models tend to represent a single row of data, a Backbone Collection is
+  // If views tend to represent a single row of data, a Backbone Collection is
   // more analagous to a table full of data ... or a small slice or page of that
   // table, or a collection of rows that belong together for a particular reason
   // -- all of the messages in this particular folder, all of the documents
   // belonging to this particular author, and so on. Collections maintain
-  // indexes of their models, both in order, and for lookup by `id`.
+  // indexes of their views, both in order, and for lookup by `id`.
 
   // Create a new **Collection**, perhaps to contain a specific type of `model`.
   // If a `comparator` is specified, the Collection will maintain
-  // its models in sort order, as they're added and removed.
+  // its views in sort order, as they're added and removed.
   var Collection = Backbone.Collection = function(models, options) {
     options || (options = {});
     if (options.model) this.model = options.model;
@@ -617,7 +617,7 @@
     initialize: function(){},
 
     // The JSON representation of a Collection is an array of the
-    // models' attributes.
+    // views' attributes.
     toJSON: function(options) {
       return this.map(function(model){ return model.toJSON(options); });
     },
@@ -627,12 +627,12 @@
       return Backbone.sync.apply(this, arguments);
     },
 
-    // Add a model, or list of models to the set.
+    // Add a model, or list of views to the set.
     add: function(models, options) {
       return this.set(models, _.extend({merge: false}, options, addOptions));
     },
 
-    // Remove a model, or a list of models from the set.
+    // Remove a model, or a list of views from the set.
     remove: function(models, options) {
       var singular = !_.isArray(models);
       models = singular ? [models] : _.clone(models);
@@ -655,8 +655,8 @@
       return singular ? models[0] : models;
     },
 
-    // Update a collection by `set`-ing a new list of models, adding new ones,
-    // removing models that are no longer present, and merging models that
+    // Update a collection by `set`-ing a new list of views, adding new ones,
+    // removing views that are no longer present, and merging views that
     // already exist in the collection, as necessary. Similar to **Model#set**,
     // the core operation for updating the data contained by the collection.
     set: function(models, options) {
@@ -673,7 +673,7 @@
       var add = options.add, merge = options.merge, remove = options.remove;
       var order = !sortable && add && remove ? [] : false;
 
-      // Turn bare objects into model references, and prevent invalid models
+      // Turn bare objects into model references, and prevent invalid views
       // from being added.
       for (i = 0, l = models.length; i < l; i++) {
         attrs = models[i];
@@ -701,7 +701,7 @@
           if (!model) continue;
           toAdd.push(model);
 
-          // Listen to added models' events, and index models for lookup by
+          // Listen to added views' events, and index views for lookup by
           // `id` and by `cid`.
           model.on('all', this._onModelEvent, this);
           this._byId[model.cid] = model;
@@ -710,7 +710,7 @@
         if (order) order.push(existing || model);
       }
 
-      // Remove nonexistent models if appropriate.
+      // Remove nonexistent views if appropriate.
       if (remove) {
         for (i = 0, l = this.length; i < l; ++i) {
           if (!modelMap[(model = this.models[i]).cid]) toRemove.push(model);
@@ -718,7 +718,7 @@
         if (toRemove.length) this.remove(toRemove, options);
       }
 
-      // See if sorting is needed, update `length` and splice in new models.
+      // See if sorting is needed, update `length` and splice in new views.
       if (toAdd.length || (order && order.length)) {
         if (sortable) sort = true;
         this.length += toAdd.length;
@@ -746,12 +746,12 @@
         if (sort || (order && order.length)) this.trigger('sort', this, options);
       }
 
-      // Return the added (or merged) model (or models).
+      // Return the added (or merged) model (or views).
       return singular ? models[0] : models;
     },
 
     // When you have more items than you want to add or remove individually,
-    // you can reset the entire set with a new list of models, without firing
+    // you can reset the entire set with a new list of views, without firing
     // any granular `add` or `remove` events. Fires `reset` when finished.
     // Useful for bulk operations and optimizations.
     reset: function(models, options) {
@@ -790,7 +790,7 @@
       return model;
     },
 
-    // Slice out a sub-array of models from the collection.
+    // Slice out a sub-array of views from the collection.
     slice: function() {
       return slice.apply(this.models, arguments);
     },
@@ -806,7 +806,7 @@
       return this.models[index];
     },
 
-    // Return models with matching attributes. Useful for simple cases of
+    // Return views with matching attributes. Useful for simple cases of
     // `filter`.
     where: function(attrs, first) {
       if (_.isEmpty(attrs)) return first ? void 0 : [];
@@ -847,7 +847,7 @@
       return _.invoke(this.models, 'get', attr);
     },
 
-    // Fetch the default set of models for this collection, resetting the
+    // Fetch the default set of views for this collection, resetting the
     // collection when they arrive. If `reset: true` is passed, the response
     // data will be passed through the `reset` method instead of `set`.
     fetch: function(options) {
@@ -882,13 +882,13 @@
       return model;
     },
 
-    // **parse** converts a response into a list of models to be added to the
+    // **parse** converts a response into a list of views to be added to the
     // collection. The default implementation is just to pass it through.
     parse: function(resp, options) {
       return resp;
     },
 
-    // Create a new collection with an identical list of models as this one.
+    // Create a new collection with an identical list of views as this one.
     clone: function() {
       return new this.constructor(this.models);
     },
@@ -923,7 +923,7 @@
     },
 
     // Internal method called every time a model in the set fires an event.
-    // Sets need to update their indexes when models change ids. All other
+    // Sets need to update their indexes when views change ids. All other
     // events simply proxy through. "add" and "remove" events that originate
     // in other collections are ignored.
     _onModelEvent: function(event, model, collection, options) {
@@ -948,7 +948,7 @@
     'tail', 'drop', 'last', 'without', 'difference', 'indexOf', 'shuffle',
     'lastIndexOf', 'isEmpty', 'chain'];
 
-  // Mix in each Underscore method as a proxy to `Collection#models`.
+  // Mix in each Underscore method as a proxy to `Collection#views`.
   _.each(methods, function(method) {
     Collection.prototype[method] = function() {
       var args = slice.call(arguments);
@@ -979,7 +979,7 @@
   // even the surrounding frame which wraps your whole app. Defining a chunk of
   // UI as a **View** allows you to define your DOM events declaratively, without
   // having to worry about render order ... and makes it easy for the view to
-  // react to specific changes in the state of your models.
+  // react to specific changes in the state of your views.
 
   // Creating a Backbone.View creates its initial element outside of the DOM,
   // if an existing element is not provided...
@@ -1105,13 +1105,13 @@
   // -------------
 
   // Override this function to change the manner in which Backbone persists
-  // models to the server. You will be passed the type of request, and the
+  // views to the server. You will be passed the type of request, and the
   // model in question. By default, makes a RESTful Ajax request
   // to the model's `url()`. Some possible customizations could be:
   //
   // * Use `setTimeout` to batch rapid-fire updates into a single request.
-  // * Send up the models as XML instead of JSON.
-  // * Persist models via WebSockets instead of Ajax.
+  // * Send up the views as XML instead of JSON.
+  // * Persist views via WebSockets instead of Ajax.
   //
   // Turn on `Backbone.emulateHTTP` in order to send `PUT` and `DELETE` requests
   // as `POST`, with a `_method` parameter containing the true HTTP method,

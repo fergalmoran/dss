@@ -1,5 +1,5 @@
 @Dss.module "HeaderApp.Views", (Views, App, Backbone, Marionette, $, _, vent) ->
-    class Views.Header extends Marionette.Layout
+    class Views.Header extends Marionette.LayoutView
         template: "header"
         className: "navbar navbar-default"
         events:

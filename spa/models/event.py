@@ -5,21 +5,21 @@ from spa.models import Recurrence
 from spa.models.venue import Venue
 
 """
-class Event(models.Model):
+class Event(views.Model):
     class Meta:
         app_label = 'spa'
 
-    event_venue = models.ForeignKey(Venue)
+    event_venue = views.ForeignKey(Venue)
 
-    event_date = models.DateField(default=datetime.now())
-    event_time = models.TimeField(default=datetime.now())
+    event_date = views.DateField(default=datetime.now())
+    event_time = views.TimeField(default=datetime.now())
 
-    date_created = models.DateField(default=datetime.now())
-    event_title = models.CharField(max_length=250)
-    event_description = models.TextField()
-    event_recurrence = models.ForeignKey(Recurrence)
+    date_created = views.DateField(default=datetime.now())
+    event_title = views.CharField(max_length=250)
+    event_description = views.TextField()
+    event_recurrence = views.ForeignKey(Recurrence)
 
-    attendees = models.ManyToManyField(User, related_name='attendees')
+    attendees = views.ManyToManyField(User, related_name='attendees')
 
     def get_absolute_url(self):
         return '/event/%i' % self.id

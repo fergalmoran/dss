@@ -1,11 +1,12 @@
 import os
 import rfc822
-from datetime import datetime
 import urlparse
+
 from logilab.common.registry import ObjectNotFound
 from sorl.thumbnail import get_thumbnail
 from django.contrib.sites.models import Site
 from django.db import models
+
 from core.utils import url
 from core.utils.audio import Mp3FileNotFoundException
 from core.utils.audio.mp3 import mp3_length, tag_mp3
@@ -14,7 +15,7 @@ from spa.models.activity import ActivityDownload, ActivityPlay, ActivityFavourit
 from spa.models.genre import Genre
 from dss import settings, localsettings
 from spa.models.userprofile import UserProfile
-from spa.models._basemodel import _BaseModel
+from spa.models.basemodel import BaseModel
 from core.utils.file import generate_save_file_name
 
 
@@ -41,7 +42,7 @@ class MixManager(models.Manager):
             return super(MixManager, self).get(slug=id_or_slug)
 
 
-class Mix(_BaseModel):
+class Mix(BaseModel):
     class Meta:
         app_label = 'spa'
 

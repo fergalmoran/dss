@@ -121,7 +121,7 @@ class Migration(SchemaMigration):
             'attendees': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'attendees'", 'symmetrical': 'False', 'to': u"orm['auth.User']"}),
             'date_created': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2013, 7, 22, 0, 0)'}),
             'event_date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2013, 7, 22, 0, 0)'}),
-            'event_description': ('tinymce.models.HTMLField', [], {}),
+            'event_description': ('tinymce.views.HTMLField', [], {}),
             'event_recurrence': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['spa.Recurrence']"}),
             'event_time': ('django.db.models.fields.TimeField', [], {'default': 'datetime.datetime(2013, 7, 22, 0, 0)'}),
             'event_title': ('django.db.models.fields.CharField', [], {'max_length': '250'}),

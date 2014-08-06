@@ -1,7 +1,7 @@
 from django.db import models
-from spa.models._basemodel import _BaseModel
+from spa.models.basemodel import BaseModel
 
-class Label(_BaseModel):
+class Label(BaseModel):
     class Meta:
         app_label = 'spa'
 

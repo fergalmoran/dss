@@ -244,7 +244,7 @@
 
         // Set a hash of model attributes on the object,
         // fire Backbone `event` with options.
-        // It maintains relations between models during the set operation.
+        // It maintains relations between views during the set operation.
         // It also bubbles up child events to the parent.
         _setAttr:function (attributes, options) {
             var attr;
@@ -762,7 +762,7 @@
     };
 
 
-    // Infer the relation from the collection's parents and find the appropriate map for the passed in `models`
+    // Infer the relation from the collection's parents and find the appropriate map for the passed in `views`
     var map2models = function (parents, target, models) {
         var relation, surrogate;
         //Iterate over collection's parents

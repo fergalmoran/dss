@@ -784,3 +784,8 @@ img.mix-listing-image {
     font-size: 11px;
     color: #777;
 }
+
+.playlist-feed{
+    overflow: auto;
+    max-height: 200px;
+}

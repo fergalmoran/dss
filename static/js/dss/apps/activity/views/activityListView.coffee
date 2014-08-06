@@ -3,8 +3,8 @@
         template: "activitylistview"
         tagName: "div"
         className: "widget-box"
-        itemView: Views.ActivityItemView
-        itemViewContainer: "#activity-container"
+        childView: Views.ActivityItemView
+        childViewContainer: "#activity-container"
 
         initialize: ->
             @collection = new App.ActivityApp.Models.ActivityCollection
@@ -12,10 +12,10 @@
 
         #kinda primordial (but working) support for sorted collection view
         #based on https://github.com/marionettejs/backbone.marionette/wiki/Adding-support-for-sorted-collections
-        appendHtml: (collectionView, itemView, index) ->
-            childrenContainer = (if collectionView.itemViewContainer then collectionView.$(collectionView.itemViewContainer) else collectionView.$el)
+        appendHtml: (collectionView, childView, index) ->
+            childrenContainer = (if collectionView.childViewContainer then collectionView.$(collectionView.childViewContainer) else collectionView.$el)
             children = childrenContainer.children()
             if children.size() <= index
-                childrenContainer.append itemView.el
+                childrenContainer.append childView.el
             else
-                childrenContainer.children().eq(index).before itemView.el
+                childrenContainer.children().eq(index).before childView.el

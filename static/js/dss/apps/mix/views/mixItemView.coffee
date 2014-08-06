@@ -1,10 +1,10 @@
-@Dss.module "MixApp.Views", (Views, App, Backbone, Marionette, $    ) ->
-    class Views.MixItemView extends Marionette.ItemView
+@Dss.module "MixApp.Views", (Views, App, Backbone, Marionette, $) ->
+    class Views.MixItemView extends Marionette.LayoutView
         template: "mixitemview"
         tagName: @tagName or "li"
         className: @className or ""
 
-        events: {
+        events:
             "click .play": "mixPlay",
             "click .pause": "mixPause",
             "click .resume": "mixResume",
@@ -16,13 +16,14 @@
             "click .share-button": "mixShare",
             "click .download-button a": "mixDownload"
             "click .login-download-button  a": "login"
-        }
 
-        ui: {
+        regions:
+            playlists: '#playlist-layout'
+
+        ui:
             playButton: ".mix-state-toggle",
             playButtonIcon: ".mix-state-toggle i",
             playerEl: ".pnp-instance"
-        }
 
         initialize: =>
             @mixState = 0
@@ -39,6 +40,16 @@
 
         onRender: =>
             window.scrollTo 0, 0
+            @createPlaylistArea()
+
+        createPlaylistArea: ->
+            unless typeof(App.currentUser) is "undefined"
+                layout = new App.PlaylistApp.Views.PlaylistLayout
+                    collection: App.currentUser.get("playlists")
+                    mix: @model
+
+                @playlists.show(layout)
+            true
 
         onDomRefresh: ->
             #check if we're currently playing
@@ -46,7 +57,6 @@
             #marionette weirdness, apparently when rendered as part of a composite view
             #the el has not been added to the DOM at this stage, so we'll check for the bounds
             #and if zero, rely on the composite view to call into this in it's onDomRefresh
-
             if App.audioController.isPlayingId @model.id
                 console.log "Re-wrapping player"
                 App.audioController.setupPlayerEl $(@el)
@@ -115,7 +125,7 @@
         mixShare: (e) ->
             console.log("MixItemView: shareMix")
             mode = $(e.currentTarget).data("mode");
-            console.log("MixItemView: "+ mode)
+            console.log("MixItemView: " + mode)
             App.vent.trigger("mix:share", mode, @model)
             true
 
@@ -125,8 +135,8 @@
             true
 
         login: ->
-          console.log("MixItemView: login")
-          vent.trigger('app:login')
-          true
+            console.log("MixItemView: login")
+            vent.trigger('app:login')
+            true
 
     Views.MixItemView

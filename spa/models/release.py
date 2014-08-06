@@ -4,7 +4,7 @@ from core.utils.file import generate_save_file_name
 from dss import settings
 from spa.models.label import Label
 from spa.models.userprofile import UserProfile
-from spa.models._basemodel import _BaseModel
+from spa.models.basemodel import BaseModel
 
 def release_image_name(instance, filename):
     return generate_save_file_name('release-images', filename)
@@ -12,7 +12,7 @@ def release_image_name(instance, filename):
 def release_file_name(instance, filename):
     return generate_save_file_name('release-audio', filename)
 
-class Release(_BaseModel):
+class Release(BaseModel):
     class Meta:
         app_label = 'spa'
 
@@ -47,7 +47,7 @@ class Release(_BaseModel):
         return qs
 
 
-class ReleaseAudio(_BaseModel):
+class ReleaseAudio(BaseModel):
     class Meta:
         app_label = 'spa'
 

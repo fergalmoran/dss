@@ -2,8 +2,8 @@
     class Views.NotificationsListView extends Marionette.CompositeView
 
         template: "notificationslistview"
-        itemView: Views.NotificationsItemView
-        itemViewContainer: "#notif_list_node"
+        childView: Views.NotificationsItemView
+        childViewContainer: "#notif_list_node"
         tagName: "li"
 
         events:

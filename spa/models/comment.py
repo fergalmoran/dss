@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from spa.models import _BaseModel
+from spa.models import BaseModel
 from spa.models.mix import Mix
 
 
-class Comment(_BaseModel):
+class Comment(BaseModel):
     class Meta:
         app_label = 'spa'
 

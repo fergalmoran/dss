@@ -131,7 +131,7 @@ class Migration(SchemaMigration):
             ('event_time', self.gf('django.db.models.fields.TimeField')(default=datetime.datetime(2013, 3, 12, 0, 0))),
             ('date_created', self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2013, 3, 12, 0, 0))),
             ('event_title', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('event_description', self.gf('tinymce.models.HTMLField')()),
+            ('event_description', self.gf('tinymce.views.HTMLField')()),
             ('event_recurrence', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['spa.Recurrence'])),
         ))
         db.send_create_signal('spa', ['Event'])
@@ -348,7 +348,7 @@ class Migration(SchemaMigration):
             'attendees': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'attendees'", 'symmetrical': 'False', 'to': "orm['auth.User']"}),
             'date_created': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2013, 3, 12, 0, 0)'}),
             'event_date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2013, 3, 12, 0, 0)'}),
-            'event_description': ('tinymce.models.HTMLField', [], {}),
+            'event_description': ('tinymce.views.HTMLField', [], {}),
             'event_recurrence': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['spa.Recurrence']"}),
             'event_time': ('django.db.models.fields.TimeField', [], {'default': 'datetime.datetime(2013, 3, 12, 0, 0)'}),
             'event_title': ('django.db.models.fields.CharField', [], {'max_length': '250'}),

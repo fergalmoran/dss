@@ -1,4 +1,4 @@
-from _basemodel import _BaseModel
+from basemodel import BaseModel
 from userprofile import UserProfile
 from chatmessage import ChatMessage
 from recurrence import Recurrence
@@ -13,3 +13,4 @@ from tracklist import Tracklist
 from purchaselink import PurchaseLink
 from release import Release
 from show import Show
+from playlist import Playlist

@@ -3,6 +3,6 @@
         template: "activityitemview"
         tagName: "div"
 
-        onRender: (itemView) ->
-            $(itemView.el).addClass('animated flash')
+        onRender: (childView) ->
+            $(childView.el).addClass('animated flash')
             true

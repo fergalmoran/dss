@@ -89,7 +89,7 @@
                         <a class="btn <% if (liked) { %>btn-pink<% } else { %>btn-light<% } %> btn-xs"
                            id="like-<%= id %>"
                            data-id="<%= id %>">
-                            <i class="fa fa-heart"></i> Like<% if (liked) { %>d<% } %></a>
+                            <i class="fa fa-heart"></i> <% if (liked) { %>Liked<% } else { %>Like<% } %></a>
                     </div>
                     <div class="favourite-button footer-button">
                         <a class="btn <% if (favourited) { %>btn-pink<% } else { %>btn-light<% } %> btn-xs"

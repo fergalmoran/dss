@@ -9,6 +9,7 @@ PIPELINE_CSS = {
         'source_filenames': (
             'css/dss.overrides.css',
 
+            'css/ace/dropzone.css',
             'css/ace/uncompressed/bootstrap.css',
             'css/ace/uncompressed/ace.css',
             'css/ace/uncompressed/ace-ie.css',
@@ -16,8 +17,6 @@ PIPELINE_CSS = {
             'css/ace/uncompressed/font-awesome.css',
             'css/ace/uncompressed/fullcalendar.css',
             'css/ace/uncompressed/bootstrap-editable.css',
-
-            'css/ace/dropzone.css',
 
             'css/jasny-bootstrap.css',
             'css/select2.css',

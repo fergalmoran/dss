@@ -2,15 +2,15 @@
     class Views.SearchView extends Marionette.CompositeView
         template: "search"
 
-        itemView: Views.SearchItemView
-        itemViewEl: "#search-results"
+        childView: Views.SearchItemView
+        childViewEl: "#search-results"
 
         ui:
             searchText: '#search-text'
 
         events:
             'keyup #search-text': 'doSearch'
-            'blur #search-text': 'closeSearch'
+            'blur #search-text': 'destroySearch'
 
         engine:
             compile: (template) ->
@@ -18,8 +18,8 @@
                 render: (context) ->
                     compiled context
 
-        closeSearch: () ->
-            $(@itemViewEl).fadeOut()
+        destroySearch: () ->
+            $(@childViewEl).fadeOut()
 
         appendHtml: ->
             console.log("Appending html")
@@ -27,7 +27,7 @@
         doSearch: () ->
             inputString = @ui.searchText.val()
             if inputString.length is 0
-                $(@itemViewEl).fadeOut()
+                $(@childViewEl).fadeOut()
             else
                 results = new App.MixApp.Models.MixCollection()
                 results.fetch
@@ -36,8 +36,8 @@
                         title__icontains: inputString
                     )
                     success: (data) =>
-                        $(@itemViewEl).find("li:gt(0)").remove()
-                        $(@itemViewEl).fadeIn()
+                        $(@childViewEl).find("li:gt(0)").remove()
+                        $(@childViewEl).fadeIn()
                         results.each (item)=>
                             view = new Views.SearchItemView({model: item})
                             data = view.serializeData();
@@ -45,7 +45,7 @@
 
                             template = view.getTemplate();
                             html = Marionette.Renderer.render(template, data);
-                            $(@itemViewEl).append html
+                            $(@childViewEl).append html
                         return
 
     Views.SearchView

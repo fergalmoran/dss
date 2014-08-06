@@ -64,7 +64,7 @@
 
     toastOptions: ->
         toastr.options =
-            closeButton: true
+            destroyButton: true
             debug: false
             positionClass: "toast-bottom-left"
             onclick: null

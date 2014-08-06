@@ -1,9 +1,9 @@
 from django.db import models
 from core.utils.url import unique_slugify
-from spa.models._basemodel import _BaseModel
+from spa.models.basemodel import BaseModel
 
 
-class Genre(_BaseModel):
+class Genre(BaseModel):
     class Meta:
         app_label = 'spa'
 

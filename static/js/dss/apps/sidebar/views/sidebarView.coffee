@@ -1,5 +1,5 @@
 @Dss.module "SidebarApp.Views", (Views, App, Backbone, Marionette, $, _, vent) ->
-    class Views.SidebarView extends Marionette.Layout
+    class Views.SidebarView extends Marionette.LayoutView
         template: "sidebarview"
         regions:
             topRegion: '#sidebar-now-playing'
@@ -46,7 +46,7 @@
             true
 
         liveStopped: ->
-            @topRegion.close()
+            @topRegion.destroy()
 
     Views.SidebarView
 

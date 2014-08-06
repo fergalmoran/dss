@@ -14,7 +14,7 @@ from sorl.thumbnail.helpers import ThumbnailError
 from core.utils.file import generate_save_file_name
 from core.utils.url import unique_slugify
 from dss import settings
-from spa.models._basemodel import _BaseModel
+from spa.models.basemodel import BaseModel
 
 
 logger = logging.getLogger(__name__)
@@ -29,7 +29,7 @@ class UserProfileManager(models.Manager):
         return super(UserProfileManager, self).get_query_set().annotate(mix_count=Count('mixes'))
 
 
-class UserProfile(_BaseModel):
+class UserProfile(BaseModel):
     class Meta:
         app_label = 'spa'
 

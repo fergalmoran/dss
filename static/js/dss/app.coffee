@@ -21,6 +21,7 @@
         @headerRegion.show(new App.HeaderApp.Views.Header())
         @sidebarRegion.show(new App.SidebarApp.Views.SidebarView())
 
+
     App.addInitializer ->
         $(document).on("click", "a[href]:not([data-bypass])", (evt) ->
             href = { prop: $(this).prop("href"), attr: $(this).attr("href") }
@@ -31,6 +32,11 @@
                 true
         )
         true
+
+    App.addInitializer ->
+        if com.podnoms.settings.currentUser != -1
+            App.currentUser = new App.UserApp.Models.UserItem({id: com.podnoms.settings.currentUser })
+            App.currentUser.fetch()
 
     App.addInitializer ->
         @listenTo @vent, "app:login", ->
@@ -110,7 +116,7 @@
 
             true
 
-    App.on "initialize:after", ->
+    App.on "start", ->
         if Backbone.history
             Backbone.history.start
                 pushState: true

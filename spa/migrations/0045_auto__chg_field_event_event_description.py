@@ -15,7 +15,7 @@ class Migration(SchemaMigration):
     def backwards(self, orm):
 
         # Changing field 'Event.event_description'
-        db.alter_column(u'spa_event', 'event_description', self.gf('tinymce.models.HTMLField')())
+        db.alter_column(u'spa_event', 'event_description', self.gf('tinymce.views.HTMLField')())
 
     models = {
         u'auth.group': {

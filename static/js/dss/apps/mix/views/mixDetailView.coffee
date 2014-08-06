@@ -1,5 +1,5 @@
 @Dss.module "MixApp.Views", (Views, App, Backbone, Marionette, $) ->
-    class Views.MixDetailView extends Marionette.Layout
+    class Views.MixDetailView extends Marionette.LayoutView
         template: "mixdetailview"
         regions:
             mix: "#mix"
