@@ -29,10 +29,12 @@
 
                 @render()
 
-        onDeletePlaylist: ->
+        onDeletePlaylist: (e) ->
             utils.messageBox "/dlg/DeletePlaylistConfirm", =>
                 @model.destroy()
 
+            e.stopPropagation()
+            
         setContained: (contained)=>
             @ui.mixExistsIndicator.prop('checked', contained)
 
