@@ -1,0 +1,15 @@
+{% extends 'views/dlg/_DialogBase.html' %}
+
+{% load account %}
+{% load static %}
+{% load socialaccount %}
+{% block header %}
+    <h3>You sure about this chief??</h3>
+{% endblock %}
+{% block content %}
+    Delete this playlist?
+{% endblock %}
+{% block primarybutton %}Cancel{% endblock %}
+{% block extrabuttons %}
+    <button type="button" class="btn btn-success" data-dismiss="modal" id="yes-no-positive">Proceed</button>
+{% endblock %}

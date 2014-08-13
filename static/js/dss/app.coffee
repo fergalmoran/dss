@@ -67,7 +67,7 @@
             true
 
         @listenTo @vent, "mix:delete", (model) ->
-            console.log "App(vent): mix:like"
+            console.log "App(vent): mix:delete"
             utils.messageBox "/dlg/DeleteMixConfirm"
                 yes: ->
                     console.log("Controller: mixDeleteYES!!")

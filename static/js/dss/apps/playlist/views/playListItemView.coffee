@@ -8,6 +8,7 @@
             mixExistsIndicator: ".playlist-selected-indicator"
 
         events:
+            "click #playlist-delete": "onDeletePlaylist"
             "click .profile-activity": "onClickItem"
 
         onClickItem: (e) ->
@@ -27,6 +28,10 @@
                 )
 
                 @render()
+
+        onDeletePlaylist: ->
+            utils.messageBox "/dlg/DeletePlaylistConfirm", =>
+                @model.destroy()
 
         setContained: (contained)=>
             @ui.mixExistsIndicator.prop('checked', contained)
