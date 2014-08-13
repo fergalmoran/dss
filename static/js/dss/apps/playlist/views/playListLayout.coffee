@@ -16,11 +16,18 @@
             Marionette.CompositeView::constructor.apply this, arguments
             @mix = arguments[0].mix
 
-        onRender: ->
-            console.log("Rendering")
+        initialize: ->
+            console.log("Initializing playlist")
 
         stopDefaults: (e)->
             e.stopPropagation()
+
+        onBeforeAddChild: (child)->
+            child.mix = @mix
+
+        renderIntermediate: ->
+            debugger
+            @render()
 
         addPlaylist: (e)=>
             console.log("Clicked")
@@ -32,7 +39,7 @@
                         mixes: [id: @mix.id]
 
                     playlist.save()
-
+                    @collection.add(playlist)
                     console.log("Adding new: " + playlistName)
                 else
                     @ui.newPlaylistLayout.addClass('has-error')

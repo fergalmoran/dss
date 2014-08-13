@@ -10,7 +10,7 @@ from spa.models import Playlist, Mix
 
 class PlaylistResource(BackboneCompatibleResource):
     user = fields.ToOneField('spa.api.v1.UserResource.UserResource', 'user')
-    mixes = fields.ManyToManyField('spa.api.v1.MixResource.MixResource', 'mixes', null=True)
+    mixes = fields.ManyToManyField('spa.api.v1.MixResource.MixResource', 'mixes', full=True, null=True)
 
     class Meta:
         queryset = Playlist.objects.all().annotate(mix_count=Count('mixes')).order_by('-mix_count')
@@ -32,6 +32,18 @@ class PlaylistResource(BackboneCompatibleResource):
     def hydrate(self, bundle):
         bundle.obj.user = bundle.request.user.get_profile()
         return bundle
+
+    def obj_update(self, bundle, skip_errors=False, **kwargs):
+        mixes = bundle.data['mixes']
+        bundle.data.pop('mixes')
+        result = super(PlaylistResource, self).obj_update(bundle, **kwargs)
+        if mixes:
+            for mix_item in mixes:
+                result.obj.mixes.add(Mix.objects.get(pk=mix_item['id']))
+
+        result.obj.save()
+
+        return result
 
     def obj_create(self, bundle, **kwargs):
         mixes = bundle.data['mixes']
