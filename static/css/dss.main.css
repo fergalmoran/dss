@@ -778,3 +778,6 @@ img.mix-listing-image {
     top: 8px;
     right: 0;
 }
+.share-button{
+    cursor: pointer;
+}
