@@ -1,4 +1,4 @@
-@Dss.module "Lib", (Lib, App, Backbone, Marionette, $    ) ->
+@Dss.module "Lib", (Lib, App, Backbone, Marionette, $) ->
     class Lib.Controller extends Marionette.Controller
 
         initialize: ->
@@ -21,6 +21,10 @@
         showSchedule: ->
             App.contentRegion.show(new ScheduleShowLayout())
             App.vent.trigger('show:schedule:show')
+
+        showPlaylist: (slug) ->
+            console.log("Showing: " + slug)
+            App.contentRegion.show(new App.PlaylistApp.Views.PlaylistShowListLayout({slug: slug}))
 
         showMixList: (options, emptyTemplate) ->
             App.contentRegion.show(new App.MixApp.Views.MixListLayout(options or {order_by: 'latest'}, emptyTemplate))

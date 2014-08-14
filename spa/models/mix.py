@@ -2,7 +2,6 @@ import os
 import rfc822
 import urlparse
 
-from logilab.common.registry import ObjectNotFound
 from sorl.thumbnail import get_thumbnail
 from django.contrib.sites.models import Site
 from django.db import models
@@ -38,8 +37,8 @@ class MixManager(models.Manager):
         """
         try:
             return super(MixManager, self).get(slug=id_or_slug)
-        except ObjectNotFound:
-            return super(MixManager, self).get(slug=id_or_slug)
+        except Mix.DoesNotExist:
+            return super(MixManager, self).get(id=id_or_slug)
 
 
 class Mix(BaseModel):

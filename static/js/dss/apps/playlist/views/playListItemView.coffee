@@ -9,10 +9,10 @@
 
         events:
             "click #playlist-delete": "onDeletePlaylist"
+            "click #playlist-open": "onOpenPlaylist"
             "click .profile-activity": "onClickItem"
 
         onClickItem: (e) ->
-            console.log("Clicky clicky")
             e.stopPropagation()
 
             @model.containsMix @mix, (result) =>
@@ -34,7 +34,11 @@
                 @model.destroy()
 
             e.stopPropagation()
-            
+
+        onOpenPlaylist: (e) ->
+            e.stopPropagation()
+            App.Router.navigate("/playlist/" + @model.get("slug"), true)
+
         setContained: (contained)=>
             @ui.mixExistsIndicator.prop('checked', contained)
 

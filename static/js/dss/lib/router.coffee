@@ -29,6 +29,8 @@
             "user/:slug": "showUserProfile"
             "me": "editUser"
 
+            "playlist/:slug": "showPlaylist"
+
         initialize: ->
             console.log "Router: initialize"
             @listenTo App.vent, "navigate:mix", (slug)->

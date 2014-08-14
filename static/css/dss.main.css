@@ -38,23 +38,6 @@ img.event-content {
     border-bottom: 1px solid #CEC3B3;
 }
 
-.page-header {
-    -moz-border-bottom-colors: none;
-    -moz-border-image: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    border: 0 none -moz-use-text-color;
-    border-bottom: 1px solid #E5E5E5;
-    color: #333333;
-    display: block;
-    font-size: 19.5px;
-    line-height: 36px;
-    margin-bottom: 27px;
-    padding: 0;
-    width: 100%;
-}
-
 .mix-listing {
 }
 
@@ -785,7 +768,13 @@ img.mix-listing-image {
     color: #777;
 }
 
-.playlist-feed{
+.playlist-feed {
     overflow: auto;
     max-height: 200px;
+}
+
+.playlist-functions {
+    position: absolute;
+    top: 8px;
+    right: 0;
 }

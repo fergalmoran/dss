@@ -16,9 +16,6 @@
             Marionette.CompositeView::constructor.apply this, arguments
             @mix = arguments[0].mix
 
-        initialize: ->
-            console.log("Initializing playlist")
-
         stopDefaults: (e)->
             e.stopPropagation()
 
