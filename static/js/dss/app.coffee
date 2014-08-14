@@ -116,6 +116,15 @@
 
             true
 
+        @listenTo @vent, "playlist:share", (mode, model) ->
+            console.log "App(vent): playlist:share (" + mode + ")"
+            if (mode == "facebook")
+                social.sharePlaylistToFacebook(model)
+            else if (mode == "twitter")
+                social.sharePlaylistToTwitter(model)
+
+            true
+
     App.on "start", ->
         if Backbone.history
             Backbone.history.start

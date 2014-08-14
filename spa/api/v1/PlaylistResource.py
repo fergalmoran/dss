@@ -7,7 +7,7 @@ from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.http import HttpUnauthorized
 from tastypie.utils import trailing_slash
 from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
-from spa.models import Playlist, Mix
+from spa.models import Playlist, Mix, UserProfile
 
 
 class PlaylistResource(BackboneCompatibleResource):
@@ -44,6 +44,15 @@ class PlaylistResource(BackboneCompatibleResource):
 
     def hydrate(self, bundle):
         bundle.obj.user = bundle.request.user.get_profile()
+        return bundle
+
+    def dehydrate(self, bundle):
+        try:
+            bundle.data['playlist_image'] = bundle.obj.mixes.objects.all()[0].get_image_url()
+        except:
+            bundle.data['playlist_image'] = UserProfile.get_default_avatar_image()
+
+        bundle.data['item_url'] = '/playlist/%s' % bundle.obj.slug
         return bundle
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):

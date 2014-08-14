@@ -775,9 +775,10 @@ img.mix-listing-image {
 
 .playlist-functions {
     position: absolute;
-    top: 8px;
+    top: 16px;
     right: 0;
 }
-.share-button{
+
+.btn-group a{
     cursor: pointer;
 }
