@@ -13,6 +13,7 @@ logger = logging.getLogger('spa')
 
 
 def post_notification(user, message):
+    pass
     try:
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         r.publish('realtime', user.username + ': ' + message)

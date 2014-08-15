@@ -12,6 +12,7 @@ from allauth.socialaccount.models import SocialToken
 from core.utils.url import wrap_full
 
 from dss import settings
+from spa.models import Playlist
 from spa.models.mix import Mix
 from spa.models.userprofile import UserProfile
 
@@ -21,6 +22,7 @@ logger = logging.getLogger(__name__)
 """
     Handles callbacks from facebook and twitter
 """
+
 
 def _getPayload(request):
     return {
@@ -56,6 +58,31 @@ def mix(request, args):
         payload,
         context_instance=RequestContext(request)
     )
+    return response
+
+
+def playlist(request, args):
+    try:
+        playlist = Playlist.objects.get(slug=args['slug'])
+    except Playlist.DoesNotExist:
+        raise Http404
+
+    image = playlist.get_image_url('400x400')
+    playlist_url = playlist.get_absolute_url()
+    default = _getPayload(request)
+    extras = {
+        "description": "Deep South Sounds Playlist by %s" % playlist.user.get_nice_name(),
+        "title": playlist.name,
+        "image_url": image,
+        "playlist_url": 'http://%s%s' % (Site.objects.get_current().domain, playlist_url)
+    }
+    payload = dict(default.items() + extras.items())
+    response = render_to_response(
+        'inc/facebook/playlist.html',
+        payload,
+        context_instance=RequestContext(request)
+    )
+    print response.content
     return response
 
 

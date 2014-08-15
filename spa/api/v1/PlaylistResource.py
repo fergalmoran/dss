@@ -47,15 +47,13 @@ class PlaylistResource(BackboneCompatibleResource):
         return bundle
 
     def dehydrate(self, bundle):
-        try:
-            bundle.data['playlist_image'] = bundle.obj.mixes.objects.all()[0].get_image_url()
-        except:
-            bundle.data['playlist_image'] = UserProfile.get_default_avatar_image()
-
+        bundle.data['playlist_image'] = bundle.obj.get_image_url()
         bundle.data['item_url'] = '/playlist/%s' % bundle.obj.slug
         return bundle
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
+        if 'playlist_image' in kwargs: del kwargs['playlist_image']
+        if 'item_url' in kwargs: del kwargs['item_url']
         mixes = bundle.data['mixes']
         bundle.data.pop('mixes')
         result = super(PlaylistResource, self).obj_update(bundle, **kwargs)

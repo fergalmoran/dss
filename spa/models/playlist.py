@@ -1,5 +1,7 @@
 from django.db import models
+from sorl.thumbnail import get_thumbnail
 from core.utils.url import unique_slugify
+from dss import settings
 from spa.models import BaseModel, UserProfile, Mix
 
 
@@ -28,3 +30,17 @@ class Playlist(BaseModel):
             self.slug = unique_slugify(self, self.name)
 
         super(Playlist, self).save(force_insert, force_update, using, update_fields)
+
+    def get_image_url(self, size='160x160', default=''):
+        if self.mixes.count() != 0:
+            image = self.mixes.all()[0].get_image_url()
+            try:
+                ret = get_thumbnail(image, size, crop='center')
+                return "%s/%s" % (settings.MEDIA_URL, ret.name)
+            except Exception, ex:
+                pass
+
+        return super(Playlist, self).get_image_url(self.mix_image, settings.STATIC_URL + 'img/default-track.png')
+
+    def get_absolute_url(self):
+        return '/playlist/%s' % self.slug
