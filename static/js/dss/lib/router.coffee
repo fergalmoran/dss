@@ -26,6 +26,7 @@
             "user/:slug/followers": "showUserFollowers"
             "user/:slug/following": "showUserFollowing"
             "user/:slug/mixes": "showUserMixes"
+            #"user/:slug/playlists": "showUserPlaylists"
             "user/:slug": "showUserProfile"
             "me": "editUser"
 
