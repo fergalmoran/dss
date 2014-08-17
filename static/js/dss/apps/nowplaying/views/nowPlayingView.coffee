@@ -3,6 +3,7 @@
         className: "now-playing"
 
         events: {
+            "click #now-playing-wrapper": "openMix",
             "click #now-playing-play": "doPlay",
             "click #now-playing-pause": "doPause"
         }
@@ -23,6 +24,9 @@
         onRender: ->
             @mixPlay()
             true
+
+        openMix: ->
+            App.Router.navigate(@model.get("item_url"), true)
 
         mixPause: (model) ->
             console.log "NowPlayingView: mixPause"
