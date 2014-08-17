@@ -2,6 +2,9 @@
     class Views.SidebarLeftNav extends Marionette.LayoutView
         template: "sidebarleftnav"
 
+        regions:
+            nowPlayingRegion: '#sidebar-shortcuts-now-playing'
+
         events:
             "click #button-mute": "muteAudio"
             "click #header-random-button": "showRandom"
@@ -14,6 +17,10 @@
         initialize: ->
             @listenTo App.vent, "mix:play", @trackPlaying
             @listenTo App.vent, "mix:pause", @trackPaused
+            @listenTo App.vent, 'mix:init', @mixInit
+
+        onRender: ->
+            $('#sidebar-shortcuts-now-playing', @el).hide()
 
         muteAudio: ->
             if App.audioController.audioState is 0
@@ -35,6 +42,13 @@
 
         donate: ->
             App.vent.trigger('app:donate')
+
+        mixInit: (model) ->
+            $(@nowPlayingRegion.el).show()
+            @nowPlayingRegion.show(new App.NowPlayingApp.Views.NowPlayingView({
+                source: 'mix',
+                model: model
+            }))
 
     Views.SidebarView
 
