@@ -11,7 +11,7 @@
         headerRegion: "#header"
         contentRegion: "#content"
         footerRegion: "#footer"
-        sidebarRegion: "#sidebar"
+        sidebarLeftRegion: "#sidebar-left"
 
     App.addInitializer ->
         @audioController = new App.Lib.AudioController()
@@ -19,7 +19,7 @@
 
     App.addInitializer ->
         @headerRegion.show(new App.HeaderApp.Views.Header())
-        @sidebarRegion.show(new App.SidebarApp.Views.SidebarView())
+        @sidebarLeftRegion.show(new App.SidebarApp.Views.SidebarLeftNav())
 
 
     App.addInitializer ->

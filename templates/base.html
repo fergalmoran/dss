@@ -17,30 +17,37 @@
     <!--if lt IE 9script(src='http://html5shim.googlecode.com/svn/trunk/html5.js')
     -->
 </head>
-<body>
+<body class="skin-2">
 {% include 'inc/analytics.html' %}
 <div id="fb-root"></div>
-<div id="header"></div>
+
+<div id="header" class="navbar navbar-default"></div>
+
 <div class="space-6"></div>
-<div class="col-md-12" id="full-content">
-    <div class="body-content col-md-9 page-content-area">
-        <div class="row">
-            <div class="ua-message">{{ ua_html|safe }}</div>
-        </div>
-        <div class="row">
-            <div id="content"></div>
-        </div>
-        {% block content %}
-        {% endblock %}
+
+<div class="main-container" id="main-container">
+    <div id="sidebar-left" class="sidebar responsive">
     </div>
-    <div id="side-content" class="col-md-3 hidden-phone">
-        {% block sidecontent %}
-        {% endblock %}
-        <div id="sidebar"></div>
-        <div id="site-content-fill"></div>
+    <div class="main-content">
+        <div class="page-content">
+            <div class="page-content-area">
+                <div class="col-xs-12" id="full-content">
+                    <div class="row">
+                        <div class="ua-message">{{ ua_html|safe }}</div>
+                    </div>
+                    <div class="row">
+                        <div id="content"></div>
+                    </div>
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 <div id="footer"></div>
+
 <script src="/js/settings/"></script>
 <script type="text/javascript">
     var burst = Date.now();

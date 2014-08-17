@@ -146,6 +146,14 @@
         @_hookupMouseEntryEvents()
         return
 
+    mute: ->
+        if _player
+            _player.mute()
+
+    unmute: ->
+        if _player
+            _player.unmute()
+
     pause: ->
         _player.pause()  if _player.playState is 1
         return
@@ -158,7 +166,7 @@
         if not _player or _player.playState is 0
             return 0
         else return 2  if _player.paused
-        1
+        return 1
 
     playLive: (args)->
         @stopPlaying()

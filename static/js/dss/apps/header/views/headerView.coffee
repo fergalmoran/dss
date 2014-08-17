@@ -3,11 +3,9 @@
         template: "header"
         className: "navbar navbar-default"
         events:
-            "click #header-random-button": "showRandom"
             "click #header-play-pause-button": "togglePlayState"
             "click #header-login-button": "login"
             "click #header-logout-button": "logout"
-            "click #header-donate-button": "donate"
             "click #header-live-button.btn-success": "playLive"
             "click #header-live-button.btn-danger": "pauseLive"
         ui:
@@ -28,18 +26,11 @@
             if com.podnoms.settings.currentUser != -1
                 @notificationsRegion.show(new App.NotificationApp.Views.NotificationsListView())
 
-        showRandom: ->
-            console.log("headerView: showRandom")
-            App.vent.trigger("mix:random")
-
         login: ->
             App.vent.trigger('app:login')
 
         logout: ->
             App.vent.trigger('app:logout')
-
-        donate: ->
-            App.vent.trigger('app:donate')
 
         trackChanged: (data) ->
             $(@el).find("#track-description").text data.title

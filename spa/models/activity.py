@@ -6,6 +6,7 @@ from django.db import models
 from model_utils.managers import InheritanceManager
 from open_facebook import OpenFacebook
 from core.utils.url import wrap_full
+from dss import settings
 
 from spa.models.notification import Notification
 from spa.models.userprofile import UserProfile
@@ -30,6 +31,9 @@ class Activity(BaseModel):
         return "%s" % self.get_object_name()
 
     def post_social(self):
+        if settings.DEBUG:
+            return
+
         try:
             verb = self.get_verb_past()
             object = self.get_object_singular()

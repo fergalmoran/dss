@@ -59,9 +59,9 @@ class MixResource(BackboneCompatibleResource):
                 (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('dispatch_detail'),
                 name="api_dispatch_detail"),
-            url(r"^(?P<resource_name>%s)/random/$" %
-                self._meta.resource_name, self.wrap_view('dispatch_random'),
-                name="api_dispatch_random"),
+            url(r"^(?P<resource_name>%s)/random%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('dispatch_random'), name="api_dispatch_random"),
             url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d-]+)%s$" %
                 (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),

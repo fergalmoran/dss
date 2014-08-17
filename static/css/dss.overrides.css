@@ -10,6 +10,10 @@
     width: 320px !important;
 }
 
-.profile-activity{
+.profile-activity {
     cursor: pointer !important;
+}
+
+.mix-item-container {
+    margin-right: 12px !important;
 }

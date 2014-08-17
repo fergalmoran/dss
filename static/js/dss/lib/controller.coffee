@@ -52,7 +52,7 @@
             mix = new App.MixApp.Models.MixItem({id: 'random'})
             mix.fetch(
                 success: ->
-                    App.contentRegion.show(new MixDetailView({model: mix}))
+                    App.contentRegion.show(new App.MixApp.Views.MixDetailView({model: mix}))
             )
             Backbone.history.navigate "/random", trigger: false
 

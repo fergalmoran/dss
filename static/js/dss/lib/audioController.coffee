@@ -1,15 +1,23 @@
 @Dss.module "Lib", (Lib, App, Backbone, Marionette, $    ) ->
     class Lib.AudioController extends Marionette.Controller
 
+        AudioStates =
+            unmuted: 0
+            muted: 1
+        @AUDIO_STATES = AudioStates
+
         initialize: (options) ->
             console.log "AudioController: initialize"
             @listenTo(App.vent, 'mix:init', @mixInit)
             @listenTo(App.vent, 'mix:play', @mixPlay)
             @listenTo(App.vent, 'mix:pause', @mixPause)
             @listenTo(App.vent, 'mix:resume', @mixResume)
+            @listenTo(App.vent, 'audio:mute', @audioMute)
             @listenTo(App.vent, 'playing:destroy', @playingDestroy)
             @listenTo(App.vent, 'live:play', @livePlay)
             @listenTo(App.vent, 'live:pause', @livePause)
+
+            @audioState = AudioStates.unmuted
 
             soundManager.setup
                 url: com.podnoms.settings.staticUrl + '/swf/sm/'
@@ -27,6 +35,8 @@
 
         setupPlayer: (el, url) ->
             peneloPlay.setupPlayer el, url
+            if @audioState is AudioStates.muted
+                peneloPlay.mute()
 
         setupPlayerEl: (el) ->
             peneloPlay.setupPlayer el
@@ -56,6 +66,14 @@
 
         getMixState: ->
             return peneloPlay.getMixState()
+
+        audioMute: ->
+            if @audioState is AudioStates.unmuted
+                @audioState = AudioStates.muted
+                peneloPlay.mute()
+            else
+                @audioState = AudioStates.unmuted
+                peneloPlay.unmute()
 
         mixPlay: ->
             console.log("AudioController: mixPlay")
