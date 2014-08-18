@@ -1,6 +1,6 @@
 <div class="row mix-item-container">
     <div class="col-md-2 mix-profile-container">
-        <div class="mix-image-container">
+        <div class="mix-image-container hidden-xs">
             <img alt="mix-logo" class="mix-image-image img-rounded img-polaroid" src="<%= mix_image %>"/>
         </div>
         <span class="msg-body">
@@ -68,13 +68,13 @@
                             <i class="ace-icon fa fa-twitter-square light-blue bigger-180"></i>
                         </a>
                         <a data-mode="embed"
-                           class="share-button share-button-embed">
+                           class="share-button share-button-embed  hidden-xs">
                             <i class="ace-icon fa fa-wordpress light-orange bigger-180"></i>
                         </a>
                     </div>
                 </div>
                 <% if (utils.isAuth()) { %>
-                <div class="footer-button">
+                <div class="footer-button hidden-xs">
                     <button class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown"
                             id="playlist-dropdown">
                         <i id="notification-icon" class="fa fa-list-ul"></i>
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="like-button footer-button">
+                <div class="like-button footer-button ">
                     <a class="btn <% if (liked) { %>btn-pink<% } else { %>btn-light<% } %> btn-xs"
                        id="like-<%= id %>"
                        data-id="<%= id %>">
@@ -95,7 +95,7 @@
                         <% if (liked) { %>d<% } %>
                     </a>
                 </div>
-                <div class="favourite-button footer-button">
+                <div class="favourite-button footer-button hidden-xs">
                     <a class="btn <% if (favourited) { %>btn-pink<% } else { %>btn-light<% } %> btn-xs"
                        id="favourite-<%= id %>"
                        data-id="<%= id %>"><i class="ace-icon fa fa-star-empty"></i> Favourite
@@ -103,7 +103,7 @@
                     </a>
                 </div>
                 <% } %>
-                <div class="footer-button">
+                <div class="footer-button hidden-xs">
                     <ul class="list-nostyle list-horiz">
                         <li title="<%= play_count %> Plays" class="stats-item bordered-right">
                             <span class="ace-icon fa fa-play-circle tooltip-success" data-rel="tooltip"
@@ -136,11 +136,11 @@
                     </ul>
                 </div>
                 <% if(can_edit) { %>
-                <div class="edit-button footer-button-right">
+                <div class="edit-button footer-button-right  hidden-xs">
                     <a href="/mix/edit/<%= slug %>" class="btn btn-xs"
                        data-id="<%= id %>"><i class="ace-icon fa fa-edit"></i>Edit</a>
                 </div>
-                <div class="delete-button footer-button-right">
+                <div class="delete-button footer-button-right  hidden-xs">
                     <a data-bypass="true" class="btn btn-xs btn-danger"
                        data-id="<%= id %>"><i class="ace-icon fa fa-trash"></i>Delete</a>
                 </div>
