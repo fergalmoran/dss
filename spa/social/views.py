@@ -67,14 +67,15 @@ def playlist(request, args):
     except Playlist.DoesNotExist:
         raise Http404
 
+    site_url = settings.DEBUG_URL if settings.DEBUG else Site.objects.get_current().domain
     image = playlist.get_image_url('400x400')
-    playlist_url = playlist.get_absolute_url()
+    playlist_url = "%s%s" % (site_url, playlist.get_absolute_url())
     default = _getPayload(request)
     extras = {
         "description": "Deep South Sounds Playlist by %s" % playlist.user.get_nice_name(),
         "title": playlist.name,
         "image_url": image,
-        "playlist_url": 'http://%s%s' % (Site.objects.get_current().domain, playlist_url)
+        "playlist_url": playlist_url
     }
     payload = dict(default.items() + extras.items())
     response = render_to_response(
