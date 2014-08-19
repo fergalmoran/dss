@@ -35,6 +35,13 @@
 
             $(".usereditable").attr('class', if utils.isMe(@model.get("id")) then "editable editable-click" else "user-info")
 
+            if location.hash != ''
+                $('a[href="'+location.hash+'"]', @el).tab('show')
+
+            $('a[data-toggle="tab"]', @el).on 'shown.bs.tab', (e) ->
+                location.hash = $(e.target).attr('href').substr(1)
+                e.preventDefault()
+
         onRender: ->
             window.scrollTo 0, 0
 

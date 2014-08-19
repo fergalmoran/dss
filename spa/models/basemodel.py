@@ -11,10 +11,8 @@ from dss import localsettings, settings
 class BaseModel(DirtyFieldsMixin, models.Model):
     logger = logging.getLogger(__name__)
 
-    """
-    object_created = views.DateTimeField(auto_now_add=True, default=datetime.now())
-    object_updated = views.DateTimeField(auto_now=True, default=datetime.now(), db_index=True)
-    """
+    object_created = models.DateTimeField(auto_now_add=True, default=datetime.now())
+    object_updated = models.DateTimeField(auto_now=True, default=datetime.now(), db_index=True)
 
     class Meta:
         abstract = True

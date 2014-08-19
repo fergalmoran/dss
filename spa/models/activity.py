@@ -25,7 +25,7 @@ ACTIVITYTYPES = (
 class Activity(BaseModel):
     objects = InheritanceManager()
     user = models.ForeignKey(UserProfile, null=True, blank=True)
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return "%s" % self.get_object_name()
