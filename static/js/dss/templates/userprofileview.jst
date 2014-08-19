@@ -169,7 +169,7 @@
                                 <tbody>
                                 <% _.each(playlists, function(playlist){ %>
                                 <tr>
-                                    <td><%= playlist.name %></td>
+                                    <td><a href="<%= playlist.item_url %>"><%= playlist.name %></a></td>
                                     <td><%= humanise(playlist.date_created) %></td>
                                     <td><%= playlist.mixes.length %></td>
                                 </tr>
