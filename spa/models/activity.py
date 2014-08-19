@@ -75,7 +75,7 @@ class Activity(BaseModel):
                 self.get_object_name_for_notification()
             )
 
-            notification.notification_url = wrap_full(self.get_object_url())
+            notification.notification_url = self.get_object_url()
             notification.verb = self.get_verb_past()
             notification.target = self.get_object_name()
             notification.save()
