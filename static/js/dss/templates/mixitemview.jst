@@ -91,15 +91,13 @@
                     <a class="btn <% if (liked) { %>btn-pink<% } else { %>btn-light<% } %> btn-xs"
                        id="like-<%= id %>"
                        data-id="<%= id %>">
-                        <i class="ace-icon fa fa-heart"></i> Like
-                        <% if (liked) { %>d<% } %>
+                        <i class="ace-icon fa fa-heart"></i> Like<% if (liked) { %>d<% } %>
                     </a>
                 </div>
                 <div class="favourite-button footer-button hidden-xs">
                     <a class="btn <% if (favourited) { %>btn-pink<% } else { %>btn-light<% } %> btn-xs"
                        id="favourite-<%= id %>"
-                       data-id="<%= id %>"><i class="ace-icon fa fa-star-empty"></i> Favourite
-                        <% if (favourited) { %>d<% } %>
+                       data-id="<%= id %>"><i class="ace-icon fa fa-star-empty"></i> Favourite<% if (favourited) { %>d<% } %>
                     </a>
                 </div>
                 <% } %>

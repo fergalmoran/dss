@@ -124,7 +124,7 @@ def user_followers_changed(sender, **kwargs):
                             source_user.get_nice_name()
                         )
 
-                        notification.notification_url = wrap_full(source_user.get_absolute_url())
+                        notification.notification_url = source_user.get_absolute_url()
                         notification.verb = "followed"
                         notification.target = target_user.get_nice_name()
                         notification.save()
