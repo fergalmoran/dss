@@ -7,7 +7,7 @@ from django.template import loader, Context
 
 from core.realtime.notification import post_notification
 from dss import localsettings
-from spa.models import BaseModel
+from spa.models import BaseModel, UserProfile
 
 
 class Notification(BaseModel):
@@ -33,10 +33,14 @@ class Notification(BaseModel):
         self.send_notification_email()
 
         sessions = self.to_user.user.session_set.all()
+        avatar_image = UserProfile.get_default_avatar_image()
+        if self.from_user is not None:
+            avatar_image = self.from_user.get_avatar_image()
+
         for session in sessions:
             post_notification(
                 session.session_key,
-                self.to_user.get_avatar_image(),
+                avatar_image,
                 self.notification_html)
 
         return super(Notification, self).save(force_insert, force_update, using, update_fields)
