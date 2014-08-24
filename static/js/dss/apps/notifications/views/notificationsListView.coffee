@@ -14,6 +14,7 @@
             notificationCount: "#notification-count"
 
         initialize: =>
+            @listenTo App.vent, "model:notification:new", @initialize
             #quick and dirty check to see if user is logged in
             @collection = new App.NotificationApp.Models.NotificationCollection
             @collection.fetch(
@@ -35,6 +36,7 @@
                 $(@ui.notificationCount).text(newCount + " new notifications")
                 $(@ui.notificationCountBadge).show()
                 $(@ui.notificationCountBadge).addClass('animate pulse')
+                console.log("Animating bell")
                 $('#notification-icon', @el).addClass('icon-animated-bell')
 
                 $(@ui.notificationCountBadge).text(newCount)

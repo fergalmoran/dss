@@ -8,25 +8,10 @@
                 @socket.on "connect", ->
                     console.log("RealtimeController: Socket connected")
 
-                @socket.on "message", (message) ->
-                    alert(message)
-
-                @socket.on "server-session", (session) =>
-                    if session
-                        console.log("RealtimeController: Connected " + sessionId)
-                        sessionId = session['sessionId']
-                        @registerSessionWithServer sessionId
-                    else
-                        console.log("RealtimeController: Can't read sessionId from socket")
-
-                @socket.on "activity", (data) =>
-                    console.log("RealtimeController: activity " + data['message'])
-                    utils.showMessage("New activity", data['message'])
-                    vent.trigger("model:activity:new", data['message'])
-
                 @socket.on "notification", (data) =>
                     console.log("RealtimeController: notification " + data['message'])
-                    vent.trigger("model:notification:new", data['message'])
+                    utils.showMessage("New activity", data['message'])
+                    App.vent.trigger("model:notification:new", data['message'])
             else
                 console.log("Realtime server unavailable")
 
