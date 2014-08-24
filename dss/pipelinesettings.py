@@ -10,6 +10,7 @@ PIPELINE_CSS = {
             'css/dss.overrides.css',
 
             'css/ace/dropzone.css',
+            'css/ace/uncompressed/jquery.gritter.css',
             'css/ace/uncompressed/bootstrap.css',
             'css/ace/uncompressed/ace.css',
             'css/ace/uncompressed/ace-ie.css',
@@ -63,6 +64,7 @@ PIPELINE_JS = {
             'js/lib/ace/ace/elements.wizard.js',
             'js/lib/ace/uncompressed/bootstrap-wysiwyg.js',
             'js/lib/ace/uncompressed/fuelux/fuelux.wizard.js',
+            'js/lib/ace/uncompressed/jquery.gritter.js',
             'js/lib/ace/uncompressed/dropzone.js',
             'js/lib/ace/uncompressed/fullcalendar.js',
             'js/lib/ace/uncompressed/x-editable/bootstrap-editable.js',

@@ -10,7 +10,7 @@
 
                 @socket.on "notification", (data) =>
                     console.log("RealtimeController: notification " + data['message'])
-                    utils.showMessage("New activity", data['message'])
+                    utils.showRichMessage("New activity", data['image'], data['message'])
                     App.vent.trigger("model:notification:new", data['message'])
             else
                 console.log("Realtime server unavailable")

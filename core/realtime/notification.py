@@ -12,9 +12,10 @@ HEADERS = {
 logger = logging.getLogger('spa')
 
 
-def post_notification(session_id, message):
+def post_notification(session_id, image, message):
     payload = {
         'sessionid': session_id,
+        'image': image,
         'message': message
     }
     data = json.dumps(payload)

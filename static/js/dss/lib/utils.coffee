@@ -85,6 +85,15 @@
         @toastOptions()
         toastr.warning message, title
 
+    showRichMessage: (title, image, message) ->
+        $.gritter.add
+            title: title
+            text: message
+            image: image
+            time: ""
+            class_name: "gritter-light"
+
+
     showMessage: (title, message) ->
         @toastOptions()
         toastr.success message, title
@@ -150,6 +159,10 @@ $(document).ready ->
                 return k  if k of t and t[k] is searchElement
                 k++
             -1
+
+    $.extend $.gritter.options,
+      position: "bottom-left"
+
     return
 
 $(document).ajaxSend (event, xhr, settings) ->

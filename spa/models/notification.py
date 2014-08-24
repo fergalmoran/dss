@@ -10,20 +10,6 @@ from dss import localsettings
 from spa.models import BaseModel
 
 
-class NotificationThread(threading.Thread):
-    def __init__(self, instance, **kwargs):
-        self._instance = instance
-        super(NotificationThread, self).__init__(**kwargs)
-
-    def run(self):
-        #Check if target of notification has an active session
-        session = self._instance.last_known_session
-        if session:
-            post_notification(
-                session.session_key,
-                self._instance.notification_html)
-
-
 class Notification(BaseModel):
     to_user = models.ForeignKey('spa.UserProfile', related_name='to_notications')
     from_user = models.ForeignKey('spa.UserProfile', related_name='notifications', null=True, blank=True)
@@ -50,6 +36,7 @@ class Notification(BaseModel):
         for session in sessions:
             post_notification(
                 session.session_key,
+                self.to_user.get_avatar_image(),
                 self.notification_html)
 
         return super(Notification, self).save(force_insert, force_update, using, update_fields)
