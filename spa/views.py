@@ -7,6 +7,7 @@ from django.template import loader, Context
 from django.template.context import RequestContext
 import sys
 from core.utils.string import lreplace, rreplace
+from dss import settings
 from spa.social.views import social_redirect
 
 
@@ -25,6 +26,7 @@ def app(request):
 
     context = {
         'is_bot': request.user_agent.is_bot,
+        'socket_io': settings.SOCKET_IO_JS_URL,
         'bust': uuid.uuid1()
     }
 

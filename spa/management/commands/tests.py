@@ -1,5 +1,4 @@
 from unittest import TestCase
-from django.contrib.auth.models import User
 from django.core.management.base import NoArgsCommand
 from django.utils import unittest
 from core.realtime.activity import post_activity
@@ -23,10 +22,18 @@ class TestRealtime(TestCase):
     def test_post_activity(self):
         try:
             mix = Mix.objects.order_by('?')[0]
-            user = User.objects.get(pk=1)
-            activity = ActivityDownload(user=user.get_profile(), mix=mix)
+            user = UserProfile.objects.get(slug='fergalmoran')
+            activity = ActivityDownload(user=user, mix=mix)
             activity.save()
-            result = post_activity(activity.get_activity_url())
+
+            """
+                Try to find an active session for this user
+                If it exists, post to the realtime controller
+            """
+            sessions = user.user.session_set.all()
+            for session in sessions:
+                result = post_activity(session.session_key, activity.get_activity_url())
+
             self.assertTrue(result == "", msg=result)
 
         except Exception, ex:

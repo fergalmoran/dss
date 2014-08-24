@@ -19,7 +19,9 @@ class NotificationThread(threading.Thread):
         #Check if target of notification has an active session
         session = self._instance.last_known_session
         if session:
-            post_notification(notification_url=self._instance.get_notification_url(), session=session)
+            post_notification(
+                session.session_key,
+                self._instance.notification_html)
 
 
 class Notification(BaseModel):
@@ -43,7 +45,13 @@ class Notification(BaseModel):
              update_fields=None):
 
         self.send_notification_email()
-        post_notification(self.to_user, self.notification_text)
+
+        sessions = self.to_user.user.session_set.all()
+        for session in sessions:
+            post_notification(
+                session.session_key,
+                self.notification_html)
+
         return super(Notification, self).save(force_insert, force_update, using, update_fields)
 
     def send_notification_email(self):

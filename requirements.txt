@@ -58,3 +58,4 @@ djrill
 python-shout
 django-dirtyfields
 django-storages
+django-user-sessions

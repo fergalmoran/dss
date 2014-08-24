@@ -18,9 +18,12 @@
         App.Router = new App.Lib.Router()
 
     App.addInitializer ->
+        App.realtimeController = new App.Lib.RealtimeController();
+        App.realtimeController.startSocketIO();
+
+    App.addInitializer ->
         @headerRegion.show(new App.HeaderApp.Views.Header())
         @sidebarLeftRegion.show(new App.SidebarApp.Views.SidebarLeftNav())
-
 
     App.addInitializer ->
         $(document).on("click", "a[href]:not([data-bypass])", (evt) ->

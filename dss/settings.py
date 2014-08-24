@@ -83,7 +83,7 @@ AUTHENTICATION_BACKENDS = global_settings.AUTHENTICATION_BACKENDS + (
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'user_sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -106,7 +106,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    'user_sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -175,6 +175,8 @@ TASTYPIE_ALLOW_MISSING_SLASH = True
 SENDFILE_ROOT = os.path.join(MEDIA_ROOT, 'mixes')
 SENDFILE_URL = '/media/mixes'
 
+SESSION_ENGINE = 'user_sessions.backends.db'
+
 mimetypes.add_type("text/xml", ".plist", False)
 
 HTML_MINIFY = not DEBUG
@@ -182,6 +184,7 @@ HTML_MINIFY = not DEBUG
 
 DEFAULT_FROM_EMAIL = 'DSS ChatBot <chatbot@deepsouthsounds.com>'
 DEFAULT_HTTP_PROTOCOL = 'http'
+
 
 EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
 
@@ -199,7 +202,6 @@ REALTIME_HEADERS = {
     'content-type': 'application/json'
 }
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-
 if 'test' in sys.argv:
     try:
         from test_settings import *
