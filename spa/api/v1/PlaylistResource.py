@@ -21,7 +21,7 @@ class PlaylistResource(BackboneCompatibleResource):
         excludes = ['public']
 
         authentication = Authentication()
-        authorization = DjangoAuthorization()
+        authorization = Authorization()
 
     def authorized_read_list(self, object_list, bundle):
         if bundle.request.user.is_authenticated():
@@ -66,14 +66,17 @@ class PlaylistResource(BackboneCompatibleResource):
         return result
 
     def obj_create(self, bundle, **kwargs):
-        mixes = bundle.data['mixes']
-        bundle.data.pop('mixes')
-        result = super(PlaylistResource, self).obj_create(bundle, **kwargs)
+        try:
+            mixes = bundle.data['mixes']
+            bundle.data.pop('mixes')
+            result = super(PlaylistResource, self).obj_create(bundle, **kwargs)
 
-        if mixes:
-            for mix_item in mixes:
-                result.obj.mixes.add(Mix.objects.get(pk=mix_item['id']))
+            if mixes:
+                for mix_item in mixes:
+                    result.obj.mixes.add(Mix.objects.get(pk=mix_item['id']))
 
-        result.obj.save()
+            result.obj.save()
 
-        return result
+            return result
+        except Exception, ex:
+            print ex
