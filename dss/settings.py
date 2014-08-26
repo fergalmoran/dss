@@ -10,6 +10,7 @@ from utils import here
 
 from localsettings import *
 from pipelinesettings import *
+from storagesettings import *
 from paymentsettings import *
 
 DEVELOPMENT = DEBUG
@@ -35,8 +36,7 @@ DATABASES = {
     }
 }
 import sys
-
-if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers regular testing and django-coverage
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
     print "Testing"
     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
@@ -141,7 +141,6 @@ INSTALLED_APPS = (
     'django_user_agents',
     'storages',
     'rest_framework',
-    # 'backbone_tastypie',
 )
 
 # where to redirect users to after logging in

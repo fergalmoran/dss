@@ -65,6 +65,7 @@ class Mix(BaseModel):
     filetype = models.CharField(max_length=10, blank=False, default="mp3")
     download_allowed = models.BooleanField(default=False)
     duration = models.IntegerField(null=True, blank=True)
+    archive_path = models.CharField(max_length=2048, null=True, blank=True)
     slug = models.SlugField()
 
     genres = models.ManyToManyField(Genre)
@@ -163,6 +164,12 @@ class Mix(BaseModel):
 
     def get_stream_path(self):
         ret = url_path_join(localsettings.STREAM_URL, "%s.mp3" % self.uid)
+        """
+        if self.archive_path in [None, '']:
+            ret = url_path_join(localsettings.STREAM_URL, "%s.mp3" % self.uid)
+        else:
+            ret = self.archive_path
+        """
         return ret
 
     #used for podcast xml
