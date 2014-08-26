@@ -14,6 +14,8 @@ urlpatterns = patterns(
     '',
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/img/favicon.ico')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/v2/', include('api.urls', namespace='api_v2')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'', include('user_sessions.urls', 'user_sessions')),
     (r'^channel\.html$', TemplateView.as_view(template_name='boiler/fb_channel.html')),
     (r'^privacy\.html$', TemplateView.as_view(template_name='boiler/privacy.html')),

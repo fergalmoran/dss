@@ -11,6 +11,9 @@ from spa.models.comment import Comment
 
 class CommentResource(BackboneCompatibleResource):
     mix = fields.ToOneField('spa.api.v1.MixResource.MixResource', 'mix')
+    likes = fields.ToManyField('spa.api.v1.UserResource.UserResource',
+                                    'likes', related_name='favourites',
+                                    full=False, null=True)
 
     class Meta:
         queryset = Comment.objects.all().order_by('-date_created')

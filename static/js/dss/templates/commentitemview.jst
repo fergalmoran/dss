@@ -13,13 +13,17 @@
             <a href="<%= user_url %>"><%= user_name %></a>
         </div>
         <div class="text"><%= comment %></div>
-
-        <% if (can_edit) { %>
-            <div class="tools">
-                <a id="delete-comment" class="btn btn-minier btn-danger">
-                    <i class="fa fa-trash-o"></i>
-                </a>
-            </div>
+        <% if (utils.isAuth()) { %>
+        <div class="tools">
+            <a id="like-comment" class="btn btn-xs btn-primary">
+                <i class="fa fa-thumbs-o-up"></i>
+            </a>
+            <% if (can_edit) { %>
+            <a id="delete-comment" class="btn btn-xs btn-danger">
+                <i class="fa fa-trash-o"></i>
+            </a>
+            <% } %>
+        </div>
         <% } %>
     </div>
 </div>

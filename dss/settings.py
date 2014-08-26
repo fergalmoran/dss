@@ -1,4 +1,4 @@
-#e Django settings for dss project.
+# e Django settings for dss project.
 import os
 import mimetypes
 from django.core.urlresolvers import reverse_lazy
@@ -35,7 +35,8 @@ DATABASES = {
     }
 }
 import sys
-if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+
+if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers regular testing and django-coverage
     print "Testing"
     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
@@ -89,11 +90,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'spa.middleware.cors.XsSharingMiddleware',
-    #'htmlmin.middleware.HtmlMinifyMiddleware',
+    # 'htmlmin.middleware.HtmlMinifyMiddleware',
     #'htmlmin.middleware.MarkRequestMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     'pipeline.middleware.MinifyHTMLMiddleware',
-    #'spa.middleware.uploadify.SWFUploadMiddleware',
+    # 'spa.middleware.uploadify.SWFUploadMiddleware',
     #'spa.middleware.sqlprinter.SqlPrintingMiddleware' if DEBUG else None,
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
@@ -138,8 +139,9 @@ INSTALLED_APPS = (
     'djrill',
     'paypal.standard.ipn',
     'django_user_agents',
-     'storages',
-    #'backbone_tastypie',
+    'storages',
+    'rest_framework',
+    # 'backbone_tastypie',
 )
 
 # where to redirect users to after logging in
@@ -181,10 +183,8 @@ mimetypes.add_type("text/xml", ".plist", False)
 
 HTML_MINIFY = not DEBUG
 
-
 DEFAULT_FROM_EMAIL = 'DSS ChatBot <chatbot@deepsouthsounds.com>'
 DEFAULT_HTTP_PROTOCOL = 'http'
-
 
 EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
 
@@ -208,3 +208,15 @@ if 'test' in sys.argv:
     except ImportError:
         pass
 
+REST_FRAMEWORK = {
+    # Use hyperlinked styles by default.
+    # Only used if the `serializer_class` attribute is not set on a view.
+    'DEFAULT_MODEL_SERIALIZER_CLASS':
+        'rest_framework.serializers.HyperlinkedModelSerializer',
+
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

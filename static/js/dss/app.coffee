@@ -79,6 +79,11 @@
                 no: ->
                     console.log("Controller: mixDeleteNO!!")
 
+        @listenTo @vent, "comment:like", (model, id, success, favourite) ->
+            console.log "App(vent): mix:like"
+            model.save 'liked', !model.get('liked'), patch: true
+            true
+
         @listenTo @vent, "user:follow", (model)->
             console.log "App(vent): user:follow"
             user = new App.UserApp.Models.UserItem({id: com.podnoms.settings.currentUser })

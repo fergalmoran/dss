@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from spa.models import BaseModel
+from spa.models import BaseModel, UserProfile
 from spa.models.mix import Mix
 
 
@@ -14,6 +14,7 @@ class Comment(BaseModel):
     comment = models.CharField(max_length=1024)
     date_created = models.DateTimeField(auto_now_add=True)
     time_index = models.IntegerField(default=0)
+    likes = models.ManyToManyField(UserProfile, related_name='liked_comments', blank=True, null=True)
 
     def get_absolute_url(self):
         return '/comment/%i' % self.id
