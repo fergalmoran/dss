@@ -163,13 +163,10 @@ class Mix(BaseModel):
         return super(Mix, self).get_image_url(self.mix_image, settings.STATIC_URL + 'img/default-track.png')
 
     def get_stream_path(self):
-        ret = url_path_join(localsettings.STREAM_URL, "%s.mp3" % self.uid)
-        """
         if self.archive_path in [None, '']:
             ret = url_path_join(localsettings.STREAM_URL, "%s.mp3" % self.uid)
         else:
             ret = self.archive_path
-        """
         return ret
 
     #used for podcast xml
