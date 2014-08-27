@@ -19,7 +19,6 @@ class Command(NoArgsCommand):
             container = driver.get_container(container_name=settings.AZURE_CONTAINER)
 
             mixes = Mix.objects \
-                .filter(upload_date__lte=datetime.today() - timedelta(days=180)) \
                 .exclude(archive_path__isnull=False) \
                 .annotate(num_plays=Count('activity_plays')) \
                 .order_by('num_plays')[:10]
