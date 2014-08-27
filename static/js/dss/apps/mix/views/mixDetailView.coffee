@@ -42,6 +42,7 @@
         checkCommentKeypress: (e) ->
             if e.which is 13
                 @addComment()
+                e.preventDefault()
 
         addComment: ->
             activeTab = $("ul#mix-tab li.active", @el)
