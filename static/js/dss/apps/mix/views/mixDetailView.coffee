@@ -49,7 +49,6 @@
             comment = @ui.commentText.val()
             @model.addComment comment, (=>
                 @ui.commentText.val ""
-                utils.showMessage "Comment saved.."
                 @renderComments()
             ), (error) =>
                 utils.showError "Woops \n" + error
