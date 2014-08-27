@@ -18,11 +18,11 @@ class Command(NoArgsCommand):
             driver = cls(settings.AZURE_ACCOUNT_NAME, settings.AZURE_ACCOUNT_KEY)
             container = driver.get_container(container_name=settings.AZURE_CONTAINER)
 
+            #.filter(upload_date__lte=datetime.today() - timedelta(days=180)) \
             mixes = Mix.objects \
-                .filter(upload_date__lte=datetime.today() - timedelta(days=180)) \
                 .exclude(archive_path__isnull=False) \
                 .annotate(num_plays=Count('activity_plays')) \
-                .order_by('num_plays')[:10]
+                .order_by('num_plays')
             for mix in mixes:
                 if os.path.isfile(mix.get_absolute_path()):
                     print "Uploading file for: %s" % mix.slug
