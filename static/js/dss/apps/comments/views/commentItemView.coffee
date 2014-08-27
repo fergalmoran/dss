@@ -5,6 +5,8 @@
             "click #delete-comment": "deleteComment"
             "click #like-comment": "likeComment"
 
+        className: "itemdiv dialogdiv"
+
         deleteComment: ->
             utils.messageBox "/dlg/DeleteCommentConfirm", =>
                 @model.destroy()

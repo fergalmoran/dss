@@ -3,7 +3,7 @@
         template: "mixdetailview"
         regions:
             mix: "#mix"
-            comments: "#comments"
+            comments: "#comment-list-container-outer"
         ui:
             commentText: '#comment-text'
         events:
@@ -30,7 +30,7 @@
             comments.mix = @model
             comments.fetch success: (data) ->
                 content = new App.CommentsApp.Views.CommentListView(collection: comments).render()
-                $("#comments", @el).html content.el
+                $("#comment-list-container-outer", @el).html content.el
                 true
             true
 
@@ -49,7 +49,7 @@
             @model.addComment comment, (=>
                 @ui.commentText.val ""
                 utils.showMessage "Comment saved.."
-                activeTab.tab().show()
+                @renderComments()
             ), (error) =>
                 utils.showError "Woops \n" + error
                 $('#comment-input').addClass('has-error')

@@ -5,4 +5,3 @@
         className: "activity-listing media-list"
         childView: Views.CommentItemView
         childViewContainer: "#comment-list-container"
-

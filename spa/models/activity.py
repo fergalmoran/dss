@@ -81,7 +81,6 @@ class Activity(BaseModel):
             notification.save()
         except Exception, ex:
             print "Error creating activity notification: %s" % ex.message
-            raise ex
 
     def get_activity_url(self):
         return '/api/v1/activity/%s' % self.id

@@ -789,3 +789,7 @@ img.mix-listing-image {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.white-bg {
+    background: #ffffff !important;
+}
