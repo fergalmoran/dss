@@ -33,22 +33,27 @@
                                    value="<%= email %>">
                         </div>
                     </div>
-                    <div class="clearfix control-group" id="div_avatar_image_select">
-                        <label class="control-label requiredField" for="avatar_image_select_0">Avatar Image
-                            <span class="asteriskField">*</span></label>
 
-                        <div class="controls">
-                            <label class="radio">
-                                Use gravatar image.
-                                <input type="radio" id='avatar_gravatar' value='gravatar' name="avatar_type"/>
+                    <div class="control-group">
+                        <label class="control-label bolder blue">Avatar Image</label>
+
+                        <div class="radio">
+                            <label>
+                                <input type="radio" id='avatar_gravatar' value='gravatar' name="avatar_type"
+                                       class="ace"/>
+                                <span class="lbl"> Use gravatar image.</span>
                             </label>
-                            <label class="radio">
-                                Use Twitter/Facebook image.
-                                <input type="radio" id='avatar_social' value='social' name="avatar_type"/>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" id='avatar_social' value='social' name="avatar_type" class="ace"/>
+                                <span class="lbl"> Use Twitter/Facebook image.</span>
                             </label>
-                            <label class="radio">
-                                Use custom image.
-                                <input type="radio" id='avatar_custom' value='custom' name="avatar_type"/>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" id='avatar_custom' value='custom' name="avatar_type" class="ace"/>
+                                <span class="lbl"> Use custom image.</span>
                             </label>
                         </div>
                     </div>
@@ -80,12 +85,12 @@
                                     <td>
                                         <input type="checkbox" name="activity_sharing_favourites"
                                                id="activity_sharing_favourites"
-                                               <%= renderCheckbox(activity_sharing_favourites) %>>
+                                                <%= renderCheckbox(activity_sharing_favourites) %>>
                                     </td>
                                     <td>
                                         <input type="checkbox" name="activity_sharing_comments"
                                                id="activity_sharing_comments"
-                                               <%= renderCheckbox(activity_sharing_comments) %>>
+                                                <%= renderCheckbox(activity_sharing_comments) %>>
                                     </td>
                                 </tr>
                                 </tbody>
