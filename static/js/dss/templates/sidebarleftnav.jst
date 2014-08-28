@@ -79,6 +79,18 @@
     <% } %>
     <% if (com.podnoms.settings.currentUser != -1) { %>
     <li class="purple">
+        <a href="<%= com.podnoms.settings.userUrl %>">
+            <i class="menu-icon fa fa-users"></i>
+            My Profile
+        </a>
+    </li>
+    <li class="purple">
+        <a href="/me">
+            <i class="menu-icon fa fa-cogs"></i>
+            Settings
+        </a>
+    </li>
+    <li class="purple">
         <a href="/mix/upload" id='upload'>
             <i class="menu-icon fa fa-upload fa-white"></i>
             <span class="menu-text"> Upload </span>
