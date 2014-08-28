@@ -21,3 +21,10 @@ class Comment(BaseModel):
 
     def create_activity(self):
         pass
+
+    @property
+    def avatar_image(self):
+        if self.user is None:
+            return UserProfile.get_default_avatar_image()
+        else:
+            return self.user.get_profile().get_avatar_image()
