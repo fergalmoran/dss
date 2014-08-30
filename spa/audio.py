@@ -53,9 +53,10 @@ def download(request, mix_id):
                         )
                 else:
                     response = HttpResponseRedirect(mix.archive_path)
+                    """
                     response['Content-Disposition'] = 'attachment; filename=' + \
                         smart_str('Deep South Sounds - %s%s' % (mix.title, mix.filetype))
-
+                    """
                     return response
             else:
                 return HttpResponse('Downloads not allowed for this mix', status=401)
