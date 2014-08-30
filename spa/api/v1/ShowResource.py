@@ -3,7 +3,7 @@ from tastypie.authorization import Authorization
 from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.http import HttpBadRequest
 
-from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.api.v1.BaseResource import BaseResource
 
 from spa.models import Show
 from spa.models.show import ShowOverlapException
@@ -11,7 +11,7 @@ from spa.models.show import ShowOverlapException
 DATE_FORMAT = '%d/%m/%Y %H:%M:%S'
 
 
-class ShowResource(BackboneCompatibleResource):
+class ShowResource(BaseResource):
     mix = fields.ToOneField('spa.api.v1.MixResource.MixResource',
                             'mix', null=False, full=False)
 

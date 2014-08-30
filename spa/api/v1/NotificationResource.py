@@ -1,11 +1,11 @@
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import DjangoAuthorization
-from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.api.v1.BaseResource import BaseResource
 from spa.models.notification import Notification
 from spa.models.userprofile import UserProfile
 
 
-class NotificationResource(BackboneCompatibleResource):
+class NotificationResource(BaseResource):
     class Meta:
         queryset = Notification.objects.order_by('-id')
         resource_name = 'notification'

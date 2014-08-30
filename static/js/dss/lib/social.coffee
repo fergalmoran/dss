@@ -1,10 +1,8 @@
 @social = do ->
     postFacebookLike: (mixId) ->
-
         #first off, find if the current user has allowed facebook likes
         $.getJSON "social/like/" + mixId + "/", (data) ->
             utils.showAlert "Posted your like to facebook, you can stop this in your settings page.", "Cheers feen"
-
 
     generateEmbedCode: (model) ->
         console.log("Generating embed code");

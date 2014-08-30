@@ -1,11 +1,11 @@
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 
-from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.api.v1.BaseResource import BaseResource
 from spa.models import Genre
 
 
-class GenreResource(BackboneCompatibleResource):
+class GenreResource(BaseResource):
 	class Meta:
 		queryset = Genre.objects.all().order_by('description')
 		resource_name = 'genres'

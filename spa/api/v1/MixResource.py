@@ -13,7 +13,7 @@ from tastypie.http import HttpGone, HttpUnauthorized
 from tastypie.utils import trailing_slash
 from dss import settings
 
-from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.api.v1.BaseResource import BaseResource
 from spa.api.v1.CommentResource import CommentResource
 from spa.api.v1.ActivityResource import ActivityResource
 from spa.models.mix import Mix
@@ -21,7 +21,7 @@ from spa.models.show import Show
 from spa.models.userprofile import UserProfile
 
 
-class MixResource(BackboneCompatibleResource):
+class MixResource(BaseResource):
     comments = fields.ToManyField('spa.api.v1.CommentResource.CommentResource',
                                   'comments', null=True, full=True)
     favourites = fields.ToManyField('spa.api.v1.UserResource.UserResource',

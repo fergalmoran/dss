@@ -2,11 +2,11 @@ import datetime
 from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL_WITH_RELATIONS
-from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.api.v1.BaseResource import BaseResource
 from spa.models import Label
 from spa.models.release import Release
 from django.core.exceptions import ObjectDoesNotExist
-class ReleaseResource(BackboneCompatibleResource):
+class ReleaseResource(BaseResource):
     release_audio = fields.ToManyField('spa.api.v1.ReleaseAudioResource.ReleaseAudioResource', 'release_audio', 'release', null=True, blank=True)
     class Meta:
         queryset = Release.objects.all()

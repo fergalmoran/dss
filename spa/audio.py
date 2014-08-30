@@ -5,8 +5,10 @@ import urlparse
 
 from django.conf.urls import url
 import json
-from django.http import Http404, HttpResponse, HttpResponseForbidden, HttpResponseNotFound
+from django.http import Http404, HttpResponse, HttpResponseForbidden, HttpResponseNotFound, HttpResponseRedirect
 from django.core.servers.basehttp import FileWrapper
+from django.shortcuts import redirect
+from django.utils.encoding import smart_str
 from nginx_signing.signing import UriSigner
 from sendfile import sendfile
 
@@ -37,18 +39,24 @@ def download(request, mix_id):
         mix = Mix.objects.get(pk=mix_id)
         if mix is not None:
             if mix.download_allowed:
-                audio_file = mix.get_absolute_path()
-                filename, extension = os.path.splitext(audio_file)
-
-                if os.path.exists(audio_file):
-                    return sendfile(
-                        request,
-                        audio_file,
-                        attachment=True,
-                        attachment_filename='Deep South Sounds - %s%s' % (
-                            mix.title, extension
+                if mix.archive_path in [None, '']:
+                    audio_file = mix.get_absolute_path()
+                    filename, extension = os.path.splitext(audio_file)
+                    if os.path.exists(audio_file):
+                        return sendfile(
+                            request,
+                            audio_file,
+                            attachment=True,
+                            attachment_filename='Deep South Sounds - %s%s' % (
+                                mix.title, extension
+                            )
                         )
-                    )
+                else:
+                    response = HttpResponseRedirect(mix.archive_path)
+                    response['Content-Disposition'] = 'attachment; filename=' + \
+                        smart_str('Deep South Sounds - %s%s' % (mix.title, mix.filetype))
+
+                    return response
             else:
                 return HttpResponse('Downloads not allowed for this mix', status=401)
 

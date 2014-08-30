@@ -1,5 +1,6 @@
 import logging
 import urlparse
+from bitfield.models import BitField
 
 from django.contrib.auth.models import User
 from django.core.exceptions import SuspiciousOperation
@@ -37,6 +38,7 @@ class UserProfile(BaseModel):
     ACTIVITY_SHARE_LIKES = 1
     ACTIVITY_SHARE_FAVOURITES = 2
     ACTIVITY_SHARE_COMMENTS = 4
+    ACTIVITY_SHARE_PLAYS = 8
 
     ACTIVITY_SHARE_NETWORK_FACEBOOK = 1
     ACTIVITY_SHARE_NETWORK_TWITTER = 2
@@ -50,6 +52,14 @@ class UserProfile(BaseModel):
     slug = models.SlugField(max_length=50, blank=True, null=True, default=None)
     activity_sharing = models.IntegerField(default=0)
     activity_sharing_networks = models.IntegerField(default=0)
+
+    email_notifications = BitField(flags=(
+        ('plays', 'Plays'),
+        ('likes', 'Likes'),
+        ('favourites', 'Favourites'),
+        ('follows', 'Follows'),
+        ('comments', 'Comments'),
+    ), default=0)
 
     following = models.ManyToManyField('self', null=True, blank=True, symmetrical=False, related_name='followers')
 

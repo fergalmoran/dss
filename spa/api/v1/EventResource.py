@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 import humanize
 from tastypie.authorization import Authorization
-from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.api.v1.BaseResource import BaseResource
 from spa.models.recurrence import Recurrence
 """
 from spa.views.venue import Venue

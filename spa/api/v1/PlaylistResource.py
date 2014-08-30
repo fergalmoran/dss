@@ -6,11 +6,11 @@ from tastypie import fields
 from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.http import HttpUnauthorized
 from tastypie.utils import trailing_slash
-from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.api.v1.BaseResource import BaseResource
 from spa.models import Playlist, Mix, UserProfile
 
 
-class PlaylistResource(BackboneCompatibleResource):
+class PlaylistResource(BaseResource):
     user = fields.ToOneField('spa.api.v1.UserResource.UserResource', 'user')
     mixes = fields.ManyToManyField('spa.api.v1.MixResource.MixResource', 'mixes', full=True, null=True)
 

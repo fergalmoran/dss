@@ -3,13 +3,13 @@ from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.http import HttpBadRequest, HttpMethodNotAllowed, HttpUnauthorized, HttpApplicationError, HttpNotImplemented
-from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.api.v1.BaseResource import BaseResource
 from spa.models import Mix, UserProfile
 from spa.models.activity import ActivityComment
 from spa.models.comment import Comment
 
 
-class CommentResource(BackboneCompatibleResource):
+class CommentResource(BaseResource):
     mix = fields.ToOneField('spa.api.v1.MixResource.MixResource', 'mix')
     likes = fields.ToManyField('spa.api.v1.UserResource.UserResource',
                                     'likes', related_name='favourites',

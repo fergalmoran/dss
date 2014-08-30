@@ -2,12 +2,12 @@ import humanize
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
-from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.api.v1.BaseResource import BaseResource
 from spa.models import UserProfile
 from spa.models.activity import Activity
 
 
-class ActivityResource(BackboneCompatibleResource):
+class ActivityResource(BaseResource):
     class Meta:
         queryset = Activity.objects.select_subclasses().order_by('-id')
         resource_name = 'activity'

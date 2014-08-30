@@ -10,14 +10,14 @@ from tastypie.utils import trailing_slash
 from tastypie_msgpack import Serializer
 
 from dss import settings
-from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.api.v1.BaseResource import BaseResource
 from spa.api.v1.PlaylistResource import PlaylistResource
 from spa.models.userprofile import UserProfile
 from spa.models.mix import Mix
 from core.tasks import update_geo_info_task
 
 
-class UserResource(BackboneCompatibleResource):
+class UserResource(BaseResource):
     following = fields.ToManyField(to='self', attribute='following', related_name='following', null=True)
     followers = fields.ToManyField(to='self', attribute='followers', related_name='followers', null=True)
 
@@ -43,7 +43,6 @@ class UserResource(BackboneCompatibleResource):
         }
         authorization = Authorization()
         authentication = Authentication()
-
 
     @staticmethod
     def _hydrate_bitmap_opt(source, comparator):
@@ -75,26 +74,11 @@ class UserResource(BackboneCompatibleResource):
         return super(UserResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
-
-        """
-            This feels extremely hacky - but for some reason, deleting from the bundle
-            in hydrate is not preventing the fields from being serialized at the ORM
-        """
-        if 'activity_sharing_networks_facebook' in kwargs: del kwargs['activity_sharing_networks_facebook']
-        if 'activity_sharing_networks_twitter' in kwargs: del kwargs['activity_sharing_networks_twitter']
-        if 'activity_sharing_likes' in kwargs: del kwargs['activity_sharing_likes']
-        if 'activity_sharing_favourites' in kwargs: del kwargs['activity_sharing_favourites']
-        if 'activity_sharing_comments' in kwargs: del kwargs['activity_sharing_comments']
-
-        ret = super(UserResource, self).obj_update(bundle, skip_errors, **kwargs)
-
-        try:
-            update_geo_info_task.delay(ip_address=bundle.request.META['REMOTE_ADDR'],
-                                       profile_id=bundle.request.user.get_profile().id)
-        except:
-            pass
-
-        return ret
+        update_geo_info_task.delay(
+            ip_address=bundle.request.META['REMOTE_ADDR'],
+            profile_id=bundle.request.user.get_profile().id
+        )
+        return super(UserResource, self).obj_update(bundle, skip_errors, **kwargs)
 
     def _create_playlist(self, request):
         pass
@@ -120,6 +104,13 @@ class UserResource(BackboneCompatibleResource):
         del bundle.data['activity_sharing_networks']
         bundle.data['display_name'] = bundle.obj.get_nice_name()
         bundle.data['avatar_image'] = bundle.obj.get_avatar_image()
+
+        bundle.data['email_notification_plays'] = bundle.obj.email_notifications.plays.is_set
+        bundle.data['email_notification_likes'] = bundle.obj.email_notifications.likes.is_set
+        bundle.data['email_notification_favourites'] = bundle.obj.email_notifications.favourites.is_set
+        bundle.data['email_notification_follows'] = bundle.obj.email_notifications.follows.is_set
+        bundle.data['email_notification_comments'] = bundle.obj.email_notifications.comments.is_set
+
         if bundle.obj.user.id == bundle.request.user.id:
             bundle.data['email'] = bundle.obj.email
             bundle.data['first_name'] = bundle.obj.first_name
@@ -130,6 +121,8 @@ class UserResource(BackboneCompatibleResource):
                 self._hydrate_bitmap_opt(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_FAVOURITES)
             bundle.data['activity_sharing_comments'] = \
                 self._hydrate_bitmap_opt(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_COMMENTS)
+            bundle.data['activity_sharing_plays'] = \
+                self._hydrate_bitmap_opt(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_PLAYS)
 
             bundle.data['activity_sharing_networks_facebook'] = \
                 self._hydrate_bitmap_opt(bundle.obj.activity_sharing_networks,
@@ -153,10 +146,12 @@ class UserResource(BackboneCompatibleResource):
 
     def hydrate(self, bundle):
         if 'activity_sharing_likes' in bundle.data:
+            plays = UserProfile.ACTIVITY_SHARE_PLAYS if bundle.data['activity_sharing_plays'] else 0
             likes = UserProfile.ACTIVITY_SHARE_LIKES if bundle.data['activity_sharing_likes'] else 0
             favourites = UserProfile.ACTIVITY_SHARE_FAVOURITES if bundle.data['activity_sharing_favourites'] else 0
             comments = UserProfile.ACTIVITY_SHARE_COMMENTS if bundle.data['activity_sharing_comments'] else 0
             bundle.data['activity_sharing'] = (likes | favourites | comments)
+            del bundle.data['activity_sharing_plays']
             del bundle.data['activity_sharing_likes']
             del bundle.data['activity_sharing_favourites']
             del bundle.data['activity_sharing_comments']

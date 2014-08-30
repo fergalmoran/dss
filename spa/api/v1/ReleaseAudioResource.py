@@ -1,8 +1,8 @@
 from tastypie import fields
-from spa.api.v1.BackboneCompatibleResource import BackboneCompatibleResource
+from spa.api.v1.BaseResource import BaseResource
 from spa.models.release import ReleaseAudio
 
-class ReleaseAudioResource(BackboneCompatibleResource):
+class ReleaseAudioResource(BaseResource):
     release = fields.ToOneField('spa.api.v1.ReleaseResource.ReleaseResource', 'release')
 
     class Meta:
