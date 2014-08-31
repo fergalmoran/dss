@@ -30,7 +30,7 @@ class Command(NoArgsCommand):
                     print "No blob found for: %s" % mix.uid
 
         except Exception, ex:
-            print "Ooopsies"
+            print "Error processing blobs: %s" % ex.message
 
 
 def _test_set_header(self):
