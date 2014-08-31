@@ -23,8 +23,11 @@ git+git://github.com/spookylukey/django-paypal.git#django-paypal
 git+git://github.com/llazzaro/django-scheduler.git#django-scheduler
 git+git://github.com/cyberdelia/django-pipeline.git#django-pipeline
 git+git://github.com/disqus/django-bitfield.git#django-bitfield
+git+git://github.com/fergalmoran/azure-sdk-for-python.git#azure
 django-templated-email
 django-grappelli
+django-nose
+djangorestframework
 humanize
 mandrill
 django-debug-toolbar
@@ -60,4 +63,3 @@ python-shout
 django-dirtyfields
 django-storages
 django-user-sessions
-apache-libcloud

@@ -2,8 +2,8 @@ from django.conf import settings
 from django.core.files.storage import Storage
 from django.core.files.base import ContentFile
 
-import azure
-from azure.storage import *
+import azure_util
+from azure_util.storage import *
 from datetime import datetime
 import os, mimetypes
 

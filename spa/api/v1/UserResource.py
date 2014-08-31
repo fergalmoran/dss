@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
-from django.db.models import Count, Q
+from django.db.models import Count, Q, F
 from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
@@ -74,10 +74,6 @@ class UserResource(BaseResource):
         return super(UserResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
-        update_geo_info_task.delay(
-            ip_address=bundle.request.META['REMOTE_ADDR'],
-            profile_id=bundle.request.user.get_profile().id
-        )
         return super(UserResource, self).obj_update(bundle, skip_errors, **kwargs)
 
     def _create_playlist(self, request):
@@ -150,7 +146,7 @@ class UserResource(BaseResource):
             likes = UserProfile.ACTIVITY_SHARE_LIKES if bundle.data['activity_sharing_likes'] else 0
             favourites = UserProfile.ACTIVITY_SHARE_FAVOURITES if bundle.data['activity_sharing_favourites'] else 0
             comments = UserProfile.ACTIVITY_SHARE_COMMENTS if bundle.data['activity_sharing_comments'] else 0
-            bundle.data['activity_sharing'] = (likes | favourites | comments)
+            bundle.data['activity_sharing'] = (plays | likes | favourites | comments)
             del bundle.data['activity_sharing_plays']
             del bundle.data['activity_sharing_likes']
             del bundle.data['activity_sharing_favourites']
@@ -164,6 +160,13 @@ class UserResource(BaseResource):
             bundle.data['activity_sharing_networks'] = (facebook | twitter)
             del bundle.data['activity_sharing_networks_facebook']
             del bundle.data['activity_sharing_networks_twitter']
+
+        bundle.data['email_notifications'] = \
+            UserProfile.email_notifications.plays if bundle.data['email_notification_plays'] else False | \
+            UserProfile.email_notifications.likes if bundle.data['email_notification_likes'] else False | \
+            UserProfile.email_notifications.favourites if bundle.data['email_notification_favourites'] else False | \
+            UserProfile.email_notifications.follows if bundle.data['email_notification_follows'] else False | \
+            UserProfile.email_notifications.comments if bundle.data['email_notification_comments'] else False
 
         return bundle
 

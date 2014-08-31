@@ -31,6 +31,7 @@
             ref = this
             @_saveChanges
                 success: ->
+                    """
                     if ref.model.get('avatar_type') is "custom"
                         $.ajaxFileUpload
                             url: "ajax/upload_avatar_image/"
@@ -51,12 +52,13 @@
                                 utils.showError e
 
                     else
-                        toastr.info "Successfully updated yourself"
-                        alert("What to do")
-                        """
-                        Backbone.history.navigate "/",
-                            trigger: true
-                        """
+                    """
+                    toastr.info "Successfully updated yourself"
+                    alert("What to do")
+                    """
+                    Backbone.history.navigate "/",
+                        trigger: true
+                    """
                     true
                 error: ->
                     toastr.error "There was an error updating your info. Please try again later."

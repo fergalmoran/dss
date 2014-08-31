@@ -151,6 +151,9 @@ class UserProfile(BaseModel):
         try:
             if self.avatar_type == 'custom':
                 image = self.avatar_image
+                if image.name.startswith('http'):
+                    return image.name
+
                 image = "%s%s" % (settings.MEDIA_URL, get_thumbnail(image, "32x32", crop='center').name)
                 return image
         except SuspiciousOperation, ex:

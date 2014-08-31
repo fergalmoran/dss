@@ -57,16 +57,15 @@ def create_profile(sender, **kw):
 
 post_save.connect(create_profile, sender=User)
 
-"""
-    Doing signals for notifications here.
-    I like this method because I have a single signal
-    and just check for a hook method on the sender
-"""
-
 
 def post_save_handler(**kwargs):
+    """
+        Doing signals for notifications here.
+        I like this method because I have a single signal
+        and just check for a hook method on the sender
+    """
     instance = kwargs['instance']
-    #should save generate a notification to a target user
+    # should save generate a notification to a target user
     if hasattr(instance, 'post_social'):
         instance.post_social()
     if hasattr(instance, 'create_notification'):

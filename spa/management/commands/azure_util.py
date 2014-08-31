@@ -23,7 +23,7 @@ class Command(NoArgsCommand):
                             x_ms_blob_content_type='application/octet-stream',
                             x_ms_blob_content_disposition='attachment;filename="%s"' % download_name
                         )
-                        print "Processed: %s" % download_name
+                        print "Processed: %s" % mix.uid
                     else:
                         print "No blob found for: %s" % mix.uid
                 except WindowsAzureMissingResourceError:

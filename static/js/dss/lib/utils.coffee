@@ -108,26 +108,42 @@
             v.toString 16
 
     downloadURL: (url) ->
-        """
-        $.getJSON url, (data) =>
-            $.fileDownload(data.url)
-            successCallback: (url) ->
-                alert "You just got a file download dialog or ribbon for this URL :" + url
-                return
-
-            failCallback: (html, url) ->
-                alert "Your file download just failed for this URL:" + url + "\r\n" + "Here was the resulting error HTML: \r\n" + html
-                return
-        """
-        iframe = document.getElementById("if_dl_misecure")
-        if iframe is null
-            iframe = document.createElement("iframe")
-            iframe.id = "if_dl_misecure"
-            iframe.style.visibility = "hidden"
-            document.body.appendChild iframe
-        iframe.src = url
+        $.getJSON url, (response) ->
+            utils.download(response.url, response.filename, response.mime_type)
         true
 
+    download: (strData, strFileName, strMimeType) ->
+        D = document
+        a = D.createElement("a")
+        strMimeType = strMimeType or "application/octet-stream"
+        if navigator.msSaveBlob # IE10
+            return navigator.msSaveBlob(new Blob([strData],
+                type: strMimeType
+            ), strFileName)
+        # end if(navigator.msSaveBlob)
+        if "download_ignore" of a #html5 A[download]
+            a.href = "data:" + strMimeType + "," + encodeURIComponent(strData)
+            a.setAttribute "download", strFileName
+            a.innerHTML = "downloading..."
+            D.body.appendChild a
+            setTimeout (->
+                a.click()
+                #D.body.removeChild a
+                return
+            ), 66
+            return true
+        # end if('download' in a)
+
+        #do iframe dataURL download (old ch+FF):
+        f = D.createElement("iframe")
+        D.body.appendChild f
+        #f.src = "data:" + strMimeType + "," + encodeURIComponent(strData)
+        f.src = strData
+        setTimeout (->
+            D.body.removeChild f
+            return
+        ), 333
+        true
     isAuth: ->
         com.podnoms.settings.currentUser != -1
 
@@ -161,7 +177,7 @@ $(document).ready ->
             -1
 
     $.extend $.gritter.options,
-      position: "bottom-left"
+        position: "bottom-left"
 
     return
 
