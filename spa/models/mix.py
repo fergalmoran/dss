@@ -66,6 +66,7 @@ class Mix(BaseModel):
     download_allowed = models.BooleanField(default=False)
     duration = models.IntegerField(null=True, blank=True)
     archive_path = models.CharField(max_length=2048, null=True, blank=True)
+    archive_updated = models.BooleanField(default=False)
     slug = models.SlugField()
 
     genres = models.ManyToManyField(Genre)
