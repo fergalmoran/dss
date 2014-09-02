@@ -74,60 +74,75 @@
                             <div class="widget-body">
                                 <div class="widget-main padding-4">
                                     <div class="col-xs-6 bordered-right">
-                                        <label class="control-label bolder blue">Share this activity</label>
-
+                                        <label class="control-label bolder blue"><i class="ace-icon fa fa-facebook"></i> Facebook</label>
                                         <div class="control-group form-inline">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="activity_sharing_plays" class="ace"
-                                                           id="activity_sharing_plays" <%= renderCheckbox(activity_sharing_plays) %>>
+                                                    <input type="checkbox" class="ace"
+                                                           name="activity_sharing_facebook[plays]"
+                                                           id="activity_sharing_facebook[plays]" <%= renderCheckbox(activity_sharing_facebook.plays) %>>
                                                     <span class="lbl"> Plays</span>
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="activity_sharing_likes" class="ace"
-                                                           id="activity_sharing_likes" <%= renderCheckbox(activity_sharing_likes) %>>
+                                                    <input type="checkbox" class="ace"
+                                                           name="activity_sharing_facebook[likes]"
+                                                           id="activity_sharing_facebook[likes]" <%= renderCheckbox(activity_sharing_facebook.likes) %>>
                                                     <span class="lbl"> Likes</span>
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="activity_sharing_favourites"
-                                                           class="ace"
-                                                           id="activity_sharing_favourites" <%= renderCheckbox(activity_sharing_favourites) %>>
+                                                    <input type="checkbox" class="ace"
+                                                           name="activity_sharing_facebook[favourites]"
+                                                           id="activity_sharing_facebook[favourites]" <%= renderCheckbox(activity_sharing_facebook.favourites) %>>
                                                     <span class="lbl"> Favourites</span>
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="activity_sharing_comments" class="ace"
-                                                           id="activity_sharing_comments" <%= renderCheckbox(activity_sharing_comments) %>>
+                                                    <input type="checkbox" class="ace"
+                                                           name="activity_sharing_facebook[comments]"
+                                                           id="activity_sharing_facebook[comments]" <%= renderCheckbox(activity_sharing_facebook.comments) %>>
                                                     <span class="lbl"> Comments</span>
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xs-6 bordered-left">
-                                        <label class="control-label bolder blue">On these networks</label>
-
+                                        <label class="control-label bolder blue"><i class="ace-icon fa fa-twitter"></i> Twitter</label>
                                         <div class="control-group form-inline">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="activity_sharing_networks_facebook"
-                                                           class="ace"
-                                                           id="activity_sharing_networks_facebook"
-                                                            <%= renderCheckbox(activity_sharing_networks_facebook) %>>
-                                                    <span class="lbl"> Facebook</span>
+                                                    <input type="checkbox" class="ace"
+                                                           name="activity_sharing_twitter[plays]"
+                                                           id="activity_sharing_twitter[plays]" <%= renderCheckbox(activity_sharing_twitter.plays) %>>
+                                                    <span class="lbl"> Plays</span>
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="activity_sharing_networks_twitter"
-                                                           class="ace"
-                                                           id="activity_sharing_networks_twitter"
-                                                            <%= renderCheckbox(activity_sharing_networks_twitter) %>>
-                                                    <span class="lbl"> Twitter</span>
+                                                    <input type="checkbox" class="ace"
+                                                           name="activity_sharing_twitter[likes]"
+                                                           id="activity_sharing_twitter[likes]" <%= renderCheckbox(activity_sharing_twitter.likes) %>>
+                                                    <span class="lbl"> Likes</span>
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="ace"
+                                                           name="activity_sharing_twitter[favourites]"
+                                                           id="activity_sharing_twitter[favourites]" <%= renderCheckbox(activity_sharing_twitter.favourites) %>>
+                                                    <span class="lbl"> Favourites</span>
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="ace"
+                                                           name="activity_sharing_twitter[comments]"
+                                                           id="activity_sharing_twitter[comments]" <%= renderCheckbox(activity_sharing_twitter.comments) %>>
+                                                    <span class="lbl"> Comments</span>
                                                 </label>
                                             </div>
                                         </div>
@@ -150,34 +165,40 @@
                                     <div class="control-group form-inline">
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" name="email_notification_plays" class="ace"
-                                                       id="email_notification_plays" <%= renderCheckbox(email_notification_plays) %>>
+                                                <input type="checkbox" name="email_notifications[plays]" class="ace"
+                                                       id="email_notifications[plays]" <%= renderCheckbox(email_notifications.plays) %>>
                                                 <span class="lbl"> Plays</span>
                                             </label>
                                         </div>
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" name="email_notification_likes" class="ace"
-                                                       id="email_notification_likes" <%= renderCheckbox(email_notification_likes) %>>
+                                                <input type="checkbox" name="email_notifications[likes]" class="ace"
+                                                       id="email_notifications[likes]" <%= renderCheckbox(email_notifications.likes) %>>
                                                 <span class="lbl"> Likes</span>
                                             </label>
                                         </div>
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" name="email_notification_favourites" class="ace"
-                                                       id="email_notification_favourites" <%= renderCheckbox(email_notification_favourites) %>>
+                                                <input type="checkbox" name="email_notifications[favourites]" class="ace"
+                                                       id="email_notifications[favourites]" <%= renderCheckbox(email_notifications.favourites) %>>
                                                 <span class="lbl"> Favourites</span>
                                             </label>
                                         </div>
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" name="email_notification_comments" class="ace"
-                                                       id="email_notification_comments" <%= renderCheckbox(email_notification_comments) %>>
+                                                <input type="checkbox" name="email_notifications[comments]" class="ace"
+                                                       id="email_notifications[comments]" <%= renderCheckbox(email_notifications.comments) %>>
                                                 <span class="lbl"> Comments</span>
                                             </label>
                                         </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="email_notifications[follows]" class="ace"
+                                                       id="email_notifications[follows]" <%= renderCheckbox(email_notifications.follows) %>>
+                                                <span class="lbl"> Follows</span>
+                                            </label>
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>

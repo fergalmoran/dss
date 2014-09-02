@@ -12,6 +12,7 @@ from tastypie_msgpack import Serializer
 from dss import settings
 from spa.api.v1.BaseResource import BaseResource
 from spa.api.v1.PlaylistResource import PlaylistResource
+from spa.models.basemodel import BaseModel
 from spa.models.userprofile import UserProfile
 from spa.models.mix import Mix
 from core.tasks import update_geo_info_task
@@ -43,10 +44,6 @@ class UserResource(BaseResource):
         }
         authorization = Authorization()
         authentication = Authentication()
-
-    @staticmethod
-    def _hydrate_bitmap_opt(source, comparator):
-        return True if (source & comparator) != 0 else False
 
     def prepend_urls(self):
         return [
@@ -96,36 +93,35 @@ class UserResource(BaseResource):
         return bundle.obj.get_profile_description()
 
     def dehydrate(self, bundle):
-        del bundle.data['activity_sharing']
         del bundle.data['activity_sharing_networks']
         bundle.data['display_name'] = bundle.obj.get_nice_name()
         bundle.data['avatar_image'] = bundle.obj.get_avatar_image()
 
-        bundle.data['email_notification_plays'] = bundle.obj.email_notifications.plays.is_set
-        bundle.data['email_notification_likes'] = bundle.obj.email_notifications.likes.is_set
-        bundle.data['email_notification_favourites'] = bundle.obj.email_notifications.favourites.is_set
-        bundle.data['email_notification_follows'] = bundle.obj.email_notifications.follows.is_set
-        bundle.data['email_notification_comments'] = bundle.obj.email_notifications.comments.is_set
+        bundle = BaseResource.dehydrate_bitfield(
+            bundle=bundle,
+            field_name='email_notifications',
+            object_field=bundle.obj.email_notifications,
+            choices=UserProfile.NOTIFICATION_CHOICES,
+        )
+
+        bundle = BaseResource.dehydrate_bitfield(
+            bundle=bundle,
+            field_name='activity_sharing_facebook',
+            object_field=bundle.obj.activity_sharing_facebook,
+            choices=UserProfile.NOTIFICATION_CHOICES,
+        )
+
+        bundle = BaseResource.dehydrate_bitfield(
+            bundle=bundle,
+            field_name='activity_sharing_twitter',
+            object_field=bundle.obj.activity_sharing_twitter,
+            choices=UserProfile.NOTIFICATION_CHOICES,
+        )
 
         if bundle.obj.user.id == bundle.request.user.id:
             bundle.data['email'] = bundle.obj.email
             bundle.data['first_name'] = bundle.obj.first_name
             bundle.data['last_name'] = bundle.obj.last_name
-            bundle.data['activity_sharing_likes'] = \
-                self._hydrate_bitmap_opt(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_LIKES)
-            bundle.data['activity_sharing_favourites'] = \
-                self._hydrate_bitmap_opt(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_FAVOURITES)
-            bundle.data['activity_sharing_comments'] = \
-                self._hydrate_bitmap_opt(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_COMMENTS)
-            bundle.data['activity_sharing_plays'] = \
-                self._hydrate_bitmap_opt(bundle.obj.activity_sharing, UserProfile.ACTIVITY_SHARE_PLAYS)
-
-            bundle.data['activity_sharing_networks_facebook'] = \
-                self._hydrate_bitmap_opt(bundle.obj.activity_sharing_networks,
-                                         UserProfile.ACTIVITY_SHARE_NETWORK_FACEBOOK)
-            bundle.data['activity_sharing_networks_twitter'] = \
-                self._hydrate_bitmap_opt(bundle.obj.activity_sharing_networks,
-                                         UserProfile.ACTIVITY_SHARE_NETWORK_TWITTER)
 
         bundle.data['like_count'] = Mix.objects.filter(likes__user=bundle.obj).count()
         bundle.data['favourite_count'] = Mix.objects.filter(favourites__user=bundle.obj).count()
@@ -141,32 +137,25 @@ class UserResource(BaseResource):
         return bundle
 
     def hydrate(self, bundle):
-        if 'activity_sharing_likes' in bundle.data:
-            plays = UserProfile.ACTIVITY_SHARE_PLAYS if bundle.data['activity_sharing_plays'] else 0
-            likes = UserProfile.ACTIVITY_SHARE_LIKES if bundle.data['activity_sharing_likes'] else 0
-            favourites = UserProfile.ACTIVITY_SHARE_FAVOURITES if bundle.data['activity_sharing_favourites'] else 0
-            comments = UserProfile.ACTIVITY_SHARE_COMMENTS if bundle.data['activity_sharing_comments'] else 0
-            bundle.data['activity_sharing'] = (plays | likes | favourites | comments)
-            del bundle.data['activity_sharing_plays']
-            del bundle.data['activity_sharing_likes']
-            del bundle.data['activity_sharing_favourites']
-            del bundle.data['activity_sharing_comments']
+        bundle = BaseResource.hydrate_bitfield(
+            bundle=bundle,
+            field_name='email_notifications',
+            object_field=UserProfile.email_notifications,
+            choices=UserProfile.NOTIFICATION_CHOICES,
+        )
+        bundle = BaseResource.hydrate_bitfield(
+            bundle=bundle,
+            field_name='activity_sharing_facebook',
+            object_field=UserProfile.activity_sharing_facebook,
+            choices=UserProfile.NOTIFICATION_CHOICES,
+        )
 
-        if 'activity_sharing_networks_facebook' in bundle.data:
-            facebook = UserProfile.ACTIVITY_SHARE_NETWORK_FACEBOOK if bundle.data[
-                'activity_sharing_networks_facebook'] else 0
-            twitter = UserProfile.ACTIVITY_SHARE_NETWORK_TWITTER if bundle.data[
-                'activity_sharing_networks_twitter'] else 0
-            bundle.data['activity_sharing_networks'] = (facebook | twitter)
-            del bundle.data['activity_sharing_networks_facebook']
-            del bundle.data['activity_sharing_networks_twitter']
-
-        bundle.data['email_notifications'] = \
-            UserProfile.email_notifications.plays if bundle.data['email_notification_plays'] else False | \
-            UserProfile.email_notifications.likes if bundle.data['email_notification_likes'] else False | \
-            UserProfile.email_notifications.favourites if bundle.data['email_notification_favourites'] else False | \
-            UserProfile.email_notifications.follows if bundle.data['email_notification_follows'] else False | \
-            UserProfile.email_notifications.comments if bundle.data['email_notification_comments'] else False
+        bundle = BaseResource.hydrate_bitfield(
+            bundle=bundle,
+            field_name='activity_sharing_twitter',
+            object_field=UserProfile.activity_sharing_twitter,
+            choices=UserProfile.NOTIFICATION_CHOICES,
+        )
 
         return bundle
 

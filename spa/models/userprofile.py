@@ -16,6 +16,7 @@ from core.utils.file import generate_save_file_name
 from core.utils.url import unique_slugify
 from dss import settings
 from spa.models.basemodel import BaseModel
+from spa.models.fields import MultiSelectField
 
 
 logger = logging.getLogger(__name__)
@@ -35,10 +36,6 @@ class UserProfile(BaseModel):
         app_label = 'spa'
 
     objects = UserProfileManager()
-    ACTIVITY_SHARE_LIKES = 1
-    ACTIVITY_SHARE_FAVOURITES = 2
-    ACTIVITY_SHARE_COMMENTS = 4
-    ACTIVITY_SHARE_PLAYS = 8
 
     ACTIVITY_SHARE_NETWORK_FACEBOOK = 1
     ACTIVITY_SHARE_NETWORK_TWITTER = 2
@@ -50,16 +47,19 @@ class UserProfile(BaseModel):
     description = models.CharField(blank=True, max_length=2048)
 
     slug = models.SlugField(max_length=50, blank=True, null=True, default=None)
-    activity_sharing = models.IntegerField(default=0)
     activity_sharing_networks = models.IntegerField(default=0)
 
-    email_notifications = BitField(flags=(
+    NOTIFICATION_CHOICES = (
         ('plays', 'Plays'),
         ('likes', 'Likes'),
         ('favourites', 'Favourites'),
         ('follows', 'Follows'),
         ('comments', 'Comments'),
-    ), default=0)
+    )
+
+    activity_sharing_facebook = BitField(flags=NOTIFICATION_CHOICES, default=0)
+    activity_sharing_twitter = BitField(flags=NOTIFICATION_CHOICES, default=0)
+    email_notifications = BitField(flags=NOTIFICATION_CHOICES, default=0)
 
     following = models.ManyToManyField('self', null=True, blank=True, symmetrical=False, related_name='followers')
 

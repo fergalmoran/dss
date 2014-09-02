@@ -54,11 +54,6 @@
                     else
                     """
                     toastr.info "Successfully updated yourself"
-                    alert("What to do")
-                    """
-                    Backbone.history.navigate "/",
-                        trigger: true
-                    """
                     true
                 error: ->
                     toastr.error "There was an error updating your info. Please try again later."
