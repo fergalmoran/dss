@@ -4,13 +4,15 @@ from django.core.management.base import NoArgsCommand
 from django.utils.encoding import smart_str
 from dss.storagesettings import AZURE_ACCOUNT_NAME, AZURE_ACCOUNT_KEY, AZURE_CONTAINER
 from spa.models import Mix
-
+from django.db.models import Count
 
 class Command(NoArgsCommand):
     def handle_noargs(self, **options):
         try:
             blob_service = BlobService(AZURE_ACCOUNT_NAME, AZURE_ACCOUNT_KEY)
             mixes = Mix.objects.filter(archive_updated=False)
+            c = len(mixes)
+            i = 1
             for mix in mixes:
                 try:
                     blob_name = "%s.%s" % (mix.uid, mix.filetype)
@@ -24,7 +26,8 @@ class Command(NoArgsCommand):
                             x_ms_blob_content_type='application/octet-stream',
                             x_ms_blob_content_disposition='attachment;filename="%s"' % (download_name)
                         )
-                        print "Processed: %s" % mix.uid
+                        print "Processed: %s (%d of %d)" % (mix.uid, i, c)
+                        i = i + 1
                         mix.archive_updated = True
                         mix.save()
                     else:

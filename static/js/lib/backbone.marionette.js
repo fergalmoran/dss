@@ -1,22 +1,3 @@
-// MarionetteJS (Backbone.Marionette)
-// ----------------------------------
-// v2.1.0
-//
-// Copyright (c)2014 Derick Bailey, Muted Solutions, LLC.
-// Distributed under MIT license
-//
-// http://marionettejs.com
-
-
-/*!
- * Includes BabySitter
- * https://github.com/marionettejs/backbone.babysitter/
- *
- * Includes Wreqr
- * https://github.com/marionettejs/backbone.wreqr/
- */
-
-
 (function(root, factory) {
 
   if (typeof define === 'function' && define.amd) {
