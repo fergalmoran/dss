@@ -1,6 +1,9 @@
 apt-get install git python-virtualenv postgresql-common libsndfile1-dev libpng++-dev libpng12-dev libboost-program-options-dev libjpeg-dev python-dev sox make g++ libsndfile1-dev libpng++-dev libpng12-dev libboost-program-options-dev git-core make cmake gcc g++ libmad0-dev libsndfile1-dev \
   libgd2-xpm-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev
 
+#do this stuff
+https://github.com/bbcrd/audiowaveform
+
 virtualenv env
 source env/bin/activate
 
