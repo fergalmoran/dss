@@ -1,5 +1,5 @@
 selenium
-Django==1.6.1
+Django==1.11.29
 #PIL>=1.1.7 #install PIL manually
 south
 beautifulsoup4>=4.1.1
